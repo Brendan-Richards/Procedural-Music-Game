@@ -38,15 +38,27 @@ export default (scene) => {
             frameRate: frameRate,
         repeat: -1 
     });
-    // scene.anims.create({
-    //     key: 'idle2',
-    //     frames: scene.anims.generateFrameNames('characterAtlas', {
-    //          prefix: 'adventurer-idle-2-', 
-    //          suffix: '.png',
-    //          end: 4, 
-    //          zeroPad: 2 
-    //         }),
-    //         frameRate: 10,
-    //     repeat: -1 
-    // });
+    scene.anims.create({
+        key: 'jump',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer-jump-', 
+             suffix: '.png',
+             end: 4, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate+5,
+        repeat: 0,
+        yoyo: true
+    });
+    scene.anims.create({
+        key: 'fall',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer-fall-', 
+             suffix: '.png',
+             end: 2, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1,
+    });
 };
