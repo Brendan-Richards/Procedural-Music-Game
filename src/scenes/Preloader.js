@@ -12,6 +12,7 @@ export default class Preloader extends Phaser.Scene
         this.load.image('mountainBackground', './assets/images/background/abc.png');
         this.load.image('rockWall1', './assets/images/environment/rockWall1.png');
         this.load.image('grass', './assets/images/environment/grass.png');
+        this.load.image('verticalStrip', './assets/images/environment/verticalStrip.png');
         this.load.spritesheet('adventurer', './assets/images/characters/adventurerSheet.png', { frameWidth: 50, frameHeight:  37});
 
         //all character sprites

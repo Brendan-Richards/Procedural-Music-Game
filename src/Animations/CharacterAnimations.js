@@ -8,7 +8,7 @@ export default (scene) => {
     scene.anims.create({
         key: 'run',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-             prefix: 'adventurer-run-', 
+             prefix: 'adventurer_run_', 
              suffix: '.png',
              end: 6, 
              zeroPad: 2 
@@ -19,7 +19,7 @@ export default (scene) => {
     scene.anims.create({
         key: 'idle1',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-             prefix: 'adventurer-idle-', 
+             prefix: 'adventurer_idle_', 
              suffix: '.png',
              end: 4, 
              zeroPad: 2 
@@ -30,7 +30,7 @@ export default (scene) => {
     scene.anims.create({
         key: 'idle2',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-             prefix: 'adventurer-idle-2-', 
+             prefix: 'adventurer_idle_2_', 
              suffix: '.png',
              end: 4, 
              zeroPad: 2 
@@ -41,18 +41,31 @@ export default (scene) => {
     scene.anims.create({
         key: 'jump',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-             prefix: 'adventurer-jump-', 
+             prefix: 'adventurer_jump_up_', 
              suffix: '.png',
-             end: 4, 
+             start: 0,
+             end: 2, 
              zeroPad: 2 
             }),
-            frameRate: frameRate+3,
-        repeat: 0
+            frameRate: frameRate,
+        repeat: -1
     });
+
     scene.anims.create({
         key: 'fall',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-             prefix: 'adventurer-fall-', 
+             prefix: 'adventurer_fall_', 
+             suffix: '.png',
+             end: 2, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1,
+    });
+    scene.anims.create({
+        key: 'wallSlide',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_wall_slide_', 
              suffix: '.png',
              end: 2, 
              zeroPad: 2 
@@ -63,7 +76,7 @@ export default (scene) => {
     scene.anims.create({
         key: 'smrslt',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-             prefix: 'adventurer-smrslt-', 
+             prefix: 'adventurer_smrslt_', 
              suffix: '.png',
              end: 4, 
              zeroPad: 2 
