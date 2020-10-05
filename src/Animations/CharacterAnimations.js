@@ -46,9 +46,8 @@ export default (scene) => {
              end: 4, 
              zeroPad: 2 
             }),
-            frameRate: frameRate+5,
-        repeat: 0,
-        yoyo: true
+            frameRate: frameRate+3,
+        repeat: 0
     });
     scene.anims.create({
         key: 'fall',
@@ -56,6 +55,17 @@ export default (scene) => {
              prefix: 'adventurer-fall-', 
              suffix: '.png',
              end: 2, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1,
+    });
+    scene.anims.create({
+        key: 'smrslt',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer-smrslt-', 
+             suffix: '.png',
+             end: 4, 
              zeroPad: 2 
             }),
             frameRate: frameRate,

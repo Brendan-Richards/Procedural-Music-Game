@@ -9,9 +9,11 @@ const config = {
 	scale: {
 		mode: Phaser.Scale.ScaleModes.FIT
 	},
+	scene: [Preloader, MountainScene],
     physics: {
         default: 'matter',
         matter: {
+			gravity: {y: 2},
 			debug: true,
 			setBounds: {
 				left: true,
@@ -20,8 +22,7 @@ const config = {
 				bottom: true
 			}
         }
-	},
-	scene: [Preloader, MountainScene]
+	}
 }
 
 export default new Phaser.Game(config)

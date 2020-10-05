@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import makeCharacterAnimations from '../Animations/CharacterAnimations';
-//import Matter from 'matter'
 
 
 const handlePlayerCollision = (scene) => {
@@ -20,8 +19,15 @@ export default class MountainScene extends Phaser.Scene
     create()
     {
         this.characterShapes = this.cache.json.get('characterShapes');
-        this.playerOnGround = true;
+        this.playerCanJump = true;
         this.cursors = this.input.keyboard.createCursorKeys();
+        //this.input.keyboard.sceneInputPlugin.keyboard.addKeys();
+
+        this.controlConfig = {
+            leftControl: this.cursors.left,
+            rightControl: this.cursors.right,
+            jumpControl: this.cursors.space
+        }
         
         this.characterCanJump = false;
 
@@ -30,11 +36,13 @@ export default class MountainScene extends Phaser.Scene
         const backgroundWidth = this.textures.get('mountainBackground').getSourceImage().width * backgroundScaleFactor;
       
         //set camera and world bounds 
-        this.matter.world.setBounds(0, 0, backgroundWidth, this.game.scale.gameSize.height, 4);
+        this.matter.world.setBounds(0, 0, backgroundWidth, this.game.scale.gameSize.height, 64);
         this.cameras.main.setBounds(0, 0, backgroundWidth, this.game.scale.gameSize.height);
 
             //add background image
         this.add.image(0, this.scale.height, 'mountainBackground').setOrigin(0,1);
+
+        //this.matter.add.
      
         this.grass = this.matter.add.sprite(0, 0, 'grass', undefined, {
             isStatic: true,
@@ -42,6 +50,7 @@ export default class MountainScene extends Phaser.Scene
         });
 
         this.grass.setPosition(this.grass.width/2, this.game.scale.gameSize.height);
+        this.grass.setScale(6, 1);
         console.log(this.grass.width, this.grass.height)
     //     this.rockWall1 = this.physics.add.staticSprite(backgroundWidth, backgroundHeight, 'rockWall1')
     //         .setOrigin(1,1)
@@ -64,25 +73,43 @@ export default class MountainScene extends Phaser.Scene
         //     this.characterCanJump = true;
         // });
 
-        this.player.on('animationcomplete', (AnimationData) => {
-            if(AnimationData.key==='jump'){
-                this.setNewCharacterAnimation(this, 'fall', this.currentPlayerDirection==='left', false);
-                this.characterJumping = false;
-            }
-        })
+        // this.player.on('animationcomplete', (AnimationData) => {
+        //     if(AnimationData.key==='jump'){
+        //        // this.setNewCharacterAnimation(this, 'fall', this.currentPlayerDirection==='left', false);
+        //         this.characterJumping = false;
+        //     }
+        // });
 
-        // this.anims.create({
-        //     key: 'jump',
-        //     frames: this.anims.generateFrameNames('characterAtlas', {
-        //          prefix: 'adventurer-jump-', 
-        //          suffix: '.png',
-        //          end: 4, 
-        //          zeroPad: 2 
-        //         }),
-        //         frameRate: 10,
-        //     repeat: 0,
-        //     yoyo: true
-        // });        
+        
+        this.matter.world.on("collisionstart", event => {
+            event.pairs.forEach(pair => {
+                const { bodyA, bodyB } = pair;
+                if(bodyA.gameObject===this.player || bodyB.gameObject===this.player){
+                    //const plr = bodyA.gameObject===this.player ? bodyA : bodyB;
+                    const other = bodyA.gameObject===this.player ? bodyB.gameObject : bodyA.gameObject;
+                    if(other===this.grass){
+                        this.playerCanJump = true;
+                    }
+
+                }
+                //  console.log(bodyA);
+                //  console.log(bodyB);
+            });
+          });
+
+        //   this.matter.world.on("collisionend", event => {
+        //     event.pairs.forEach(pair => {
+        //         const { bodyA, bodyB } = pair;
+        //         // if(bodyA.gameObject===this.player || bodyB.gameObject===this.player){
+        //         //     //const plr = bodyA.gameObject===this.player ? bodyA : bodyB;
+        //         //     const other = bodyA.gameObject===this.player ? bodyB.gameObject : bodyA.gameObject;
+        //         //     if(other===null){
+        //         //         this.playerCanJump = false;
+        //         //     }
+
+        //         // }
+        //     });
+        //   });
 
     }
 
@@ -90,35 +117,39 @@ export default class MountainScene extends Phaser.Scene
     {
         const speed = 6;
         const jumpHeight = 20;
+        const prevVelocity = this.player.body.velocity;
+        //console.log(this.prevPlayerAnimation)
 
-        if(this.playerOnGround){
-            this.groundCharacter(speed, jumpHeight);
+        if(this.playerCanJump){
+            this.groundCharacter(speed, jumpHeight, prevVelocity);
         }
         else{
-            if(!this.characterJumping){
-                this.airborneCharacter(speed);
-            }
-            console.log('player not on the ground');
+            //if(!this.characterJumping){
+            this.airborneCharacter(speed, prevVelocity);
+           // }
+           // console.log('player not on the ground');
         }
-        console.log('player velocity: ', this.player.body.velocity.x, this.player.body.velocity.y);
-        this.player.setFixedRotation();    
+       // console.log('player velocity: ', this.player.body.velocity.x, this.player.body.velocity.y);
+        this.player.setFixedRotation(); 
+       // console.log(this.player.body.velocity);   
     }
 
-    groundCharacter(speed, jumpHeight){
+    groundCharacter(speed, jumpHeight, prevVelocity){
+
         // set the animation
-        if (this.cursors.up.isDown)
+        if (this.controlConfig.jumpControl.isDown)
         {
             this.setNewCharacterAnimation(this, 'jump', this.currentPlayerDirection==='left', false);   
-            this.playerOnGround = false;
-            this.characterJumping = true;     
+            this.playerCanJump = false;
+            //this.characterJumping = true;     
         }        
-        else if (this.cursors.left.isDown)
+        else if (this.controlConfig.leftControl.isDown)
         {
             if(!(this.currentPlayerAnimation==='run' && this.currentPlayerDirection==='left')){
                 this.setNewCharacterAnimation(this, 'run', true, false);
             }
         }
-        else if (this.cursors.right.isDown)
+        else if (this.controlConfig.rightControl.isDown)
         {
             if(!(this.currentPlayerAnimation==='run' && this.currentPlayerDirection==='right')){
                 this.setNewCharacterAnimation(this, 'run', false, false);        
@@ -133,14 +164,19 @@ export default class MountainScene extends Phaser.Scene
     
         //set the characters speed depending on the active animation and active direction
         switch(this.currentPlayerAnimation){
-            case 'idle': {this.player.setVelocityX(0); break;}
+            case 'idle': {
+                this.matter.setVelocity(this.player.body, 0, prevVelocity.y);
+                break;
+            }
             case 'run': {
                 if(this.currentPlayerDirection==='right'){
-                    this.player.setVelocityX(speed);
+                    //this.player.setVelocityX(speed);
+                    this.matter.setVelocity(this.player.body, speed, prevVelocity.y);
                     break;
                 }
                 else if(this.currentPlayerDirection==='left'){
-                    this.player.setVelocityX(-1*speed);
+                    //this.player.setVelocityX(-1*speed);
+                    this.matter.setVelocity(this.player.body, -1*speed, prevVelocity.y);
                     break;
                 }
                 else{
@@ -149,44 +185,57 @@ export default class MountainScene extends Phaser.Scene
                 }
             }
             case 'jump': {
-                //this.player.setVelocityY(-1*jumpHeight);
-                //Phaser.Physics.Matter.MatterPhysics.body.setVelocity( this.player.body, {x: 10, y: -10});
-                
-                this.player.setVelocityX( this.player.body.velocity.x);
-                this.player.setVelocityY(-1*jumpHeight);
+                this.matter.setVelocity(this.player.body, prevVelocity.x, -1*jumpHeight);
                 break;
             } 
             default: break;
         }
     }
 
-    airborneCharacter(speed){
-        if (this.cursors.left.isDown)
+    airborneCharacter(speed, prevVelocity){
+
+
+        if (this.controlConfig.leftControl.isDown)
         {
             if(!(this.currentPlayerAnimation==='fall' && this.currentPlayerDirection==='left')){
                 this.setNewCharacterAnimation(this, 'fall', true, false);
             }
         }
-        else if (this.cursors.right.isDown)
+        else if (this.controlConfig.rightControl.isDown)
         {
             if(!(this.currentPlayerAnimation==='fall' && this.currentPlayerDirection==='right')){
                 this.setNewCharacterAnimation(this, 'fall', false, false);        
             }
         }
     
+        
+    
         //set the characters speed depending on the active animation and active direction
         switch(this.currentPlayerAnimation){
-            case 'fall': if(this.currentPlayerDirection==='right'){
-                this.player.setVelocityX(speed);
+            case 'fall': if(this.currentPlayerDirection==='right' && this.controlConfig.rightControl.isDown){
+                this.matter.setVelocity(this.player.body, speed, prevVelocity.y);
                 break;
             }
-            else if(this.currentPlayerDirection==='left'){
-                this.player.setVelocityX(-1*speed);
+            else if(this.currentPlayerDirection==='left' && this.controlConfig.leftControl.isDown){
+                this.matter.setVelocity(this.player.body, -1*speed, prevVelocity.y);
                 break;
             }
             else{
-                console.log("don't understand previous character direction");
+                this.matter.setVelocity(this.player.body, 0, prevVelocity.y);
                 break;
+            }
+            case 'jump': {
+                //console.log('here');
+                if(this.controlConfig.rightControl.isDown){
+                    this.currentPlayerDirection = 'right';
+                    this.matter.setVelocity(this.player.body, speed, prevVelocity.y);
+                    break;
+                }
+                else if(this.controlConfig.leftControl.isDown){
+                    this.currentPlayerDirection = 'left';
+                    this.matter.setVelocity(this.player.body, -1*speed, prevVelocity.y);
+                    break;
+                }
             }
             default: break;
         }
@@ -197,10 +246,11 @@ export default class MountainScene extends Phaser.Scene
 
         let bodyData = null;
         switch(animationName){
-            case 'idle1': bodyData = scene.characterShapes.adventurer_idle_00; break;
-            case 'run': bodyData = scene.characterShapes.adventurer_run_00; break;
-            case 'jump': bodyData = scene.characterShapes.adventurer_jump_00; break;
-            case 'fall': bodyData = scene.characterShapes.adventurer_fall_00; break;
+            case 'idle1': {bodyData = scene.characterShapes.adventurer_idle_00; break;}
+            case 'run': {bodyData = scene.characterShapes.adventurer_run_00; break;}
+            case 'jump': {bodyData = scene.characterShapes.adventurer_jump_00; break;}
+            case 'fall': {bodyData = scene.characterShapes.adventurer_fall_00; break;}
+            case 'smrslt': {bodyData = scene.characterShapes.adventurer_smrslt_00; break;}
             default: break;
         }
 
@@ -208,9 +258,8 @@ export default class MountainScene extends Phaser.Scene
         scene.playerBody.friction = scene.playerFriction;
         scene.player.setExistingBody(scene.playerBody);
 
-        const x = flipX ? -1 : 1;
-        const y = flipY ? -1 : 1; 
-        scene.player.setScale(x*scene.playerScaleFactor, y*scene.playerScaleFactor);
+        scene.player.setScale((flipX ? -1 : 1)*scene.playerScaleFactor, 
+                              (flipY ? -1 : 1)*scene.playerScaleFactor);
 
         scene.player.play(animationName, true);
         scene.prevPlayerAnimation = scene.currentPlayerAnimation;
@@ -224,8 +273,6 @@ export default class MountainScene extends Phaser.Scene
         this.playerScaleFactor = 2.5;
     
         this.playerBody = this.matter.add.fromPhysicsEditor(100, 100, this.characterShapes.adventurer_idle_00, null, false);
-        //console.log(scene.playerBody);
-        //console.log(typeof scene.playerBody);
         this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer-idle-00.png');
         this.player.setExistingBody(this.playerBody);
     
@@ -234,25 +281,25 @@ export default class MountainScene extends Phaser.Scene
         this.currentPlayerAnimation = null;
     
 
-        this.player.setOnCollide(data => {
-            //console.log(data.collision.axisNumber);
-            console.log(data);
-            let {x, y} = data.collision.normal;
-            if(x===0 && y===1){
-                console.log('collided with floor');
-            }
-            else if(x===-1 && y===0){
-                console.log('collided with left wall');
-            }
-            else if(x===0 && y===-1){
-                console.log('collided with ceiling');
-            }
-            else if(x===1 && y===0){
-                console.log('collided with right wall');
-            }
-            else{
-                console.log('I dont know what you collided with');
-            }
-          });
+        // this.player.setOnCollide(data => {
+        //     //console.log(data.collision.axisNumber);
+        //     console.log(data);
+        //     let {x, y} = data.collision.normal;
+        //     if(x===0 && y===1){
+        //         console.log('collided with floor');
+        //     }
+        //     else if(x===-1 && y===0){
+        //         console.log('collided with left wall');
+        //     }
+        //     else if(x===0 && y===-1){
+        //         console.log('collided with ceiling');
+        //     }
+        //     else if(x===1 && y===0){
+        //         console.log('collided with right wall');
+        //     }
+        //     else{
+        //         console.log('I dont know what you collided with');
+        //     }
+        //   });
     }
 }
