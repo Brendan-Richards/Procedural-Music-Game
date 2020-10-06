@@ -155,10 +155,15 @@ export default class MountainScene extends Phaser.Scene
                 }
             }
             case 'jump': {
-                //this.matter.setVelocity(this.player.body, prevVelocity.x, -1*jumpHeight);
-                const factor = this.currentPlayerDirection==='left' ? -1 : 1;
-                this.matter.setVelocity(this.player.body, factor*speed, -1*jumpHeight);
-                break;
+                
+                if(this.prevPlayerAnimation==='idle1'){
+                    this.matter.setVelocity(this.player.body, prevVelocity.x, -1*jumpHeight);
+                }
+                else{
+                    const factor = this.currentPlayerDirection==='left' ? -1 : 1;
+                    this.matter.setVelocity(this.player.body, factor*speed, -1*jumpHeight);
+                    break;
+                }
             } 
             default: break;
         }
@@ -341,6 +346,7 @@ export default class MountainScene extends Phaser.Scene
         this.player.setScale(this.playerScaleFactor);
         this.playerFriction = 0;
         this.currentPlayerAnimation = null;
+        this.prevPlayerAnimation = null;
         this.currentPlayerDirection = 'right'
         this.prevPlayerDirection = null;
         this.cameras.main.startFollow(this.player, false, 0.09, 0.09);

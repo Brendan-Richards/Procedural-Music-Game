@@ -7,7 +7,8 @@ const config = {
 
 	height: 480,
 	scale: {
-		mode: Phaser.Scale.ScaleModes.FIT
+		mode: Phaser.Scale.ScaleModes.FIT,
+		//autoCenter: Phaser.Scale.CENTER_BOTH
 	},
 	scene: [Preloader, MountainScene],
     physics: {
