@@ -4,8 +4,8 @@ import Preloader from './scenes/Preloader';
 
 const config = {
 	type: Phaser.AUTO,
-	// width: 1080,
-	// height: 800,
+
+	height: 480,
 	scale: {
 		mode: Phaser.Scale.ScaleModes.FIT
 	},

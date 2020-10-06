@@ -73,11 +73,13 @@ export default class MountainScene extends Phaser.Scene
                     if(other!==null){
                        // console.log(other.body.label);
                         //console.log(other);
+                        
                         if(other.body.label==='ground'){
                             this.playerCanJump = true;
                             this.playerWallSliding = false;
                         }
                         else if(other.body.label==='wall'){
+                            //console.log('detected collision with player and wall', new Date().getTime());
                             this.playerWallSliding = true;
                         }
                     }
@@ -91,7 +93,7 @@ export default class MountainScene extends Phaser.Scene
     update()
     {
         const speed = 6;
-        const jumpHeight = 20;
+        const jumpHeight = 16;
         const prevVelocity = this.player.body.velocity;
 
         if(this.playerCanJump){
@@ -153,7 +155,9 @@ export default class MountainScene extends Phaser.Scene
                 }
             }
             case 'jump': {
-                this.matter.setVelocity(this.player.body, prevVelocity.x, -1*jumpHeight);
+                //this.matter.setVelocity(this.player.body, prevVelocity.x, -1*jumpHeight);
+                const factor = this.currentPlayerDirection==='left' ? -1 : 1;
+                this.matter.setVelocity(this.player.body, factor*speed, -1*jumpHeight);
                 break;
             } 
             default: break;
@@ -198,8 +202,8 @@ export default class MountainScene extends Phaser.Scene
                 //console.log('jujst set player wall jump position as:', this.wallJumpOffPosition);
             }
             else{
-                if(this.controlConfig.leftControl.isDown && this.currentPlayerDirection!=='left' ||
-                   this.controlConfig.rightControl.isDown && this.currentPlayerDirection!=='right' ||
+                if(this.controlConfig.leftControl.isDown  && this.controlConfig.rightControl.isUp && this.currentPlayerDirection!=='left' ||
+                   this.controlConfig.rightControl.isDown  && this.controlConfig.leftControl.isUp && this.currentPlayerDirection!=='right' ||
                    !this.controlConfig.rightControl.isDown && !this.controlConfig.leftControl.isDown){
                        //console.log('stopping wall slide');
                        this.playerFriction = 0;
@@ -330,8 +334,8 @@ export default class MountainScene extends Phaser.Scene
     }
 
     createPlayer = () => {
-        this.playerScaleFactor = 2.5;
-        this.playerBody = this.matter.add.fromPhysicsEditor(800, 600, this.characterShapes.adventurer_idle_00, null, false);
+        this.playerScaleFactor = 1.7;
+        this.playerBody = this.matter.add.fromPhysicsEditor(800, 300, this.characterShapes.adventurer_idle_00, null, false);
         this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');
         this.player.setExistingBody(this.playerBody);
         this.player.setScale(this.playerScaleFactor);
