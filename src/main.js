@@ -14,7 +14,7 @@ const config = {
         default: 'matter',
         matter: {
 			gravity: {y: 2},
-			debug: true,
+			debug: false,
 			setBounds: {
 				left: true,
 				right: false,
