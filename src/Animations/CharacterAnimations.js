@@ -50,7 +50,18 @@ export default (scene) => {
             frameRate: frameRate,
         repeat: -1
     });
-
+    scene.anims.create({
+        key: 'groundSlide',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_slide_', 
+             suffix: '.png',
+             start: 0,
+             end: 2, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1
+    });
     scene.anims.create({
         key: 'fall',
         frames: scene.anims.generateFrameNames('characterAtlas', {

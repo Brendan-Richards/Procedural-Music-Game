@@ -14,8 +14,12 @@ const config = {
     physics: {
         default: 'matter',
         matter: {
-			gravity: {y: 2},
-			debug: false,
+			gravity: {y: 1.5},
+			debug: {
+				showBody: true,
+				showVelocity: true,
+				//renderFill: 0x106909
+			},
 			setBounds: {
 				left: true,
 				right: false,
