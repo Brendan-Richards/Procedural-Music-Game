@@ -25,7 +25,12 @@
 		"typescript": "^3.8.3"
 	},
 	"dependencies": {
-		"phaser": "^3.24.1"
+		"@tensorflow/tfjs-core": "0.8.0",
+		"@types/node": "^14.11.8",
+		"phaser": "^3.24.1",
+		"regenerator-runtime": "^0.13.7",
+		"tone": "^14.7.58",
+		"tone-piano": "^0.0.12"
 	},
 	"parcelCleanPaths": [
 		"dist"

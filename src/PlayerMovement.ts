@@ -13,7 +13,7 @@ export default (scene: MountainScene) => {
 
     if(scene.playerCanJump){
         //console.log(scene.timer.getTime());
-        const timeDiff = new Date().getTime() - scene.playerLastOnGroundTime;
+        const timeDiff = scene.time.now - scene.playerLastOnGroundTime;
         //console.log('time since last on ground', timeDiff);
         if(timeDiff > 100){
             scene.playerCanJump = false;

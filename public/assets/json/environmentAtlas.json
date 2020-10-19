@@ -1,0 +1,1510 @@
+{
+	"textures": [
+		{
+			"image": "environmentAtlas.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1191,
+				"h": 643
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "tree_stump",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 150,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 150,
+						"h": 82
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 150,
+						"h": 82
+					}
+				},
+				{
+					"filename": "tree_body_snow",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 390
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 390
+					},
+					"frame": {
+						"x": 153,
+						"y": 1,
+						"w": 70,
+						"h": 390
+					}
+				},
+				{
+					"filename": "tree_skinny_leanright",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 39,
+						"h": 504
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 39,
+						"h": 504
+					},
+					"frame": {
+						"x": 1,
+						"y": 85,
+						"w": 39,
+						"h": 504
+					}
+				},
+				{
+					"filename": "shrub7",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 782,
+						"h": 51
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 782,
+						"h": 51
+					},
+					"frame": {
+						"x": 1,
+						"y": 591,
+						"w": 782,
+						"h": 51
+					}
+				},
+				{
+					"filename": "tree_skinny_leanleft",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 38,
+						"h": 504
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 38,
+						"h": 504
+					},
+					"frame": {
+						"x": 42,
+						"y": 85,
+						"w": 38,
+						"h": 504
+					}
+				},
+				{
+					"filename": "tree_skinny_top",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 37,
+						"h": 344
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 37,
+						"h": 344
+					},
+					"frame": {
+						"x": 82,
+						"y": 85,
+						"w": 37,
+						"h": 344
+					}
+				},
+				{
+					"filename": "tree_skinny_body",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 18,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 18,
+						"h": 128
+					},
+					"frame": {
+						"x": 121,
+						"y": 85,
+						"w": 18,
+						"h": 128
+					}
+				},
+				{
+					"filename": "tree_skinny_stump_1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 19,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 19,
+						"h": 64
+					},
+					"frame": {
+						"x": 121,
+						"y": 215,
+						"w": 19,
+						"h": 64
+					}
+				},
+				{
+					"filename": "tree_skinny_stump_0",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 18,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 18,
+						"h": 64
+					},
+					"frame": {
+						"x": 121,
+						"y": 281,
+						"w": 18,
+						"h": 64
+					}
+				},
+				{
+					"filename": "tree_branch_left_small",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 70,
+						"h": 49
+					},
+					"spriteSourceSize": {
+						"x": 35,
+						"y": 0,
+						"w": 27,
+						"h": 49
+					},
+					"frame": {
+						"x": 121,
+						"y": 347,
+						"w": 27,
+						"h": 49
+					}
+				},
+				{
+					"filename": "shrub6",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 713,
+						"h": 52
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 3,
+						"w": 713,
+						"h": 49
+					},
+					"frame": {
+						"x": 225,
+						"y": 1,
+						"w": 713,
+						"h": 49
+					}
+				},
+				{
+					"filename": "shrub5",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 378,
+						"h": 52
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 378,
+						"h": 52
+					},
+					"frame": {
+						"x": 225,
+						"y": 52,
+						"w": 378,
+						"h": 52
+					}
+				},
+				{
+					"filename": "shrub2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 347,
+						"h": 49
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 347,
+						"h": 49
+					},
+					"frame": {
+						"x": 605,
+						"y": 52,
+						"w": 347,
+						"h": 49
+					}
+				},
+				{
+					"filename": "shrub4",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 250,
+						"h": 49
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 21,
+						"w": 250,
+						"h": 28
+					},
+					"frame": {
+						"x": 940,
+						"y": 1,
+						"w": 250,
+						"h": 28
+					}
+				},
+				{
+					"filename": "shrub3",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 227,
+						"h": 49
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 16,
+						"w": 227,
+						"h": 33
+					},
+					"frame": {
+						"x": 605,
+						"y": 103,
+						"w": 227,
+						"h": 33
+					}
+				},
+				{
+					"filename": "tree_body",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 345
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 345
+					},
+					"frame": {
+						"x": 225,
+						"y": 106,
+						"w": 70,
+						"h": 345
+					}
+				},
+				{
+					"filename": "tree_branch_right_large",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 77,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 77,
+						"h": 116
+					},
+					"frame": {
+						"x": 82,
+						"y": 431,
+						"w": 77,
+						"h": 116
+					}
+				},
+				{
+					"filename": "bush_23",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 31,
+						"y": 94,
+						"w": 68,
+						"h": 34
+					},
+					"frame": {
+						"x": 150,
+						"y": 393,
+						"w": 68,
+						"h": 34
+					}
+				},
+				{
+					"filename": "tree_branch_left_medium",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 70,
+						"h": 119
+					},
+					"spriteSourceSize": {
+						"x": 35,
+						"y": 0,
+						"w": 35,
+						"h": 119
+					},
+					"frame": {
+						"x": 161,
+						"y": 429,
+						"w": 35,
+						"h": 119
+					}
+				},
+				{
+					"filename": "bush_31",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 28,
+						"y": 94,
+						"w": 68,
+						"h": 34
+					},
+					"frame": {
+						"x": 82,
+						"y": 549,
+						"w": 68,
+						"h": 34
+					}
+				},
+				{
+					"filename": "tree_branch_right_medium",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 77,
+						"h": 119
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 35,
+						"h": 119
+					},
+					"frame": {
+						"x": 297,
+						"y": 106,
+						"w": 35,
+						"h": 119
+					}
+				},
+				{
+					"filename": "tree_branch_left_large",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 116
+					},
+					"frame": {
+						"x": 334,
+						"y": 106,
+						"w": 70,
+						"h": 116
+					}
+				},
+				{
+					"filename": "bush_18",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 49,
+						"y": 13,
+						"w": 68,
+						"h": 115
+					},
+					"frame": {
+						"x": 406,
+						"y": 106,
+						"w": 68,
+						"h": 115
+					}
+				},
+				{
+					"filename": "bush_25",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 13,
+						"w": 68,
+						"h": 115
+					},
+					"frame": {
+						"x": 476,
+						"y": 106,
+						"w": 68,
+						"h": 115
+					}
+				},
+				{
+					"filename": "bush_13",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 54,
+						"y": 37,
+						"w": 54,
+						"h": 91
+					},
+					"frame": {
+						"x": 546,
+						"y": 106,
+						"w": 54,
+						"h": 91
+					}
+				},
+				{
+					"filename": "shrub1",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 221,
+						"h": 49
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 23,
+						"w": 221,
+						"h": 26
+					},
+					"frame": {
+						"x": 602,
+						"y": 138,
+						"w": 221,
+						"h": 26
+					}
+				},
+				{
+					"filename": "shrub0",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 187,
+						"h": 49
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 14,
+						"w": 187,
+						"h": 35
+					},
+					"frame": {
+						"x": 602,
+						"y": 166,
+						"w": 187,
+						"h": 35
+					}
+				},
+				{
+					"filename": "bush_15",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 20,
+						"y": 37,
+						"w": 54,
+						"h": 91
+					},
+					"frame": {
+						"x": 546,
+						"y": 199,
+						"w": 54,
+						"h": 91
+					}
+				},
+				{
+					"filename": "bush_26",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 48,
+						"y": 19,
+						"w": 68,
+						"h": 109
+					},
+					"frame": {
+						"x": 297,
+						"y": 227,
+						"w": 68,
+						"h": 109
+					}
+				},
+				{
+					"filename": "bush_33",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 12,
+						"y": 19,
+						"w": 68,
+						"h": 109
+					},
+					"frame": {
+						"x": 367,
+						"y": 224,
+						"w": 68,
+						"h": 109
+					}
+				},
+				{
+					"filename": "bush_0",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 49,
+						"y": 22,
+						"w": 68,
+						"h": 106
+					},
+					"frame": {
+						"x": 437,
+						"y": 224,
+						"w": 68,
+						"h": 106
+					}
+				},
+				{
+					"filename": "tree_skinny_branch_right_small",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 41,
+						"h": 50
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 31,
+						"h": 50
+					},
+					"frame": {
+						"x": 507,
+						"y": 224,
+						"w": 31,
+						"h": 50
+					}
+				},
+				{
+					"filename": "tree_branch_right_small",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 77,
+						"h": 49
+					},
+					"spriteSourceSize": {
+						"x": 8,
+						"y": 0,
+						"w": 27,
+						"h": 49
+					},
+					"frame": {
+						"x": 507,
+						"y": 276,
+						"w": 27,
+						"h": 49
+					}
+				},
+				{
+					"filename": "tree_stump_snow",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 151,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 0,
+						"w": 150,
+						"h": 82
+					},
+					"frame": {
+						"x": 602,
+						"y": 203,
+						"w": 150,
+						"h": 82
+					}
+				},
+				{
+					"filename": "bush_19",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 47,
+						"y": 22,
+						"w": 68,
+						"h": 106
+					},
+					"frame": {
+						"x": 754,
+						"y": 203,
+						"w": 68,
+						"h": 106
+					}
+				},
+				{
+					"filename": "bush_24",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 22,
+						"w": 68,
+						"h": 106
+					},
+					"frame": {
+						"x": 536,
+						"y": 292,
+						"w": 68,
+						"h": 106
+					}
+				},
+				{
+					"filename": "bush_27",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 47,
+						"y": 22,
+						"w": 68,
+						"h": 106
+					},
+					"frame": {
+						"x": 367,
+						"y": 335,
+						"w": 68,
+						"h": 106
+					}
+				},
+				{
+					"filename": "bush_32",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 22,
+						"w": 68,
+						"h": 106
+					},
+					"frame": {
+						"x": 297,
+						"y": 338,
+						"w": 68,
+						"h": 106
+					}
+				},
+				{
+					"filename": "bush_8",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 22,
+						"w": 68,
+						"h": 106
+					},
+					"frame": {
+						"x": 437,
+						"y": 332,
+						"w": 68,
+						"h": 106
+					}
+				},
+				{
+					"filename": "bush_34",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 47,
+						"y": 27,
+						"w": 68,
+						"h": 101
+					},
+					"frame": {
+						"x": 606,
+						"y": 287,
+						"w": 68,
+						"h": 101
+					}
+				},
+				{
+					"filename": "bush_35",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 46,
+						"y": 27,
+						"w": 68,
+						"h": 101
+					},
+					"frame": {
+						"x": 676,
+						"y": 287,
+						"w": 68,
+						"h": 101
+					}
+				},
+				{
+					"filename": "tree_skinny_branch_left_small",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 40,
+						"h": 50
+					},
+					"spriteSourceSize": {
+						"x": 14,
+						"y": 1,
+						"w": 26,
+						"h": 49
+					},
+					"frame": {
+						"x": 507,
+						"y": 327,
+						"w": 26,
+						"h": 49
+					}
+				},
+				{
+					"filename": "bush_38",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 30,
+						"y": 95,
+						"w": 68,
+						"h": 33
+					},
+					"frame": {
+						"x": 791,
+						"y": 166,
+						"w": 68,
+						"h": 33
+					}
+				},
+				{
+					"filename": "bush_11",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 34,
+						"y": 72,
+						"w": 68,
+						"h": 56
+					},
+					"frame": {
+						"x": 834,
+						"y": 103,
+						"w": 68,
+						"h": 56
+					}
+				},
+				{
+					"filename": "bush_39",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 14,
+						"y": 27,
+						"w": 68,
+						"h": 101
+					},
+					"frame": {
+						"x": 746,
+						"y": 311,
+						"w": 68,
+						"h": 101
+					}
+				},
+				{
+					"filename": "bush_40",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 27,
+						"w": 68,
+						"h": 101
+					},
+					"frame": {
+						"x": 606,
+						"y": 390,
+						"w": 68,
+						"h": 101
+					}
+				},
+				{
+					"filename": "bush_10",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 48,
+						"y": 31,
+						"w": 68,
+						"h": 97
+					},
+					"frame": {
+						"x": 507,
+						"y": 414,
+						"w": 68,
+						"h": 97
+					}
+				},
+				{
+					"filename": "bush_16",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 12,
+						"y": 31,
+						"w": 68,
+						"h": 97
+					},
+					"frame": {
+						"x": 437,
+						"y": 440,
+						"w": 68,
+						"h": 97
+					}
+				},
+				{
+					"filename": "bush_17",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 10,
+						"y": 31,
+						"w": 68,
+						"h": 97
+					},
+					"frame": {
+						"x": 367,
+						"y": 443,
+						"w": 68,
+						"h": 97
+					}
+				},
+				{
+					"filename": "bush_9",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 50,
+						"y": 31,
+						"w": 68,
+						"h": 97
+					},
+					"frame": {
+						"x": 297,
+						"y": 446,
+						"w": 68,
+						"h": 97
+					}
+				},
+				{
+					"filename": "bush_1",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 47,
+						"y": 33,
+						"w": 68,
+						"h": 95
+					},
+					"frame": {
+						"x": 198,
+						"y": 453,
+						"w": 68,
+						"h": 95
+					}
+				},
+				{
+					"filename": "bush_7",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 33,
+						"w": 68,
+						"h": 95
+					},
+					"frame": {
+						"x": 676,
+						"y": 390,
+						"w": 68,
+						"h": 95
+					}
+				},
+				{
+					"filename": "chest_opened",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 70,
+						"h": 77
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 68,
+						"h": 75
+					},
+					"frame": {
+						"x": 746,
+						"y": 414,
+						"w": 68,
+						"h": 75
+					}
+				},
+				{
+					"filename": "bush_4",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 55,
+						"y": 38,
+						"w": 52,
+						"h": 90
+					},
+					"frame": {
+						"x": 676,
+						"y": 487,
+						"w": 52,
+						"h": 90
+					}
+				},
+				{
+					"filename": "chest_closed",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 70,
+						"h": 77
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 9,
+						"w": 68,
+						"h": 67
+					},
+					"frame": {
+						"x": 577,
+						"y": 493,
+						"w": 68,
+						"h": 67
+					}
+				},
+				{
+					"filename": "bush_28",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 32,
+						"y": 72,
+						"w": 68,
+						"h": 56
+					},
+					"frame": {
+						"x": 507,
+						"y": 513,
+						"w": 68,
+						"h": 56
+					}
+				},
+				{
+					"filename": "bush_12",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 33,
+						"y": 78,
+						"w": 68,
+						"h": 50
+					},
+					"frame": {
+						"x": 437,
+						"y": 539,
+						"w": 68,
+						"h": 50
+					}
+				},
+				{
+					"filename": "bush_30",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 33,
+						"y": 86,
+						"w": 63,
+						"h": 42
+					},
+					"frame": {
+						"x": 367,
+						"y": 542,
+						"w": 63,
+						"h": 42
+					}
+				},
+				{
+					"filename": "bush_5",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 29,
+						"y": 95,
+						"w": 68,
+						"h": 33
+					},
+					"frame": {
+						"x": 268,
+						"y": 545,
+						"w": 68,
+						"h": 33
+					}
+				},
+				{
+					"filename": "bush_14",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 28,
+						"y": 96,
+						"w": 68,
+						"h": 32
+					},
+					"frame": {
+						"x": 152,
+						"y": 550,
+						"w": 68,
+						"h": 32
+					}
+				},
+				{
+					"filename": "bush_20",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 34,
+						"y": 74,
+						"w": 68,
+						"h": 54
+					},
+					"frame": {
+						"x": 730,
+						"y": 491,
+						"w": 68,
+						"h": 54
+					}
+				},
+				{
+					"filename": "bush_22",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 41,
+						"y": 93,
+						"w": 52,
+						"h": 35
+					},
+					"frame": {
+						"x": 730,
+						"y": 547,
+						"w": 52,
+						"h": 35
+					}
+				},
+				{
+					"filename": "bush_6",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 21,
+						"y": 38,
+						"w": 52,
+						"h": 90
+					},
+					"frame": {
+						"x": 785,
+						"y": 547,
+						"w": 52,
+						"h": 90
+					}
+				},
+				{
+					"filename": "bush_29",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 30,
+						"y": 74,
+						"w": 68,
+						"h": 54
+					},
+					"frame": {
+						"x": 824,
+						"y": 201,
+						"w": 68,
+						"h": 54
+					}
+				},
+				{
+					"filename": "bush_2",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 33,
+						"y": 76,
+						"w": 68,
+						"h": 52
+					},
+					"frame": {
+						"x": 824,
+						"y": 257,
+						"w": 68,
+						"h": 52
+					}
+				},
+				{
+					"filename": "bush_37",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 33,
+						"y": 76,
+						"w": 68,
+						"h": 52
+					},
+					"frame": {
+						"x": 894,
+						"y": 257,
+						"w": 68,
+						"h": 52
+					}
+				},
+				{
+					"filename": "bush_21",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 33,
+						"y": 77,
+						"w": 68,
+						"h": 51
+					},
+					"frame": {
+						"x": 964,
+						"y": 257,
+						"w": 68,
+						"h": 51
+					}
+				},
+				{
+					"filename": "bush_36",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 33,
+						"y": 78,
+						"w": 68,
+						"h": 50
+					},
+					"frame": {
+						"x": 954,
+						"y": 31,
+						"w": 68,
+						"h": 50
+					}
+				},
+				{
+					"filename": "bush_3",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 128,
+						"h": 128
+					},
+					"spriteSourceSize": {
+						"x": 30,
+						"y": 80,
+						"w": 68,
+						"h": 48
+					},
+					"frame": {
+						"x": 1024,
+						"y": 31,
+						"w": 68,
+						"h": 48
+					}
+				},
+				{
+					"filename": "tree_skinny_branch_right_medium",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 41,
+						"h": 54
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 41,
+						"h": 54
+					},
+					"frame": {
+						"x": 1024,
+						"y": 81,
+						"w": 41,
+						"h": 54
+					}
+				},
+				{
+					"filename": "tree_skinny_branch_left_medium",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 54
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 54
+					},
+					"frame": {
+						"x": 904,
+						"y": 103,
+						"w": 40,
+						"h": 54
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.6"
+	}
+}

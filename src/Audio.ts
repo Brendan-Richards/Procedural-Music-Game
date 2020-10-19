@@ -6,9 +6,15 @@ class Audio {
     runSound: Phaser.Sound.BaseSound;
     jumpSound: Phaser.Sound.BaseSound;
     wallSlideSound: Phaser.Sound.BaseSound;
+    windSound: Phaser.Sound.BaseSound;
     floorAmbience: Phaser.Sound.BaseSound;
+    softLanding: Phaser.Sound.BaseSound;
+    hardLanding: Phaser.Sound.BaseSound;
+    softLandingConfig: object;
+    hardLandingConfig: object;
+    windConfig: object;
     runConfig: object;
-    ambienceConfig: object;
+    floorAmbienceConfig: object;
     jumpConfig: object;
     wallSlideConfig: object;
 
@@ -17,15 +23,26 @@ class Audio {
         this.jumpSound = scene.sound.add('jump');
         this.wallSlideSound = scene.sound.add('wallSlide');
         this.floorAmbience = scene.sound.add('floorAmbience');
+        this.windSound = scene.sound.add('wind');
+        this.softLanding = scene.sound.add('jump');
+        this.hardLanding = scene.sound.add('hardLanding');
+        this.softLandingConfig = {
+            loop: false,
+            volume: 0.1
+        }
+        this.hardLandingConfig = {
+            loop: false,
+            volume: 0.3
+        }
         this.runConfig = {
             loop: true,
             volume: 0.1
         }
         this.jumpConfig = {
             loop: false,
-            volume: 0.05
+            volume: 0.1
         }
-        this.ambienceConfig = {
+        this.floorAmbienceConfig = {
             loop: true,
             volume: 1
         }
@@ -33,10 +50,15 @@ class Audio {
             loop:true,
             volume: 0.2
         }
+        this.windConfig = {
+            loop: true,
+            volume: 0
+        }
     }
 
     ambience = () => {
-        this.floorAmbience.play(this.ambienceConfig);
+        this.floorAmbience.play(this.floorAmbienceConfig);
+        this.windSound.play(this.windConfig);
     }
 
     playAnimationSound = (animation: string): void => {

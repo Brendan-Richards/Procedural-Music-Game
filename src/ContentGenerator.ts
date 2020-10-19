@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import MountainScene from './MountainScene';
-import createTileMap from './CreateTilemap';
+import createForeground from './CreateForeground';
 
 
 export default class ContentGenerator{
@@ -18,36 +18,38 @@ export default class ContentGenerator{
 
     createLevel = (): void => {
         this.createBackground();
-        this.createForeground();
-        createTileMap(this.scene, this.totalHeight);    
+        createForeground(this.scene, this.totalHeight);    
     }
 
     createBackground = (): void => {
 
-        if(this.backgroundType==='sparse'){           
-           this.createBackgroundLayer('backgroundLayer0', 0.01, 0.01);
-           this.createBackgroundLayer('backgroundLayer1', 0.1, 0.1);
-           this.createBackgroundLayer('backgroundLayer2', 0.2, 0.2);
-           this.createBackgroundLayer('backgroundLayer3', 0.3, 0.3);
+        if(this.backgroundType==='sparse'){        
+            this.createBackgroundLayer('backgroundLayer0', 0.05, 0.05);
+            this.createBackgroundLayer('backgroundLayer1', 0.2, 0.2);
+            this.createBackgroundLayer('backgroundLayer2', 0.3, 0.25);
+            this.createBackgroundLayer('backgroundLayer3', 0.4, 0.3);
         }
         
         else{
-            this.createBackgroundLayer('backgroundLayer0b', 0.1, 1);
-            this.createBackgroundLayer('backgroundLayer1b', 0.2, 1);
-            this.createBackgroundLayer('backgroundLayer2b', 0.3, 1);
-            this.createBackgroundLayer('backgroundLayer3b', 0.4, 1);
+            this.createBackgroundLayer('backgroundLayer0b', 0.05, 0.05);
+            this.createBackgroundLayer('backgroundLayer1b', 0.2, 0.2);
+            this.createBackgroundLayer('backgroundLayer2b', 0.4, 0.4);
+            this.createBackgroundLayer('backgroundLayer3b', 1, 1);
         }
-        console.log('camera position:', this.scene.cameras.main.x, this.scene.cameras.main.y);
+       //console.log('camera position:', this.scene.cameras.main.x, this.scene.cameras.main.y);
     }
 
     createBackgroundLayer = (texture: string, scrollFactorX: number, scrollFactorY: number): void => {
         const width = this.scene.textures.get(texture).getSourceImage().width;
+        //const height = this.scene.textures.get(texture).getSourceImage().height;
         const scrollAmount = this.scene.maxGameHeight - this.scene.cameras.main.height;
         const count = Math.ceil(this.totalWidth/width * scrollFactorX) + 1;
-        console.log('width:', width, 'count:', count, 'totalWidth:', this.totalWidth, 'totalHeight', this.totalHeight);
+        //console.log('width:', width, 'count:', count, 'totalWidth:', this.totalWidth, 'totalHeight', this.totalHeight);
         let x = 0;
+        //let prevHeight = 0;
+        const offsetY = 50;
         for(let i=0; i<count; ++i){
-            let temp = this.scene.add.image(x, scrollFactorY * scrollAmount + this.scene.cameras.main.height, texture)
+            let temp = this.scene.add.image(x, scrollFactorY * scrollAmount + this.scene.cameras.main.height + offsetY, texture)
                             .setScrollFactor(scrollFactorX, scrollFactorY)
                             .setOrigin(0,1);
             x += temp.width;
@@ -59,7 +61,15 @@ export default class ContentGenerator{
 
     createForeground = (): void => {
         
+        // y coordinate relative to the bottom of the map
+        // scroll factors should be larger than 0.5
+       //this.makeTree(600, -64, 0.6, 1);
+        // this.makeTree(700, -64, 0.5, 0.5);
+        // this.makeTree(800, -64, 0.7, 0.7);
+        this.scene.add.image(100, this.scene.maxGameHeight-100, 'environmentAtlas', 'chest_closed').setScale(0.75);
     }
+
+
 
 }
 

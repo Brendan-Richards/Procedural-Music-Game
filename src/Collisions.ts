@@ -1,6 +1,5 @@
 //import Phaser from 'phaser';
 import MountainScene from './MountainScene';
-//import MatterJS from 'matter';
 
 export default (scene: MountainScene): void => {
     //collision between player, ground, and wall
@@ -15,7 +14,22 @@ export default (scene: MountainScene): void => {
                 
                 if(other!==null){
                     if(other.tile.properties.collisionLabel==='ground'){
-                        scene.playerLastOnGroundTime = new Date().getTime();
+                        //console.log(scene.playerBody.velocity); 
+                        const currentTime = scene.time.now;
+                        if(!scene.playerCanJump && currentTime - scene.lastLandingTime > 100){// if player is colliding with ground from mid air
+                            //if(currentTime - scene.playerLastOnGroundTime > 2000){
+                            if(scene.playerBody.velocity.y > 10){
+                                console.log('playing hard landing');
+                                scene.audio.hardLanding.play(scene.audio.hardLandingConfig);
+                            }
+                            else{
+                                console.log('playing soft landing');
+                                scene.audio.softLanding.play(scene.audio.softLandingConfig);                                
+                            }
+
+                        }
+                        scene.lastLandingTime = currentTime;
+                        scene.playerLastOnGroundTime = scene.time.now;
                         scene.playerCanJump = true;
                         scene.playerWallSliding = false;
                         if(scene.playerRampSliding){
@@ -26,7 +40,7 @@ export default (scene: MountainScene): void => {
                     }
                     else if(other.tile.properties.collisionLabel==='rightSlideable'){
                         // console.log('collided with rightSlidable');
-                        scene.playerLastOnGroundTime = new Date().getTime();
+                        scene.playerLastOnGroundTime = scene.time.now;
                         scene.playerRampSliding = true; 
                         scene.playerGroundSlideDirection = 'right';
                         scene.matter.setVelocity(scene.player.body as MatterJS.BodyType,
@@ -39,7 +53,7 @@ export default (scene: MountainScene): void => {
                     }
                     else if(other.tile.properties.collisionLabel==='leftSlideable'){
                         //console.log('collided with leftSlidable');
-                        scene.playerLastOnGroundTime = new Date().getTime();
+                        scene.playerLastOnGroundTime = scene.time.now;
                         scene.playerRampSliding = true; 
                         scene.playerGroundSlideDirection = 'left';
                         scene.matter.setVelocity(scene.player.body as MatterJS.BodyType,
@@ -64,7 +78,7 @@ export default (scene: MountainScene): void => {
                         //console.log(collisionNormal);
                         if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
                            // console.log('collided with top of topWall block');
-                            scene.playerLastOnGroundTime = new Date().getTime();
+                            scene.playerLastOnGroundTime = scene.time.now;
                             scene.playerCanJump = true;
                             scene.playerWallSliding = false;
                             if(scene.playerRampSliding){
@@ -99,11 +113,11 @@ export default (scene: MountainScene): void => {
                     if(other.tile.properties.collisionLabel==='ground' ||
                        other.tile.properties.collisionLabel==='leftSlideable' ||
                        other.tile.properties.collisionLabel==='rightSlideable'){
-                        scene.playerLastOnGroundTime = new Date().getTime();
+                        scene.playerLastOnGroundTime = scene.time.now;
                     }
                     else if(other.tile.properties.collisionLabel==='topWall'){
                         if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
-                            scene.playerLastOnGroundTime = new Date().getTime();
+                            scene.playerLastOnGroundTime = scene.time.now;
                         }
                     }
                 }
@@ -119,13 +133,13 @@ export default (scene: MountainScene): void => {
                 const other = bodyA.gameObject===scene.player ? bodyB.gameObject : bodyA.gameObject;
                 if(other!==null){
                     if(other.tile.properties.collisionLabel==='ground'){
-                        scene.playerLastOnGroundTime = new Date().getTime();
+                        scene.playerLastOnGroundTime = scene.time.now;
                     }
                     else if(other.tile.properties.collisionLabel==='leftSlideable'){
-                        scene.playerLastOnGroundTime = new Date().getTime();
+                        scene.playerLastOnGroundTime = scene.time.now;
                     }
                     else if(other.tile.properties.collisionLabel==='rightSlideable'){
-                        scene.playerLastOnGroundTime = new Date().getTime();
+                        scene.playerLastOnGroundTime = scene.time.now;
                     }
                 }
             }

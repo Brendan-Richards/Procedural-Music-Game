@@ -4,6 +4,8 @@ import ContentGenerator from './ContentGenerator';
 import handleCollisions from './Collisions';
 import handlePlayerMovement from './PlayerMovement';
 import Audio from './Audio';
+import { startRNN, pauseRNN, resumeRNN } from './performanceRNN';
+import 'regenerator-runtime/runtime';
 
 type controlConfig = {
     leftControl: Phaser.Input.Keyboard.Key,
@@ -58,6 +60,7 @@ export default class MountainScene extends Phaser.Scene
     currentPlayerDirection: string;
     prevPlayerDirection: string;
     playerMaxSpeed: number;
+    lastLandingTime: number;
     audio: Audio;
     bg2: Phaser.GameObjects.Image;
 
@@ -67,13 +70,13 @@ export default class MountainScene extends Phaser.Scene
 	{
         super('mountainScene');
 
-        this.timer = new Date();
+        //this.timer = new Date();
 
-        this.maxGameHeight = 10000;
+        this.maxGameHeight = 6400;
         this.maxGameWidth = 6400;
 
         //set up player
-        this.playerScaleFactor = 1.7;
+        this.playerScaleFactor = 1.6;
         this.playerSpeed = 6;
         this.playerJumpHeight = 12;
         this.playerFriction = 0;
@@ -100,6 +103,7 @@ export default class MountainScene extends Phaser.Scene
         this.prevPlayerAnimation = '';
         this.currentPlayerDirection = 'right'
         this.prevPlayerDirection = '';
+        this.lastLandingTime = -1;
         
 
 
@@ -114,20 +118,8 @@ export default class MountainScene extends Phaser.Scene
 
         makeCharacterAnimations(this);
 
-        // const bg1 = this.add.image(0, this.cameras.main.height, 'backgroundLayer0')
-        //                 .setScrollFactor(0, 0)
-        //                 .setOrigin(0,1);
-        // const scrollAmount = this.maxGameHeight - this.cameras.main.height;
-        // console.log('scroll amount:', scrollAmount);
-        // const scrollFactorY = .0345;
-        // this.bg2 = this.add.image(0, scrollFactorY * scrollAmount + this.cameras.main.height, 'backgroundLayer1')
-        //                 .setScrollFactor(0.5, scrollFactorY)
-        //                 .setOrigin(0, 1);
-
-
         const contentGenerator = new ContentGenerator(this, this.maxGameWidth, this.maxGameHeight, 'sparse');
         contentGenerator.createLevel();
-
 
         this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');
         this.characterShapes = this.cache.json.get('characterShapes');
@@ -137,6 +129,7 @@ export default class MountainScene extends Phaser.Scene
         this.player.setScale(this.playerScaleFactor);
         console.log('created character at:', this.playerBody.position);
 
+        this.cameras.main.setBackgroundColor('rgba(2, 63, 157, 1)');
         this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
       
         //input setup
@@ -163,10 +156,27 @@ export default class MountainScene extends Phaser.Scene
         //ambient audio
         this.audio = new Audio(this);
         this.audio.ambience();
+
+
+        startRNN();
+
+        this.input.keyboard.on('keydown-' + 'P', (event) => {
+            resumeRNN();
+        });
+        this.input.keyboard.on('keydown-' + 'O', (event) => {
+            pauseRNN();
+        });
     }
 
     update()
     {
+        
+        this.setAmbientVolumes();
         handlePlayerMovement(this);
+    }
+
+    setAmbientVolumes = () => {
+        this.audio.floorAmbience.volume = Math.pow((this.player.y / this.maxGameHeight), 2);
+        this.audio.windSound.volume = Math.pow(1 - (this.player.y / this.maxGameHeight), 2);
     }
 }
