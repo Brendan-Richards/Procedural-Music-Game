@@ -158,7 +158,7 @@ export default class MountainScene extends Phaser.Scene
         this.audio.ambience();
 
 
-        startRNN();
+        //startRNN();
 
         this.input.keyboard.on('keydown-' + 'P', (event) => {
             resumeRNN();

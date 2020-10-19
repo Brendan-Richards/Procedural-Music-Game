@@ -40,12 +40,12 @@ const createTileMap = (scene: MountainScene, totalHeight: number): void => {
 
     const groundLayer = map.createDynamicLayer("climbingSurfaces", tileset);
     groundLayer.setPosition(0,-1*(groundLayer.height - totalHeight));
-
-
     //console.log('map properties:', map);
 
     createMountains(scene, 15, groundLayer, map, tileset);
     //createPlatforms(15, groundLayer, map, tileset);
+
+    groundLayer.setDepth(1);
 
     groundLayer.setCollisionByProperty({ collides: true });
     scene.matter.world.convertTilemapLayer(groundLayer);

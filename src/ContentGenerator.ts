@@ -24,10 +24,10 @@ export default class ContentGenerator{
     createBackground = (): void => {
 
         if(this.backgroundType==='sparse'){        
-            this.createBackgroundLayer('backgroundLayer0', 0.05, 0.05);
-            this.createBackgroundLayer('backgroundLayer1', 0.2, 0.2);
-            this.createBackgroundLayer('backgroundLayer2', 0.3, 0.25);
-            this.createBackgroundLayer('backgroundLayer3', 0.4, 0.3);
+            this.createBackgroundLayer('backgroundLayer0', 0, 0.05, 0.05);
+            this.createBackgroundLayer('backgroundLayer1', 250, 0.1, 0.1);
+            this.createBackgroundLayer('backgroundLayer2', 150, 0.2, 0.2);
+            this.createBackgroundLayer('backgroundLayer3', -30, 0.4, 0.4);
         }
         
         else{
@@ -39,7 +39,7 @@ export default class ContentGenerator{
        //console.log('camera position:', this.scene.cameras.main.x, this.scene.cameras.main.y);
     }
 
-    createBackgroundLayer = (texture: string, scrollFactorX: number, scrollFactorY: number): void => {
+    createBackgroundLayer = (texture: string, heightOffset: number, scrollFactorX: number, scrollFactorY: number): void => {
         const width = this.scene.textures.get(texture).getSourceImage().width;
         //const height = this.scene.textures.get(texture).getSourceImage().height;
         const scrollAmount = this.scene.maxGameHeight - this.scene.cameras.main.height;
@@ -49,7 +49,7 @@ export default class ContentGenerator{
         //let prevHeight = 0;
         const offsetY = 50;
         for(let i=0; i<count; ++i){
-            let temp = this.scene.add.image(x, scrollFactorY * scrollAmount + this.scene.cameras.main.height + offsetY, texture)
+            let temp = this.scene.add.image(x, scrollFactorY * scrollAmount + this.scene.cameras.main.height + offsetY + heightOffset, texture)
                             .setScrollFactor(scrollFactorX, scrollFactorY)
                             .setOrigin(0,1);
             x += temp.width;
