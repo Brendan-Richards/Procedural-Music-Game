@@ -30,6 +30,40 @@ const flatFoliage = (scene: MountainScene, x1: number, x2: number, y: number) =>
         createTree(scene, location, y - scene.maxGameHeight, 1, 1);
         console.log('putting tree at x:', location, 'y:', y);
     }
+
+    //number of shrubs to place here
+    const maxShrubs = 3;
+    const numShrubs = Math.floor(Math.random() * maxShrubs);
+    console.log('placing', numShrubs, 'shrubs');
+    const flatWidth = (x2-x1);
+    console.log('flatWidth:', flatWidth);
+    
+    //minimum width to place shrubs is 190 because shrub0.png has width of ~190
+    if(flatWidth >= 190){
+        for(let i=0; i<numShrubs; i++){
+            let shrubName = 'shrub' + (Math.floor(Math.random() * 8)).toString();
+            let shrubWidth = scene.cache.json.get('environmentAtlas').frames[shrubName].spriteSourceSize.w;
+
+            while(shrubWidth >= flatWidth){
+                shrubName = 'shrub' + (Math.floor(Math.random() * 8)).toString();
+                shrubWidth = scene.cache.json.get('environmentAtlas').frames[shrubName].spriteSourceSize.w;
+            }
+
+            console.log('shrub name:', shrubName);
+            console.log(shrubWidth);
+            const locationX = Math.floor(Math.random() * (x2-shrubWidth-x1)) + x1;
+            const sh = scene.add.image(locationX, y, 'environmentAtlas', shrubName).setOrigin(0,1);
+            console.log('placed shrub at:', locationX, y);
+
+        }
+    }
+
+
+
+        
+        //scene.add.image(x1, y, 'environmentAtlas', shrubName).setOrigin(0,1);
+
+    }
 }
 
 const createTree = (scene: MountainScene, x: number, y: number, scrollFactorX: number, scrollFactorY: number): void => {
@@ -46,7 +80,7 @@ const createTree = (scene: MountainScene, x: number, y: number, scrollFactorX: n
         }
 
         const treeNum = Math.floor(Math.random() * maxTreeNum).toString();
-        const stump = scene.add.sprite(x, offsetY + y + randomOffsetY, 'environmentAtlas', treeType + treeNum)
+        const stump = scene.add.image(x, offsetY + y + randomOffsetY, 'environmentAtlas', treeType + treeNum)
             .setScrollFactor(scrollFactorX, scrollFactorY)
             .setOrigin(0,1);
 }

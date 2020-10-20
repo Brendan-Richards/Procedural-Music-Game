@@ -166,6 +166,7 @@ export default class MountainScene extends Phaser.Scene
         this.input.keyboard.on('keydown-' + 'O', (event) => {
             pauseRNN();
         });
+
     }
 
     update()
