@@ -7,7 +7,11 @@ const tileIds = {
     blank: [20],
     leftTopWalls: [10, 33, 59],
     rightTopWalls: [12, 35, 63],
+    leftIceTopWalls: [100, 123, 149],
+    rightIceTopWalls: [102, 125, 153],
     leftWalls: [19, 46],
+    leftIceWalls: [109, 136],
+    rightIceWalls: [111, 138],
     rightWalls: [21, 48],
     flatGround: [11],
     platformSingleCenter: [25],
@@ -31,7 +35,8 @@ const createTileMap = (scene: MountainScene, totalHeight: number): void => {
        
     const map = scene.make.tilemap({ key: "map" });
 
-    const tileset = map.addTilesetImage("snowRocks", "tiles");
+    //const tileset = map.addTilesetImage("snowRocks", "tiles");
+    const tileset = map.addTilesetImage("iceRocks", "iceTiles");
     
     //console.log(tileset.getTileProperties(6));
 
@@ -45,7 +50,7 @@ const createTileMap = (scene: MountainScene, totalHeight: number): void => {
     createMountains(scene, 15, groundLayer, map, tileset);
     //createPlatforms(15, groundLayer, map, tileset);
 
-    groundLayer.setDepth(1);
+    groundLayer.setDepth(5);
 
     groundLayer.setCollisionByProperty({ collides: true });
     scene.matter.world.convertTilemapLayer(groundLayer);
@@ -91,7 +96,7 @@ const createMountains = (scene: MountainScene, startX: number,
     let x = startX;
     let prevType = 'flat';
     const maxWallHeight = 20;
-    const maxFlatLength = 20;
+    const maxFlatLength = 5;
     const maxMountainHeight = map.height;
    // const maxMountainHeight = 95;
     let y = 1;
@@ -148,6 +153,8 @@ const buildMountainUp = (scene: MountainScene, mountainHeight: number, maxWallHe
                 reachedTop = true;
             }
 
+            verticalFoliage(scene, mountainHeightMap(y-1, map)*64, mountainHeightMap(y+wallHeight-1, map)*64, x*64, true);
+
             console.log('wall height:', wallHeight);
 
              //put block below wall
@@ -164,12 +171,14 @@ const buildMountainUp = (scene: MountainScene, mountainHeight: number, maxWallHe
             //build the climbable wall blocks
             for(let i=0; i < wallHeight - 1; i++){
                 //idx = this.randomChoice(this.tileIds.leftWalls);
-                idx = 19;
+                //idx = 19;
+                idx = tileIds.leftIceWalls[0];
                 const wallTile = new Phaser.Tilemaps.Tile(layer.layer,
                     idx, 
                     0, 0, 64, 64, 64, 64);
 
                 wallTile.properties = tileset.getTileProperties(idx);
+
                 map.putTileAt(wallTile, x, mountainHeightMap(y+i, map), true, layer);
 
                 //console.log('putting left wall block at:', x, this.mountainHeightMap(y+i));    
@@ -242,6 +251,7 @@ const buildMountainDown = (scene: MountainScene, mountainHeight: number, mountai
                 reachedBottom = true;
             }
 
+            verticalFoliage(scene, mountainHeightMap(y+1, map)*64, mountainHeightMap(y-wallHeight, map)*64, x*64, false);
             //console.log('wall height:', wallHeight);
 
 

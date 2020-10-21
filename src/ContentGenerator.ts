@@ -31,10 +31,10 @@ export default class ContentGenerator{
         }
         
         else{
-            this.createBackgroundLayer('backgroundLayer0b', 0.05, 0.05);
-            this.createBackgroundLayer('backgroundLayer1b', 0.2, 0.2);
-            this.createBackgroundLayer('backgroundLayer2b', 0.4, 0.4);
-            this.createBackgroundLayer('backgroundLayer3b', 1, 1);
+            // this.createBackgroundLayer('backgroundLayer0b', 0.05, 0.05);
+            // this.createBackgroundLayer('backgroundLayer1b', 0.2, 0.2);
+            // this.createBackgroundLayer('backgroundLayer2b', 0.4, 0.4);
+            // this.createBackgroundLayer('backgroundLayer3b', 1, 1);
         }
        //console.log('camera position:', this.scene.cameras.main.x, this.scene.cameras.main.y);
     }

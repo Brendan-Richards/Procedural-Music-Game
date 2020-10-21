@@ -64,9 +64,18 @@ export default (scene: MountainScene): void => {
                         scene.playerWallJumping = false;
                         scene.playerFlatSliding = false;
                     }
-                    else if(other.tile.properties.collisionLabel==='wall'){
+                    else if(other.tile.properties.collisionLabel==='wall' ||
+                            other.tile.properties.collisionLabel==='iceWall'){
                         //console.log('collided with wall');
-                        scene.playerFriction = 0.3;
+                        //scene.playerFriction = 0;
+                        scene.playerFriction =  0.3;
+                        if(other.tile.properties.collisionLabel==='iceWall'){
+                            scene.playerFriction = 0;
+                            if(scene.currentPlayerAnimation!=='wallSlide' && scene.player.body.velocity.y < 0){
+                                scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
+                            }
+                        }
+                        
                         scene.playerWallSliding = true;
                         scene.playerWallJumping = false;
                         //scene.playerCanJump = true;

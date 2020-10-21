@@ -43,9 +43,11 @@ export default class Preloader extends Phaser.Scene
         this.load.json('environmentAtlasData', 'assets/json/environmentAtlas.json');        
 
         //tilemap
-        this.load.image("tiles", "assets/images/tilesets/snowyRocks.png");
-        //this.load.tilemapTiledJSON("map", "assets/json/snowForestMap.json");
-        this.load.tilemapTiledJSON('map', 'assets/json/newnewnew.json');
+        //this.load.image("tiles", "assets/images/tilesets/snowyRocks.png");
+       // this.load.tilemapTiledJSON('map', 'assets/json/newnewnew.json');
+        this.load.tilemapTiledJSON('map', 'assets/json/snowWithIce.json');
+        this.load.image("iceTiles", "assets/images/tilesets/icyRocks.png");
+       // this.load.tilemapTiledJSON('iceMap', 'assets/json/newnewnew.json');
 
         //audio
         this.load.audio('floorAmbience', 'assets/audio/floorAmbience.mp3');

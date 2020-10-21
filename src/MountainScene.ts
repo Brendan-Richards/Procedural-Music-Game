@@ -123,10 +123,13 @@ export default class MountainScene extends Phaser.Scene
 
         this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');
         this.characterShapes = this.cache.json.get('characterShapes');
-        this.playerBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, undefined, false);
-
+        const playerConfig = {
+            
+        }
+        this.playerBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, playerConfig, false);       
         this.player.setExistingBody(this.playerBody);
         this.player.setScale(this.playerScaleFactor);
+
         console.log('created character at:', this.playerBody.position);
 
         this.cameras.main.setBackgroundColor('rgba(2, 63, 157, 1)');

@@ -158,7 +158,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
     else if(scene.playerWallSliding){
         //start wallsliding
         if(scene.currentPlayerAnimation!=='wallSlide'){
-            scene.playerFriction = 0.2;
+            //scene.playerFriction = 0.2;
             setNewCharacterAnimation(scene, 'wallSlide', scene.currentPlayerDirection==='left', false);
         }
         //jump off the wall
