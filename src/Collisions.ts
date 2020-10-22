@@ -19,11 +19,11 @@ export default (scene: MountainScene): void => {
                         if(!scene.playerCanJump && currentTime - scene.lastLandingTime > 100){// if player is colliding with ground from mid air
                             //if(currentTime - scene.playerLastOnGroundTime > 2000){
                             if(scene.playerBody.velocity.y > 10){
-                                console.log('playing hard landing');
+                                //console.log('playing hard landing');
                                 scene.audio.hardLanding.play(scene.audio.hardLandingConfig);
                             }
                             else{
-                                console.log('playing soft landing');
+                                //console.log('playing soft landing');
                                 scene.audio.softLanding.play(scene.audio.softLandingConfig);                                
                             }
 
@@ -68,14 +68,31 @@ export default (scene: MountainScene): void => {
                             other.tile.properties.collisionLabel==='iceWall'){
                         //console.log('collided with wall');
                         //scene.playerFriction = 0;
-                        scene.playerFriction =  0.3;
+                        
                         if(other.tile.properties.collisionLabel==='iceWall'){
                             scene.playerFriction = 0;
+                            if(!scene.playerIceWallSliding){
+                                scene.resetWallSlide = true;
+                            }
+                            else{
+                                scene.resetWallSlide = false;
+                            }
+                            scene.playerIceWallSliding = true;
                             if(scene.currentPlayerAnimation!=='wallSlide' && scene.player.body.velocity.y < 0){
                                 scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
                             }
+
                         }
-                        
+                        else{
+                            scene.playerFriction =  0.3;
+                            if(scene.playerIceWallSliding){
+                                scene.resetWallSlide = true;
+                            }
+                            else{
+                                scene.resetWallSlide = false;
+                            }
+                            scene.playerIceWallSliding = false;
+                        }
                         scene.playerWallSliding = true;
                         scene.playerWallJumping = false;
                         //scene.playerCanJump = true;

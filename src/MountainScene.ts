@@ -44,6 +44,8 @@ export default class MountainScene extends Phaser.Scene
     playerFlatSliding: boolean;
     playerWallSliding: boolean;
     playerWallJumping: boolean;
+    resetWallSlide: boolean;
+    playerIceWallSliding: boolean;
     flatSlideStartTime: number;
     playerLastOnGroundTime: number;
     playerGroundSlideDirection: string;
@@ -90,6 +92,8 @@ export default class MountainScene extends Phaser.Scene
         this.playerFlatSliding = false;
         this.playerWallSliding = false;
         this.playerWallJumping = false;
+        this.playerIceWallSliding = false;
+        this.resetWallSlide = false;
 
         //movement logic
         this.flatSlideStartTime = -1;

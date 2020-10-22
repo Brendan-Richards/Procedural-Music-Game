@@ -169,10 +169,21 @@ const buildMountainUp = (scene: MountainScene, mountainHeight: number, maxWallHe
             //console.log('putting floor block at:', x, this.mountainHeightMap(y-1));
 
             //build the climbable wall blocks
+            let icePlacements = 0;
+            const iceProb = 0.1;
             for(let i=0; i < wallHeight - 1; i++){
                 //idx = this.randomChoice(this.tileIds.leftWalls);
-                //idx = 19;
-                idx = tileIds.leftIceWalls[0];
+                idx = 19;
+
+                if(icePlacements===0 && Math.random() < iceProb){
+                    icePlacements = Math.random() * wallHeight - i;
+                }
+                
+                if(icePlacements > 0){
+                    idx = tileIds.leftIceWalls[0];
+                    icePlacements -= 1;
+                }
+                
                 const wallTile = new Phaser.Tilemaps.Tile(layer.layer,
                     idx, 
                     0, 0, 64, 64, 64, 64);

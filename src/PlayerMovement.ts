@@ -157,20 +157,25 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
     }
     else if(scene.playerWallSliding){
         //start wallsliding
-        if(scene.currentPlayerAnimation!=='wallSlide'){
+        if(scene.currentPlayerAnimation!=='wallSlide' || scene.resetWallSlide){
             //scene.playerFriction = 0.2;
             setNewCharacterAnimation(scene, 'wallSlide', scene.currentPlayerDirection==='left', false);
         }
         //jump off the wall
-        else if(scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime){
+        if(scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime){
             //console.log('jump off wall');
             //flip the players direction cause they were facing the opposite way when on the wall
             scene.currentPlayerDirection = scene.currentPlayerDirection==='left' ? 'right' : 'left';
-            setNewCharacterAnimation(scene, 'jump', scene.currentPlayerDirection==='left', false); 
+            setNewCharacterAnimation(scene, 'jump', scene.currentPlayerDirection==='left', false);
+
             const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
-            scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, factor*scene.playerSpeed, -2.5*scene.playerSpeed);  
+            const jumpX = factor*scene.playerSpeed;
+            const jumpY = scene.playerIceWallSliding ? -0.5*scene.playerSpeed : -2.5*scene.playerSpeed;
+            scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY);  
+            
             scene.playerCanJump = false;        
-            scene.playerWallSliding = false;   
+            scene.playerWallSliding = false;
+            scene.playerIceWallSliding = false;   
             scene.playerWallJumping = true;  
             // scene.wallJumpOffPosition = {...scene.playerBody.position};
             scene.wallJumpOffPosition = {x: scene.player.x, y: scene.player.y};  
@@ -205,9 +210,13 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                     const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
                     //scene.player.setPosition(scene.player.body.position.x + (-1*factor*100), scene.player.body.position.y);
 
-                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 
-                        factor*scene.playerSpeed, 
-                        -2.5*scene.playerSpeed);  
+                    const jumpX = factor*scene.playerSpeed;
+                    const jumpY = scene.playerIceWallSliding ? -0.5*scene.playerSpeed : -2.5*scene.playerSpeed;
+                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY);  
+
+                    // scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 
+                    //     factor*scene.playerSpeed, 
+                    //     -2.5*scene.playerSpeed);  
                     //console.log('set player velocity to:', {x:factor*scene.playerSpeed, y:-2.5*scene.playerSpeed });
                     //console.log('current player Animation:', scene.currentPlayerAnimation);
                     //console.log('after setting new velocity, players body velocity is', scene.player.body.velocity);
