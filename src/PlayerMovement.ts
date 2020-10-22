@@ -162,7 +162,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             setNewCharacterAnimation(scene, 'wallSlide', scene.currentPlayerDirection==='left', false);
         }
         //jump off the wall
-        if(scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime){
+        if(scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime && scene.stamina > 0){
             //console.log('jump off wall');
             //flip the players direction cause they were facing the opposite way when on the wall
             scene.currentPlayerDirection = scene.currentPlayerDirection==='left' ? 'right' : 'left';
@@ -170,7 +170,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
 
             const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
             const jumpX = factor*scene.playerSpeed;
-            const jumpY = scene.playerIceWallSliding ? -0.5*scene.playerSpeed : -2.5*scene.playerSpeed;
+            const jumpY = scene.playerIceWallSliding ? scene.playerIceJumpHeight : scene.playerWallJumpHeight;
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY);  
             
             scene.playerCanJump = false;        
@@ -193,6 +193,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                    scene.currentPlayerDirection = scene.currentPlayerDirection==='left' ? 'right' : 'left';
                    setNewCharacterAnimation(scene, 'fall', scene.currentPlayerDirection==='left', false);
                    scene.playerWallSliding = false;
+                   scene.playerIceWallSliding = false;
                    //scene.stopWallSlidingPosition = {...scene.playerBody.position}
                    scene.stopWallSlidingPosition = {x: scene.player.x, y: scene.player.y}; 
                   //console.log('set stop wall sliding position to:', this.stopWallSlidingPosition);
@@ -203,7 +204,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
     else if(!scene.playerWallJumping){
         if(prevVelocity.y >= 0){
             if(scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime){
-                if(scene.player.x===scene.stopWallSlidingPosition.x){
+                if(scene.player.x===scene.stopWallSlidingPosition.x && scene.stamina > 0){
                     //scene.currentPlayerDirection = scene.currentPlayerDirection==='left' ? 'right' : 'left';
                     setNewCharacterAnimation(scene, 'jump', scene.currentPlayerDirection==='left', false); 
                     
@@ -211,8 +212,8 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                     //scene.player.setPosition(scene.player.body.position.x + (-1*factor*100), scene.player.body.position.y);
 
                     const jumpX = factor*scene.playerSpeed;
-                    const jumpY = scene.playerIceWallSliding ? -0.5*scene.playerSpeed : -2.5*scene.playerSpeed;
-                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY);  
+                    const jumpY = scene.playerIceWallSliding ? scene.playerIceJumpHeight : scene.playerWallJumpHeight;
+                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY); 
 
                     // scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 
                     //     factor*scene.playerSpeed, 

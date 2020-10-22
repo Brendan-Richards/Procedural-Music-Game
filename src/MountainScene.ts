@@ -44,6 +44,8 @@ export default class MountainScene extends Phaser.Scene
     playerFlatSliding: boolean;
     playerWallSliding: boolean;
     playerWallJumping: boolean;
+    losingStamina: boolean;
+    gainingStamina: boolean;
     resetWallSlide: boolean;
     playerIceWallSliding: boolean;
     flatSlideStartTime: number;
@@ -55,7 +57,14 @@ export default class MountainScene extends Phaser.Scene
     stopWallSlidingDirection: string;
     playerScaleFactor: number;
     playerSpeed: number;
+    staminaOutline: Phaser.GameObjects.Image;
+    staminaFill: Phaser.GameObjects.Image;
     playerJumpHeight: number;
+    staminaLossRate: number;
+    staminaRegenRate: number;
+    stamina: number;
+    playerWallJumpHeight: number;
+    playerIceJumpHeight: number;
     playerFriction: number;
     currentPlayerAnimation: string;
     prevPlayerAnimation: string;
@@ -81,8 +90,16 @@ export default class MountainScene extends Phaser.Scene
         this.playerScaleFactor = 1.6;
         this.playerSpeed = 6;
         this.playerJumpHeight = 12;
+        this.playerWallJumpHeight = -2.5*this.playerSpeed;
         this.playerFriction = 0;
         this.playerMaxSpeed = 17;
+        this.playerIceJumpHeight = -1.5*this.playerSpeed;
+        this.stamina = 100;
+        //units of pixels per second of climbing
+        this.staminaLossRate = -0.5;
+        this.staminaRegenRate = 1.5;
+        this.staminaOutline = null;
+        this.staminaFill = null;
 
         //flags
         this.playerCanJump = true;
@@ -94,6 +111,8 @@ export default class MountainScene extends Phaser.Scene
         this.playerWallJumping = false;
         this.playerIceWallSliding = false;
         this.resetWallSlide = false;
+        this.losingStamina = false;
+        this.gainingStamina = false;
 
         //movement logic
         this.flatSlideStartTime = -1;
@@ -109,8 +128,6 @@ export default class MountainScene extends Phaser.Scene
         this.prevPlayerDirection = '';
         this.lastLandingTime = -1;
         
-
-
 	}
 
     create()
@@ -178,7 +195,10 @@ export default class MountainScene extends Phaser.Scene
 
     update()
     {
-        
+        if(this.losingStamina || this.gainingStamina){
+            this.updateStaminaPosition();
+            this.removeStamina();
+        }
         this.setAmbientVolumes();
         handlePlayerMovement(this);
     }
@@ -186,5 +206,56 @@ export default class MountainScene extends Phaser.Scene
     setAmbientVolumes = () => {
         this.audio.floorAmbience.volume = Math.pow((this.player.y / this.maxGameHeight), 2);
         this.audio.windSound.volume = Math.pow(1 - (this.player.y / this.maxGameHeight), 2);
+    }
+
+    drawStamina = () => {
+        console.log('drawing stamina bar');
+        const offset = 100;
+        this.staminaOutline = this.add.image(this.player.x + offset, this.player.y, 'staminaOutline');
+        this.staminaOutline.setDepth(10).setScale(1/3);
+        this.staminaFill = this.add.image(this.staminaOutline.getBottomLeft().x + 1, this.staminaOutline.getBottomLeft().y - 1, 'staminaFill').setOrigin(0,1);
+        this.staminaFill.setDepth(10).setScale(1/3, this.stamina/3);
+        console.log('stamina outline display height:', this.staminaOutline.displayHeight);
+        console.log('stamina fill display height:', this.staminaFill.displayHeight);
+    }
+
+    updateStaminaPosition = () => {
+        const offset = 100;
+        if(this.losingStamina){
+            if(this.stamina <= 0){
+                this.stamina = 0;
+                this.resetWallSlide = true;
+            }
+            else{
+                this.stamina += this.staminaLossRate;
+            }       
+        }
+        else{
+            if(this.stamina >= 100){
+                this.stamina = 100;
+            }
+            else{
+                this.stamina += this.staminaRegenRate;
+            }
+            
+        }
+        
+        this.staminaOutline.setPosition(this.player.x + offset, this.player.y);
+        this.staminaFill.setScale(1/3, this.stamina/3);
+        this.staminaFill.setPosition(this.staminaOutline.getBottomLeft().x + 1, this.staminaOutline.getBottomLeft().y - 1).setOrigin(0,1);
+    }
+
+    removeStamina = () => {
+        console.log('checking if we should remove stamina bar');
+        if(this.stamina===100){
+            if(this.staminaOutline){
+                this.staminaOutline.destroy();
+            }
+            if(this.staminaFill){
+                this.staminaFill.destroy();
+            }            
+            this.gainingStamina = false;
+            this.losingStamina = false;
+        }
     }
 }

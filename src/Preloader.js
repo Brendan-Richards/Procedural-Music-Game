@@ -56,6 +56,10 @@ export default class Preloader extends Phaser.Scene
         this.load.audio('wallSlide', 'assets/audio/wallSlide.mp3');
         this.load.audio('wind', 'assets/audio/windLoop.mp3');
         this.load.audio('hardLanding', 'assets/audio/thud.mp3');
+
+        //UI
+        this.load.image("staminaOutline", "assets/images/UI/staminaOutline.png");
+        this.load.image("staminaFill", "assets/images/UI/staminaFill.png");
         
     }
 

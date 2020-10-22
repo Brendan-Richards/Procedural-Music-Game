@@ -15,6 +15,12 @@ export default (scene: MountainScene): void => {
                 if(other!==null){
                     if(other.tile.properties.collisionLabel==='ground'){
                         //console.log(scene.playerBody.velocity); 
+
+                        if(scene.losingStamina){
+                            scene.losingStamina = false;
+                            scene.gainingStamina = true;
+                        }
+
                         const currentTime = scene.time.now;
                         if(!scene.playerCanJump && currentTime - scene.lastLandingTime > 100){// if player is colliding with ground from mid air
                             //if(currentTime - scene.playerLastOnGroundTime > 2000){
@@ -67,8 +73,17 @@ export default (scene: MountainScene): void => {
                     else if(other.tile.properties.collisionLabel==='wall' ||
                             other.tile.properties.collisionLabel==='iceWall'){
                         //console.log('collided with wall');
-                        //scene.playerFriction = 0;
+                        scene.playerFriction = 0;
                         
+                        
+                        if(!scene.losingStamina){
+                            if(!scene.gainingStamina){
+                                scene.drawStamina();
+                            }
+                            scene.losingStamina = true;
+                            scene.gainingStamina = false;
+                        }
+
                         if(other.tile.properties.collisionLabel==='iceWall'){
                             scene.playerFriction = 0;
                             if(!scene.playerIceWallSliding){
@@ -84,8 +99,8 @@ export default (scene: MountainScene): void => {
 
                         }
                         else{
-                            scene.playerFriction =  0.3;
-                            if(scene.playerIceWallSliding){
+                            scene.playerFriction = scene.stamina > 0 ? 0.3 : 0;
+                            if(scene.playerIceWallSliding || scene.stamina <= 0){
                                 scene.resetWallSlide = true;
                             }
                             else{
@@ -98,12 +113,18 @@ export default (scene: MountainScene): void => {
                         //scene.playerCanJump = true;
                         scene.playerRampSliding = false;
                         scene.playerFlatSliding = false;
+                        
                     }
                     else if(other.tile.properties.collisionLabel==='topWall'){
                         //console.log(other);
                         //console.log(collisionNormal);
                         if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
                            // console.log('collided with top of topWall block');
+                           if(scene.losingStamina){
+                                scene.losingStamina = false;
+                                scene.gainingStamina = true;
+                            }
+
                             scene.playerLastOnGroundTime = scene.time.now;
                             scene.playerCanJump = true;
                             scene.playerWallSliding = false;
