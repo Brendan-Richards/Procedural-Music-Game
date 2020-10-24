@@ -15,11 +15,11 @@ const config = {
         default: 'matter',
         matter: {
 			gravity: {y: 1.5},
-			debug: {
-				showBody: true,
-				showVelocity: true,
-				//renderFill: 0x106909
-			},
+			// debug: {
+			// 	showBody: true,
+			// 	showVelocity: true,
+			// 	//renderFill: 0x106909
+			// },
 			setBounds: {
 				left: true,
 				right: false,

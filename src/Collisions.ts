@@ -6,7 +6,7 @@ export default (scene: MountainScene): void => {
     scene.matter.world.on("collisionstart", (event, body1, body2) => {
 
         event.pairs.forEach(pair => {
-            console.log(pair);
+            //console.log(pair);
             const collisionNormal = pair.collision.normal;
             const collisionPoint = pair.collision.supports[0].contact.vertex;
             
@@ -141,15 +141,15 @@ export default (scene: MountainScene): void => {
                         else{
                             console.log('collided with side of topWall block');
 
-                            scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100);
+                            //scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100);
                             
                             //scene.playerFriction = 0.01;
                             //console.log(event, body1, body2);
 
                             if(!scene.playerLedgeClimb){
                                 scene.ledgePosition = other.body.position;
-                                scene.add.circle(scene.ledgePosition.x, scene.ledgePosition.y, 2, 0xffff00).setDepth(100);
-                                console.log('other.tile:', other.tile);
+                                //scene.add.circle(scene.ledgePosition.x, scene.ledgePosition.y, 2, 0xffff00).setDepth(100);
+                                //console.log('other.tile:', other.tile);
                                 let grabPositionX;
                                 if(collisionPoint.x > scene.ledgePosition.x){
                                     //the 4 convex top walls

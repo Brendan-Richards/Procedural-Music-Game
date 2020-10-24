@@ -224,9 +224,10 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
             scene.tweens.add({
                 targets: scene.player,
-                duration: 400,
-                y: scene.player.body.position.y-45,
-                x: scene.player.body.position.x+(factor * 20)
+                duration: 380,
+                //y: scene.player.body.position.y-43,
+                y: scene.player.body.position.y - 130,
+                x: scene.player.body.position.x+(factor * 70)
             });
             //scene.player.setVelocity(0, -1*scene.playerJumpHeight*0.8);
             //scene.player.setIgnoreGravity(true);

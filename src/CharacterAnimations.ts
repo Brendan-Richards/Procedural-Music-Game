@@ -114,7 +114,7 @@ export default (scene: Phaser.Scene) => {
              end: 5, 
              zeroPad: 2 
             }),
-            frameRate: frameRate,
+            frameRate: frameRate*1.5,
         // repeat: 1
     });
 };
