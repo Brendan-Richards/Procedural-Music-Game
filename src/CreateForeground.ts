@@ -47,12 +47,26 @@ const createTileMap = (scene: MountainScene, totalHeight: number): void => {
     groundLayer.setPosition(0,-1*(groundLayer.height - totalHeight));
     //console.log('map properties:', map);
 
-    createMountains(scene, 15, groundLayer, map, tileset);
+    //createMountains(scene, 15, groundLayer, map, tileset);
     //createPlatforms(15, groundLayer, map, tileset);
 
     groundLayer.setDepth(5);
 
     groundLayer.setCollisionByProperty({ collides: true });
+
+
+    groundLayer.forEachTile(tile => {
+        if ([10, 33].includes(tile.index)){
+            //tile.collideLeft = false;
+            tile.collideRight = false;
+            tile.collideDown = false;
+        }
+        else if([12, 35].includes(tile.index)){
+            tile.collideLeft = false;
+            tile.collideDown = false;
+        }
+    });
+
     scene.matter.world.convertTilemapLayer(groundLayer);
     
     //scene.matter.world.convertTilemapLayer(groundLayer);
@@ -201,8 +215,10 @@ const buildMountainUp = (scene: MountainScene, mountainHeight: number, maxWallHe
             const topTile = new Phaser.Tilemaps.Tile(layer.layer,
                 idx, 
                 0, 0, 64, 64, 64, 64);
-
+                
             topTile.properties = tileset.getTileProperties(idx);
+            
+            console.log('toptile:', topTile);
             map.putTileAt(topTile, x, mountainHeightMap(y + wallHeight-1, map), true, layer);
 
             //console.log('putting top left wall block at:', x, this.mountainHeightMap(y+wallHeight-1));  

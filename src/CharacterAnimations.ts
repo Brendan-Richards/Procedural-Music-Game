@@ -95,4 +95,26 @@ export default (scene: Phaser.Scene) => {
             frameRate: frameRate,
         repeat: -1,
     });
+    scene.anims.create({
+        key: 'ledgeGrab',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_crnr_grb_', 
+             suffix: '.png',
+             end: 4, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'ledgeClimb',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_crnr_clmb_', 
+             suffix: '.png',
+             end: 5, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        // repeat: 1
+    });
 };

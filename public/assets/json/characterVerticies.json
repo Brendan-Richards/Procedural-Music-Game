@@ -19,7 +19,7 @@
 				"label": "",
 				"isSensor": false,
 				"vertices": [
-					[ { "x":29, "y":7.5 }, { "x":24, "y":13 }, { "x":21.600000381469727, "y":32.19999980926514 }, { "x":24.299999237060547, "y":35.10000002384186 }, { "x":31, "y":34 }, { "x":35.29999923706055, "y":32.09999990463257 }, { "x":38, "y":10 } ]
+					[ { "x":29, "y":7.5 }, { "x":24, "y":13 }, { "x":21.600000381469727, "y":32.19999980926514 }, { "x":24.299999237060547, "y":35.10000002384186 }, { "x":31, "y":34 }, { "x":36, "y":32 }, { "x":36, "y":10 } ]
 				]
 			}
 		]
@@ -43,7 +43,7 @@
 				"label": "",
 				"isSensor": false,
 				"vertices": [
-					[ { "x":31, "y":36 }, { "x":33.5, "y":22 }, { "x":29, "y":8 }, { "x":24, "y":5.5 }, { "x":18, "y":12 }, { "x":16, "y":24 }, { "x":20, "y":36 } ]
+					[ { "x":31, "y":36 }, { "x":33, "y":23 }, { "x":28, "y":7 }, { "x":22, "y":7 }, { "x":15, "y":23 }, { "x":20, "y":36 } ]
 				]
 			}
 		]
@@ -94,7 +94,7 @@
 				"label": "",
 				"isSensor": false,
 				"vertices": [
-					[ { "x":23, "y":6 }, { "x":24, "y":30 }, { "x":35, "y":31 }, { "x":35, "y":8 } ]
+					[ { "x":23, "y":6 }, { "x":24, "y":32 }, { "x":35, "y":32 }, { "x":35, "y":8 } ]
 				]
 			}
 		]
@@ -215,6 +215,54 @@
 				"isSensor": false,
 				"vertices": [
 					[ { "x":31, "y":35 }, { "x":31, "y":26 }, { "x":15, "y":20 }, { "x":13, "y":29 }, { "x":15, "y":36 }, { "x":22, "y":36 } ]
+				]
+			}
+		]
+	},
+	"adventurer_crnr_grb_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_crnr_grb_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":31, "y":3 }, { "x":25, "y":6 }, { "x":26, "y":30 }, { "x":32, "y":30 }, { "x":34, "y":5 } ]
+				]
+			}
+		]
+	},
+	"adventurer_crnr_clmb_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_crnr_clmb_00",
+		"isStatic": false,
+		"density": 0.1,
+		"restitution": 0,
+		"friction": 0.1,
+		"frictionAir": 0.01,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":26, "y":9 }, { "x":27, "y":31 }, { "x":34, "y":31 }, { "x":34, "y":9 } ]
 				]
 			}
 		]

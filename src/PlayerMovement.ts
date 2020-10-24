@@ -201,6 +201,37 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         }
 
     }
+    else if(scene.playerLedgeGrab || scene.playerLedgeClimb){
+        scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
+        if(scene.stamina===0){
+            scene.player.setIgnoreGravity(false);
+            scene.player.setPosition(scene.player.body.position.x-5, scene.player.body.position.y);
+            setNewCharacterAnimation(scene, 'fall', scene.currentPlayerDirection==='left', false);
+            scene.playerLedgeGrab = false;
+            scene.playerLedgeClimb = false;
+        }
+        else if(scene.currentPlayerAnimation!=='ledgeGrab' && scene.playerLedgeGrab){
+            setNewCharacterAnimation(scene, 'ledgeGrab', scene.currentPlayerDirection==='left', false);
+            scene.player.setIgnoreGravity(true);
+        }
+        // else if(scene.currentPlayerDirection==='left' && scene.controlConfig.leftControl.isDown ||
+        //         scene.currentPlayerDirection==='right' && scene.controlConfig.rightControl.isDown){
+        else if(scene.currentPlayerAnimation!=='ledgeClimb' && scene.controlConfig.jumpControl.isDown && scene.stamina > 0){
+            console.log('setting to ledge climb');
+            scene.playerLedgeGrab = false;
+            scene.playerLedgeClimb = true;
+            setNewCharacterAnimation(scene, 'ledgeClimb', scene.currentPlayerDirection==='left', false);
+            const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
+            scene.tweens.add({
+                targets: scene.player,
+                duration: 400,
+                y: scene.player.body.position.y-45,
+                x: scene.player.body.position.x+(factor * 20)
+            });
+            //scene.player.setVelocity(0, -1*scene.playerJumpHeight*0.8);
+            //scene.player.setIgnoreGravity(true);
+        }        
+    }
     else if(!scene.playerWallJumping){
         if(prevVelocity.y >= 0){
             if(scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime){
@@ -215,12 +246,6 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                     const jumpY = scene.playerIceWallSliding ? scene.playerIceJumpHeight : scene.playerWallJumpHeight;
                     scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY); 
 
-                    // scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 
-                    //     factor*scene.playerSpeed, 
-                    //     -2.5*scene.playerSpeed);  
-                    //console.log('set player velocity to:', {x:factor*scene.playerSpeed, y:-2.5*scene.playerSpeed });
-                    //console.log('current player Animation:', scene.currentPlayerAnimation);
-                    //console.log('after setting new velocity, players body velocity is', scene.player.body.velocity);
                     scene.playerCanJump = false;        
                     scene.playerWallSliding = false;   
                     scene.playerWallJumping = true;  
@@ -331,11 +356,14 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName, flipX, fl
         case 'smrslt': {bodyData = scene.characterShapes.adventurer_smrslt_00; break;}
         case 'wallSlide': {bodyData = scene.characterShapes.adventurer_wall_slide_00; break;}
         case 'groundSlide': {bodyData = scene.characterShapes.adventurer_slide_00; break;}
+        case 'ledgeGrab': {bodyData = scene.characterShapes.adventurer_crnr_grb_00; break;}
+        case 'ledgeClimb': {bodyData = scene.characterShapes.adventurer_crnr_clmb_00; break;}
         default: break;
     }
 
     scene.playerBody = scene.matter.add.fromPhysicsEditor(scene.player.x, scene.player.y, bodyData, undefined, false);
     scene.playerBody.friction = scene.playerFriction;
+    scene.playerBody.slop =  0.00001;
     //scene.playerBody.frictionAir = 0.01;
     //scene.playerBody.friction = 1;
     scene.player.setExistingBody(scene.playerBody);

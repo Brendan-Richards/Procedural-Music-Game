@@ -3,14 +3,17 @@ import MountainScene from './MountainScene';
 
 export default (scene: MountainScene): void => {
     //collision between player, ground, and wall
-    scene.matter.world.on("collisionstart", event => {
+    scene.matter.world.on("collisionstart", (event, body1, body2) => {
 
         event.pairs.forEach(pair => {
+            console.log(pair);
             const collisionNormal = pair.collision.normal;
+            const collisionPoint = pair.collision.supports[0].contact.vertex;
+            
             const { bodyA, bodyB } = pair;
             //console.log(pair);
             if(bodyA.gameObject===scene.player || bodyB.gameObject===scene.player){
-                const other = bodyA.gameObject===scene.player ? bodyB.gameObject : bodyA.gameObject;
+                const other = (bodyA.gameObject===scene.player ? bodyB.gameObject : bodyA.gameObject);
                 
                 if(other!==null){
                     if(other.tile.properties.collisionLabel==='ground'){
@@ -75,8 +78,7 @@ export default (scene: MountainScene): void => {
                         //console.log('collided with wall');
                         scene.playerFriction = 0;
                         
-                        
-                        if(!scene.losingStamina){
+                        if(!scene.losingStamina && scene.currentPlayerAnimation!=='run'){ //&& scene.playerLastOnGroundTime < scene.time.now - 100){
                             if(!scene.gainingStamina){
                                 scene.drawStamina();
                             }
@@ -118,8 +120,10 @@ export default (scene: MountainScene): void => {
                     else if(other.tile.properties.collisionLabel==='topWall'){
                         //console.log(other);
                         //console.log(collisionNormal);
+                        
+
                         if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
-                           // console.log('collided with top of topWall block');
+                            console.log('collided with top of topWall block');
                            if(scene.losingStamina){
                                 scene.losingStamina = false;
                                 scene.gainingStamina = true;
@@ -135,13 +139,74 @@ export default (scene: MountainScene): void => {
                             } 
                         }
                         else{
-                            //console.log('collided with side of topWall block');
-                            scene.playerFriction = 0.01;
-                            scene.playerWallSliding = false;
-                            scene.playerRampSliding = false;
-                            scene.playerFlatSliding = false;
-                            scene.playerCanJump = false;
-                            scene.playerWallJumping = false;
+                            console.log('collided with side of topWall block');
+
+                            scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100);
+                            
+                            //scene.playerFriction = 0.01;
+                            //console.log(event, body1, body2);
+
+                            if(!scene.playerLedgeClimb){
+                                scene.ledgePosition = other.body.position;
+                                scene.add.circle(scene.ledgePosition.x, scene.ledgePosition.y, 2, 0xffff00).setDepth(100);
+                                console.log('other.tile:', other.tile);
+                                let grabPositionX;
+                                if(collisionPoint.x > scene.ledgePosition.x){
+                                    //the 4 convex top walls
+                                    if([10, 12, 100, 102].includes(other.tile.index)){
+                                        grabPositionX = other.tile.pixelX + 64 + 3;
+                                    }
+                                    else{// the 4 concave top walls
+                                        grabPositionX = other.tile.pixelX + - 13 + 64;
+                                    }
+                                    scene.currentPlayerDirection = 'left';
+                                }
+                                else{
+                                    if([10, 12, 100, 102].includes(other.tile.index)){
+                                        grabPositionX = other.tile.pixelX;
+                                    }
+                                    else{// the 4 concave top walls
+                                        grabPositionX = other.tile.pixelX + 15;
+                                    }
+                                    scene.currentPlayerDirection = 'right';
+                                };
+
+                                const grabPositionY = other.tile.pixelY + 16;
+                                const buffer = 20;
+
+                                //if we collided with the outward facing side of the tile block
+                                if(collisionPoint.x > scene.ledgePosition.x && [125, 102, 35, 12].includes(other.tile.index) ||
+                                   collisionPoint.x < scene.ledgePosition.x && [10, 33, 100, 123].includes(other.tile.index)){
+                                    if(grabPositionY - 2 * buffer < scene.player.body.position.y && scene.player.body.position.y < grabPositionY + buffer && scene.stamina > 0){
+                                        scene.playerLedgeGrab = true;
+                                        if(!scene.staminaActive){
+                                            scene.drawStamina();
+                                            scene.losingStamina = true;
+                                        }
+                                        scene.gainingStamina = false;
+                                        scene.player.setPosition(grabPositionX, grabPositionY);
+                                        scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
+                                        scene.playerWallSliding = false;
+                                    }
+                                    else{
+                                        scene.playerFriction = scene.stamina > 0 ? 0.3 : 0;
+                                        scene.playerWallSliding = true;
+                                    }
+                                }
+                                else{
+                                    scene.playerCanJump = true;
+                                }
+
+                                // if(scene.playerLedgeGrab){
+                                //     scene.losingStamina = true;
+                                // }
+
+                                scene.playerRampSliding = false;
+                                scene.playerFlatSliding = false;
+                                //scene.playerCanJump = false;
+                                scene.playerWallJumping = false;
+                            }
+
                         }
                     }
                 }

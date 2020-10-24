@@ -40,10 +40,12 @@ export default class MountainScene extends Phaser.Scene
     cursors: Phaser.Types.Input.Keyboard.CursorKeys;
     controlConfig: controlConfig;
     setFlatSlide: boolean;
+    ledgePosition: object;
     playerRampSliding: boolean;
     playerFlatSliding: boolean;
     playerWallSliding: boolean;
     playerWallJumping: boolean;
+    staminaActive: boolean;
     losingStamina: boolean;
     gainingStamina: boolean;
     resetWallSlide: boolean;
@@ -62,7 +64,9 @@ export default class MountainScene extends Phaser.Scene
     playerJumpHeight: number;
     staminaLossRate: number;
     staminaRegenRate: number;
+    playerLedgeClimb: boolean;
     stamina: number;
+    playerLedgeGrab: boolean;
     playerWallJumpHeight: number;
     playerIceJumpHeight: number;
     playerFriction: number;
@@ -94,6 +98,7 @@ export default class MountainScene extends Phaser.Scene
         this.playerFriction = 0;
         this.playerMaxSpeed = 17;
         this.playerIceJumpHeight = -1.5*this.playerSpeed;
+        this.ledgePosition = {};
         this.stamina = 100;
         //units of pixels per second of climbing
         this.staminaLossRate = -0.5;
@@ -109,10 +114,13 @@ export default class MountainScene extends Phaser.Scene
         this.playerFlatSliding = false;
         this.playerWallSliding = false;
         this.playerWallJumping = false;
+        this.playerLedgeGrab = false;
         this.playerIceWallSliding = false;
+        this.playerLedgeClimb = false;
         this.resetWallSlide = false;
         this.losingStamina = false;
         this.gainingStamina = false;
+        this.staminaActive = false;
 
         //movement logic
         this.flatSlideStartTime = -1;
@@ -147,13 +155,16 @@ export default class MountainScene extends Phaser.Scene
         const playerConfig = {
             
         }
-        this.playerBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, playerConfig, false);       
+        this.playerBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, playerConfig, false);    
+        console.log('player body slop value:', this.playerBody.slop);
+          
         this.player.setExistingBody(this.playerBody);
         this.player.setScale(this.playerScaleFactor);
-
+        
         console.log('created character at:', this.playerBody.position);
 
-        this.cameras.main.setBackgroundColor('rgba(2, 63, 157, 1)');
+        // this.cameras.main.setBackgroundColor('rgba(2, 63, 157, 1)');
+        this.cameras.main.setBackgroundColor('rgba(0, 0, 0, 1)');
         this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
       
         //input setup
@@ -191,10 +202,24 @@ export default class MountainScene extends Phaser.Scene
             pauseRNN();
         });
 
+
+        this.player.on('animationcomplete', (animation, frame) => {
+            //console.log('in animation complete callback');
+            if(animation.key==='ledgeClimb'){
+                this.playerLedgeClimb = false;
+            } 
+        }, this);
     }
 
     update()
     {
+        if(this.playerLedgeGrab){
+            this.losingStamina = true;
+        } 
+ 
+        //console.log(this.playerLastOnGroundTime)
+        // console.log(this.ledgePosition);
+        // console.log('player position:', this.player.body.position);
         if(this.losingStamina || this.gainingStamina){
             this.updateStaminaPosition();
             this.removeStamina();
@@ -209,14 +234,15 @@ export default class MountainScene extends Phaser.Scene
     }
 
     drawStamina = () => {
-        console.log('drawing stamina bar');
+        //console.log('drawing stamina bar');
+        this.staminaActive = true;
         const offset = 100;
         this.staminaOutline = this.add.image(this.player.x + offset, this.player.y, 'staminaOutline');
         this.staminaOutline.setDepth(10).setScale(1/3);
         this.staminaFill = this.add.image(this.staminaOutline.getBottomLeft().x + 1, this.staminaOutline.getBottomLeft().y - 1, 'staminaFill').setOrigin(0,1);
         this.staminaFill.setDepth(10).setScale(1/3, this.stamina/3);
-        console.log('stamina outline display height:', this.staminaOutline.displayHeight);
-        console.log('stamina fill display height:', this.staminaFill.displayHeight);
+        //console.log('stamina outline display height:', this.staminaOutline.displayHeight);
+        //console.log('stamina fill display height:', this.staminaFill.displayHeight);
     }
 
     updateStaminaPosition = () => {
@@ -246,7 +272,7 @@ export default class MountainScene extends Phaser.Scene
     }
 
     removeStamina = () => {
-        console.log('checking if we should remove stamina bar');
+        //console.log('checking if we should remove stamina bar');
         if(this.stamina===100){
             if(this.staminaOutline){
                 this.staminaOutline.destroy();
@@ -256,6 +282,7 @@ export default class MountainScene extends Phaser.Scene
             }            
             this.gainingStamina = false;
             this.losingStamina = false;
+            this.staminaActive = false;
         }
     }
 }
