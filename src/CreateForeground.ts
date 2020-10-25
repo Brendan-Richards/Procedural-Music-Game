@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import MountainScene from 'MountainScene';
 import {flatFoliage, verticalFoliage} from './Foliage';
+import createSkyMountains from './SkyMountains';
 
 
 const tileIds = {
@@ -48,9 +49,8 @@ const createTileMap = (scene: MountainScene, totalHeight: number): void => {
     //console.log('map properties:', map);
 
     createMountains(scene, 15, groundLayer, map, tileset);
+    createSkyMountains(scene, groundLayer, map, tileset);
     //createPlatforms(15, groundLayer, map, tileset);
-
-    console.log('map:', map);
 
     groundLayer.setDepth(5);
 
@@ -171,7 +171,7 @@ const buildMountainUp = (scene: MountainScene, mountainHeight: number, maxWallHe
 
             verticalFoliage(scene, mountainHeightMap(y-1, map)*64, mountainHeightMap(y+wallHeight-1, map)*64, x*64, true);
 
-            console.log('wall height:', wallHeight);
+            //console.log('wall height:', wallHeight);
 
              //put block below wall
             let idx = tileIds.flatGroundWallStartLeft[0];
@@ -220,7 +220,7 @@ const buildMountainUp = (scene: MountainScene, mountainHeight: number, maxWallHe
                 
             topTile.properties = tileset.getTileProperties(idx);
             
-            console.log('toptile:', topTile);
+            //console.log('toptile:', topTile);
             map.putTileAt(topTile, x, mountainHeightMap(y + wallHeight-1, map), true, layer);
 
             //console.log('putting top left wall block at:', x, this.mountainHeightMap(y+wallHeight-1));  
@@ -237,7 +237,7 @@ const buildMountainUp = (scene: MountainScene, mountainHeight: number, maxWallHe
 
             flatFoliage(scene, x*64, (x + flatLength)*64, scene.maxGameHeight-(64 * (y+1)));
 
-            console.log('flat length:', flatLength);
+            //console.log('flat length:', flatLength);
             let idx = tileIds.flatGround[0];
             const flatTile = new Phaser.Tilemaps.Tile(layer.layer, idx, 0, 0, 64, 64, 64, 64);
             flatTile.properties = tileset.getTileProperties(idx);

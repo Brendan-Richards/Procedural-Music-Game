@@ -70,6 +70,8 @@ export default class MountainScene extends Phaser.Scene
     playerWallJumpHeight: number;
     playerIceJumpHeight: number;
     playerFriction: number;
+    numChests: number;
+    chestScaleFactor: number;
     currentPlayerAnimation: string;
     prevPlayerAnimation: string;
     currentPlayerDirection: string;
@@ -89,6 +91,8 @@ export default class MountainScene extends Phaser.Scene
 
         this.maxGameHeight = 6400;
         this.maxGameWidth = 6400;
+        this.chestScaleFactor = 0.6;
+        this.numChests = 5;
 
         //set up player
         this.playerScaleFactor = 1.6;
@@ -143,7 +147,7 @@ export default class MountainScene extends Phaser.Scene
         //set camera and world bounds 
         this.matter.world.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight, 64, true, true, false, true);
         this.cameras.main.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight);
-        //this.cameras.main.setZoom(0.09);
+        this.cameras.main.setZoom(0.09);
 
         makeCharacterAnimations(this);
 
@@ -210,6 +214,8 @@ export default class MountainScene extends Phaser.Scene
                 this.playerLedgeClimb = false;
             } 
         }, this);
+
+        this.add.image(200, 6400-64, 'environmentAtlas', 'chest_closed_green').setScale(this.chestScaleFactor).setOrigin(0,1);
     }
 
     update()
@@ -218,9 +224,6 @@ export default class MountainScene extends Phaser.Scene
             this.losingStamina = true;
         } 
  
-        //console.log(this.playerLastOnGroundTime)
-        // console.log(this.ledgePosition);
-        // console.log('player position:', this.player.body.position);
         if(this.losingStamina || this.gainingStamina){
             this.updateStaminaPosition();
             this.removeStamina();

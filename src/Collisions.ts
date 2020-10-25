@@ -123,7 +123,7 @@ export default (scene: MountainScene): void => {
                         
 
                         if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
-                            console.log('collided with top of topWall block');
+                            //console.log('collided with top of topWall block');
                            if(scene.losingStamina){
                                 scene.losingStamina = false;
                                 scene.gainingStamina = true;
@@ -139,7 +139,7 @@ export default (scene: MountainScene): void => {
                             } 
                         }
                         else{
-                            console.log('collided with side of topWall block');
+                            //console.log('collided with side of topWall block');
 
                             //scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100);
                             

@@ -164,7 +164,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             //flip the players direction cause they were facing the opposite way when on the wall
             scene.currentPlayerDirection = scene.currentPlayerDirection==='left' ? 'right' : 'left';
             setNewCharacterAnimation(scene, 'jump', scene.currentPlayerDirection==='left', false);
-            console.log('player direction at tiem of wall jump:', scene.currentPlayerDirection);
+            //console.log('player direction at tiem of wall jump:', scene.currentPlayerDirection);
 
             const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
             const jumpX = factor*scene.playerSpeed;
@@ -213,7 +213,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             scene.player.setIgnoreGravity(true);
         }
         else if(scene.currentPlayerAnimation!=='ledgeClimb' && scene.controlConfig.jumpControl.isDown && scene.stamina > 0){
-            console.log('setting to ledge climb');
+            //console.log('setting to ledge climb');
             scene.playerLedgeGrab = false;
             scene.playerLedgeClimb = true;
 
@@ -222,7 +222,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, -1 * scene.playerJumpHeight);
             const tween = scene.tweens.add({
                 targets: scene.player,
-                duration: 280,
+                duration: 290,
                 //y: scene.player.body.position.y-43,
                 //y: scene.player.body.position.y - 130,
                 x: scene.player.body.position.x+(factor * 90)
@@ -322,7 +322,6 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
 
             if (scene.controlConfig.rightControl.isDown)
             {
-                console.log('entering right down statement')
                 if(!(scene.currentPlayerAnimation==='jump' && scene.currentPlayerDirection==='right')){
                     //console.log('still moving up and trying to set to jump right animation');
                     setNewCharacterAnimation(scene, 'jump', false, false);        

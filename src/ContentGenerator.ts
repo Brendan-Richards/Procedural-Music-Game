@@ -17,7 +17,7 @@ export default class ContentGenerator{
     } 
 
     createLevel = (): void => {
-        this.createBackground();
+        //this.createBackground();
         createForeground(this.scene, this.totalHeight);    
     }
 
@@ -55,21 +55,6 @@ export default class ContentGenerator{
             x += temp.width;
         }
     }
-
-    
-
-
-    createForeground = (): void => {
-        
-        // y coordinate relative to the bottom of the map
-        // scroll factors should be larger than 0.5
-       //this.makeTree(600, -64, 0.6, 1);
-        // this.makeTree(700, -64, 0.5, 0.5);
-        // this.makeTree(800, -64, 0.7, 0.7);
-        this.scene.add.image(100, this.scene.maxGameHeight-100, 'environmentAtlas', 'chest_closed').setScale(0.75);
-    }
-
-
 
 }
 
