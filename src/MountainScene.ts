@@ -96,7 +96,7 @@ export default class MountainScene extends Phaser.Scene
         this.playerJumpHeight = 12;
         this.playerWallJumpHeight = -2.5*this.playerSpeed;
         this.playerFriction = 0;
-        this.playerMaxSpeed = 17;
+        this.playerMaxSpeed = 15;
         this.playerIceJumpHeight = -1.5*this.playerSpeed;
         this.ledgePosition = {};
         this.stamina = 100;
@@ -165,6 +165,7 @@ export default class MountainScene extends Phaser.Scene
 
         // this.cameras.main.setBackgroundColor('rgba(2, 63, 157, 1)');
         this.cameras.main.setBackgroundColor('rgba(0, 0, 0, 1)');
+        //this.cameras.main.setTint(30);
         this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
       
         //input setup

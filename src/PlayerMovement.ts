@@ -140,19 +140,16 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         const tolerance = 50;
 
         const prevX = scene.wallJumpOffPosition.x;
-        const prevY = scene.wallJumpOffPosition.y;
-       // const currX = scene.playerBody.position.x;
+        //const prevY = scene.wallJumpOffPosition.y;
+
         const currX = scene.player.x
-       // const currY = scene.playerBody.position.y;
-       const currY = scene.player.y
+       //const currY = scene.player.y
 
-        //console.log('prevX:', prevX, 'prevY:', prevY, 'currX:', currX, 'currY:', currY);
-
-        //const distance = Math.sqrt(Math.pow(currX-prevX, 2) + Math.pow(currY-prevY, 2));
         const distance = Math.abs(currX-prevX);
 
         if(distance > tolerance){
             scene.playerWallJumping = false;
+           
         }
     }
     else if(scene.playerWallSliding){
@@ -167,6 +164,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             //flip the players direction cause they were facing the opposite way when on the wall
             scene.currentPlayerDirection = scene.currentPlayerDirection==='left' ? 'right' : 'left';
             setNewCharacterAnimation(scene, 'jump', scene.currentPlayerDirection==='left', false);
+            console.log('player direction at tiem of wall jump:', scene.currentPlayerDirection);
 
             const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
             const jumpX = factor*scene.playerSpeed;
@@ -202,7 +200,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
 
     }
     else if(scene.playerLedgeGrab || scene.playerLedgeClimb){
-        scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
+        //scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
         if(scene.stamina===0){
             scene.player.setIgnoreGravity(false);
             scene.player.setPosition(scene.player.body.position.x-5, scene.player.body.position.y);
@@ -214,21 +212,57 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             setNewCharacterAnimation(scene, 'ledgeGrab', scene.currentPlayerDirection==='left', false);
             scene.player.setIgnoreGravity(true);
         }
-        // else if(scene.currentPlayerDirection==='left' && scene.controlConfig.leftControl.isDown ||
-        //         scene.currentPlayerDirection==='right' && scene.controlConfig.rightControl.isDown){
         else if(scene.currentPlayerAnimation!=='ledgeClimb' && scene.controlConfig.jumpControl.isDown && scene.stamina > 0){
             console.log('setting to ledge climb');
             scene.playerLedgeGrab = false;
             scene.playerLedgeClimb = true;
+
             setNewCharacterAnimation(scene, 'ledgeClimb', scene.currentPlayerDirection==='left', false);
             const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
-            scene.tweens.add({
+            scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, -1 * scene.playerJumpHeight);
+            const tween = scene.tweens.add({
                 targets: scene.player,
-                duration: 380,
+                duration: 280,
                 //y: scene.player.body.position.y-43,
-                y: scene.player.body.position.y - 130,
-                x: scene.player.body.position.x+(factor * 70)
+                //y: scene.player.body.position.y - 130,
+                x: scene.player.body.position.x+(factor * 90)
             });
+
+            if(scene.currentPlayerDirection==='right'){
+                scene.input.keyboard.once('keydown-LEFT', () => {
+                    if(tween.isPlaying()){
+                        tween.stop();
+                        const velY = scene.player.body.velocity.y;
+                        setNewCharacterAnimation(scene, 'jump', true, false);
+                        scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, -1*scene.playerSpeed, velY); 
+                        prevVelocity.y = -1 * scene.playerJumpHeight;
+                    }
+                });
+                if(scene.controlConfig.leftControl.isDown){
+                    tween.stop();
+                    setNewCharacterAnimation(scene, 'jump', true, false);
+                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, -1*scene.playerSpeed, scene.player.body.velocity.y); 
+                    prevVelocity.y = -1 * scene.playerJumpHeight;
+                }
+            }
+            else if(scene.currentPlayerDirection==='left'){
+                scene.input.keyboard.once('keydown-RIGHT', () => {
+                    if(tween.isPlaying()){
+                        tween.stop();
+                        const velY = scene.player.body.velocity.y;
+                        setNewCharacterAnimation(scene, 'jump', false, false);
+                        scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, velY); 
+                        prevVelocity.y = -1 * scene.playerJumpHeight;
+                    }
+                });
+                if(scene.controlConfig.rightControl.isDown){
+                    tween.stop();
+                    setNewCharacterAnimation(scene, 'jump', false, false);
+                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, scene.player.body.velocity.y); 
+                    prevVelocity.y = -1 * scene.playerJumpHeight;
+                }
+            }
+
             //scene.player.setVelocity(0, -1*scene.playerJumpHeight*0.8);
             //scene.player.setIgnoreGravity(true);
         }        
@@ -285,8 +319,10 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             }
         }
         else{// player is still moving up
+
             if (scene.controlConfig.rightControl.isDown)
             {
+                console.log('entering right down statement')
                 if(!(scene.currentPlayerAnimation==='jump' && scene.currentPlayerDirection==='right')){
                     //console.log('still moving up and trying to set to jump right animation');
                     setNewCharacterAnimation(scene, 'jump', false, false);        
@@ -327,12 +363,12 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         }
         case 'jump': {
             if(scene.controlConfig.rightControl.isDown && !scene.playerWallJumping){
-                scene.currentPlayerDirection = 'right';
+                //scene.currentPlayerDirection = 'right';
                 scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, prevVelocity.y);
                 break;
             }
             else if(scene.controlConfig.leftControl.isDown && !scene.playerWallJumping){
-                scene.currentPlayerDirection = 'left';
+                //scene.currentPlayerDirection = 'left';
                 scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, -1*scene.playerSpeed, prevVelocity.y);
                 break;
             }

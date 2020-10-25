@@ -181,7 +181,7 @@ export default (scene: MountainScene): void => {
                                         scene.playerLedgeGrab = true;
                                         if(!scene.staminaActive){
                                             scene.drawStamina();
-                                            scene.losingStamina = true;
+                                            scene.losingStamina = true; 
                                         }
                                         scene.gainingStamina = false;
                                         scene.player.setPosition(grabPositionX, grabPositionY);

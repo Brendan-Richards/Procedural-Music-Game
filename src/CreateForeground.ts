@@ -50,6 +50,8 @@ const createTileMap = (scene: MountainScene, totalHeight: number): void => {
     createMountains(scene, 15, groundLayer, map, tileset);
     //createPlatforms(15, groundLayer, map, tileset);
 
+    console.log('map:', map);
+
     groundLayer.setDepth(5);
 
     groundLayer.setCollisionByProperty({ collides: true });
