@@ -43,12 +43,73 @@ export default (scene: MountainScene, layer: Phaser.Tilemaps.DynamicTilemapLayer
         console.log('map', map);
         console.log('layer', layer);
         tileLayerPrint(layer);
+
+        let topLeft = {x:0, y:0}
+        let bounds = getSectionBounds(topLeft, map);
+        skySection(scene, layer, map, tileset, bounds);
+
+        while(bounds.topRight.x < map.width){
+            bounds = getSectionBounds(bounds.topRight, map);
+            console.log('bounds:', bounds);
+            skySection(scene, layer, map, tileset, bounds);
+        }
+        
+
+        
     }
     else{
 
     }
     
 
+}
+
+const skySection = (scene: MountainScene, 
+                    layer: Phaser.Tilemaps.DynamicTilemapLayer, 
+                    map: Phaser.Tilemaps.Tilemap, 
+                    tileset: Phaser.Tilemaps.Tileset, 
+                    bounds: object) => {
+    console.log('making skysection with bounds:', bounds);
+    scene.add.rectangle(bounds.topLeft.x * 64, 
+                        bounds.topLeft.y * 64, 
+                        (bounds.topRight.x - bounds.topLeft.x) * 64,
+                        (bounds.bottomLeft.y - bounds.topLeft.y) * 64,
+                        '0xff000',
+                        0.5).setOrigin(0,0);
+}
+
+
+const getSectionBounds = (topLeft: {x: number, y: number}, map: Phaser.Tilemaps.Tilemap) => {
+
+    let bottomLeft = {x: topLeft.x, y: map.height/2};
+    for(let i=0; i<map.height/2; i++){
+        if(map.hasTileAt(topLeft.x, i)){
+            bottomLeft.y = i;
+            break;
+        }
+    }
+    //console.log('bottom left', bottomLeft);
+
+    let bottomRight = {x: map.width, y: bottomLeft.y};
+    for(let i=bottomLeft.x; i<map.width; i++){
+        if(map.hasTileAt(i, bottomLeft.y-1)){
+            bottomRight.x = i;
+            break;
+        }
+    }
+
+    //console.log('bottom right:', bottomRight);
+
+    let topRight = {x: bottomRight.x, y: topLeft.y};
+
+    //console.log('top right:', topRight);
+
+    return {
+        topLeft: topLeft, 
+        topRight: topRight, 
+        bottomLeft: bottomLeft, 
+        bottomRight: bottomRight
+    };
 }
 
 

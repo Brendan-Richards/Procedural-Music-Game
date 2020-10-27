@@ -113,7 +113,7 @@ const createMountains = (scene: MountainScene, startX: number,
     let prevType = 'flat';
     const maxWallHeight = 20;
     const maxFlatLength = 5;
-    const maxMountainHeight = map.height;
+    const maxMountainHeight = Math.floor(map.height*0.7);
    // const maxMountainHeight = 95;
     let y = 1;
 

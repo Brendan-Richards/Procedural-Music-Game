@@ -6,6 +6,7 @@ import handlePlayerMovement from './PlayerMovement';
 import Audio from './Audio';
 import { startRNN, pauseRNN, resumeRNN } from './performanceRNN';
 import 'regenerator-runtime/runtime';
+import magentaTest from './MagentaTest';
 
 type controlConfig = {
     leftControl: Phaser.Input.Keyboard.Key,
@@ -147,7 +148,7 @@ export default class MountainScene extends Phaser.Scene
         //set camera and world bounds 
         this.matter.world.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight, 64, true, true, false, true);
         this.cameras.main.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight);
-        this.cameras.main.setZoom(0.09);
+        this.cameras.main.setZoom(0.05);
 
         makeCharacterAnimations(this);
 
@@ -207,6 +208,7 @@ export default class MountainScene extends Phaser.Scene
             pauseRNN();
         });
 
+        magentaTest();
 
         this.player.on('animationcomplete', (animation, frame) => {
             //console.log('in animation complete callback');
