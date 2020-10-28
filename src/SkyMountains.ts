@@ -78,18 +78,23 @@ const skySection = (scene: MountainScene,
                         0.2).setOrigin(0,0);
 
     // first rectangle in bottom right corner of section
-    const corner = scene.add.rectangle((bounds.bottomRight.x - 1) * 64, 
-        (bounds.bottomLeft.y - 1) * 64, 
-        Math.floor(Math.random() * (bounds.topRight.x - bounds.topLeft.x - 6) + 5) * 64,
-        Math.floor(Math.random() * 20 + 5) * 64,
-        '0xff00', 0.5).setOrigin(1,1);
+    const x2 = bounds.bottomRight.x - 1;
+    const width = Math.floor(Math.random() * 0.5 * (bounds.topRight.x - bounds.topLeft.x - 6) + 5);
+    const height = Math.floor(Math.random() * 15 + 5);
+    const x1 = x2 - width;
+    const y2 = bounds.bottomLeft.y - 1;
+    const y1 = y2 - height;
+    
+    scene.add.rectangle(x2 * 64, y2 * 64, width * 64, height * 64, '0xff00', 0.5).setOrigin(1,1);
+
+    let currentPlatforms = [{x1: x1, x2: x2, y1: y1, y2: y2}];
 
     const totalArea = (bounds.topRight.x - bounds.topLeft.x) * (bounds.bottomLeft.y - bounds.topLeft.y);
     const sectionArea = totalArea * 0.2;
     let currentArea = 0;
-    let currentPlatforms = [corner];
+    const worldTopBuffer = 5;
 
-    while(currentArea < sectionArea){
+    while(currentPlatforms[currentPlatforms.length -1].y1 > worldTopBuffer){
         currentArea += makePlatform(scene, layer, map, tileset, bounds, currentPlatforms);
     }
 
@@ -106,7 +111,7 @@ const makePlatform = (scene: MountainScene,
     let x1: number, x2: number, y1: number, y2: number;
     [x1, x2, y1, y2] = getPlatformCoordinates(bounds, currentPlatforms);
 
-    scene.add.rectangle(x1 * 64, y1 * 64, (x2-x1) * 64, (y2-y1) * 64, '0xff00', 0.5).setOrigin(0,0);   
+    scene.add.rectangle(x2 * 64, y2 * 64, (x2-x1) * 64, (y2-y1) * 64, '0xff00', 0.5).setOrigin(1, 1);   
 
     return (x2-x1) * (y2-y1);
 }
@@ -114,24 +119,75 @@ const makePlatform = (scene: MountainScene,
 
 const getPlatformCoordinates = (bounds, currentPlatforms): Array<number> => {
     const buffer = 1;
+    const maxPlatformSeperation = 4;
+    const minPlatformSeperation = 1;
+    const maxPlatformHeight = 20;
+    const maxPlatformWidth = 20;
+    const minPlatformHeight = 1;
+    const minPlatformWidth = 3;
 
     const left = bounds.topLeft.x + buffer;
     const right = bounds.topRight.x - buffer;
     const top = bounds.topLeft.y + buffer;
     const bottom = bounds.bottomLeft.y - buffer;
+    const boundCenterX = Math.round((right - left)/2) + left;
 
-    let x1 = Math.floor(Math.random() * (right-3-left)) + left;
-    let x2 = Math.floor(Math.random() * (right-3-x1)) + x1 + 3;
-    let y1 = Math.floor(Math.random() * (bottom-1-top)) + top;
-    let y2 = Math.floor(Math.random() * (bottom-1-y1)) + y1 + 1;
-
-    while(!validPlatform(x1, x2, y1, y2, currentPlatforms)){
-        x1 = Math.floor(Math.random() * (right-3-left)) + left;
-        x2 = Math.floor(Math.random() * (right-3-x1)) + x1 + 3;
-        y1 = Math.floor(Math.random() * (bottom-1-top)) + top;
-        y2 = Math.floor(Math.random() * (bottom-1-y1)) + y1 + 1;
+    const last = currentPlatforms[currentPlatforms.length-1];
+    const lastCenterX = Math.round((last.x2 - last.x1)/2) + last.x1;
+    
+    let prevY1 = null;
+    if(currentPlatforms.length > 1){
+        prevY1 = currentPlatforms[currentPlatforms.length - 2].y1;
     }
-    console.log('valid coordinates:', [x1, x2, y1, y2]);
+
+    let x1: number, x2: number, y1: number, y2: number;
+
+    if(lastCenterX >= boundCenterX){
+        //make next platform up to the left
+        const bottomRight = {
+            x: last.x1 - (Math.floor(Math.random() * (maxPlatformSeperation - minPlatformSeperation)) + minPlatformSeperation), 
+            y: Math.floor(Math.random() * 0.5 * (last.y2 - last.y1)) + last.y1
+        };
+
+        if(prevY1 && bottomRight.y > prevY1){
+            bottomRight.y = prevY1 - buffer;
+        }
+
+        const width = Math.floor(Math.random() * Math.min(maxPlatformWidth - minPlatformWidth, bottomRight.x - left - buffer - 1)) + minPlatformWidth;
+        const height = Math.floor(Math.random() * (maxPlatformHeight - minPlatformHeight)) + minPlatformHeight;
+
+        x2 = bottomRight.x;
+        y2 = bottomRight.y;
+        x1 = x2 - width;
+        y1 = y2 - height;
+
+    }
+    else{// lastCenterX < boundCenterX  
+        //make next platform up to the right
+        const bottomLeft = {
+            x: last.x2 + (Math.floor(Math.random() * (maxPlatformSeperation - minPlatformSeperation)) + minPlatformSeperation), 
+            y: Math.floor(Math.random() * 0.5 * (last.y2 - last.y1)) + last.y1
+        };
+
+        if(prevY1 && bottomLeft.y > prevY1){
+            bottomLeft.y = prevY1 - buffer;
+        }
+
+        const width = Math.floor(Math.random() * Math.min(maxPlatformWidth - minPlatformWidth, right - bottomLeft.x - buffer - 1)) + minPlatformWidth;
+        const height = Math.floor(Math.random() * (maxPlatformHeight - minPlatformHeight)) + minPlatformHeight;
+
+        x1 = bottomLeft.x;
+        x2 = x1 + width;
+        y2 = bottomLeft.y;
+        y1 = y2 - height;
+
+    }
+
+    if(y1 < 5){
+        y1 = 5;
+    }
+
+    console.log('coordinates:', [x1, x2, y1, y2]);
 
     currentPlatforms.push({x1: x1, x2: x2, y1: y1, y2: y2});
 
@@ -185,17 +241,15 @@ const getSectionBounds = (topLeft: {x: number, y: number}, map: Phaser.Tilemaps.
     
         let topRight = {x: bottomRight.x, y: topLeft.y};
 
-        // console.log({
-        //     topLeft: topLeft, 
-        //     topRight: topRight, 
-        //     bottomLeft: bottomLeft, 
-        //     bottomRight: bottomRight
-        // });
-
         count += 1
         if(topRight.x - topLeft.x < minSectionWidth && topRight.x !== map.width){
             bottomLeft.y -= 1;
             continue;
+        }
+
+        if(bottomRight.x > map.width - minSectionWidth){
+            bottomRight.x = map.width;
+            topRight.x = map.width;
         }
     
         return {
