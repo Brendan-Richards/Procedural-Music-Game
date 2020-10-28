@@ -1,3 +1,4 @@
+import { arraysEqual } from '@tensorflow/tfjs-core/dist/util';
 import { FeedbackCombFilter } from 'tone';
 import MountainScene from './MountainScene';
 
@@ -42,7 +43,7 @@ export default (scene: MountainScene, layer: Phaser.Tilemaps.DynamicTilemapLayer
         let chestLocation = {x: Math.floor(Math.random() * scene.maxGameWidth), y: Math.floor(Math.random() * scene.maxGameHeight)};
         console.log('map', map);
         console.log('layer', layer);
-        tileLayerPrint(layer);
+        //tileLayerPrint(layer);
 
         let topLeft = {x:0, y:0}
         let bounds = getSectionBounds(topLeft, map);
@@ -50,11 +51,10 @@ export default (scene: MountainScene, layer: Phaser.Tilemaps.DynamicTilemapLayer
 
         while(bounds.topRight.x < map.width){
             bounds = getSectionBounds(bounds.topRight, map);
-            console.log('bounds:', bounds);
+            //console.log('bounds:', bounds);
             skySection(scene, layer, map, tileset, bounds);
+            
         }
-        
-
         
     }
     else{
@@ -69,47 +69,147 @@ const skySection = (scene: MountainScene,
                     map: Phaser.Tilemaps.Tilemap, 
                     tileset: Phaser.Tilemaps.Tileset, 
                     bounds: object) => {
-    console.log('making skysection with bounds:', bounds);
+    //console.log('making skysection with bounds:', bounds);
     scene.add.rectangle(bounds.topLeft.x * 64, 
                         bounds.topLeft.y * 64, 
                         (bounds.topRight.x - bounds.topLeft.x) * 64,
                         (bounds.bottomLeft.y - bounds.topLeft.y) * 64,
                         '0xff000',
-                        0.5).setOrigin(0,0);
+                        0.2).setOrigin(0,0);
+
+
+    // let currentPlatforms = [{x1: 0, x2: 10, y1: 0, y2: 10}]
+    // console.log(validPlatform(9, 15, 5, 15, currentPlatforms)); 
+
+    const totalArea = (bounds.topRight.x - bounds.topLeft.x) * (bounds.bottomLeft.y - bounds.topLeft.y);
+    const sectionArea = totalArea * 0.2;
+    let currentArea = 0;
+    let currentPlatforms = [];
+
+    var i = 0;
+    while(currentArea < sectionArea){
+        currentArea += makePlatform(scene, layer, map, tileset, bounds, currentPlatforms);
+        console.log('current platforms:');
+        currentPlatforms.forEach(element => {
+            console.log('    ', element);
+        });
+        console.log('i:', i);
+        i += 1;
+    }
+
+}
+
+const makePlatform = (scene: MountainScene, 
+                      layer: Phaser.Tilemaps.DynamicTilemapLayer, 
+                      map: Phaser.Tilemaps.Tilemap, 
+                      tileset: Phaser.Tilemaps.Tileset, 
+                      bounds: object,
+                      currentPlatforms) => {
+    
+    //platform tile bounds
+    let x1: number, x2: number, y1: number, y2: number;
+    [x1, x2, y1, y2] = getPlatformCoordinates(bounds, currentPlatforms);
+
+    scene.add.rectangle(x1 * 64, y1 * 64, (x2-x1) * 64, (y2-y1) * 64, '0xff00', 0.5).setOrigin(0,0);   
+
+    return (x2-x1) * (y2-y1);
 }
 
 
+const getPlatformCoordinates = (bounds, currentPlatforms): Array<number> => {
+    const buffer = 1;
+
+    const left = bounds.topLeft.x + buffer;
+    const right = bounds.topRight.x - buffer;
+    const top = bounds.topLeft.y + buffer;
+    const bottom = bounds.bottomLeft.y - buffer;
+
+    let x1 = Math.floor(Math.random() * (right-3-left)) + left;
+    let x2 = Math.floor(Math.random() * (right-3-x1)) + x1 + 3;
+    let y1 = Math.floor(Math.random() * (bottom-1-top)) + top;
+    let y2 = Math.floor(Math.random() * (bottom-1-y1)) + y1 + 1;
+
+    while(!validPlatform(x1, x2, y1, y2, currentPlatforms)){
+        x1 = Math.floor(Math.random() * (right-3-left)) + left;
+        x2 = Math.floor(Math.random() * (right-3-x1)) + x1 + 3;
+        y1 = Math.floor(Math.random() * (bottom-1-top)) + top;
+        y2 = Math.floor(Math.random() * (bottom-1-y1)) + y1 + 1;
+    }
+    console.log('valid coordinates:', [x1, x2, y1, y2]);
+
+    currentPlatforms.push({x1: x1, x2: x2, y1: y1, y2: y2});
+
+    return [x1, x2, y1, y2];
+}
+
+const validPlatform = (x1: number, x2: number, y1: number, y2: number, currentPlatforms): boolean => {
+
+    for(let i=0; i<currentPlatforms.length; i++){
+        const platform = currentPlatforms[i];
+
+        console.log('checking coordinates for overlap');
+        console.log('platform:', platform);
+        console.log('new coordinates:', {x1: x1, x2: x2, y1: y1, y2: y2});
+        //if the bounds of the two rectangles overlap
+        const overlapX = platform.x1 <= x2 && platform.x2 >= x1;
+        const overlapY = platform.y1 <= y2 && platform.y2 >= y1;
+        if(overlapX && overlapY){
+            console.log('bad platform');
+            return false; 
+        }
+    }
+
+    return true;
+}
+
 const getSectionBounds = (topLeft: {x: number, y: number}, map: Phaser.Tilemaps.Tilemap) => {
 
-    let bottomLeft = {x: topLeft.x, y: map.height/2};
-    for(let i=0; i<map.height/2; i++){
+    const minSectionWidth = 10;
+    const maxSectionWidth = 30;
+    const lowestPlatformHeight =  map.height * 0.7;
+
+    let bottomLeft = {x: topLeft.x, y: lowestPlatformHeight};
+    for(let i=0; i<lowestPlatformHeight; i++){
         if(map.hasTileAt(topLeft.x, i)){
             bottomLeft.y = i;
             break;
         }
     }
-    //console.log('bottom left', bottomLeft);
 
-    let bottomRight = {x: map.width, y: bottomLeft.y};
-    for(let i=bottomLeft.x; i<map.width; i++){
-        if(map.hasTileAt(i, bottomLeft.y-1)){
-            bottomRight.x = i;
-            break;
+    let count = 1;
+
+    while(true){
+        let bottomRight = {x: map.width, y: bottomLeft.y};
+        for(let i=bottomLeft.x; i<map.width; i++){
+            if(map.hasTileAt(i, bottomLeft.y) || (i - bottomLeft.x) > maxSectionWidth){
+                bottomRight.x = i;
+                break;
+            }
         }
+    
+        let topRight = {x: bottomRight.x, y: topLeft.y};
+
+        // console.log({
+        //     topLeft: topLeft, 
+        //     topRight: topRight, 
+        //     bottomLeft: bottomLeft, 
+        //     bottomRight: bottomRight
+        // });
+
+        count += 1
+        if(topRight.x - topLeft.x < minSectionWidth && topRight.x !== map.width){
+            bottomLeft.y -= 1;
+            continue;
+        }
+    
+        return {
+            topLeft: topLeft, 
+            topRight: topRight, 
+            bottomLeft: bottomLeft, 
+            bottomRight: bottomRight
+        };
     }
 
-    //console.log('bottom right:', bottomRight);
-
-    let topRight = {x: bottomRight.x, y: topLeft.y};
-
-    //console.log('top right:', topRight);
-
-    return {
-        topLeft: topLeft, 
-        topRight: topRight, 
-        bottomLeft: bottomLeft, 
-        bottomRight: bottomRight
-    };
 }
 
 
