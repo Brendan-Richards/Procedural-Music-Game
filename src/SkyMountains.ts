@@ -77,24 +77,20 @@ const skySection = (scene: MountainScene,
                         '0xff000',
                         0.2).setOrigin(0,0);
 
-
-    // let currentPlatforms = [{x1: 0, x2: 10, y1: 0, y2: 10}]
-    // console.log(validPlatform(9, 15, 5, 15, currentPlatforms)); 
+    // first rectangle in bottom right corner of section
+    const corner = scene.add.rectangle((bounds.bottomRight.x - 1) * 64, 
+        (bounds.bottomLeft.y - 1) * 64, 
+        Math.floor(Math.random() * (bounds.topRight.x - bounds.topLeft.x - 6) + 5) * 64,
+        Math.floor(Math.random() * 20 + 5) * 64,
+        '0xff00', 0.5).setOrigin(1,1);
 
     const totalArea = (bounds.topRight.x - bounds.topLeft.x) * (bounds.bottomLeft.y - bounds.topLeft.y);
     const sectionArea = totalArea * 0.2;
     let currentArea = 0;
-    let currentPlatforms = [];
+    let currentPlatforms = [corner];
 
-    var i = 0;
     while(currentArea < sectionArea){
         currentArea += makePlatform(scene, layer, map, tileset, bounds, currentPlatforms);
-        console.log('current platforms:');
-        currentPlatforms.forEach(element => {
-            console.log('    ', element);
-        });
-        console.log('i:', i);
-        i += 1;
     }
 
 }

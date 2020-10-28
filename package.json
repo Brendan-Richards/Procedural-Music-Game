@@ -28,6 +28,7 @@
 		"@magenta/music": "^1.20.0",
 		"@tensorflow/tfjs-core": "1.7.4",
 		"@types/node": "^14.11.8",
+		"parcel": "^1.12.4",
 		"phaser": "^3.24.1",
 		"regenerator-runtime": "^0.13.7",
 		"tone": "^14.7.58",
