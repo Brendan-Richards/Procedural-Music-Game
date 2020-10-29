@@ -17,7 +17,7 @@ export default class ContentGenerator{
     } 
 
     createLevel = (): void => {
-        //this.createBackground();
+        this.createBackground();
         createForeground(this.scene, this.totalHeight);    
     }
 

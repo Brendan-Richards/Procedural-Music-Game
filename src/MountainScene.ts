@@ -148,7 +148,7 @@ export default class MountainScene extends Phaser.Scene
         //set camera and world bounds 
         this.matter.world.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight, 64, true, true, false, true);
         this.cameras.main.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight);
-        this.cameras.main.setZoom(0.05);
+        //this.cameras.main.setZoom(0.1);
 
         makeCharacterAnimations(this);
 

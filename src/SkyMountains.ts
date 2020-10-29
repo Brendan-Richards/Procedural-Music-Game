@@ -1,34 +1,5 @@
-import { arraysEqual } from '@tensorflow/tfjs-core/dist/util';
-import { FeedbackCombFilter } from 'tone';
 import MountainScene from './MountainScene';
-
-
-const tileIds = {
-    blank: [20],
-    leftTopWalls: [10, 33, 59],
-    rightTopWalls: [12, 35, 63],
-    leftIceTopWalls: [100, 123, 149],
-    rightIceTopWalls: [102, 125, 153],
-    leftWalls: [19, 46],
-    leftIceWalls: [109, 136],
-    rightIceWalls: [111, 138],
-    rightWalls: [21, 48],
-    flatGround: [11],
-    platformSingleCenter: [25],
-    platformSingleLeft: [24],
-    platformSingleRight: [26],
-    platformBottomCenter: [38],
-    platformbottomLeft: [37],
-    platformBottomRight: [39],
-    flatGroundWallStartLeft: [55],
-    flatGroundWallStartRight: [57],
-    slideLeft: [51],
-    slideRight: [53],
-    slideLeftEdge: [59],
-    slideRightEdge: [63],
-    slideCornerLeft: [60],
-    slideCornerRight: [62]
-}
+import {buildWall, buildFlat ,terrainFill} from './PlaceTerrain';
 
 export default (scene: MountainScene, layer: Phaser.Tilemaps.DynamicTilemapLayer, 
                 map: Phaser.Tilemaps.Tilemap, tileset: Phaser.Tilemaps.Tileset) => {
@@ -39,6 +10,8 @@ export default (scene: MountainScene, layer: Phaser.Tilemaps.DynamicTilemapLayer
     //     chestLocationType = 'inside';
     // }
 
+    let platformCoordinates;
+
     if(chestLocationType==='outside'){
         let chestLocation = {x: Math.floor(Math.random() * scene.maxGameWidth), y: Math.floor(Math.random() * scene.maxGameHeight)};
         console.log('map', map);
@@ -47,12 +20,12 @@ export default (scene: MountainScene, layer: Phaser.Tilemaps.DynamicTilemapLayer
 
         let topLeft = {x:0, y:0}
         let bounds = getSectionBounds(topLeft, map);
-        skySection(scene, layer, map, tileset, bounds);
+        platformCoordinates = [skySection(scene, bounds)];
 
         while(bounds.topRight.x < map.width){
             bounds = getSectionBounds(bounds.topRight, map);
             //console.log('bounds:', bounds);
-            skySection(scene, layer, map, tileset, bounds);
+            platformCoordinates.push(skySection(scene, bounds));
             
         }
         
@@ -61,21 +34,43 @@ export default (scene: MountainScene, layer: Phaser.Tilemaps.DynamicTilemapLayer
 
     }
     
+    const allPlatformCoordinates = [];
+    platformCoordinates.forEach(coordinates => {
+        allPlatformCoordinates.push(...coordinates);
+    });
 
+    // console.log(allPlatformCoordinates);
+
+    // allPlatformCoordinates.forEach(coordinates => {
+    //     scene.add.rectangle(coordinates.x2 * 64, coordinates.y2 * 64, (coordinates.x2-coordinates.x1) * 64, (coordinates.y2-coordinates.y1) * 64, '0xff00', 0.5).setOrigin(1, 1);
+    // });
+    
+    makePlatforms(scene, layer, map, tileset, allPlatformCoordinates)
 }
 
-const skySection = (scene: MountainScene, 
-                    layer: Phaser.Tilemaps.DynamicTilemapLayer, 
-                    map: Phaser.Tilemaps.Tilemap, 
-                    tileset: Phaser.Tilemaps.Tileset, 
-                    bounds: object) => {
+
+const makePlatforms = (scene: MountainScene, layer: Phaser.Tilemaps.DynamicTilemapLayer, 
+                        map: Phaser.Tilemaps.Tilemap, tileset: Phaser.Tilemaps.Tileset,
+                        platformCoordinates: Array<object>) => {
+
+    platformCoordinates.forEach(coordinates => {
+        buildWall(layer, map, tileset, coordinates.y1, coordinates.y2, coordinates.x1, 'left', 'island');
+        buildWall(layer, map, tileset, coordinates.y1, coordinates.y2, coordinates.x2 - 1, 'right', 'island');
+        buildFlat(layer, map, tileset, coordinates.x1 + 1, coordinates.x2 - 1, coordinates.y1, 'top', coordinates.y2-coordinates.y1 <= 1);
+        buildFlat(layer, map, tileset, coordinates.x1 + 1, coordinates.x2 - 1, coordinates.y2 - 1, 'bottom', coordinates.y2-coordinates.y1 <= 1);
+        terrainFill(layer, map, tileset, coordinates.x1 + 1, coordinates.x2 - 1, coordinates.y1 + 1, coordinates.y2 - 1);
+    })
+    
+}
+
+const skySection = (scene: MountainScene, bounds: object) => {
     //console.log('making skysection with bounds:', bounds);
-    scene.add.rectangle(bounds.topLeft.x * 64, 
-                        bounds.topLeft.y * 64, 
-                        (bounds.topRight.x - bounds.topLeft.x) * 64,
-                        (bounds.bottomLeft.y - bounds.topLeft.y) * 64,
-                        '0xff000',
-                        0.2).setOrigin(0,0);
+    // scene.add.rectangle(bounds.topLeft.x * 64, 
+    //                     bounds.topLeft.y * 64, 
+    //                     (bounds.topRight.x - bounds.topLeft.x) * 64,
+    //                     (bounds.bottomLeft.y - bounds.topLeft.y) * 64,
+    //                     '0xff000',
+    //                     0.2).setOrigin(0,0);
 
     // first rectangle in bottom right corner of section
     const x2 = bounds.bottomRight.x - 1;
@@ -85,44 +80,25 @@ const skySection = (scene: MountainScene,
     const y2 = bounds.bottomLeft.y - 1;
     const y1 = y2 - height;
     
-    scene.add.rectangle(x2 * 64, y2 * 64, width * 64, height * 64, '0xff00', 0.5).setOrigin(1,1);
+    //scene.add.rectangle(x2 * 64, y2 * 64, width * 64, height * 64, '0xff00', 0.5).setOrigin(1,1);
 
     let currentPlatforms = [{x1: x1, x2: x2, y1: y1, y2: y2}];
 
-    const totalArea = (bounds.topRight.x - bounds.topLeft.x) * (bounds.bottomLeft.y - bounds.topLeft.y);
-    const sectionArea = totalArea * 0.2;
-    let currentArea = 0;
     const worldTopBuffer = 5;
 
     while(currentPlatforms[currentPlatforms.length -1].y1 > worldTopBuffer){
-        currentArea += makePlatform(scene, layer, map, tileset, bounds, currentPlatforms);
+        getPlatformCoordinates(bounds, currentPlatforms);
     }
 
+    return currentPlatforms;
 }
-
-const makePlatform = (scene: MountainScene, 
-                      layer: Phaser.Tilemaps.DynamicTilemapLayer, 
-                      map: Phaser.Tilemaps.Tilemap, 
-                      tileset: Phaser.Tilemaps.Tileset, 
-                      bounds: object,
-                      currentPlatforms) => {
-    
-    //platform tile bounds
-    let x1: number, x2: number, y1: number, y2: number;
-    [x1, x2, y1, y2] = getPlatformCoordinates(bounds, currentPlatforms);
-
-    scene.add.rectangle(x2 * 64, y2 * 64, (x2-x1) * 64, (y2-y1) * 64, '0xff00', 0.5).setOrigin(1, 1);   
-
-    return (x2-x1) * (y2-y1);
-}
-
 
 const getPlatformCoordinates = (bounds, currentPlatforms): Array<number> => {
     const buffer = 1;
     const maxPlatformSeperation = 4;
     const minPlatformSeperation = 1;
-    const maxPlatformHeight = 20;
-    const maxPlatformWidth = 20;
+    const maxPlatformHeight = 15;
+    const maxPlatformWidth = 15;
     const minPlatformHeight = 1;
     const minPlatformWidth = 3;
 
@@ -187,7 +163,7 @@ const getPlatformCoordinates = (bounds, currentPlatforms): Array<number> => {
         y1 = 5;
     }
 
-    console.log('coordinates:', [x1, x2, y1, y2]);
+    //console.log('coordinates:', [x1, x2, y1, y2]);
 
     currentPlatforms.push({x1: x1, x2: x2, y1: y1, y2: y2});
 
@@ -217,7 +193,7 @@ const validPlatform = (x1: number, x2: number, y1: number, y2: number, currentPl
 const getSectionBounds = (topLeft: {x: number, y: number}, map: Phaser.Tilemaps.Tilemap) => {
 
     const minSectionWidth = 10;
-    const maxSectionWidth = 30;
+    const maxSectionWidth = 20;
     const lowestPlatformHeight =  map.height * 0.7;
 
     let bottomLeft = {x: topLeft.x, y: lowestPlatformHeight};
