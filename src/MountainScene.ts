@@ -106,7 +106,7 @@ export default class MountainScene extends Phaser.Scene
         this.ledgePosition = {};
         this.stamina = 100;
         //units of pixels per second of climbing
-        this.staminaLossRate = -0.5;
+        this.staminaLossRate = -0.1;
         this.staminaRegenRate = 1.5;
         this.staminaOutline = null;
         this.staminaFill = null;
@@ -148,7 +148,7 @@ export default class MountainScene extends Phaser.Scene
         //set camera and world bounds 
         this.matter.world.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight, 64, true, true, false, true);
         this.cameras.main.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight);
-        //this.cameras.main.setZoom(0.1);
+        this.cameras.main.setZoom(0.07);
 
         makeCharacterAnimations(this);
 
@@ -157,11 +157,8 @@ export default class MountainScene extends Phaser.Scene
 
         this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');
         this.characterShapes = this.cache.json.get('characterShapes');
-        const playerConfig = {
-            
-        }
-        this.playerBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, playerConfig, false);    
-        console.log('player body slop value:', this.playerBody.slop);
+        this.playerBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, undefined, false);    
+        //console.log('player body slop value:', this.playerBody.slop);
           
         this.player.setExistingBody(this.playerBody);
         this.player.setScale(this.playerScaleFactor);

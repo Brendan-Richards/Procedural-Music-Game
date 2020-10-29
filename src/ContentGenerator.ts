@@ -22,21 +22,10 @@ export default class ContentGenerator{
     }
 
     createBackground = (): void => {
-
-        if(this.backgroundType==='sparse'){        
-            this.createBackgroundLayer('backgroundLayer0', 0, 0.05, 0.05);
-            this.createBackgroundLayer('backgroundLayer1', 250, 0.1, 0.1);
-            this.createBackgroundLayer('backgroundLayer2', 150, 0.2, 0.2);
-            this.createBackgroundLayer('backgroundLayer3', -30, 0.4, 0.4);
-        }
-        
-        else{
-            // this.createBackgroundLayer('backgroundLayer0b', 0.05, 0.05);
-            // this.createBackgroundLayer('backgroundLayer1b', 0.2, 0.2);
-            // this.createBackgroundLayer('backgroundLayer2b', 0.4, 0.4);
-            // this.createBackgroundLayer('backgroundLayer3b', 1, 1);
-        }
-       //console.log('camera position:', this.scene.cameras.main.x, this.scene.cameras.main.y);
+        this.createBackgroundLayer('backgroundLayer0', 0, 0.05, 0.05);
+        this.createBackgroundLayer('backgroundLayer1', 250, 0.1, 0.1);
+        this.createBackgroundLayer('backgroundLayer2', 150, 0.2, 0.2);
+        this.createBackgroundLayer('backgroundLayer3', -30, 0.4, 0.4);
     }
 
     createBackgroundLayer = (texture: string, heightOffset: number, scrollFactorX: number, scrollFactorY: number): void => {

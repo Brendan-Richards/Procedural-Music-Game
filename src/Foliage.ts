@@ -1,4 +1,3 @@
-import { BitCrusher } from 'tone';
 import MountainScene from './MountainScene';
 
 
@@ -179,10 +178,11 @@ const verticalFoliage = (scene: MountainScene, y1: number, y2: number, x: number
         else{
             let bushName = bushType + (Math.floor(Math.random() * 24)).toString();
             const locationY = Math.max(y1, y2) - Math.floor(Math.random() * Math.abs(y2-y1-70)) + 70; 
-           const randomOffsetX = 34 - Math.floor(Math.random() * 50);
+            const randomOffsetX = 34 - Math.floor(Math.random() * 50);
             //console.log('placing bush at:', x + randomOffsetX, locationY);
             const bush = scene.add.image(x + randomOffsetX, locationY, 'environmentAtlas', bushName).setOrigin(0.5,1);
             bush.setAngle(Math.floor(Math.random() * 100) + 40);
+            //bush.setDepth(10);
         }
     }     
 }

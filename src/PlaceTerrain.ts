@@ -54,12 +54,12 @@ const buildWall = (layer: Phaser.Tilemaps.DynamicTilemapLayer,
         const wallTile = new Phaser.Tilemaps.Tile(layer.layer, idx, 0, 0, 64, 64, 64, 64);
 
         wallTile.properties = tileset.getTileProperties(idx);
-
+        //console.log('putting wall tile at x:', x, 'y:', y);
         map.putTileAt(wallTile, x, y, true, layer);
     }
 
     //place top and bottom of wall
-    if(y2-y1 === 1){
+    if(y2-y1 === 1 && wallType==='island'){
         const idx = direction==='left' ? tileIds.platformSingleLeft[0] : tileIds.platformSingleRight[0];
         const tile = new Phaser.Tilemaps.Tile(layer.layer, idx, 0, 0, 64, 64, 64, 64);
         tile.properties = tileset.getTileProperties(idx);
@@ -109,5 +109,6 @@ const terrainFill = (layer: Phaser.Tilemaps.DynamicTilemapLayer,
     
     map.fill(tileIds.blank[0], x1, y1, x2 - x1, y2 - y1);
 };
+
 
 export {buildWall, buildFlat, terrainFill};
