@@ -42,15 +42,15 @@ class Audio {
         }
         this.hardLandingConfig = {
             loop: false,
-            volume: 0.1
+            volume: 0.2
         }
         this.runConfig = {
             loop: true,
-            volume: 0.1
+            volume: 0.2
         }
         this.jumpConfig = {
             loop: false,
-            volume: 0.1
+            volume: 0.2
         }
         this.floorAmbienceConfig = {
             loop: true,
@@ -104,6 +104,7 @@ class Audio {
             case 'ledgeGrab': { 
                 this.runSound.stop();
                 this.wallSlideSound.stop();
+                this.wallSmackSound.play(this.wallSmackConfig);
                 break;
             }
             case 'ledgeClimb': { 

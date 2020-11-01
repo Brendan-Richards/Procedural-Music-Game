@@ -137,7 +137,7 @@ const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {
 
 const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
     if(scene.playerWallJumping){
-        const tolerance = 50;
+        const tolerance = 60;
 
         const prevX = scene.wallJumpOffPosition.x;
         //const prevY = scene.wallJumpOffPosition.y;

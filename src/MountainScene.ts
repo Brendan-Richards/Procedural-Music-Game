@@ -237,8 +237,8 @@ export default class MountainScene extends Phaser.Scene
         this.audio.floorAmbience.volume = Math.pow((this.player.y / this.maxGameHeight), 2);
         this.audio.windSound.volume = Math.pow(1 - (this.player.y / this.maxGameHeight), 2);
         if(this.audio.wallSlideSound.isPlaying){
-            const factor = 0.03;
-            this.audio.wallSlideSound.volume = this.player.body.velocity.y * factor + 0.2;
+            const factor = 0.05;
+            this.audio.wallSlideSound.volume = this.player.body.velocity.y * factor + 0.25;
         }
     }
 
