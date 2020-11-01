@@ -1203,7 +1203,7 @@
                      "objects":[
                             {
                              "height":0,
-                             "id":1,
+                             "id":4,
                              "name":"",
                              "polygon":[
                                     {
@@ -1211,23 +1211,19 @@
                                      "y":0
                                     }, 
                                     {
-                                     "x":-38,
-                                     "y":41
-                                    }, 
-                                    {
-                                     "x":-35,
-                                     "y":50
+                                     "x":-41,
+                                     "y":43
                                     }, 
                                     {
                                      "x":0,
-                                     "y":15
+                                     "y":43
                                     }],
                              "rotation":0,
                              "type":"",
                              "visible":true,
                              "width":0,
                              "x":64,
-                             "y":4
+                             "y":0
                             }],
                      "opacity":1,
                      "type":"objectgroup",
@@ -1244,7 +1240,7 @@
                         {
                          "name":"collisionLabel",
                          "type":"string",
-                         "value":"ground"
+                         "value":"topWall"
                         }]
                 }, 
                 {

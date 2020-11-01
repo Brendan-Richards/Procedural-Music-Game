@@ -417,5 +417,13 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName, flipX, fl
     scene.player.setBounce(0);
     scene.player.setFixedRotation();  
 
-    scene.audio.playAnimationSound(animationName);
+    if(scene.currentPlayerAnimation !== scene.prevPlayerAnimation &&
+     !(scene.prevPlayerAnimation==='ledgeClimb' && scene.currentPlayerAnimation==='jump')){
+         if(scene.prevPlayerAnimation==='wallSlide' && scene.currentPlayerAnimation==='jump'){
+            scene.audio.playAnimationSound('wallJump');
+         }
+        else{
+            scene.audio.playAnimationSound(animationName);
+        }
+    }
 }

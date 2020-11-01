@@ -5,11 +5,14 @@ class Audio {
 
     runSound: Phaser.Sound.BaseSound;
     jumpSound: Phaser.Sound.BaseSound;
+    wallJumpSound: Phaser.Sound.BaseSound;
     wallSlideSound: Phaser.Sound.BaseSound;
     windSound: Phaser.Sound.BaseSound;
     floorAmbience: Phaser.Sound.BaseSound;
     softLanding: Phaser.Sound.BaseSound;
     hardLanding: Phaser.Sound.BaseSound;
+    wallSmackSound: Phaser.Sound.BaseSound;
+    wallSmackConfig: object;
     softLandingConfig: object;
     hardLandingConfig: object;
     windConfig: object;
@@ -26,13 +29,20 @@ class Audio {
         this.windSound = scene.sound.add('wind');
         this.softLanding = scene.sound.add('jump');
         this.hardLanding = scene.sound.add('hardLanding');
+        this.wallSmackSound = scene.sound.add('wallSmack');
+        this.wallJumpSound = scene.sound.add('jump');
+
+        this.wallSmackConfig = {
+            loop: false,
+            volume: 0.1
+        }
         this.softLandingConfig = {
             loop: false,
             volume: 0.1
         }
         this.hardLandingConfig = {
             loop: false,
-            volume: 0.3
+            volume: 0.1
         }
         this.runConfig = {
             loop: true,
@@ -48,7 +58,7 @@ class Audio {
         }
         this.wallSlideConfig = {
             loop:true,
-            volume: 0.2
+            volume: 0.1
         }
         this.windConfig = {
             loop: true,
@@ -69,33 +79,51 @@ class Audio {
                 if(!this.runSound.isPlaying){
                     this.runSound.play(this.runConfig); 
                 }               
+                this.wallSlideSound.stop();
                 break;
             }
             case 'jump': { 
                 this.runSound.stop();
                 this.wallSlideSound.stop();
+                if(!this.jumpSound.isPlaying){
+                    this.jumpSound.play(this.jumpConfig);
+                }
+                break;
+            }
+            case 'wallJump': { 
+                this.runSound.stop();
+                this.wallSlideSound.stop();
+                this.wallJumpSound.play(this.jumpConfig);
+                break;
+            }
+            case 'fall': {  
+                this.runSound.stop();
+                this.wallSlideSound.stop();
+                break;
+            }
+            case 'ledgeGrab': { 
+                this.runSound.stop();
+                this.wallSlideSound.stop();
+                break;
+            }
+            case 'ledgeClimb': { 
+                this.runSound.stop();
+                this.wallSlideSound.stop();
                 this.jumpSound.play(this.jumpConfig);
                 break;
             }
-            case 'fall': { 
+            case 'wallSlide': { 
                 this.runSound.stop();
-                this.wallSlideSound.stop();
-                //this.jumpSound.play(this.jumpConfig);
+                //if(!this.wallSmackSound.isPlaying){
+                    this.wallSmackSound.play(this.wallSmackConfig);
+               // }
+                this.wallSlideSound.play(this.wallSlideConfig);
                 break;
             }
-            // case 'wallSlide': { 
-            //     this.runSound.stop();
-            //     this.wallSlideSound.play(this.wallSlideConfig);
-            //     break;
-            // }
             case 'idle1': {
-                 //if(this.runSound.isPlaying){
-                //     this.runSound.on('looped', () => {
-                         this.runSound.stop(); 
-                         this.wallSlideSound.stop();
-                //     })
-                    
-                 //}     
+                this.runSound.stop(); 
+                this.wallSlideSound.stop();
+    
             }
         }
     }

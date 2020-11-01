@@ -72,6 +72,7 @@ export default class MountainScene extends Phaser.Scene
     playerIceJumpHeight: number;
     playerFriction: number;
     numChests: number;
+    playerLastOnWallTime: number;
     chestScaleFactor: number;
     currentPlayerAnimation: string;
     prevPlayerAnimation: string;
@@ -110,6 +111,7 @@ export default class MountainScene extends Phaser.Scene
         this.staminaRegenRate = 1.5;
         this.staminaOutline = null;
         this.staminaFill = null;
+        this.playerLastOnWallTime = -1;
 
         //flags
         this.playerCanJump = true;
@@ -148,7 +150,7 @@ export default class MountainScene extends Phaser.Scene
         //set camera and world bounds 
         this.matter.world.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight, 64, true, true, false, true);
         this.cameras.main.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight);
-        this.cameras.main.setZoom(0.07);
+        //this.cameras.main.setZoom(0.07);
 
         makeCharacterAnimations(this);
 
@@ -197,13 +199,12 @@ export default class MountainScene extends Phaser.Scene
 
 
         //startRNN();
-
-        this.input.keyboard.on('keydown-' + 'P', (event) => {
-            resumeRNN();
-        });
-        this.input.keyboard.on('keydown-' + 'O', (event) => {
-            pauseRNN();
-        });
+        // this.input.keyboard.on('keydown-' + 'P', (event) => {
+        //     resumeRNN();
+        // });
+        // this.input.keyboard.on('keydown-' + 'O', (event) => {
+        //     pauseRNN();
+        // });
 
         magentaTest();
 
@@ -214,11 +215,12 @@ export default class MountainScene extends Phaser.Scene
             } 
         }, this);
 
-        this.add.image(200, 6400-64, 'environmentAtlas', 'chest_closed_green').setScale(this.chestScaleFactor).setOrigin(0,1);
+        //this.add.image(200, 6400-64, 'environmentAtlas', 'chest_closed_green').setScale(this.chestScaleFactor).setOrigin(0,1);
     }
 
     update()
     {
+        console.log(this.currentPlayerAnimation);
         if(this.playerLedgeGrab){
             this.losingStamina = true;
         } 
@@ -227,13 +229,17 @@ export default class MountainScene extends Phaser.Scene
             this.updateStaminaPosition();
             this.removeStamina();
         }
-        this.setAmbientVolumes();
+        this.setSoundVolumes();
         handlePlayerMovement(this);
     }
 
-    setAmbientVolumes = () => {
+    setSoundVolumes = () => {
         this.audio.floorAmbience.volume = Math.pow((this.player.y / this.maxGameHeight), 2);
         this.audio.windSound.volume = Math.pow(1 - (this.player.y / this.maxGameHeight), 2);
+        if(this.audio.wallSlideSound.isPlaying){
+            const factor = 0.03;
+            this.audio.wallSlideSound.volume = this.player.body.velocity.y * factor + 0.2;
+        }
     }
 
     drawStamina = () => {

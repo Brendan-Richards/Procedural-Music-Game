@@ -52,10 +52,12 @@ export default class Preloader extends Phaser.Scene
         //audio
         this.load.audio('floorAmbience', 'assets/audio/floorAmbience.mp3');
         this.load.audio('steps', 'assets/audio/2step.mp3');
-        this.load.audio('jump', 'assets/audio/jump.mp3');
-        this.load.audio('wallSlide', 'assets/audio/wallSlide.mp3');
+        this.load.audio('jump', 'assets/audio/swoosh.mp3');
+        this.load.audio('wallSlide', 'assets/audio/wallSlide2.mp3');
+        this.load.audio('wallSmack', 'assets/audio/wallSmack.mp3');
+        this.load.audio('wallJump', 'assets/audio/wallSmack.mp3');
         this.load.audio('wind', 'assets/audio/windLoop.mp3');
-        this.load.audio('hardLanding', 'assets/audio/thud.mp3');
+        this.load.audio('hardLanding', 'assets/audio/landing.mp3');
 
         //UI
         this.load.image("staminaOutline", "assets/images/UI/staminaOutline.png");

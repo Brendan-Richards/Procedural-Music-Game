@@ -27,14 +27,14 @@ export default (scene: MountainScene): void => {
                         const currentTime = scene.time.now;
                         if(!scene.playerCanJump && currentTime - scene.lastLandingTime > 100){// if player is colliding with ground from mid air
                             //if(currentTime - scene.playerLastOnGroundTime > 2000){
-                            if(scene.playerBody.velocity.y > 10){
+                           // if(scene.playerBody.velocity.y > 10){
                                 //console.log('playing hard landing');
                                 scene.audio.hardLanding.play(scene.audio.hardLandingConfig);
-                            }
-                            else{
+                           // }
+                           // else{
                                 //console.log('playing soft landing');
-                                scene.audio.softLanding.play(scene.audio.softLandingConfig);                                
-                            }
+                                //scene.audio.jumpSound.play(scene.audio.jumpConfig);                                
+                           // }
 
                         }
                         scene.lastLandingTime = currentTime;
@@ -121,9 +121,10 @@ export default (scene: MountainScene): void => {
                         //console.log(other);
                         //console.log(collisionNormal);
                         
-
+                        console.log(collisionNormal);
                         if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
-                            //console.log('collided with top of topWall block');
+                
+                            console.log('collided with top of topWall block');
                            if(scene.losingStamina){
                                 scene.losingStamina = false;
                                 scene.gainingStamina = true;
@@ -139,7 +140,7 @@ export default (scene: MountainScene): void => {
                             } 
                         }
                         else{
-                            //console.log('collided with side of topWall block');
+                            console.log('collided with side of topWall block');
 
                             //scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100);
                             
@@ -232,6 +233,10 @@ export default (scene: MountainScene): void => {
                             scene.playerLastOnGroundTime = scene.time.now;
                         }
                     }
+                    else if(other.tile.properties.collisionLabel==='wall' ||
+                            other.tile.properties.collisionLabel==='iceWall'){
+                        scene.playerLastOnWallTime = scene.time.now;
+                    }
                 }
             }
         });
@@ -252,6 +257,10 @@ export default (scene: MountainScene): void => {
                     }
                     else if(other.tile.properties.collisionLabel==='rightSlideable'){
                         scene.playerLastOnGroundTime = scene.time.now;
+                    }
+                    else if(other.tile.properties.collisionLabel==='wall' ||
+                            other.tile.properties.collisionLabel==='iceWall'){
+                        scene.playerLastOnWallTime = scene.time.now;
                     }
                 }
             }

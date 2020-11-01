@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 import MountainScene from './MountainScene';
 import createForeground from './CreateForeground';
 
