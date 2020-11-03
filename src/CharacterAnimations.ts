@@ -183,6 +183,57 @@ export default (scene: MountainScene) => {
             frameRate: frameRate * 1.8
     });
     scene.anims.create({
+        key: 'airAttack1',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_air_attack1_', 
+             suffix: '.png',
+             end: 4, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate * 1.8
+    });
+    scene.anims.create({
+        key: 'airAttack2',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_air_attack2_', 
+             suffix: '.png',
+             end: 3, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate * 1.8
+    });
+    scene.anims.create({
+        key: 'airAttack3Start',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_air_attack3_rdy_', 
+             suffix: '.png',
+             end: 1, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate * 1.8
+    });
+    scene.anims.create({
+        key: 'airAttack3Loop',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_air_attack3_loop_', 
+             suffix: '.png',
+             end: 2, 
+             zeroPad: 2 
+            }),
+            repeat: -1,
+            frameRate: frameRate * 1.8
+    });
+    scene.anims.create({
+        key: 'airAttack3End',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_air_attack_3_end_', 
+             suffix: '.png',
+             end: 3, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate * 1.8
+    });
+    scene.anims.create({
         key: 'draw',
         frames: scene.anims.generateFrameNames('characterAtlas', {
              prefix: 'adventurer_swrd_drw_', 
@@ -214,7 +265,11 @@ export default (scene: MountainScene) => {
             scene.playerAttacking = false;
             const nudge = scene.currentPlayerDirection==='left' ? 1 : -1;
             scene.player.setPosition(scene.player.x + (10*nudge), scene.player.y);
-        } 
+        }else if(animation.key==='airAttack1' ||
+                 animation.key==='airAttack2' || 
+                 animation.key==='airAttack3End'){
+            scene.playerAttacking = false;
+        }
         else if(animation.key==='draw'){
             scene.drawSword = false;
             scene.swordDrawn = true;
@@ -222,6 +277,16 @@ export default (scene: MountainScene) => {
         else if(animation.key==='sheath'){
             scene.sheathSword = false;
             scene.swordDrawn = false;
+        }
+        else if(animation.key==='airAttack3Start'){
+            scene.player.play('airAttack3Loop', true);
+            scene.prevPlayerAnimation = 'airAttack3Start';
+            scene.currentPlayerAnimation = 'airAttack3Loop';
+        }
+        else if(animation.key==='airAttack3End'){
+            scene.downAttack = false;
+            scene.playerAttacking = false;
+            scene.playerCanJump = true;
         }
         
     }, scene);

@@ -12,6 +12,7 @@ type controlConfig = {
     leftControl: Phaser.Input.Keyboard.Key,
     rightControl: Phaser.Input.Keyboard.Key,
     jumpControl: Phaser.Input.Keyboard.Key,
+    downControl: Phaser.Input.Keyboard.Key,
     groundSlide: {
         isDown: boolean,
         isUp: boolean
@@ -79,6 +80,7 @@ export default class MountainScene extends Phaser.Scene
     stamina: number;
     playerSwordOut: boolean;
     inContactWithWall: boolean;
+    downAttack: boolean;
     playerLedgeGrab: boolean;
     playerWallJumpHeight: number;
     playerIceJumpHeight: number;
@@ -115,7 +117,7 @@ export default class MountainScene extends Phaser.Scene
         this.playerJumpHeight = 12;
         this.playerWallJumpHeight = -2.5*this.playerSpeed;
         this.playerFriction = 0;
-        this.playerMaxSpeed = 15;
+        this.playerMaxSpeed = 10;
         this.playerIceJumpHeight = -1.5*this.playerSpeed;
         this.ledgePosition = {};
         this.stamina = 100;
@@ -148,6 +150,7 @@ export default class MountainScene extends Phaser.Scene
         this.sheathSword = false;
         this.drawSword = false;
         this.inContactWithWall = false;
+        this.downAttack = false;
         this.wallCollisionDirection = '';
 
         //movement logic
@@ -199,6 +202,7 @@ export default class MountainScene extends Phaser.Scene
         this.controlConfig = {
             leftControl: this.cursors.left as Phaser.Input.Keyboard.Key,
             rightControl: this.cursors.right as Phaser.Input.Keyboard.Key,
+            downControl: this.cursors.down as Phaser.Input.Keyboard.Key,
             jumpControl: this.cursors.space as Phaser.Input.Keyboard.Key,
             groundSlide: {
                 isDown: this.CTRLDown,
@@ -224,6 +228,12 @@ export default class MountainScene extends Phaser.Scene
                     this.playerAttacking = true;
                     this.drawSword = true;
                 }
+            }
+            if(!this.playerCanJump && this.controlConfig.downControl.isDown){
+                this.downAttack = true;
+            }
+            else{
+                this.downAttack = false;
             }
         });
         this.input.keyboard.on('keydown-' + 'S', (event) => {
@@ -262,6 +272,7 @@ export default class MountainScene extends Phaser.Scene
 
     update()
     {
+        console.log(this.currentPlayerAnimation);
         if(this.playerLedgeGrab){
             this.losingStamina = true;
         } 

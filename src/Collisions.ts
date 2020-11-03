@@ -20,33 +20,44 @@ export default (scene: MountainScene): void => {
                         //console.log(scene.playerBody.velocity); 
                         scene.inContactWithWall = false;
 
-                        if(scene.losingStamina){
-                            scene.losingStamina = false;
-                            scene.gainingStamina = true;
+                        if(scene.currentPlayerAnimation==='airAttack3Loop'){
+                            scene.player.play('airAttack3End', true);
+                            scene.prevPlayerAnimation = 'airAttack3Loop';
+                            scene.currentPlayerAnimation = 'airAttack3End';
+                        }
+                        else if(scene.currentPlayerAnimation==='airAttack3End'){
+                            scene.playerCanJump = false;
+                        }
+                        else{
+                            if(scene.losingStamina){
+                                scene.losingStamina = false;
+                                scene.gainingStamina = true;
+                            }
+    
+                            const currentTime = scene.time.now;
+                            if(!scene.playerCanJump && currentTime - scene.lastLandingTime > 100){// if player is colliding with ground from mid air
+                                //if(currentTime - scene.playerLastOnGroundTime > 2000){
+                               // if(scene.playerBody.velocity.y > 10){
+                                    //console.log('playing hard landing');
+                                    scene.audio.hardLanding.play(scene.audio.hardLandingConfig);
+                               // }
+                               // else{
+                                    //console.log('playing soft landing');
+                                    //scene.audio.jumpSound.play(scene.audio.jumpConfig);                                
+                               // }
+    
+                            }
+                            scene.lastLandingTime = currentTime;
+                            scene.playerLastOnGroundTime = scene.time.now;
+                            scene.playerCanJump = true;
+                            scene.playerWallSliding = false;
+                            if(scene.playerRampSliding){
+                                scene.playerFlatSliding = true;
+                                scene.playerRampSliding = false;
+                                scene.setFlatSlide = false;
+                            } 
                         }
 
-                        const currentTime = scene.time.now;
-                        if(!scene.playerCanJump && currentTime - scene.lastLandingTime > 100){// if player is colliding with ground from mid air
-                            //if(currentTime - scene.playerLastOnGroundTime > 2000){
-                           // if(scene.playerBody.velocity.y > 10){
-                                //console.log('playing hard landing');
-                                scene.audio.hardLanding.play(scene.audio.hardLandingConfig);
-                           // }
-                           // else{
-                                //console.log('playing soft landing');
-                                //scene.audio.jumpSound.play(scene.audio.jumpConfig);                                
-                           // }
-
-                        }
-                        scene.lastLandingTime = currentTime;
-                        scene.playerLastOnGroundTime = scene.time.now;
-                        scene.playerCanJump = true;
-                        scene.playerWallSliding = false;
-                        if(scene.playerRampSliding){
-                            scene.playerFlatSliding = true;
-                            scene.playerRampSliding = false;
-                            scene.setFlatSlide = false;
-                        } 
                     }
                     else if(other.tile.properties.collisionLabel==='rightSlideable'){
                         // console.log('collided with rightSlidable');
@@ -80,7 +91,8 @@ export default (scene: MountainScene): void => {
                         scene.inContactWithWall = true;
                         scene.wallCollisionDirection = scene.currentPlayerDirection==='left' ? 'left' : 'right';
 
-                        if(scene.currentPlayerAnimation==='attack1' || scene.currentPlayerAnimation==='attack2' || scene.currentPlayerAnimation==='attack3'){
+                        if(scene.currentPlayerAnimation==='attack1' || scene.currentPlayerAnimation==='attack2' || scene.currentPlayerAnimation==='attack3' ||
+                           scene.currentPlayerAnimation==='airAttack1' || scene.currentPlayerAnimation==='airAttack2'){
                             scene.audio.attackSound.stop();
                             scene.audio.swordRockImpact.play(scene.audio.swordRockImpactConfig);
                         }
@@ -167,7 +179,7 @@ export default (scene: MountainScene): void => {
                             //scene.playerFriction = 0.01;
                             //console.log(event, body1, body2);
 
-                            if(!scene.playerLedgeClimb){
+                            if(!scene.playerLedgeClimb && !scene.swordDrawn){
                                 scene.ledgePosition = other.body.position;
                                 //scene.add.circle(scene.ledgePosition.x, scene.ledgePosition.y, 2, 0xffff00).setDepth(100);
                                 //console.log('other.tile:', other.tile);

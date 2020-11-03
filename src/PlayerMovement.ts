@@ -1,7 +1,5 @@
 import Phaser from 'phaser';
 import MountainScene from './MountainScene';
-import combatHandler from './CombatMoves';
-
 
 type velocity = {
     x: number,
@@ -170,6 +168,21 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         if(distance > tolerance){
             scene.playerWallJumping = false;
            
+        }
+    }
+    else if(scene.playerAttacking){
+        if(scene.downAttack){
+            if(scene.currentPlayerAnimation !== 'airAttack3Start' && scene.currentPlayerAnimation !== 'airAttack3Loop' && scene.currentPlayerAnimation !== 'airAttack3End'){
+                console.log('setting animation to downward airAttack');
+                setNewCharacterAnimation(scene, 'airAttack3Start', scene.currentPlayerDirection==='left', false);
+            }
+        }
+        else if((scene.currentPlayerAnimation !== 'airAttack1' && scene.currentPlayerAnimation !== 'airAttack2')
+             && scene.time.now - scene.lastAttackTime > 500){
+            console.log('setting animation to airAttack');
+            const attackNum = Math.floor(Math.random() * 2) + 1; 
+            setNewCharacterAnimation(scene, 'airAttack' + attackNum.toString(), scene.currentPlayerDirection==='left', false);
+            scene.lastAttackTime = scene.time.now; 
         }
     }
     else if(scene.playerWallSliding && !scene.swordDrawn){
@@ -374,10 +387,14 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, factor*0.5, prevVelocity.y);
             break;
         }
+        case 'airAttack3Start':
+        case 'airAttack3Loop': {
+            scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, scene.playerMaxSpeed);
+            break;
+        }
         case 'fallSword': {
 
             if(scene.inContactWithWall){
-                console.log('in here')
                 if(scene.wallCollisionDirection==='right' && scene.controlConfig.leftControl.isDown){
                     //scene.player.setPosition(scene.player.x, scene.player.y);
                     scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, -1*scene.playerSpeed, prevVelocity.y);
@@ -388,7 +405,6 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                     scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, prevVelocity.y);
                     scene.inContactWithWall = false;
                 } 
-
                 else{
                     scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, prevVelocity.y);
                 }              
@@ -406,6 +422,8 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             }
             break;
         }
+        case 'airAttack1':
+        case 'airAttack2':
         case 'fall': {
             if(scene.currentPlayerDirection==='right' && scene.controlConfig.rightControl.isDown){
                 scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, prevVelocity.y);
@@ -464,6 +482,9 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName, flipX, fl
         case 'attack3': {bodyData = scene.characterShapes.adventurer_attack3_00; break;}
         case 'draw': {bodyData = scene.characterShapes.adventurer_swrd_drw_00; break;}
         case 'sheath': {bodyData = scene.characterShapes.adventurer_swrd_shte_00; break;}
+        case 'airAttack1': {bodyData = scene.characterShapes.adventurer_air_attack1_00; break;}
+        case 'airAttack2': {bodyData = scene.characterShapes.adventurer_air_attack2_00; break;}
+        case 'airAttack3Start': {bodyData = scene.characterShapes.adventurer_air_attack3_rdy_00; break;}
         default: break;
     }
 

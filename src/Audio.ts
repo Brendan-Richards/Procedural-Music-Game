@@ -76,7 +76,7 @@ class Audio {
         }
         this.windFlapConfig = {
             loop: true,
-            volume: 0.1
+            volume: 0.2
         }
         this.wallSmackConfig = {
             loop: false,
@@ -120,7 +120,20 @@ class Audio {
                 this.attackSound.play(this.attackSoundConfig);
                 const nudge = scene.currentPlayerDirection==='left' ? -1 : 1;
                 scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y);
+            } 
+            else if(animation.key==='airAttack1' || animation.key==='airAttack2'){
+                this.runSound.stop(); 
+                this.windFlap.stop();
+                this.wallSlideSound.stop();
+                this.attackSound.play(this.attackSoundConfig);
             }  
+            else if(animation.key==='airAttack3Loop'){
+                this.windFlap.play(this.windFlapConfig);
+            }
+            else if(animation.key==='airAttack3End'){
+                this.windFlap.stop();
+                this.swordRockImpact.play(this.swordRockImpactConfig);
+            }
             else if(animation.key==='run' || animation.key==='runSword'){
                 if(!this.runSound.isPlaying){
                     this.runSound.play(this.runConfig); 
