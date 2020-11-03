@@ -1,7 +1,8 @@
 
 //import Phaser from 'phaser';
+import MountainScene from './MountainScene';
 
-export default (scene: Phaser.Scene) => {
+export default (scene: MountainScene) => {
     
     const frameRate = 10;
 
@@ -9,6 +10,17 @@ export default (scene: Phaser.Scene) => {
         key: 'run',
         frames: scene.anims.generateFrameNames('characterAtlas', {
              prefix: 'adventurer_run_', 
+             suffix: '.png',
+             end: 6, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'runSword',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_run3_', 
              suffix: '.png',
              end: 6, 
              zeroPad: 2 
@@ -28,7 +40,7 @@ export default (scene: Phaser.Scene) => {
         repeat: -1 
     });
     scene.anims.create({
-        key: 'idle2',
+        key: 'idleSword',
         frames: scene.anims.generateFrameNames('characterAtlas', {
              prefix: 'adventurer_idle_2_', 
              suffix: '.png',
@@ -42,6 +54,18 @@ export default (scene: Phaser.Scene) => {
         key: 'jump',
         frames: scene.anims.generateFrameNames('characterAtlas', {
              prefix: 'adventurer_jump_up_', 
+             suffix: '.png',
+             start: 0,
+             end: 2, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1
+    });
+    scene.anims.create({
+        key: 'jumpSword',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_jump_up_swrd_', 
              suffix: '.png',
              start: 0,
              end: 2, 
@@ -66,6 +90,17 @@ export default (scene: Phaser.Scene) => {
         key: 'fall',
         frames: scene.anims.generateFrameNames('characterAtlas', {
              prefix: 'adventurer_fall_', 
+             suffix: '.png',
+             end: 2, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1,
+    });
+    scene.anims.create({
+        key: 'fallSword',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_swrd_fall_', 
              suffix: '.png',
              end: 2, 
              zeroPad: 2 
@@ -117,4 +152,77 @@ export default (scene: Phaser.Scene) => {
             frameRate: frameRate*1.5,
         // repeat: 1
     });
+    scene.anims.create({
+        key: 'attack1',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_attack1_', 
+             suffix: '.png',
+             end: 5, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate * 1.8
+    });
+    scene.anims.create({
+        key: 'attack2',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_attack2_', 
+             suffix: '.png',
+             end: 6, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate * 1.8
+    });
+    scene.anims.create({
+        key: 'attack3',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_attack3_', 
+             suffix: '.png',
+             end: 6, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate * 1.8
+    });
+    scene.anims.create({
+        key: 'draw',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_swrd_drw_', 
+             suffix: '.png',
+             end: 4, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate * 1.8
+    });
+    scene.anims.create({
+        key: 'sheath',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_swrd_shte_', 
+             suffix: '.png',
+             end: 4, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate * 1.8
+    });
+
+    scene.player.on('animationcomplete', (animation, frame) => {
+        //console.log('in animation complete callback');
+        if(animation.key==='ledgeClimb'){
+            scene.playerLedgeClimb = false;
+        } 
+        else if(animation.key==='attack1' || 
+                animation.key==='attack2' ||
+                animation.key==='attack3'){
+            scene.playerAttacking = false;
+            const nudge = scene.currentPlayerDirection==='left' ? 1 : -1;
+            scene.player.setPosition(scene.player.x + (10*nudge), scene.player.y);
+        } 
+        else if(animation.key==='draw'){
+            scene.drawSword = false;
+            scene.swordDrawn = true;
+        }
+        else if(animation.key==='sheath'){
+            scene.sheathSword = false;
+            scene.swordDrawn = false;
+        }
+        
+    }, scene);
 };

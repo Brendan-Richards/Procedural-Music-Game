@@ -58,6 +58,11 @@ export default class Preloader extends Phaser.Scene
         this.load.audio('wallJump', 'assets/audio/wallSmack.mp3');
         this.load.audio('wind', 'assets/audio/windLoop.mp3');
         this.load.audio('hardLanding', 'assets/audio/landing.mp3');
+        this.load.audio('windFlap', 'assets/audio/windFlap.mp3');
+        this.load.audio('attack', 'assets/audio/attack.mp3');
+        this.load.audio('draw', 'assets/audio/swordDraw.mp3');
+        this.load.audio('sheath', 'assets/audio/swordSheath.mp3');
+        this.load.audio('swordRockImpact', 'assets/audio/swordRockImpact.mp3');
 
         //UI
         this.load.image("staminaOutline", "assets/images/UI/staminaOutline.png");

@@ -15,6 +15,10 @@ type controlConfig = {
     groundSlide: {
         isDown: boolean,
         isUp: boolean
+    },
+    attack: {
+        isDown: boolean,
+        isUp: boolean
     }    
 }
 
@@ -60,13 +64,21 @@ export default class MountainScene extends Phaser.Scene
     stopWallSlidingDirection: string;
     playerScaleFactor: number;
     playerSpeed: number;
+    lastAttackTime: number;
     staminaOutline: Phaser.GameObjects.Image;
     staminaFill: Phaser.GameObjects.Image;
     playerJumpHeight: number;
     staminaLossRate: number;
     staminaRegenRate: number;
     playerLedgeClimb: boolean;
+    playerAttacking: boolean;
+    sheathSword: boolean;
+    drawSword: boolean;
+    attackDown: boolean;
+    swordDrawn: boolean;
     stamina: number;
+    playerSwordOut: boolean;
+    inContactWithWall: boolean;
     playerLedgeGrab: boolean;
     playerWallJumpHeight: number;
     playerIceJumpHeight: number;
@@ -75,6 +87,7 @@ export default class MountainScene extends Phaser.Scene
     playerLastOnWallTime: number;
     chestScaleFactor: number;
     currentPlayerAnimation: string;
+    wallCollisionDirection: string;
     prevPlayerAnimation: string;
     currentPlayerDirection: string;
     prevPlayerDirection: string;
@@ -112,6 +125,7 @@ export default class MountainScene extends Phaser.Scene
         this.staminaOutline = null;
         this.staminaFill = null;
         this.playerLastOnWallTime = -1;
+        this.lastAttackTime = -1;
 
         //flags
         this.playerCanJump = true;
@@ -128,6 +142,13 @@ export default class MountainScene extends Phaser.Scene
         this.losingStamina = false;
         this.gainingStamina = false;
         this.staminaActive = false;
+        this.playerAttacking = false;
+        this.playerSwordOut = false;
+        this.swordDrawn = false;
+        this.sheathSword = false;
+        this.drawSword = false;
+        this.inContactWithWall = false;
+        this.wallCollisionDirection = '';
 
         //movement logic
         this.flatSlideStartTime = -1;
@@ -152,8 +173,6 @@ export default class MountainScene extends Phaser.Scene
         this.cameras.main.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight);
         //this.cameras.main.setZoom(0.07);
 
-        makeCharacterAnimations(this);
-
         const contentGenerator = new ContentGenerator(this, this.maxGameWidth, this.maxGameHeight, 'sparse');
         contentGenerator.createLevel();
 
@@ -164,6 +183,8 @@ export default class MountainScene extends Phaser.Scene
           
         this.player.setExistingBody(this.playerBody);
         this.player.setScale(this.playerScaleFactor);
+
+        makeCharacterAnimations(this);
         
         console.log('created character at:', this.playerBody.position);
 
@@ -182,14 +203,41 @@ export default class MountainScene extends Phaser.Scene
             groundSlide: {
                 isDown: this.CTRLDown,
                 isUp: !this.CTRLDown
+            },
+            attack: {
+                isDown: this.attackDown,
+                isUp: !this.attackDown
             }
         }
         this.input.keyboard.on('keydown-' + 'CTRL', (event) => {
             this.CTRLDown = true;
-        })
+        });
         this.input.keyboard.on('keyup-' + 'CTRL', (event) => {
             this.CTRLDown = false;
-        })         
+        });
+        this.input.keyboard.on('keydown-' + 'A', (event) => {
+            if(this.swordDrawn){
+                this.playerAttacking = true;
+            }
+            else{
+                if(this.playerCanJump){
+                    this.playerAttacking = true;
+                    this.drawSword = true;
+                }
+            }
+        });
+        this.input.keyboard.on('keydown-' + 'S', (event) => {
+            if(this.swordDrawn && this.playerCanJump){
+                this.sheathSword = true;
+                this.swordDrawn = false;
+            }
+        });
+        this.input.keyboard.on('keydown-' + 'D', (event) => {
+            if(!this.swordDrawn && this.playerCanJump){
+                this.drawSword = true;
+            }
+        });
+       
 
         handleCollisions(this);
 
@@ -206,21 +254,14 @@ export default class MountainScene extends Phaser.Scene
         //     pauseRNN();
         // });
 
-        magentaTest();
+        //magentaTest();
 
-        this.player.on('animationcomplete', (animation, frame) => {
-            //console.log('in animation complete callback');
-            if(animation.key==='ledgeClimb'){
-                this.playerLedgeClimb = false;
-            } 
-        }, this);
 
         //this.add.image(200, 6400-64, 'environmentAtlas', 'chest_closed_green').setScale(this.chestScaleFactor).setOrigin(0,1);
     }
 
     update()
     {
-        console.log(this.currentPlayerAnimation);
         if(this.playerLedgeGrab){
             this.losingStamina = true;
         } 
@@ -238,8 +279,16 @@ export default class MountainScene extends Phaser.Scene
         this.audio.windSound.volume = Math.pow(1 - (this.player.y / this.maxGameHeight), 2);
         if(this.audio.wallSlideSound.isPlaying){
             const factor = 0.05;
-            this.audio.wallSlideSound.volume = this.player.body.velocity.y * factor + 0.25;
+            this.audio.wallSlideSound.volume = this.player.body.velocity.y * factor + 0.3;
         }
+        if(this.currentPlayerAnimation==='fall' && this.player.body.velocity.y > this.playerMaxSpeed * 0.7){
+            if(!this.audio.windFlap.isPlaying){
+                this.audio.windFlap.play(this.audio.windFlapConfig);
+            }
+        }
+        // else{
+        //     this.audio.windFlap.stop();
+        // }
     }
 
     drawStamina = () => {

@@ -18,6 +18,7 @@ export default (scene: MountainScene): void => {
                 if(other!==null){
                     if(other.tile.properties.collisionLabel==='ground'){
                         //console.log(scene.playerBody.velocity); 
+                        scene.inContactWithWall = false;
 
                         if(scene.losingStamina){
                             scene.losingStamina = false;
@@ -73,58 +74,77 @@ export default (scene: MountainScene): void => {
                         scene.playerWallJumping = false;
                         scene.playerFlatSliding = false;
                     }
-                    else if(other.tile.properties.collisionLabel==='wall' ||
-                            other.tile.properties.collisionLabel==='iceWall'){
+                    else if(other.tile.properties.collisionLabel==='wall' || other.tile.properties.collisionLabel==='iceWall'){
                         //console.log('collided with wall');
                         scene.playerFriction = 0;
+                        scene.inContactWithWall = true;
+                        scene.wallCollisionDirection = scene.currentPlayerDirection==='left' ? 'left' : 'right';
+
+                        if(scene.currentPlayerAnimation==='attack1' || scene.currentPlayerAnimation==='attack2' || scene.currentPlayerAnimation==='attack3'){
+                            scene.audio.attackSound.stop();
+                            scene.audio.swordRockImpact.play(scene.audio.swordRockImpactConfig);
+                        }
                         
-                        if(!scene.losingStamina && scene.currentPlayerAnimation!=='run'){ //&& scene.playerLastOnGroundTime < scene.time.now - 100){
-                            if(!scene.gainingStamina){
-                                scene.drawStamina();
+                        if(!scene.swordDrawn){
+                            if(!scene.losingStamina && scene.currentPlayerAnimation!=='run'){ //&& scene.playerLastOnGroundTime < scene.time.now - 100){
+                                if(!scene.gainingStamina){
+                                    scene.drawStamina();
+                                }
+                                scene.losingStamina = true;
+                                scene.gainingStamina = false;
                             }
-                            scene.losingStamina = true;
-                            scene.gainingStamina = false;
-                        }
-
-                        if(other.tile.properties.collisionLabel==='iceWall'){
-                            scene.playerFriction = 0;
-                            if(!scene.playerIceWallSliding){
-                                scene.resetWallSlide = true;
-                            }
-                            else{
-                                scene.resetWallSlide = false;
-                            }
-                            scene.playerIceWallSliding = true;
-                            if(scene.currentPlayerAnimation!=='wallSlide' && scene.player.body.velocity.y < 0){
-                                scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
-                            }
-
-                        }
-                        else{
-                            scene.playerFriction = scene.stamina > 0 ? 0.3 : 0;
-                            if(scene.playerIceWallSliding || scene.stamina <= 0){
-                                scene.resetWallSlide = true;
+    
+                            if(other.tile.properties.collisionLabel==='iceWall'){
+                                scene.playerFriction = 0;
+                                if(!scene.playerIceWallSliding){
+                                    scene.resetWallSlide = true;
+                                }
+                                else{
+                                    scene.resetWallSlide = false;
+                                }
+                                scene.playerIceWallSliding = true;
+                                if(scene.currentPlayerAnimation!=='wallSlide' && scene.player.body.velocity.y < 0){
+                                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
+                                }
+    
                             }
                             else{
-                                scene.resetWallSlide = false;
+                                scene.playerFriction = scene.stamina > 0 ? 0.3 : 0;
+                                if(scene.playerIceWallSliding || scene.stamina <= 0){
+                                    scene.resetWallSlide = true;
+                                }
+                                else{
+                                    scene.resetWallSlide = false;
+                                }
+                                scene.playerIceWallSliding = false;
                             }
-                            scene.playerIceWallSliding = false;
+                            scene.playerWallSliding = true;
+                            scene.playerWallJumping = false;
+                            //scene.playerCanJump = true;
+                            scene.playerRampSliding = false;
+                            scene.playerFlatSliding = false;
                         }
-                        scene.playerWallSliding = true;
-                        scene.playerWallJumping = false;
-                        //scene.playerCanJump = true;
-                        scene.playerRampSliding = false;
-                        scene.playerFlatSliding = false;
                         
                     }
                     else if(other.tile.properties.collisionLabel==='topWall'){
                         //console.log(other);
                         //console.log(collisionNormal);
                         
+                        if(scene.currentPlayerAnimation==='attack1'){
+                            scene.audio.attackSound.stop();
+                            scene.audio.swordRockImpact.play(scene.audio.swordRockImpactConfig);
+                        }
+
                         console.log(collisionNormal);
                         if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
                 
                             console.log('collided with top of topWall block');
+
+                            const currentTime = scene.time.now;
+                            if(!scene.playerCanJump && currentTime - scene.lastLandingTime > 100){
+                                scene.audio.hardLanding.play(scene.audio.hardLandingConfig);
+                            }
+                    
                            if(scene.losingStamina){
                                 scene.losingStamina = false;
                                 scene.gainingStamina = true;
@@ -236,6 +256,7 @@ export default (scene: MountainScene): void => {
                     else if(other.tile.properties.collisionLabel==='wall' ||
                             other.tile.properties.collisionLabel==='iceWall'){
                         scene.playerLastOnWallTime = scene.time.now;
+                        scene.inContactWithWall = true;
                     }
                 }
             }
