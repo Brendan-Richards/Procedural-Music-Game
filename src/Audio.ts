@@ -120,6 +120,7 @@ class Audio {
                 this.attackSound.play(this.attackSoundConfig);
                 const nudge = scene.currentPlayerDirection==='left' ? -1 : 1;
                 scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y);
+                scene.swordCollided = false;
             } 
             else if(animation.key==='wallAttack'){
                 this.runSound.stop(); 
@@ -127,7 +128,7 @@ class Audio {
                 this.attackSound.play(this.attackSoundConfig);
                 const nudge = scene.currentPlayerDirection==='left' ? 1 : -1;
                 console.log('setting stop wall slide position');
-                
+                scene.swordCollided = false;
                 //scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y); 
                  
             }
@@ -136,6 +137,7 @@ class Audio {
                 this.windFlap.stop();
                 this.wallSlideSound.stop();
                 this.attackSound.play(this.attackSoundConfig);
+                scene.swordCollided = false;
             }  
             else if(animation.key==='airAttack3Loop'){
                 this.windFlap.play(this.windFlapConfig);
@@ -169,7 +171,7 @@ class Audio {
                 this.runSound.stop();
                 this.wallSlideSound.stop();               
             }   
-            else if(animation.key==='ledgeGrab'){
+            else if(animation.key==='ledgeGrab' || animation.key==='ledgeGrabSword'){
                 this.runSound.stop();
                 this.wallSlideSound.stop();
                 this.windFlap.stop();

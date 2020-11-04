@@ -93,51 +93,56 @@ export default (scene: MountainScene): void => {
 
                         if(scene.currentPlayerAnimation==='attack1' || scene.currentPlayerAnimation==='attack2' || scene.currentPlayerAnimation==='attack3' ||
                            scene.currentPlayerAnimation==='airAttack1' || scene.currentPlayerAnimation==='airAttack2'){
-                            scene.audio.attackSound.stop();
-                            scene.audio.swordRockImpact.play(scene.audio.swordRockImpactConfig);
-                        }
-                        
-                        //if(!scene.swordDrawn){
-                        if(!scene.losingStamina && scene.currentPlayerAnimation!=='run'){ //&& scene.playerLastOnGroundTime < scene.time.now - 100){
-                            if(!scene.gainingStamina){
-                                scene.drawStamina();
-                            }
-                            scene.losingStamina = true;
-                            scene.gainingStamina = false;
-                        }
-
-                        if(other.tile.properties.collisionLabel==='iceWall'){
-                           // console.log('collided with ice wall');
-                            scene.playerFriction = 0;
-                            if(!scene.playerIceWallSliding){
-                                scene.resetWallSlide = true;
-                            }
-                            else{
-                                scene.resetWallSlide = false;
-                            }
-                            scene.playerIceWallSliding = true;
-                            if(scene.currentPlayerAnimation!=='wallSlide' && scene.player.body.velocity.y < 0){
-                                scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
+                            if(!scene.swordCollided){
+                                scene.audio.attackSound.stop();
+                                scene.audio.swordRockImpact.play(scene.audio.swordRockImpactConfig);
+                                const factor = scene.currentPlayerDirection==='left' ? 1 : -1;
+                                scene.player.setVelocityX(factor * scene.playerSpeed);
+                                scene.swordCollided = true;
                             }
 
                         }
                         else{
-                            //console.log('collided with wall');
-                            scene.playerFriction = scene.stamina > 0 ? 0.3 : 0;
-                            if(scene.playerIceWallSliding || scene.stamina <= 0){
-                                scene.resetWallSlide = true;
+                            if(!scene.losingStamina && scene.currentPlayerAnimation!=='run'){ //&& scene.playerLastOnGroundTime < scene.time.now - 100){
+                                if(!scene.gainingStamina){
+                                    scene.drawStamina();
+                                }
+                                scene.losingStamina = true;
+                                scene.gainingStamina = false;
+                            }
+
+                            if(other.tile.properties.collisionLabel==='iceWall'){
+                            // console.log('collided with ice wall');
+                                scene.playerFriction = 0;
+                                if(!scene.playerIceWallSliding){
+                                    scene.resetWallSlide = true;
+                                }
+                                else{
+                                    scene.resetWallSlide = false;
+                                }
+                                scene.playerIceWallSliding = true;
+                                if(scene.currentPlayerAnimation!=='wallSlide' && scene.player.body.velocity.y < 0){
+                                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
+                                }
+
                             }
                             else{
-                                scene.resetWallSlide = false;
+                                //console.log('collided with wall');
+                                scene.playerFriction = scene.stamina > 0 ? 0.3 : 0;
+                                if(scene.playerIceWallSliding || scene.stamina <= 0){
+                                    scene.resetWallSlide = true;
+                                }
+                                else{
+                                    scene.resetWallSlide = false;
+                                }
+                                scene.playerIceWallSliding = false;
                             }
-                            scene.playerIceWallSliding = false;
+                            scene.playerWallSliding = true;
+                            scene.playerWallJumping = false;
+                            //scene.playerCanJump = true;
+                            scene.playerRampSliding = false;
+                            scene.playerFlatSliding = false;
                         }
-                        scene.playerWallSliding = true;
-                        scene.playerWallJumping = false;
-                        //scene.playerCanJump = true;
-                        scene.playerRampSliding = false;
-                        scene.playerFlatSliding = false;
-                        //}
                         
                     }
                     else if(other.tile.properties.collisionLabel==='topWall'){
@@ -182,7 +187,7 @@ export default (scene: MountainScene): void => {
                             //scene.playerFriction = 0.01;
                             //console.log(event, body1, body2);
 
-                            if(!scene.playerLedgeClimb && !scene.swordDrawn){
+                            if(!scene.playerLedgeClimb){
                                 scene.ledgePosition = other.body.position;
                                 //scene.add.circle(scene.ledgePosition.x, scene.ledgePosition.y, 2, 0xffff00).setDepth(100);
                                 //console.log('other.tile:', other.tile);

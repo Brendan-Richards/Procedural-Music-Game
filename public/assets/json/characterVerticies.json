@@ -623,5 +623,29 @@
 				]
 			}
 		]
+	},
+	"adventurer_crnr_grb_swrd_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_crnr_grb_swrd_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":31, "y":3 }, { "x":25, "y":6 }, { "x":26, "y":30 }, { "x":32, "y":30 }, { "x":34, "y":5 } ]
+				]
+			}
+		]
 	}
 }

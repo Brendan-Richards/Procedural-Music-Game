@@ -163,6 +163,17 @@ export default (scene: MountainScene) => {
         repeat: -1 
     });
     scene.anims.create({
+        key: 'ledgeGrabSword',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_crnr_grb_swrd_', 
+             suffix: '.png',
+             end: 4, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
         key: 'ledgeClimb',
         frames: scene.anims.generateFrameNames('characterAtlas', {
              prefix: 'adventurer_crnr_clmb_', 

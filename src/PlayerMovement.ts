@@ -1,3 +1,4 @@
+import { Identity } from '@tensorflow/tfjs-core';
 import Phaser from 'phaser';
 import MountainScene from './MountainScene';
 
@@ -265,45 +266,62 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         if(scene.stamina===0){
             scene.player.setIgnoreGravity(false);
             scene.player.setPosition(scene.player.body.position.x-5, scene.player.body.position.y);
-            setNewCharacterAnimation(scene, 'fall', scene.currentPlayerDirection==='left', false);
+            const animationName = scene.swordDrawn ? 'fallSword' : 'fall';
+            setNewCharacterAnimation(scene, animationName, scene.currentPlayerDirection==='left', false);
             scene.playerLedgeGrab = false;
             scene.playerLedgeClimb = false;
         }
-        else if(scene.currentPlayerAnimation!=='ledgeGrab' && scene.playerLedgeGrab){
-            setNewCharacterAnimation(scene, 'ledgeGrab', scene.currentPlayerDirection==='left', false);
+        else if(scene.currentPlayerAnimation!=='ledgeGrab' && scene.currentPlayerAnimation!=='ledgeGrabSword' && scene.playerLedgeGrab){
+            const animationName = scene.swordDrawn ? 'ledgeGrabSword' : 'ledgeGrab';
+            setNewCharacterAnimation(scene, animationName, scene.currentPlayerDirection==='left', false);
             scene.player.setIgnoreGravity(true);
         }
-        else if(scene.currentPlayerAnimation!=='ledgeClimb' && scene.controlConfig.jumpControl.isDown && scene.stamina > 0){
+        else if(scene.currentPlayerAnimation!=='jump' && scene.currentPlayerAnimation!=='jumpSword' && scene.controlConfig.jumpControl.isDown && scene.stamina > 0){
             //console.log('setting to ledge climb');
             scene.playerLedgeGrab = false;
             scene.playerLedgeClimb = true;
 
-            setNewCharacterAnimation(scene, 'ledgeClimb', scene.currentPlayerDirection==='left', false);
+            const animationName = scene.swordDrawn ? 'jumpSword' : 'jump';
+            setNewCharacterAnimation(scene, animationName, scene.currentPlayerDirection==='left', false);
+            scene.player.once('animationcomplete', (animation, frame) => {
+                if(animation.key==='jump' || animation.key==='jumpSword'){
+                    scene.playerLedgeClimb = false;
+                }
+            }, scene);
+            //setNewCharacterAnimation(scene, 'ledgeClimb', scene.currentPlayerDirection==='left', false);
             const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, -1 * scene.playerJumpHeight);
             const tween = scene.tweens.add({
                 targets: scene.player,
+                onComplete: () => {
+                    console.log('tween finished, in callback');
+                    scene.playerLedgeClimb = false;
+                },
+                onCompleteScope: scene,
                 duration: 290,
                 //y: scene.player.body.position.y-43,
                 //y: scene.player.body.position.y - 130,
                 x: scene.player.body.position.x+(factor * 90)
             });
 
+
             if(scene.currentPlayerDirection==='right'){
                 scene.input.keyboard.once('keydown-LEFT', () => {
                     if(tween.isPlaying()){
                         tween.stop();
                         const velY = scene.player.body.velocity.y;
-                        setNewCharacterAnimation(scene, 'jump', true, false);
+                        setNewCharacterAnimation(scene, animationName, true, false);
                         scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, -1*scene.playerSpeed, velY); 
                         prevVelocity.y = -1 * scene.playerJumpHeight;
                     }
+                    scene.playerLedgeClimb = false;
                 });
                 if(scene.controlConfig.leftControl.isDown){
                     tween.stop();
-                    setNewCharacterAnimation(scene, 'jump', true, false);
+                    setNewCharacterAnimation(scene, animationName, true, false);
                     scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, -1*scene.playerSpeed, scene.player.body.velocity.y); 
                     prevVelocity.y = -1 * scene.playerJumpHeight;
+                    scene.playerLedgeClimb = false;
                 }
             }
             else if(scene.currentPlayerDirection==='left'){
@@ -311,16 +329,18 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                     if(tween.isPlaying()){
                         tween.stop();
                         const velY = scene.player.body.velocity.y;
-                        setNewCharacterAnimation(scene, 'jump', false, false);
+                        setNewCharacterAnimation(scene, animationName, false, false);
                         scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, velY); 
                         prevVelocity.y = -1 * scene.playerJumpHeight;
                     }
+                    scene.playerLedgeClimb = false;
                 });
                 if(scene.controlConfig.rightControl.isDown){
                     tween.stop();
-                    setNewCharacterAnimation(scene, 'jump', false, false);
+                    setNewCharacterAnimation(scene, animationName, false, false);
                     scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, scene.player.body.velocity.y); 
                     prevVelocity.y = -1 * scene.playerJumpHeight;
+                    scene.playerLedgeClimb = false;
                 }
             }
 
@@ -423,23 +443,6 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             break;
         }
         case 'fallSword': {
-
-            // if(scene.inContactWithWall){
-            //     if(scene.wallCollisionDirection==='right' && scene.controlConfig.leftControl.isDown){
-            //         //scene.player.setPosition(scene.player.x, scene.player.y);
-            //         scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, -1*scene.playerSpeed, prevVelocity.y);
-            //         scene.inContactWithWall = false;
-            //     } 
-            //     else if(scene.wallCollisionDirection==='left' && scene.controlConfig.rightControl.isDown){
-            //         //scene.player.setPosition(scene.player.x, scene.player.y);
-            //         scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, prevVelocity.y);
-            //         scene.inContactWithWall = false;
-            //     } 
-            //     else{
-            //         scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, prevVelocity.y);
-            //     }              
-            // }
-            // else{
                 if(scene.currentPlayerDirection==='right' && scene.controlConfig.rightControl.isDown){
                     scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, prevVelocity.y);
                 }
@@ -449,7 +452,6 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                 else{
                     scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, prevVelocity.y);
                 }
-            //}
             break;
         }
         case 'airAttack1':
@@ -472,19 +474,24 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         }
         case 'jumpSword':
         case 'jump': {
-            if(scene.controlConfig.rightControl.isDown && !scene.playerWallJumping){
-                //scene.currentPlayerDirection = 'right';
-                scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, prevVelocity.y);
-                break;
+            if(scene.playerLedgeClimb){
+
             }
-            else if(scene.controlConfig.leftControl.isDown && !scene.playerWallJumping){
-                //scene.currentPlayerDirection = 'left';
-                scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, -1*scene.playerSpeed, prevVelocity.y);
-                break;
-            }
-            else if(scene.playerWallJumping){
-                const factor = scene.currentPlayerDirection==='left' ? 1 : -1;
-                //scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, factor*scene.playerSpeed, -2.5*scene.playerSpeed); 
+            else{
+                if(scene.controlConfig.rightControl.isDown && !scene.playerWallJumping){
+                    //scene.currentPlayerDirection = 'right';
+                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, prevVelocity.y);
+                    break;
+                }
+                else if(scene.controlConfig.leftControl.isDown && !scene.playerWallJumping){
+                    //scene.currentPlayerDirection = 'left';
+                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, -1*scene.playerSpeed, prevVelocity.y);
+                    break;
+                }
+                else if(scene.playerWallJumping){
+                    const factor = scene.currentPlayerDirection==='left' ? 1 : -1;
+                    //scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, factor*scene.playerSpeed, -2.5*scene.playerSpeed); 
+                }
             }
         }
         default: break;
@@ -510,6 +517,7 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName, flipX, fl
         case 'wallSlideSword': {bodyData = scene.characterShapes.adventurer_wall_slide_swrd_00; break;}
         case 'groundSlide': {bodyData = scene.characterShapes.adventurer_slide_00; break;}
         case 'ledgeGrab': {bodyData = scene.characterShapes.adventurer_crnr_grb_00; break;}
+        case 'ledgeGrabSword': {bodyData = scene.characterShapes.adventurer_crnr_grb_swrd_00; break;}
         case 'ledgeClimb': {bodyData = scene.characterShapes.adventurer_crnr_clmb_00; break;}
         case 'attack1': {bodyData = scene.characterShapes.adventurer_attack1_00; break;}
         case 'attack2': {bodyData = scene.characterShapes.adventurer_attack2_00; break;}
