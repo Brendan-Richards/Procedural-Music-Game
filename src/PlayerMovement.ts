@@ -57,6 +57,7 @@ const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             const attackNum = Math.floor(Math.random() * 3) + 1; 
             setNewCharacterAnimation(scene, 'attack' + attackNum.toString(), scene.currentPlayerDirection==='left', false);
             scene.lastAttackTime = scene.time.now; 
+           // scene.stamina -= scene.attackStaminaPenalty;
         }
     }
     else if (scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime)
@@ -183,13 +184,18 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             if(scene.currentPlayerAnimation !== 'airAttack3Start' && scene.currentPlayerAnimation !== 'airAttack3Loop' && scene.currentPlayerAnimation !== 'airAttack3End'){
                 console.log('setting animation to downward airAttack');
                 setNewCharacterAnimation(scene, 'airAttack3Start', scene.currentPlayerDirection==='left', false);
+                //scene.stamina -= scene.attackStaminaPenalty;
             }
         }
         else if(scene.playerWallSliding){
-            if(scene.currentPlayerAnimation !== 'wallAttack'){
-                scene.stopWallSlidingPosition = {x: scene.player.x, y: scene.player.y}; 
+            if(scene.currentPlayerAnimation !== 'wallAttack' && scene.stamina > 0){
+                scene.stopWallSlidingPosition = {x: scene.player.x, y: scene.player.y};
                 setNewCharacterAnimation(scene, 'wallAttack', scene.currentPlayerDirection==='left', false);
+                scene.stamina -= scene.attackStaminaPenalty;
                 scene.lastAttackTime = scene.time.now;
+            }
+            if(scene.stamina <= 0){
+                scene.playerAttacking = false;
             }
         }
         else if((scene.currentPlayerAnimation !== 'airAttack1' && scene.currentPlayerAnimation !== 'airAttack2')
@@ -198,6 +204,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             const attackNum = Math.floor(Math.random() * 2) + 1; 
             setNewCharacterAnimation(scene, 'airAttack' + attackNum.toString(), scene.currentPlayerDirection==='left', false);
             scene.lastAttackTime = scene.time.now; 
+            //scene.stamina -= scene.attackStaminaPenalty;
         }
     }
     else if(scene.playerWallSliding){
@@ -213,6 +220,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             //flip the players direction cause they were facing the opposite way when on the wall
             scene.currentPlayerDirection = scene.currentPlayerDirection==='left' ? 'right' : 'left';
             const animationName = scene.swordDrawn ? 'jumpSword' : 'jump';
+            scene.stopWallSlidingPosition = {x: scene.player.x, y: scene.player.y};
             setNewCharacterAnimation(scene, animationName, scene.currentPlayerDirection==='left', false);
             //console.log('player direction at tiem of wall jump:', scene.currentPlayerDirection);
 
@@ -239,12 +247,14 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                    //flip the players direction cause they were facing the opposite way when on the wall
                    scene.stopWallSlidingDirection = scene.currentPlayerDirection;
                    scene.currentPlayerDirection = scene.currentPlayerDirection==='left' ? 'right' : 'left';
+                   console.log('checking if player can start wall sliding again at position:');
+                   scene.stopWallSlidingPosition = {x: scene.player.x, y: scene.player.y}; 
                    const animationName = scene.swordDrawn ? 'fallSword' : 'fall';
                    setNewCharacterAnimation(scene, animationName, scene.currentPlayerDirection==='left', false);
                    scene.playerWallSliding = false;
                    scene.playerIceWallSliding = false;
                    //scene.stopWallSlidingPosition = {...scene.playerBody.position}
-                   scene.stopWallSlidingPosition = {x: scene.player.x, y: scene.player.y}; 
+                   
                   //console.log('set stop wall sliding position to:', this.stopWallSlidingPosition);
                }
         }
@@ -357,7 +367,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             }
             else if (scene.controlConfig.rightControl.isDown)
             {
-                //console.log('checking if player can start wall sliding again at position:', this.playerBody.position);
+                //console.log('checking if player can start wall sliding again at position:');
                 if(scene.player.x===scene.stopWallSlidingPosition.x &&
                     scene.stopWallSlidingDirection==='right'){
                         //console.log('resetting wall slide to right wall');
@@ -401,6 +411,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
     //set the characters speed depending on the active animation and active direction
     switch(scene.currentPlayerAnimation){
         case 'wallSlideSword':
+        case 'wallAttack':
         case 'wallSlide': {
             const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, factor*0.5, prevVelocity.y);

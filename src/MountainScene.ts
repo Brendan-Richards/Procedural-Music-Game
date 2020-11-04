@@ -86,6 +86,7 @@ export default class MountainScene extends Phaser.Scene
     playerIceJumpHeight: number;
     playerFriction: number;
     numChests: number;
+    attackStaminaPenalty: number;
     playerLastOnWallTime: number;
     chestScaleFactor: number;
     currentPlayerAnimation: string;
@@ -128,6 +129,7 @@ export default class MountainScene extends Phaser.Scene
         this.staminaFill = null;
         this.playerLastOnWallTime = -1;
         this.lastAttackTime = -1;
+        this.attackStaminaPenalty = 10;
 
         //flags
         this.playerCanJump = true;
@@ -272,7 +274,12 @@ export default class MountainScene extends Phaser.Scene
 
     update()
     {
-        console.log(this.playerWallSliding);
+        //console.log(this.player.y);
+        // console.log('prev player animation:', this.prevPlayerAnimation);
+         //console.log('current player animation:', this.currentPlayerAnimation);
+        // console.log('player wall sliding?', this.playerWallSliding);
+        // console.log(' ');
+        console.log(this.stopWallSlidingPosition);
         if(this.playerLedgeGrab){
             this.losingStamina = true;
         } 

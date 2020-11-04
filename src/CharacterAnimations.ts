@@ -309,8 +309,8 @@ export default (scene: MountainScene) => {
         }
         else if(animation.key==='wallAttack'){
             scene.playerAttacking = false;
-            const nudge = scene.currentPlayerDirection==='left' ? -1 : 1;
-            //scene.player.setPosition(scene.player.x + (10*nudge), scene.player.y);
+            //c onst nudge = scene.currentPlayerDirection==='left' ? -1 : 1;
+            //scene.player.setPosition(scene.player.x - (500), scene.player.y);
         }else if(animation.key==='airAttack1' ||
                  animation.key==='airAttack2' || 
                  animation.key==='airAttack3End'){
@@ -334,6 +334,12 @@ export default (scene: MountainScene) => {
             scene.playerAttacking = false;
             scene.playerCanJump = true;
         }
+        // else if(animation.key==='wallSlide'){
+        //     scene.stopWallSlidingPosition = {x: scene.player.x, y: scene.player.y}; 
+        // }
+        // scene.player.on('animationupdate-wallAttack', () => {
+        //     scene.player.setPosition(scene.stopWallSlidingPosition.x, scene.player.y);
+        // })
         
     }, scene);
 };

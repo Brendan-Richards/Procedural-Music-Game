@@ -124,10 +124,12 @@ class Audio {
             else if(animation.key==='wallAttack'){
                 this.runSound.stop(); 
                 this.windFlap.stop();
-                this.wallSlideSound.stop();
                 this.attackSound.play(this.attackSoundConfig);
                 const nudge = scene.currentPlayerDirection==='left' ? 1 : -1;
-                scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y);                
+                console.log('setting stop wall slide position');
+                
+                //scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y); 
+                 
             }
             else if(animation.key==='airAttack1' || animation.key==='airAttack2'){
                 this.runSound.stop(); 
@@ -182,10 +184,15 @@ class Audio {
             else if(animation.key==='wallSlide' || animation.key==='wallSlideSword'){
                 this.runSound.stop();
                 this.windFlap.stop();
-                if(!this.wallSmackSound.isPlaying){
+                if(!this.wallSmackSound.isPlaying && scene.currentPlayerAnimation!=='wallAttack'){
                     this.wallSmackSound.play(this.wallSmackConfig);
                 }
-                this.wallSlideSound.play(this.wallSlideConfig);               
+                this.wallSlideSound.play(this.wallSlideConfig);  
+                //console.log('in hook for wall slide anim start')
+                if(scene.currentPlayerAnimation==='wallAttack'){
+                    //console.log('previous anim was wall attack')
+                    scene.player.setPosition(scene.stopWallSlidingPosition.x, scene.player.y);
+                }             
             }
             else if(animation.key==='idle1' || animation.key==='idleSword'){
                 this.runSound.stop(); 
