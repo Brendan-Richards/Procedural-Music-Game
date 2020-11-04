@@ -224,10 +224,10 @@ export default class MountainScene extends Phaser.Scene
                 this.playerAttacking = true;
             }
             else{
-                if(this.playerCanJump){
+               // if(this.playerCanJump){
                     this.playerAttacking = true;
                     this.drawSword = true;
-                }
+                //}
             }
             if(!this.playerCanJump && this.controlConfig.downControl.isDown){
                 this.downAttack = true;
@@ -237,13 +237,13 @@ export default class MountainScene extends Phaser.Scene
             }
         });
         this.input.keyboard.on('keydown-' + 'S', (event) => {
-            if(this.swordDrawn && this.playerCanJump){
+            if(this.swordDrawn){
                 this.sheathSword = true;
                 this.swordDrawn = false;
             }
         });
         this.input.keyboard.on('keydown-' + 'D', (event) => {
-            if(!this.swordDrawn && this.playerCanJump){
+            if(!this.swordDrawn){
                 this.drawSword = true;
             }
         });
@@ -272,7 +272,7 @@ export default class MountainScene extends Phaser.Scene
 
     update()
     {
-        console.log(this.currentPlayerAnimation);
+        console.log(this.playerWallSliding);
         if(this.playerLedgeGrab){
             this.losingStamina = true;
         } 

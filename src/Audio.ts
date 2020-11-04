@@ -121,6 +121,14 @@ class Audio {
                 const nudge = scene.currentPlayerDirection==='left' ? -1 : 1;
                 scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y);
             } 
+            else if(animation.key==='wallAttack'){
+                this.runSound.stop(); 
+                this.windFlap.stop();
+                this.wallSlideSound.stop();
+                this.attackSound.play(this.attackSoundConfig);
+                const nudge = scene.currentPlayerDirection==='left' ? 1 : -1;
+                scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y);                
+            }
             else if(animation.key==='airAttack1' || animation.key==='airAttack2'){
                 this.runSound.stop(); 
                 this.windFlap.stop();
@@ -171,7 +179,7 @@ class Audio {
                 this.wallSlideSound.stop();
                 this.jumpSound.play(this.jumpConfig);               
             } 
-            else if(animation.key==='wallSlide'){
+            else if(animation.key==='wallSlide' || animation.key==='wallSlideSword'){
                 this.runSound.stop();
                 this.windFlap.stop();
                 if(!this.wallSmackSound.isPlaying){
@@ -184,10 +192,10 @@ class Audio {
                 this.windFlap.stop();
                 this.wallSlideSound.stop();              
             }  
-            else if(animation.key==='draw'){
+            else if(animation.key==='draw' || animation.key==='drawAir' ){
                 this.drawSound.play(this.drawSoundConfig);
             }    
-            else if(animation.key==='sheath'){
+            else if(animation.key==='sheath' || animation.key==='sheathAir'){
                 this.sheathSound.play(this.sheathSoundConfig);
             }        
         });

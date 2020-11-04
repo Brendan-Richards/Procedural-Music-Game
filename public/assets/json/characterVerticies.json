@@ -527,5 +527,101 @@
 				]
 			}
 		]
+	},
+	"adventurer_swrd_drw_air_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_swrd_drw_air_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":18, "y":36 }, { "x":32, "y":36 }, { "x":29, "y":11 }, { "x":22, "y":11 }, { "x":15, "y":19 } ]
+				]
+			}
+		]
+	},
+	"adventurer_swrd_shte_air_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_swrd_shte_air_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":17, "y":36 }, { "x":32, "y":36 }, { "x":32, "y":10 }, { "x":17, "y":15 } ]
+				]
+			}
+		]
+	},
+	"adventurer_wall_slide_swrd_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_wall_slide_swrd_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":23, "y":28 }, { "x":33, "y":14 }, { "x":33, "y":6 }, { "x":20, "y":7 } ]
+				]
+			}
+		]
+	},
+	"adventurer_wall_attack_01": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_wall_attack_01",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":21, "y":34 }, { "x":33, "y":14 }, { "x":33, "y":6 }, { "x":15, "y":2 }, { "x":3, "y":11 }, { "x":4, "y":27 } ]
+				]
+			}
+		]
 	}
 }

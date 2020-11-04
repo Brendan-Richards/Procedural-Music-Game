@@ -120,6 +120,27 @@ export default (scene: MountainScene) => {
         repeat: -1,
     });
     scene.anims.create({
+        key: 'wallAttack',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_wall_attack_', 
+             suffix: '.png',
+             end: 4, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate * 1.5
+    });
+    scene.anims.create({
+        key: 'wallSlideSword',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_wall_slide_swrd_', 
+             suffix: '.png',
+             end: 2, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1,
+    });
+    scene.anims.create({
         key: 'smrslt',
         frames: scene.anims.generateFrameNames('characterAtlas', {
              prefix: 'adventurer_smrslt_', 
@@ -244,9 +265,29 @@ export default (scene: MountainScene) => {
             frameRate: frameRate * 1.8
     });
     scene.anims.create({
+        key: 'drawAir',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_swrd_drw_air_', 
+             suffix: '.png',
+             end: 4, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate * 1.8
+    });
+    scene.anims.create({
         key: 'sheath',
         frames: scene.anims.generateFrameNames('characterAtlas', {
              prefix: 'adventurer_swrd_shte_', 
+             suffix: '.png',
+             end: 4, 
+             zeroPad: 2 
+            }),
+            frameRate: frameRate * 1.8
+    });
+    scene.anims.create({
+        key: 'sheathAir',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+             prefix: 'adventurer_swrd_shte_air_', 
              suffix: '.png',
              end: 4, 
              zeroPad: 2 
@@ -265,16 +306,21 @@ export default (scene: MountainScene) => {
             scene.playerAttacking = false;
             const nudge = scene.currentPlayerDirection==='left' ? 1 : -1;
             scene.player.setPosition(scene.player.x + (10*nudge), scene.player.y);
+        }
+        else if(animation.key==='wallAttack'){
+            scene.playerAttacking = false;
+            const nudge = scene.currentPlayerDirection==='left' ? -1 : 1;
+            //scene.player.setPosition(scene.player.x + (10*nudge), scene.player.y);
         }else if(animation.key==='airAttack1' ||
                  animation.key==='airAttack2' || 
                  animation.key==='airAttack3End'){
             scene.playerAttacking = false;
         }
-        else if(animation.key==='draw'){
+        else if(animation.key==='draw' || animation.key==='drawAir'){
             scene.drawSword = false;
             scene.swordDrawn = true;
         }
-        else if(animation.key==='sheath'){
+        else if(animation.key==='sheath' || animation.key==='sheathAir'){
             scene.sheathSword = false;
             scene.swordDrawn = false;
         }
