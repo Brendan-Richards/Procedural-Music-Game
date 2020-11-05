@@ -9,18 +9,17 @@ import 'regenerator-runtime/runtime';
 import magentaTest from './MagentaTest';
 
 type controlConfig = {
-    leftControl: Phaser.Input.Keyboard.Key,
-    rightControl: Phaser.Input.Keyboard.Key,
-    jumpControl: Phaser.Input.Keyboard.Key,
-    downControl: Phaser.Input.Keyboard.Key,
-    groundSlide: {
-        isDown: boolean,
-        isUp: boolean
-    },
-    attack: {
-        isDown: boolean,
-        isUp: boolean
-    }    
+    leftControl: control,
+    rightControl: control,
+    jumpControl: control,
+    downControl: control,
+    groundSlide: control,
+    attack: control    
+}
+
+type control = {
+    isUp: boolean,
+    isDown: boolean
 }
 
 interface VertexInformation {
@@ -47,6 +46,9 @@ export default class MountainScene extends Phaser.Scene
     controlConfig: controlConfig;
     setFlatSlide: boolean;
     ledgePosition: object;
+    downControl: control;
+    leftControl: control;
+    rightControl: control;
     playerRampSliding: boolean;
     playerFlatSliding: boolean;
     playerWallSliding: boolean;
@@ -205,10 +207,31 @@ export default class MountainScene extends Phaser.Scene
         //input setup
         /////////////////////////////////////////////////////////////////////////////////
         this.cursors = this.input.keyboard.createCursorKeys();
+        // this.leftControl = {
+        //     isDown: this.leftDown,
+        //     isUp: !this.leftDown
+        // };
+        // this.rightControl = {
+        //     isDown: this.rightDown,
+        //     isUp: !this.rightDown
+        // };
+        // this.downControl = {
+        //     isDown: this.downDown,
+        //     isUp: !this.downDown
+        // };
         this.controlConfig = {
-            leftControl: this.cursors.left as Phaser.Input.Keyboard.Key,
-            rightControl: this.cursors.right as Phaser.Input.Keyboard.Key,
-            downControl: this.cursors.down as Phaser.Input.Keyboard.Key,
+            leftControl: {
+                isDown: false,
+                isUp: true
+            },
+            rightControl: {
+                isDown: false,
+                isUp: true
+            },
+            downControl: {
+                isDown: false,
+                isUp: true
+            },
             jumpControl: this.cursors.space as Phaser.Input.Keyboard.Key,
             groundSlide: {
                 isDown: this.CTRLDown,
@@ -219,38 +242,112 @@ export default class MountainScene extends Phaser.Scene
                 isUp: !this.attackDown
             }
         }
-        this.input.keyboard.on('keydown-' + 'CTRL', (event) => {
-            this.CTRLDown = true;
-        });
-        this.input.keyboard.on('keyup-' + 'CTRL', (event) => {
-            this.CTRLDown = false;
+
+        this.input.mouse.disableContextMenu();
+        //this.input.setDefaultCursor('none');
+
+        this.input.on('pointerdown', (pointer) => {
+            if(pointer.leftButtonDown()){
+                if(!this.playerLedgeGrab){ 
+                    if(!this.swordDrawn){
+                        this.drawSword = true;
+                    }
+                    else{
+                        this.playerAttacking = true;
+                    }
+                }
+                if(!this.playerCanJump && this.controlConfig.downControl.isDown){
+                    this.downAttack = true;
+                }
+                else{
+                    this.downAttack = false;
+                }
+            }
+            else if(pointer.rightButtonDown()){
+                if(this.swordDrawn){
+                    this.sheathSword = true;
+                    this.swordDrawn = false;
+                }
+            }
+            //console.log(pointer);
+        }, this);
+
+        this.input.keyboard.on('keyup-' + 'A', (event) => {
+            this.controlConfig.leftControl.isDown = false;
+            this.controlConfig.leftControl.isUp = true;
         });
         this.input.keyboard.on('keydown-' + 'A', (event) => {
-            if(!this.playerLedgeGrab){
-                if(!this.swordDrawn){
-                    this.drawSword = true;
-                }
-                this.playerAttacking = true;
-            }
-            if(!this.playerCanJump && this.controlConfig.downControl.isDown){
-                this.downAttack = true;
-            }
-            else{
-                this.downAttack = false;
-            }
+            this.controlConfig.leftControl.isDown = true;
+            this.controlConfig.leftControl.isUp = false;
         });
-        this.input.keyboard.on('keydown-' + 'S', (event) => {
-            if(this.swordDrawn){
-                this.sheathSword = true;
-                this.swordDrawn = false;
-            }
+        this.input.keyboard.on('keyup-' + 'D', (event) => {
+            this.controlConfig.rightControl.isDown = false;
+            this.controlConfig.rightControl.isUp = true;
         });
         this.input.keyboard.on('keydown-' + 'D', (event) => {
-            if(!this.swordDrawn){
-                this.drawSword = true;
-            }
+            this.controlConfig.rightControl.isDown = true;
+            this.controlConfig.rightControl.isUp = false;
         });
-       
+        this.input.keyboard.on('keyup-' + 'S', (event) => {
+            this.controlConfig.downControl.isDown = false;
+            this.controlConfig.downControl.isUp = true;
+        });
+        this.input.keyboard.on('keydown-' + 'S', (event) => {
+            this.controlConfig.downControl.isDown = true;
+            this.controlConfig.downControl.isUp = false;
+        });
+
+        //old control scheme
+//////////////////////////////////////////////////////////////////////////////////////////
+        // this.cursors = this.input.keyboard.createCursorKeys();
+        // this.controlConfig = {
+        //     leftControl: this.cursors.left as Phaser.Input.Keyboard.Key,
+        //     rightControl: this.cursors.right as Phaser.Input.Keyboard.Key,
+        //     downControl: this.cursors.down as Phaser.Input.Keyboard.Key,
+        //     jumpControl: this.cursors.space as Phaser.Input.Keyboard.Key,
+        //     groundSlide: {
+        //         isDown: this.CTRLDown,
+        //         isUp: !this.CTRLDown
+        //     },
+        //     attack: {
+        //         isDown: this.attackDown,
+        //         isUp: !this.attackDown
+        //     }
+        // }
+
+
+        // this.input.keyboard.on('keydown-' + 'CTRL', (event) => {
+        //     this.CTRLDown = true;
+        // });
+        // this.input.keyboard.on('keyup-' + 'CTRL', (event) => {
+        //     this.CTRLDown = false;
+        // });
+        // this.input.keyboard.on('keydown-' + 'A', (event) => {
+        //     if(!this.playerLedgeGrab){
+        //         if(!this.swordDrawn){
+        //             this.drawSword = true;
+        //         }
+        //         this.playerAttacking = true;
+        //     }
+        //     if(!this.playerCanJump && this.controlConfig.downControl.isDown){
+        //         this.downAttack = true;
+        //     }
+        //     else{
+        //         this.downAttack = false;
+        //     }
+        // });
+        // this.input.keyboard.on('keydown-' + 'S', (event) => {
+        //     if(this.swordDrawn){
+        //         this.sheathSword = true;
+        //         this.swordDrawn = false;
+        //     }
+        // });
+        // this.input.keyboard.on('keydown-' + 'D', (event) => {
+        //     if(!this.swordDrawn){
+        //         this.drawSword = true;
+        //     }
+        // });
+//////////////////////////////////////////////////////////////////////////////////
 
         handleCollisions(this);
 
@@ -277,7 +374,7 @@ export default class MountainScene extends Phaser.Scene
     {
         //console.log(this.player.y);
         // console.log('prev player animation:', this.prevPlayerAnimation);
-         //console.log('current player animation:', this.currentPlayerAnimation);
+        //console.log('current player animation:', this.currentPlayerAnimation);
         // console.log('player wall sliding?', this.playerWallSliding);
         // console.log(' ');
         //console.log(this.stopWallSlidingPosition);
