@@ -226,14 +226,11 @@ export default class MountainScene extends Phaser.Scene
             this.CTRLDown = false;
         });
         this.input.keyboard.on('keydown-' + 'A', (event) => {
-            if(this.swordDrawn){
-                this.playerAttacking = true;
-            }
-            else{
-               // if(this.playerCanJump){
-                    this.playerAttacking = true;
+            if(!this.playerLedgeGrab){
+                if(!this.swordDrawn){
                     this.drawSword = true;
-                //}
+                }
+                this.playerAttacking = true;
             }
             if(!this.playerCanJump && this.controlConfig.downControl.isDown){
                 this.downAttack = true;
