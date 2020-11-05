@@ -437,6 +437,11 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, factor*0.5, prevVelocity.y);
             break;
         }
+        case 'ledgeGrab':
+        case 'ledgeGrabSword': {
+            scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
+            break;
+        }
         case 'airAttack3Start':
         case 'airAttack3Loop': {
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, scene.playerMaxSpeed);

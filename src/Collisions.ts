@@ -148,7 +148,6 @@ export default (scene: MountainScene): void => {
                     else if(other.tile.properties.collisionLabel==='topWall'){
                         //console.log(other);
                         //console.log(collisionNormal);
-                        
                         if(scene.currentPlayerAnimation==='attack1' || scene.currentPlayerAnimation==='attack2' || scene.currentPlayerAnimation==='attack3' ||
                             scene.currentPlayerAnimation==='airAttack1' || scene.currentPlayerAnimation==='airAttack2'){
                             if(!scene.swordCollided){
