@@ -207,18 +207,7 @@ export default class MountainScene extends Phaser.Scene
         //input setup
         /////////////////////////////////////////////////////////////////////////////////
         this.cursors = this.input.keyboard.createCursorKeys();
-        // this.leftControl = {
-        //     isDown: this.leftDown,
-        //     isUp: !this.leftDown
-        // };
-        // this.rightControl = {
-        //     isDown: this.rightDown,
-        //     isUp: !this.rightDown
-        // };
-        // this.downControl = {
-        //     isDown: this.downDown,
-        //     isUp: !this.downDown
-        // };
+
         this.controlConfig = {
             leftControl: {
                 isDown: false,
@@ -296,58 +285,6 @@ export default class MountainScene extends Phaser.Scene
             this.controlConfig.downControl.isDown = true;
             this.controlConfig.downControl.isUp = false;
         });
-
-        //old control scheme
-//////////////////////////////////////////////////////////////////////////////////////////
-        // this.cursors = this.input.keyboard.createCursorKeys();
-        // this.controlConfig = {
-        //     leftControl: this.cursors.left as Phaser.Input.Keyboard.Key,
-        //     rightControl: this.cursors.right as Phaser.Input.Keyboard.Key,
-        //     downControl: this.cursors.down as Phaser.Input.Keyboard.Key,
-        //     jumpControl: this.cursors.space as Phaser.Input.Keyboard.Key,
-        //     groundSlide: {
-        //         isDown: this.CTRLDown,
-        //         isUp: !this.CTRLDown
-        //     },
-        //     attack: {
-        //         isDown: this.attackDown,
-        //         isUp: !this.attackDown
-        //     }
-        // }
-
-
-        // this.input.keyboard.on('keydown-' + 'CTRL', (event) => {
-        //     this.CTRLDown = true;
-        // });
-        // this.input.keyboard.on('keyup-' + 'CTRL', (event) => {
-        //     this.CTRLDown = false;
-        // });
-        // this.input.keyboard.on('keydown-' + 'A', (event) => {
-        //     if(!this.playerLedgeGrab){
-        //         if(!this.swordDrawn){
-        //             this.drawSword = true;
-        //         }
-        //         this.playerAttacking = true;
-        //     }
-        //     if(!this.playerCanJump && this.controlConfig.downControl.isDown){
-        //         this.downAttack = true;
-        //     }
-        //     else{
-        //         this.downAttack = false;
-        //     }
-        // });
-        // this.input.keyboard.on('keydown-' + 'S', (event) => {
-        //     if(this.swordDrawn){
-        //         this.sheathSword = true;
-        //         this.swordDrawn = false;
-        //     }
-        // });
-        // this.input.keyboard.on('keydown-' + 'D', (event) => {
-        //     if(!this.swordDrawn){
-        //         this.drawSword = true;
-        //     }
-        // });
-//////////////////////////////////////////////////////////////////////////////////
 
         handleCollisions(this);
 
