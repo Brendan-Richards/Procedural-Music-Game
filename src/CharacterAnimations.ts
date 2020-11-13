@@ -82,7 +82,7 @@ export default (scene: MountainScene) => {
             end: 4, 
             zeroPad: 2 
             }),
-            frameRate: frameRate
+            frameRate: swingFrameRate
     });
     scene.anims.create({
         key: 'punch2',
@@ -92,7 +92,7 @@ export default (scene: MountainScene) => {
             end: 4, 
             zeroPad: 2 
             }),
-            frameRate: frameRate
+            frameRate: swingFrameRate
     });
     scene.anims.create({
         key: 'punch3',
@@ -102,7 +102,7 @@ export default (scene: MountainScene) => {
             end: 5, 
             zeroPad: 2 
             }),
-            frameRate: frameRate
+            frameRate: swingFrameRate
     });
     scene.anims.create({
         key: 'runPunch',
@@ -112,7 +112,7 @@ export default (scene: MountainScene) => {
             end: 7, 
             zeroPad: 2 
             }),
-            frameRate: frameRate
+            frameRate: swingFrameRate
     });
     scene.anims.create({
         key: 'groundKick',
@@ -122,7 +122,7 @@ export default (scene: MountainScene) => {
             end: 8, 
             zeroPad: 2 
             }),
-            frameRate: frameRate
+            frameRate: swingFrameRate
     });
     scene.anims.create({
         key: 'airKick',
@@ -132,7 +132,7 @@ export default (scene: MountainScene) => {
             end: 4, 
             zeroPad: 2 
             }),
-            frameRate: frameRate
+            frameRate: swingFrameRate
     });
 
 
@@ -491,11 +491,12 @@ export default (scene: MountainScene) => {
             const nudge = scene.currentPlayerDirection==='left' ? 1 : -1;
             scene.player.setPosition(scene.player.x + (10*nudge), scene.player.y);
         }
-        else if(animation.key==='wallSwing' || animation.key==='airSwing1' || animation.key==='airSwing2' || animation.key==='runSwing'){
+        else if(scene.swordAttacks.includes(animation.key) || scene.meeleeAttacks.includes(animation.key)){
+            //console.log('setting player attacking flag to false');
             scene.playerAttacking = false;
         }
         else if(scene.swordDraws.includes(animation.key)){
-            console.log('done with draw animation');
+            //console.log('done with draw animation');
             scene.drawSword = false;
             scene.swordDrawn = true;
         }

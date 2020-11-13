@@ -70,17 +70,35 @@ const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         }
     }
     else if(scene.playerAttacking){
-        if(!scene.swordAttacks.includes(scene.currentPlayerAnimation) && scene.time.now - scene.lastAttackTime > 500){
-            let swing = '';
-            switch(scene.prevSwordSwing){
-                case 'idleSwing1': {swing = 'idleSwing2'; scene.prevSwordSwing = 'idleSwing2'; break;}
-                case 'idleSwing2': {swing = 'runSwing'; scene.prevSwordSwing = 'runSwing'; break;}
-                default: {swing = 'idleSwing1'; scene.prevSwordSwing = 'idleSwing1'; break;}
+        if(scene.equippedWeapon==='sword'){
+            if(!scene.swordAttacks.includes(scene.currentPlayerAnimation) && scene.time.now - scene.lastAttackTime > 500){
+                let swing = '';
+                switch(scene.prevSwordSwing){
+                    case 'idleSwing1': {swing = 'idleSwing2'; scene.prevSwordSwing = 'idleSwing2'; break;}
+                    case 'idleSwing2': {swing = 'runSwing'; scene.prevSwordSwing = 'runSwing'; break;}
+                    default: {swing = 'idleSwing1'; scene.prevSwordSwing = 'idleSwing1'; break;}
+                }
+                setNewCharacterAnimation(scene, swing, scene.currentPlayerDirection==='left', false);
+    
+               // scene.stamina -= scene.attackStaminaPenalty;
             }
-            setNewCharacterAnimation(scene, swing, scene.currentPlayerDirection==='left', false);
-
-           // scene.stamina -= scene.attackStaminaPenalty;
         }
+        else if(scene.equippedWeapon==='none'){
+            if(!scene.meeleeAttacks.includes(scene.currentPlayerAnimation) && scene.time.now - scene.lastAttackTime > 500){
+                let attack = '';
+                switch(scene.prevMeeleeAttack){
+                    case 'punch1': {attack = 'punch2'; scene.prevMeeleeAttack = 'punch2'; break;}
+                    case 'punch2': {attack = 'punch3'; scene.prevMeeleeAttack = 'punch3'; break;}
+                    case 'punch3': {attack = 'runPunch'; scene.prevMeeleeAttack = 'runPunch'; break;}
+                    case 'runPunch': {attack = 'groundKick'; scene.prevMeeleeAttack = 'groundKick'; break;}
+                    default: {attack = 'punch1'; scene.prevMeeleeAttack = 'punch1'; break;}
+                }
+                setNewCharacterAnimation(scene, attack, scene.currentPlayerDirection==='left', false);
+    
+               // scene.stamina -= scene.attackStaminaPenalty;
+            }            
+        }
+
     }
     else if (scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime)
     {
@@ -221,7 +239,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         // else if(scene.sheathSword && scene.currentPlayerAnimation !== 'sheathAir'){
         //     setNewCharacterAnimation(scene, 'sheathAir', scene.currentPlayerDirection==='left', false);
         // }
-        console.log('trying to draw or sheath sword, current player animation:', scene.currentPlayerAnimation);
+        //console.log('trying to draw or sheath sword, current player animation:', scene.currentPlayerAnimation);
         if(scene.drawSword && !scene.swordDraws.includes(scene.currentPlayerAnimation)){
             let animation = '';
             switch(scene.currentPlayerAnimation){
@@ -230,7 +248,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                 case 'ledgeGrabSword': {animation = 'ledgeSwordDraw'; break;}
                 case 'fallSword': {animation = 'fallSwordDraw'; break;}
             }
-            console.log('changing animation to some draw');
+            //console.log('changing animation to some draw');
             setNewCharacterAnimation(scene, animation, scene.currentPlayerDirection==='left', false);
         }
         else if(scene.sheathSword && !scene.swordSheaths.includes(scene.currentPlayerAnimation)){
@@ -253,36 +271,43 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         }
     }
     else if(scene.playerAttacking){
-        if(scene.downAttack){
-            if(scene.currentPlayerAnimation !== 'airSwing3Start' && scene.currentPlayerAnimation !== 'airSwing3Loop' && scene.currentPlayerAnimation !== 'airSwing3End'){
-                console.log('setting animation to downward airAttack');
-                setNewCharacterAnimation(scene, 'airSwing3Start', scene.currentPlayerDirection==='left', false);
+        //console.log('player is attacking');
+        if(scene.equippedWeapon==='sword'){
+            if(scene.downAttack){
+                if(scene.currentPlayerAnimation !== 'airSwing3Start' && scene.currentPlayerAnimation !== 'airSwing3Loop' && scene.currentPlayerAnimation !== 'airSwing3End'){
+                    //console.log('setting animation to downward airAttack');
+                    setNewCharacterAnimation(scene, 'airSwing3Start', scene.currentPlayerDirection==='left', false);
+                    //scene.stamina -= scene.attackStaminaPenalty;
+                }
+            }
+            else if(scene.playerWallSliding){
+                if(scene.currentPlayerAnimation !== 'wallSwing' && scene.stamina > 0){
+                    scene.stopWallSlidingPosition = {x: scene.player.x, y: scene.player.y};
+                    setNewCharacterAnimation(scene, 'wallSwing', scene.currentPlayerDirection==='left', false);
+                    scene.stamina -= scene.attackStaminaPenalty;
+                    scene.lastAttackTime = scene.time.now;
+                }
+                if(scene.stamina <= 0){
+                    scene.playerAttacking = false;
+                }
+            }
+            else if((scene.currentPlayerAnimation !== 'airSwing1' && scene.currentPlayerAnimation !== 'airSwing2') && scene.time.now - scene.lastAttackTime > 500){
+                //console.log('setting animation to airSwing');
+                let swing = '';
+                switch(scene.prevSwordSwing){
+                    case 'airSwing2': {swing = 'airSwing1'; scene.prevSwordSwing = 'airSwing1'; break;}
+                    case 'airSwing1': 
+                    default: {swing = 'airSwing2'; scene.prevSwordSwing = 'airSwing2'; break;}
+                }   
+                setNewCharacterAnimation(scene, swing, scene.currentPlayerDirection==='left', false);
+                scene.lastAttackTime = scene.time.now; 
                 //scene.stamina -= scene.attackStaminaPenalty;
             }
         }
-        else if(scene.playerWallSliding){
-            if(scene.currentPlayerAnimation !== 'wallSwing' && scene.stamina > 0){
-                scene.stopWallSlidingPosition = {x: scene.player.x, y: scene.player.y};
-                setNewCharacterAnimation(scene, 'wallSwing', scene.currentPlayerDirection==='left', false);
-                scene.stamina -= scene.attackStaminaPenalty;
-                scene.lastAttackTime = scene.time.now;
-            }
-            if(scene.stamina <= 0){
-                scene.playerAttacking = false;
-            }
+        else if(scene.equippedWeapon==='none'){
+
         }
-        else if((scene.currentPlayerAnimation !== 'airSwing1' && scene.currentPlayerAnimation !== 'airSwing2') && scene.time.now - scene.lastAttackTime > 500){
-            console.log('setting animation to airSwing');
-            let swing = '';
-            switch(scene.prevSwordSwing){
-                case 'airSwing2': {swing = 'airSwing1'; scene.prevSwordSwing = 'airSwing1'; break;}
-                case 'airSwing1': 
-                default: {swing = 'airSwing2'; scene.prevSwordSwing = 'airSwing2'; break;}
-            }
-            setNewCharacterAnimation(scene, swing, scene.currentPlayerDirection==='left', false);
-            scene.lastAttackTime = scene.time.now; 
-            //scene.stamina -= scene.attackStaminaPenalty;
-        }
+
     }
     else if(scene.playerWallSliding){
         //start wallsliding

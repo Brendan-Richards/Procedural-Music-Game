@@ -97,6 +97,7 @@ export default class MountainScene extends Phaser.Scene
     playerIceJumpHeight: number;
     playerFriction: number;
     numChests: number;
+    changedWeapon : boolean;
     attackStaminaPenalty: number;
     playerLastOnWallTime: number;
     chestScaleFactor: number;
@@ -109,6 +110,7 @@ export default class MountainScene extends Phaser.Scene
     lastLandingTime: number;
     audio: Audio;
     bg2: Phaser.GameObjects.Image;
+    prevMeeleeAttack: string;
 
     back1: Phaser.GameObjects.Image;
 
@@ -143,11 +145,12 @@ export default class MountainScene extends Phaser.Scene
         this.attackStaminaPenalty = 10;
         this.attackReboundDistance = 15;
         this.prevSwordSwing = '';
+        this.prevMeeleeAttack = '';
         this.swordAttacks = ['idleSwing1', 'idleSwing2', 'runSwing', 'airSwing1', 'airSwing2', 'wallSwing'];
         this.swordDraws = ['idleSwordDraw', 'runSwordDraw', 'jumpSwordDraw', 'fallSwordDraw', 'wallSwordDraw', 'ledgeSwordDraw'];
         this.swordSheaths = ['idleSwordSheath', 'runSwordSheath', 'jumpSwordSheath', 'fallSwordSheath', 'wallSwordSheath', 'ledgeSwordSheath'];
         this.meeleeAttacks = ['punch1', 'punch2', 'punch3', 'runPunch', 'groundKick', 'airKick'];
-        this.equippedWeapon = 'sword';
+        this.equippedWeapon = 'none';
         this.weaponsFound = ['none', 'sword'];
 
         //flags
@@ -173,6 +176,7 @@ export default class MountainScene extends Phaser.Scene
         this.inContactWithWall = false;
         this.downAttack = false;
         this.swordCollided = false;
+        this.changedWeapon = false;
         this.wallCollisionDirection = '';
 
         //movement logic
@@ -250,16 +254,17 @@ export default class MountainScene extends Phaser.Scene
         //this.input.setDefaultCursor('none');
 
         this.input.on('pointerdown', (pointer) => {
-            if(this.equippedWeapon==='sword'){
-                if(pointer.leftButtonDown() && !this.swordDraws.includes(this.currentPlayerAnimation) && !this.swordSheaths.includes(this.currentPlayerAnimation)){
-                    //if(!this.playerLedgeGrab){ 
-                        if(!this.swordDrawn){
-                            this.drawSword = true;
-                        }
-                        else{
+            if(this.equippedWeapon==='sword' && !this.swordAttacks.includes(this.currentPlayerAnimation) && !this.swordDraws.includes(this.currentPlayerAnimation) && !this.swordSheaths.includes(this.currentPlayerAnimation)){
+                if(pointer.leftButtonDown()){
+                    if(!this.swordDrawn){
+                        this.drawSword = true;
+                    }
+                    else{
+                        if(!this.playerLedgeGrab){ 
                             this.playerAttacking = true;
+                            //console.log('setting player attacking to true');
                         }
-                    //}
+                    }
                     if(!this.playerCanJump && this.controlConfig.downControl.isDown){
                         this.downAttack = true;
                     }
@@ -274,6 +279,28 @@ export default class MountainScene extends Phaser.Scene
                     }
                 }
             }
+            else  if(this.equippedWeapon==='none'){
+                if(pointer.leftButtonDown() && !this.meeleeAttacks.includes(this.currentPlayerAnimation)){
+                    this.playerAttacking = true;
+                }
+            }
+        }, this);
+
+        this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+            //console.log(pointer);
+            const currWeaponIdx = this.weaponsFound.findIndex((element) => {
+                return element===this.equippedWeapon;
+            });
+            if(pointer.deltaY > 0){
+                //console.log('scrolled mouse wheel down');
+                this.equippedWeapon = this.weaponsFound[(currWeaponIdx + 1) % this.weaponsFound.length];
+            }
+            else{
+                //console.log('scrolled mouse wheel up');
+                this.equippedWeapon = this.weaponsFound[(currWeaponIdx - 1) + (currWeaponIdx===0 ? this.weaponsFound.length : 0)];
+            }
+            console.log('current Weapon:', this.equippedWeapon);
+            this.changedWeapon = true;
         }, this);
 
         this.input.keyboard.on('keyup-' + 'A', (event) => {
