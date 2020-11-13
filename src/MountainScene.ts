@@ -68,12 +68,19 @@ export default class MountainScene extends Phaser.Scene
     stopWallSlidingDirection: string;
     playerScaleFactor: number;
     playerSpeed: number;
+    swordAttacks: Array<string>;
+    meeleeAttacks: Array<string>;
+    swordDraws: Array<string>;
+    swordSheaths: Array<string>;
+    equippedWeapon: string;
+    weaponsFound: Array<string>;
     lastAttackTime: number;
     staminaOutline: Phaser.GameObjects.Image;
     staminaFill: Phaser.GameObjects.Image;
     playerJumpHeight: number;
     staminaLossRate: number;
     staminaRegenRate: number;
+    prevSwordSwing: string;
     playerLedgeClimb: boolean;
     playerAttacking: boolean;
     sheathSword: boolean;
@@ -135,6 +142,13 @@ export default class MountainScene extends Phaser.Scene
         this.lastAttackTime = -1;
         this.attackStaminaPenalty = 10;
         this.attackReboundDistance = 15;
+        this.prevSwordSwing = '';
+        this.swordAttacks = ['idleSwing1', 'idleSwing2', 'runSwing', 'airSwing1', 'airSwing2', 'wallSwing'];
+        this.swordDraws = ['idleSwordDraw', 'runSwordDraw', 'jumpSwordDraw', 'fallSwordDraw', 'wallSwordDraw', 'ledgeSwordDraw'];
+        this.swordSheaths = ['idleSwordSheath', 'runSwordSheath', 'jumpSwordSheath', 'fallSwordSheath', 'wallSwordSheath', 'ledgeSwordSheath'];
+        this.meeleeAttacks = ['punch1', 'punch2', 'punch3', 'runPunch', 'groundKick', 'airKick'];
+        this.equippedWeapon = 'sword';
+        this.weaponsFound = ['none', 'sword'];
 
         //flags
         this.playerCanJump = true;
@@ -236,29 +250,30 @@ export default class MountainScene extends Phaser.Scene
         //this.input.setDefaultCursor('none');
 
         this.input.on('pointerdown', (pointer) => {
-            if(pointer.leftButtonDown()){
-                if(!this.playerLedgeGrab){ 
-                    if(!this.swordDrawn){
-                        this.drawSword = true;
+            if(this.equippedWeapon==='sword'){
+                if(pointer.leftButtonDown() && !this.swordDraws.includes(this.currentPlayerAnimation) && !this.swordSheaths.includes(this.currentPlayerAnimation)){
+                    //if(!this.playerLedgeGrab){ 
+                        if(!this.swordDrawn){
+                            this.drawSword = true;
+                        }
+                        else{
+                            this.playerAttacking = true;
+                        }
+                    //}
+                    if(!this.playerCanJump && this.controlConfig.downControl.isDown){
+                        this.downAttack = true;
                     }
                     else{
-                        this.playerAttacking = true;
+                        this.downAttack = false;
                     }
                 }
-                if(!this.playerCanJump && this.controlConfig.downControl.isDown){
-                    this.downAttack = true;
-                }
-                else{
-                    this.downAttack = false;
-                }
-            }
-            else if(pointer.rightButtonDown()){
-                if(this.swordDrawn){
-                    this.sheathSword = true;
-                    this.swordDrawn = false;
+                else if(pointer.rightButtonDown()){
+                    if(this.swordDrawn && !this.playerAttacking){
+                        this.sheathSword = true;
+                        this.swordDrawn = false;
+                    }
                 }
             }
-            //console.log(pointer);
         }, this);
 
         this.input.keyboard.on('keyup-' + 'A', (event) => {

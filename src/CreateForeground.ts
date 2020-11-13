@@ -14,8 +14,8 @@ const createTileMap = (scene: MountainScene, totalHeight: number): void => {
     const groundLayer = map.createDynamicLayer("climbingSurfaces", tileset);
     groundLayer.setPosition(0,-1*(groundLayer.height - totalHeight));
 
-    //createMountains(scene, 15, groundLayer, map, tileset);
-   //createSkyMountains(scene, groundLayer, map, tileset);
+    createMountains(scene, 15, groundLayer, map, tileset);
+   createSkyMountains(scene, groundLayer, map, tileset);
 
     groundLayer.setDepth(5);
 

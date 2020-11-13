@@ -4,13 +4,13 @@
 			"image": "characterAtlas.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 387,
-				"h": 393
+				"w": 342,
+				"h": 365
 			},
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "adventurer_air_attack_3_end_00.png",
+					"filename": "adventurer_airSwing3End_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -31,7 +31,70 @@
 					}
 				},
 				{
-					"filename": "adventurer_attack3_02.png",
+					"filename": "adventurer_airSwing1_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 4,
+						"w": 46,
+						"h": 30
+					},
+					"frame": {
+						"x": 1,
+						"y": 39,
+						"w": 46,
+						"h": 30
+					}
+				},
+				{
+					"filename": "adventurer_airSwing3End_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 6,
+						"w": 46,
+						"h": 30
+					},
+					"frame": {
+						"x": 49,
+						"y": 39,
+						"w": 46,
+						"h": 30
+					}
+				},
+				{
+					"filename": "adventurer_idleSwing2_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 0,
+						"w": 34,
+						"h": 36
+					},
+					"frame": {
+						"x": 51,
+						"y": 1,
+						"w": 34,
+						"h": 36
+					}
+				},
+				{
+					"filename": "adventurer_runSwing_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -46,97 +109,13 @@
 					},
 					"frame": {
 						"x": 1,
-						"y": 39,
+						"y": 71,
 						"w": 48,
 						"h": 23
 					}
 				},
 				{
-					"filename": "adventurer_air_attack1_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 2,
-						"y": 4,
-						"w": 46,
-						"h": 30
-					},
-					"frame": {
-						"x": 51,
-						"y": 1,
-						"w": 46,
-						"h": 30
-					}
-				},
-				{
-					"filename": "adventurer_air_attack_3_end_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 3,
-						"y": 6,
-						"w": 46,
-						"h": 30
-					},
-					"frame": {
-						"x": 51,
-						"y": 33,
-						"w": 46,
-						"h": 30
-					}
-				},
-				{
-					"filename": "adventurer_air_attack_3_end_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 2,
-						"y": 14,
-						"w": 46,
-						"h": 22
-					},
-					"frame": {
-						"x": 1,
-						"y": 64,
-						"w": 46,
-						"h": 22
-					}
-				},
-				{
-					"filename": "adventurer_run_punch_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 4,
-						"y": 15,
-						"w": 41,
-						"h": 21
-					},
-					"frame": {
-						"x": 49,
-						"y": 65,
-						"w": 41,
-						"h": 21
-					}
-				},
-				{
-					"filename": "adventurer_attack2_03.png",
+					"filename": "adventurer_idleSwing1_03.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -150,14 +129,14 @@
 						"h": 29
 					},
 					"frame": {
-						"x": 1,
-						"y": 88,
+						"x": 51,
+						"y": 71,
 						"w": 37,
 						"h": 29
 					}
 				},
 				{
-					"filename": "adventurer_attack1_02.png",
+					"filename": "adventurer_airSwing2_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -166,40 +145,103 @@
 					},
 					"spriteSourceSize": {
 						"x": 15,
-						"y": 0,
+						"y": 4,
 						"w": 34,
-						"h": 36
+						"h": 31
 					},
 					"frame": {
-						"x": 40,
-						"y": 88,
-						"w": 34,
-						"h": 36
-					}
-				},
-				{
-					"filename": "adventurer_attack1_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 0,
-						"w": 27,
-						"h": 36
-					},
-					"frame": {
-						"x": 99,
+						"x": 87,
 						"y": 1,
+						"w": 34,
+						"h": 31
+					}
+				},
+				{
+					"filename": "adventurer_wallSwing_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 2,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 90,
+						"y": 71,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_airSwing3End_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 14,
+						"w": 46,
+						"h": 22
+					},
+					"frame": {
+						"x": 1,
+						"y": 96,
+						"w": 46,
+						"h": 22
+					}
+				},
+				{
+					"filename": "adventurer_idleSwing2_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 0,
+						"w": 27,
+						"h": 36
+					},
+					"frame": {
+						"x": 49,
+						"y": 102,
 						"w": 27,
 						"h": 36
 					}
 				},
 				{
-					"filename": "adventurer_kick_05.png",
+					"filename": "adventurer_wallSwordDraw_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 5,
+						"y": 2,
+						"w": 28,
+						"h": 32
+					},
+					"frame": {
+						"x": 97,
+						"y": 34,
+						"w": 28,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_groundKick_05.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -213,833 +255,14 @@
 						"h": 26
 					},
 					"frame": {
-						"x": 92,
-						"y": 65,
+						"x": 1,
+						"y": 120,
 						"w": 34,
 						"h": 26
 					}
 				},
 				{
-					"filename": "adventurer_stand_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 5,
-						"y": 20,
-						"w": 34,
-						"h": 16
-					},
-					"frame": {
-						"x": 76,
-						"y": 93,
-						"w": 34,
-						"h": 16
-					}
-				},
-				{
-					"filename": "adventurer_crnr_grb_swrd_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 3,
-						"w": 17,
-						"h": 34
-					},
-					"frame": {
-						"x": 1,
-						"y": 126,
-						"w": 17,
-						"h": 34
-					}
-				},
-				{
-					"filename": "adventurer_slide_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 5,
-						"y": 21,
-						"w": 34,
-						"h": 15
-					},
-					"frame": {
-						"x": 76,
-						"y": 111,
-						"w": 34,
-						"h": 15
-					}
-				},
-				{
-					"filename": "adventurer_slide_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 5,
-						"y": 21,
-						"w": 34,
-						"h": 15
-					},
-					"frame": {
-						"x": 20,
-						"y": 128,
-						"w": 34,
-						"h": 15
-					}
-				},
-				{
-					"filename": "adventurer_crnr_grb_swrd_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 3,
-						"w": 17,
-						"h": 34
-					},
-					"frame": {
-						"x": 56,
-						"y": 126,
-						"w": 17,
-						"h": 34
-					}
-				},
-				{
-					"filename": "adventurer_crnr_grb_swrd_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 3,
-						"w": 17,
-						"h": 34
-					},
-					"frame": {
-						"x": 128,
-						"y": 1,
-						"w": 17,
-						"h": 34
-					}
-				},
-				{
-					"filename": "adventurer_crnr_grb_swrd_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 3,
-						"w": 17,
-						"h": 34
-					},
-					"frame": {
-						"x": 128,
-						"y": 37,
-						"w": 17,
-						"h": 34
-					}
-				},
-				{
-					"filename": "adventurer_air_attack2_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 4,
-						"w": 34,
-						"h": 31
-					},
-					"frame": {
-						"x": 75,
-						"y": 128,
-						"w": 34,
-						"h": 31
-					}
-				},
-				{
-					"filename": "adventurer_crnr_grb_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 21,
-						"y": 3,
-						"w": 14,
-						"h": 34
-					},
-					"frame": {
-						"x": 128,
-						"y": 73,
-						"w": 14,
-						"h": 34
-					}
-				},
-				{
-					"filename": "adventurer_crnr_grb_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 21,
-						"y": 3,
-						"w": 14,
-						"h": 34
-					},
-					"frame": {
-						"x": 112,
-						"y": 93,
-						"w": 14,
-						"h": 34
-					}
-				},
-				{
-					"filename": "adventurer_crnr_grb_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 20,
-						"y": 3,
-						"w": 15,
-						"h": 34
-					},
-					"frame": {
-						"x": 128,
-						"y": 109,
-						"w": 15,
-						"h": 34
-					}
-				},
-				{
-					"filename": "adventurer_crnr_grb_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 21,
-						"y": 3,
-						"w": 14,
-						"h": 34
-					},
-					"frame": {
-						"x": 144,
-						"y": 73,
-						"w": 14,
-						"h": 34
-					}
-				},
-				{
-					"filename": "adventurer_attack3_04.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 16,
-						"w": 34,
-						"h": 20
-					},
-					"frame": {
-						"x": 160,
-						"y": 1,
-						"w": 34,
-						"h": 20
-					}
-				},
-				{
-					"filename": "adventurer_attack3_05.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 16,
-						"w": 34,
-						"h": 20
-					},
-					"frame": {
-						"x": 160,
-						"y": 23,
-						"w": 34,
-						"h": 20
-					}
-				},
-				{
-					"filename": "adventurer_punch_06.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 11,
-						"y": 14,
-						"w": 34,
-						"h": 22
-					},
-					"frame": {
-						"x": 160,
-						"y": 45,
-						"w": 34,
-						"h": 22
-					}
-				},
-				{
-					"filename": "adventurer_wall_slide_swrd_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 11,
-						"y": 2,
-						"w": 22,
-						"h": 32
-					},
-					"frame": {
-						"x": 160,
-						"y": 69,
-						"w": 22,
-						"h": 32
-					}
-				},
-				{
-					"filename": "adventurer_wall_slide_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 2,
-						"w": 17,
-						"h": 32
-					},
-					"frame": {
-						"x": 145,
-						"y": 109,
-						"w": 17,
-						"h": 32
-					}
-				},
-				{
-					"filename": "adventurer_wall_attack_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 2,
-						"w": 15,
-						"h": 32
-					},
-					"frame": {
-						"x": 111,
-						"y": 129,
-						"w": 15,
-						"h": 32
-					}
-				},
-				{
-					"filename": "adventurer_wall_attack_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 9,
-						"y": 2,
-						"w": 24,
-						"h": 32
-					},
-					"frame": {
-						"x": 164,
-						"y": 103,
-						"w": 24,
-						"h": 32
-					}
-				},
-				{
-					"filename": "adventurer_attack2_04.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 2,
-						"y": 15,
-						"w": 32,
-						"h": 21
-					},
-					"frame": {
-						"x": 164,
-						"y": 137,
-						"w": 32,
-						"h": 21
-					}
-				},
-				{
-					"filename": "adventurer_attack1_04.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 4,
-						"w": 19,
-						"h": 32
-					},
-					"frame": {
-						"x": 1,
-						"y": 163,
-						"w": 19,
-						"h": 32
-					}
-				},
-				{
-					"filename": "adventurer_wall_attack_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 11,
-						"y": 2,
-						"w": 22,
-						"h": 32
-					},
-					"frame": {
-						"x": 22,
-						"y": 163,
-						"w": 22,
-						"h": 32
-					}
-				},
-				{
-					"filename": "adventurer_wall_attack_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 1,
-						"y": 2,
-						"w": 32,
-						"h": 32
-					},
-					"frame": {
-						"x": 46,
-						"y": 163,
-						"w": 32,
-						"h": 32
-					}
-				},
-				{
-					"filename": "adventurer_attack2_05.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 2,
-						"y": 14,
-						"w": 31,
-						"h": 22
-					},
-					"frame": {
-						"x": 128,
-						"y": 145,
-						"w": 31,
-						"h": 22
-					}
-				},
-				{
-					"filename": "adventurer_air_attack1_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 5,
-						"y": 2,
-						"w": 27,
-						"h": 31
-					},
-					"frame": {
-						"x": 80,
-						"y": 163,
-						"w": 27,
-						"h": 31
-					}
-				},
-				{
-					"filename": "adventurer_air_attack3_loop_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 8,
-						"y": 2,
-						"w": 27,
-						"h": 31
-					},
-					"frame": {
-						"x": 161,
-						"y": 160,
-						"w": 27,
-						"h": 31
-					}
-				},
-				{
-					"filename": "adventurer_air_attack3_rdy_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 8,
-						"y": 1,
-						"w": 28,
-						"h": 31
-					},
-					"frame": {
-						"x": 1,
-						"y": 197,
-						"w": 28,
-						"h": 31
-					}
-				},
-				{
-					"filename": "adventurer_fall_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 1,
-						"w": 17,
-						"h": 31
-					},
-					"frame": {
-						"x": 109,
-						"y": 163,
-						"w": 17,
-						"h": 31
-					}
-				},
-				{
-					"filename": "adventurer_wall_slide_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 3,
-						"w": 17,
-						"h": 31
-					},
-					"frame": {
-						"x": 31,
-						"y": 197,
-						"w": 17,
-						"h": 31
-					}
-				},
-				{
-					"filename": "adventurer_wall_slide_swrd_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 11,
-						"y": 3,
-						"w": 22,
-						"h": 31
-					},
-					"frame": {
-						"x": 50,
-						"y": 197,
-						"w": 22,
-						"h": 31
-					}
-				},
-				{
-					"filename": "adventurer_swrd_fall_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 10,
-						"y": 1,
-						"w": 25,
-						"h": 31
-					},
-					"frame": {
-						"x": 74,
-						"y": 197,
-						"w": 25,
-						"h": 31
-					}
-				},
-				{
-					"filename": "adventurer_air_attack2_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 3,
-						"w": 23,
-						"h": 31
-					},
-					"frame": {
-						"x": 101,
-						"y": 196,
-						"w": 23,
-						"h": 31
-					}
-				},
-				{
-					"filename": "adventurer_attack3_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 3,
-						"y": 17,
-						"w": 31,
-						"h": 19
-					},
-					"frame": {
-						"x": 128,
-						"y": 169,
-						"w": 31,
-						"h": 19
-					}
-				},
-				{
-					"filename": "adventurer_stand_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 9,
-						"y": 19,
-						"w": 30,
-						"h": 17
-					},
-					"frame": {
-						"x": 128,
-						"y": 190,
-						"w": 30,
-						"h": 17
-					}
-				},
-				{
-					"filename": "adventurer_kick_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 14,
-						"y": 12,
-						"w": 30,
-						"h": 24
-					},
-					"frame": {
-						"x": 160,
-						"y": 193,
-						"w": 30,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_swrd_fall_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 10,
-						"y": 2,
-						"w": 25,
-						"h": 30
-					},
-					"frame": {
-						"x": 198,
-						"y": 1,
-						"w": 25,
-						"h": 30
-					}
-				},
-				{
-					"filename": "adventurer_drop_kick_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 11,
-						"y": 1,
-						"w": 25,
-						"h": 30
-					},
-					"frame": {
-						"x": 190,
-						"y": 160,
-						"w": 25,
-						"h": 30
-					}
-				},
-				{
-					"filename": "adventurer_ladder_climb_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 19,
-						"y": 4,
-						"w": 13,
-						"h": 30
-					},
-					"frame": {
-						"x": 184,
-						"y": 69,
-						"w": 13,
-						"h": 30
-					}
-				},
-				{
-					"filename": "adventurer_fall_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 2,
-						"w": 17,
-						"h": 30
-					},
-					"frame": {
-						"x": 190,
-						"y": 101,
-						"w": 17,
-						"h": 30
-					}
-				},
-				{
-					"filename": "adventurer_air_attack1_02.png",
+					"filename": "adventurer_airSwing1_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1053,14 +276,14 @@
 						"h": 30
 					},
 					"frame": {
-						"x": 192,
-						"y": 192,
+						"x": 78,
+						"y": 105,
 						"w": 29,
 						"h": 30
 					}
 				},
 				{
-					"filename": "adventurer_ladder_climb_02.png",
+					"filename": "adventurer_airSwing3Start_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1068,20 +291,608 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 4,
-						"w": 13,
+						"x": 8,
+						"y": 1,
+						"w": 28,
+						"h": 31
+					},
+					"frame": {
+						"x": 123,
+						"y": 1,
+						"w": 28,
+						"h": 31
+					}
+				},
+				{
+					"filename": "adventurer_runPunch_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 15,
+						"w": 41,
+						"h": 21
+					},
+					"frame": {
+						"x": 78,
+						"y": 137,
+						"w": 41,
+						"h": 21
+					}
+				},
+				{
+					"filename": "adventurer_airSwing3Loop_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 8,
+						"y": 2,
+						"w": 27,
+						"h": 31
+					},
+					"frame": {
+						"x": 121,
+						"y": 105,
+						"w": 27,
+						"h": 31
+					}
+				},
+				{
+					"filename": "adventurer_airSwing1_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 5,
+						"y": 2,
+						"w": 27,
+						"h": 31
+					},
+					"frame": {
+						"x": 124,
+						"y": 68,
+						"w": 27,
+						"h": 31
+					}
+				},
+				{
+					"filename": "adventurer_airSwing3Loop_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 8,
+						"y": 3,
+						"w": 27,
 						"h": 30
 					},
 					"frame": {
-						"x": 209,
-						"y": 33,
-						"w": 13,
+						"x": 127,
+						"y": 34,
+						"w": 27,
 						"h": 30
 					}
 				},
 				{
-					"filename": "adventurer_punch_02.png",
+					"filename": "adventurer_ledgeSwordDraw_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 12,
+						"y": 3,
+						"w": 23,
+						"h": 34
+					},
+					"frame": {
+						"x": 150,
+						"y": 101,
+						"w": 23,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_fallSwordDraw_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 10,
+						"y": 1,
+						"w": 25,
+						"h": 31
+					},
+					"frame": {
+						"x": 153,
+						"y": 1,
+						"w": 25,
+						"h": 31
+					}
+				},
+				{
+					"filename": "adventurer_wallSwing_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 9,
+						"y": 2,
+						"w": 24,
+						"h": 32
+					},
+					"frame": {
+						"x": 153,
+						"y": 66,
+						"w": 24,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_runSwordDrawn_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 8,
+						"w": 27,
+						"h": 28
+					},
+					"frame": {
+						"x": 156,
+						"y": 34,
+						"w": 27,
+						"h": 28
+					}
+				},
+				{
+					"filename": "adventurer_fallSwordDrawn_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 10,
+						"y": 2,
+						"w": 25,
+						"h": 30
+					},
+					"frame": {
+						"x": 37,
+						"y": 140,
+						"w": 25,
+						"h": 30
+					}
+				},
+				{
+					"filename": "adventurer_airKick_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 1,
+						"w": 25,
+						"h": 30
+					},
+					"frame": {
+						"x": 1,
+						"y": 148,
+						"w": 25,
+						"h": 30
+					}
+				},
+				{
+					"filename": "adventurer_punch2_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 14,
+						"w": 34,
+						"h": 22
+					},
+					"frame": {
+						"x": 150,
+						"y": 137,
+						"w": 34,
+						"h": 22
+					}
+				},
+				{
+					"filename": "adventurer_runSwordDraw_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 8,
+						"w": 26,
+						"h": 28
+					},
+					"frame": {
+						"x": 121,
+						"y": 138,
+						"w": 26,
+						"h": 28
+					}
+				},
+				{
+					"filename": "adventurer_airKick_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 2,
+						"w": 25,
+						"h": 29
+					},
+					"frame": {
+						"x": 149,
+						"y": 161,
+						"w": 25,
+						"h": 29
+					}
+				},
+				{
+					"filename": "adventurer_groundKick_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 14,
+						"y": 12,
+						"w": 30,
+						"h": 24
+					},
+					"frame": {
+						"x": 64,
+						"y": 160,
+						"w": 30,
+						"h": 24
+					}
+				},
+				{
+					"filename": "adventurer_airSwing2_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 3,
+						"w": 23,
+						"h": 31
+					},
+					"frame": {
+						"x": 96,
+						"y": 160,
+						"w": 23,
+						"h": 31
+					}
+				},
+				{
+					"filename": "adventurer_wallSlideSwordDrawn_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 2,
+						"w": 22,
+						"h": 32
+					},
+					"frame": {
+						"x": 176,
+						"y": 161,
+						"w": 22,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_wallSwordDraw_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 2,
+						"w": 22,
+						"h": 32
+					},
+					"frame": {
+						"x": 175,
+						"y": 100,
+						"w": 22,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_wallSwing_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 2,
+						"w": 22,
+						"h": 32
+					},
+					"frame": {
+						"x": 179,
+						"y": 64,
+						"w": 22,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_idleSwordDrawn_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 9,
+						"y": 8,
+						"w": 25,
+						"h": 28
+					},
+					"frame": {
+						"x": 180,
+						"y": 1,
+						"w": 25,
+						"h": 28
+					}
+				},
+				{
+					"filename": "adventurer_idleSwordDrawn_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 9,
+						"y": 8,
+						"w": 25,
+						"h": 28
+					},
+					"frame": {
+						"x": 185,
+						"y": 31,
+						"w": 25,
+						"h": 28
+					}
+				},
+				{
+					"filename": "adventurer_idleSwordDraw_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 8,
+						"y": 7,
+						"w": 24,
+						"h": 29
+					},
+					"frame": {
+						"x": 121,
+						"y": 168,
+						"w": 24,
+						"h": 29
+					}
+				},
+				{
+					"filename": "adventurer_runSwing_04.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 16,
+						"w": 34,
+						"h": 20
+					},
+					"frame": {
+						"x": 28,
+						"y": 172,
+						"w": 34,
+						"h": 20
+					}
+				},
+				{
+					"filename": "adventurer_idleSwing1_05.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 14,
+						"w": 31,
+						"h": 22
+					},
+					"frame": {
+						"x": 64,
+						"y": 193,
+						"w": 31,
+						"h": 22
+					}
+				},
+				{
+					"filename": "adventurer_wallSlideSwordDrawn_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 3,
+						"w": 22,
+						"h": 31
+					},
+					"frame": {
+						"x": 97,
+						"y": 193,
+						"w": 22,
+						"h": 31
+					}
+				},
+				{
+					"filename": "adventurer_runSwing_05.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 16,
+						"w": 34,
+						"h": 20
+					},
+					"frame": {
+						"x": 1,
+						"y": 194,
+						"w": 34,
+						"h": 20
+					}
+				},
+				{
+					"filename": "adventurer_idleSwing1_04.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 15,
+						"w": 32,
+						"h": 21
+					},
+					"frame": {
+						"x": 147,
+						"y": 195,
+						"w": 32,
+						"h": 21
+					}
+				},
+				{
+					"filename": "adventurer_runSwordDrawn_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 12,
+						"y": 8,
+						"w": 24,
+						"h": 28
+					},
+					"frame": {
+						"x": 37,
+						"y": 194,
+						"w": 24,
+						"h": 28
+					}
+				},
+				{
+					"filename": "adventurer_punch3_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 12,
+						"w": 28,
+						"h": 24
+					},
+					"frame": {
+						"x": 181,
+						"y": 195,
+						"w": 28,
+						"h": 24
+					}
+				},
+				{
+					"filename": "adventurer_punch1_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1095,14 +906,245 @@
 						"h": 22
 					},
 					"frame": {
-						"x": 225,
+						"x": 207,
 						"y": 1,
 						"w": 30,
 						"h": 22
 					}
 				},
 				{
-					"filename": "adventurer_idle_01.png",
+					"filename": "adventurer_runSword_04.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 17,
+						"y": 8,
+						"w": 23,
+						"h": 28
+					},
+					"frame": {
+						"x": 199,
+						"y": 98,
+						"w": 23,
+						"h": 28
+					}
+				},
+				{
+					"filename": "adventurer_run_04.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 17,
+						"y": 8,
+						"w": 23,
+						"h": 28
+					},
+					"frame": {
+						"x": 199,
+						"y": 128,
+						"w": 23,
+						"h": 28
+					}
+				},
+				{
+					"filename": "adventurer_runSwordDrawn_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 9,
+						"w": 23,
+						"h": 27
+					},
+					"frame": {
+						"x": 121,
+						"y": 199,
+						"w": 23,
+						"h": 27
+					}
+				},
+				{
+					"filename": "adventurer_idleSwordDrawn_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 10,
+						"y": 9,
+						"w": 23,
+						"h": 27
+					},
+					"frame": {
+						"x": 203,
+						"y": 61,
+						"w": 23,
+						"h": 27
+					}
+				},
+				{
+					"filename": "adventurer_runSwordDrawn_04.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 9,
+						"w": 23,
+						"h": 27
+					},
+					"frame": {
+						"x": 212,
+						"y": 25,
+						"w": 23,
+						"h": 27
+					}
+				},
+				{
+					"filename": "adventurer_idleSwordDrawn_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 10,
+						"y": 9,
+						"w": 23,
+						"h": 27
+					},
+					"frame": {
+						"x": 200,
+						"y": 158,
+						"w": 23,
+						"h": 27
+					}
+				},
+				{
+					"filename": "adventurer_runSword_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 8,
+						"w": 22,
+						"h": 28
+					},
+					"frame": {
+						"x": 211,
+						"y": 187,
+						"w": 22,
+						"h": 28
+					}
+				},
+				{
+					"filename": "adventurer_run_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 8,
+						"w": 22,
+						"h": 28
+					},
+					"frame": {
+						"x": 63,
+						"y": 217,
+						"w": 22,
+						"h": 28
+					}
+				},
+				{
+					"filename": "adventurer_idleSwing2_04.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 4,
+						"w": 19,
+						"h": 32
+					},
+					"frame": {
+						"x": 146,
+						"y": 218,
+						"w": 19,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_jumpSwordDrawn_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 6,
+						"w": 24,
+						"h": 25
+					},
+					"frame": {
+						"x": 87,
+						"y": 226,
+						"w": 24,
+						"h": 25
+					}
+				},
+				{
+					"filename": "adventurer_jumpSwordDrawn_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 6,
+						"w": 24,
+						"h": 25
+					},
+					"frame": {
+						"x": 113,
+						"y": 228,
+						"w": 24,
+						"h": 25
+					}
+				},
+				{
+					"filename": "adventurer_punch2_03.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1111,15 +1153,267 @@
 					},
 					"spriteSourceSize": {
 						"x": 16,
-						"y": 6,
-						"w": 17,
-						"h": 30
+						"y": 13,
+						"w": 26,
+						"h": 23
 					},
 					"frame": {
-						"x": 199,
-						"y": 65,
+						"x": 211,
+						"y": 217,
+						"w": 26,
+						"h": 23
+					}
+				},
+				{
+					"filename": "adventurer_jumpSwordDraw_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 8,
+						"y": 7,
+						"w": 23,
+						"h": 26
+					},
+					"frame": {
+						"x": 1,
+						"y": 216,
+						"w": 23,
+						"h": 26
+					}
+				},
+				{
+					"filename": "adventurer_idleSwing2_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 7,
+						"y": 14,
+						"w": 27,
+						"h": 22
+					},
+					"frame": {
+						"x": 26,
+						"y": 224,
+						"w": 27,
+						"h": 22
+					}
+				},
+				{
+					"filename": "adventurer_runSwing_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 17,
+						"w": 31,
+						"h": 19
+					},
+					"frame": {
+						"x": 167,
+						"y": 221,
+						"w": 31,
+						"h": 19
+					}
+				},
+				{
+					"filename": "adventurer_ledgeGrabSwordDrawn_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 3,
 						"w": 17,
-						"h": 30
+						"h": 34
+					},
+					"frame": {
+						"x": 224,
+						"y": 90,
+						"w": 17,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_ledgeGrabSwordDrawn_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 3,
+						"w": 17,
+						"h": 34
+					},
+					"frame": {
+						"x": 225,
+						"y": 126,
+						"w": 17,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_ledgeSwordDraw_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 3,
+						"w": 17,
+						"h": 34
+					},
+					"frame": {
+						"x": 228,
+						"y": 54,
+						"w": 17,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_ledgeGrabSwordDrawn_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 3,
+						"w": 17,
+						"h": 34
+					},
+					"frame": {
+						"x": 243,
+						"y": 90,
+						"w": 17,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_ledgeGrabSwordDrawn_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 3,
+						"w": 17,
+						"h": 34
+					},
+					"frame": {
+						"x": 239,
+						"y": 1,
+						"w": 17,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_idle_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 7,
+						"w": 20,
+						"h": 29
+					},
+					"frame": {
+						"x": 235,
+						"y": 162,
+						"w": 20,
+						"h": 29
+					}
+				},
+				{
+					"filename": "adventurer_idleSword_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 7,
+						"w": 20,
+						"h": 29
+					},
+					"frame": {
+						"x": 239,
+						"y": 193,
+						"w": 20,
+						"h": 29
+					}
+				},
+				{
+					"filename": "adventurer_runSwordDraw_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 7,
+						"w": 20,
+						"h": 29
+					},
+					"frame": {
+						"x": 239,
+						"y": 224,
+						"w": 20,
+						"h": 29
+					}
+				},
+				{
+					"filename": "adventurer_runSwordDrawn_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 11,
+						"w": 23,
+						"h": 25
+					},
+					"frame": {
+						"x": 1,
+						"y": 244,
+						"w": 23,
+						"h": 25
 					}
 				},
 				{
@@ -1137,14 +1431,14 @@
 						"h": 30
 					},
 					"frame": {
-						"x": 225,
-						"y": 25,
+						"x": 244,
+						"y": 126,
 						"w": 19,
 						"h": 30
 					}
 				},
 				{
-					"filename": "adventurer_air_attack3_loop_00.png",
+					"filename": "adventurer_idleSword_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1152,62 +1446,20 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 8,
-						"y": 3,
-						"w": 27,
+						"x": 15,
+						"y": 6,
+						"w": 19,
 						"h": 30
 					},
 					"frame": {
-						"x": 224,
-						"y": 57,
-						"w": 27,
+						"x": 55,
+						"y": 247,
+						"w": 19,
 						"h": 30
 					}
 				},
 				{
-					"filename": "adventurer_get_up_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 4,
-						"y": 29,
-						"w": 29,
-						"h": 7
-					},
-					"frame": {
-						"x": 126,
-						"y": 219,
-						"w": 29,
-						"h": 7
-					}
-				},
-				{
-					"filename": "adventurer_walk_05.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 20,
-						"y": 7,
-						"w": 16,
-						"h": 29
-					},
-					"frame": {
-						"x": 223,
-						"y": 89,
-						"w": 16,
-						"h": 29
-					}
-				},
-				{
-					"filename": "adventurer_crnr_jmp_00.png",
+					"filename": "adventurer_run_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1216,19 +1468,19 @@
 					},
 					"spriteSourceSize": {
 						"x": 17,
-						"y": 7,
-						"w": 23,
-						"h": 29
+						"y": 8,
+						"w": 20,
+						"h": 28
 					},
 					"frame": {
-						"x": 209,
-						"y": 120,
-						"w": 23,
-						"h": 29
+						"x": 26,
+						"y": 248,
+						"w": 20,
+						"h": 28
 					}
 				},
 				{
-					"filename": "adventurer_swrd_drw_03.png",
+					"filename": "adventurer_runSwordDraw_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1236,20 +1488,41 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 8,
-						"y": 7,
-						"w": 24,
-						"h": 29
+						"x": 16,
+						"y": 8,
+						"w": 20,
+						"h": 28
 					},
 					"frame": {
-						"x": 223,
-						"y": 151,
-						"w": 24,
-						"h": 29
+						"x": 76,
+						"y": 253,
+						"w": 20,
+						"h": 28
 					}
 				},
 				{
-					"filename": "adventurer_swrd_drw_02.png",
+					"filename": "adventurer_runSword_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 17,
+						"y": 8,
+						"w": 20,
+						"h": 28
+					},
+					"frame": {
+						"x": 167,
+						"y": 242,
+						"w": 20,
+						"h": 28
+					}
+				},
+				{
+					"filename": "adventurer_idleSwordDraw_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1263,30 +1536,9 @@
 						"h": 29
 					},
 					"frame": {
-						"x": 234,
-						"y": 120,
+						"x": 139,
+						"y": 252,
 						"w": 19,
-						"h": 29
-					}
-				},
-				{
-					"filename": "adventurer_crnr_clmb_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 21,
-						"y": 6,
-						"w": 16,
-						"h": 29
-					},
-					"frame": {
-						"x": 223,
-						"y": 182,
-						"w": 16,
 						"h": 29
 					}
 				},
@@ -1305,140 +1557,14 @@
 						"h": 29
 					},
 					"frame": {
-						"x": 1,
-						"y": 230,
+						"x": 189,
+						"y": 242,
 						"w": 19,
 						"h": 29
 					}
 				},
 				{
-					"filename": "adventurer_walk_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 20,
-						"y": 7,
-						"w": 15,
-						"h": 29
-					},
-					"frame": {
-						"x": 241,
-						"y": 89,
-						"w": 15,
-						"h": 29
-					}
-				},
-				{
-					"filename": "adventurer_drop_kick_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 11,
-						"y": 2,
-						"w": 25,
-						"h": 29
-					},
-					"frame": {
-						"x": 22,
-						"y": 230,
-						"w": 25,
-						"h": 29
-					}
-				},
-				{
-					"filename": "adventurer_idle_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 13,
-						"y": 7,
-						"w": 20,
-						"h": 29
-					},
-					"frame": {
-						"x": 49,
-						"y": 230,
-						"w": 20,
-						"h": 29
-					}
-				},
-				{
-					"filename": "adventurer_knock_dwn_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 4,
-						"y": 16,
-						"w": 29,
-						"h": 18
-					},
-					"frame": {
-						"x": 157,
-						"y": 219,
-						"w": 29,
-						"h": 18
-					}
-				},
-				{
-					"filename": "adventurer_cast_loop_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 13,
-						"y": 12,
-						"w": 29,
-						"h": 24
-					},
-					"frame": {
-						"x": 126,
-						"y": 228,
-						"w": 29,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_crnr_jmp_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 7,
-						"w": 22,
-						"h": 29
-					},
-					"frame": {
-						"x": 71,
-						"y": 230,
-						"w": 22,
-						"h": 29
-					}
-				},
-				{
-					"filename": "adventurer_swrd_shte_01.png",
+					"filename": "adventurer_idleSwordSheath_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1452,14 +1578,14 @@
 						"h": 29
 					},
 					"frame": {
-						"x": 95,
-						"y": 230,
+						"x": 210,
+						"y": 242,
 						"w": 19,
 						"h": 29
 					}
 				},
 				{
-					"filename": "adventurer_punch_10.png",
+					"filename": "adventurer_idleSword_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1467,230 +1593,20 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 12,
-						"w": 28,
-						"h": 24
-					},
-					"frame": {
-						"x": 223,
-						"y": 213,
-						"w": 28,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_walk_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 22,
-						"y": 8,
-						"w": 14,
-						"h": 28
-					},
-					"frame": {
-						"x": 241,
-						"y": 182,
-						"w": 14,
-						"h": 28
-					}
-				},
-				{
-					"filename": "adventurer_idle_2_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 9,
-						"y": 8,
-						"w": 25,
-						"h": 28
-					},
-					"frame": {
-						"x": 188,
-						"y": 224,
-						"w": 25,
-						"h": 28
-					}
-				},
-				{
-					"filename": "adventurer_idle_2_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 9,
-						"y": 8,
-						"w": 25,
-						"h": 28
-					},
-					"frame": {
-						"x": 258,
-						"y": 1,
-						"w": 25,
-						"h": 28
-					}
-				},
-				{
-					"filename": "adventurer_walk_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 21,
-						"y": 8,
-						"w": 17,
-						"h": 28
-					},
-					"frame": {
-						"x": 249,
-						"y": 151,
-						"w": 17,
-						"h": 28
-					}
-				},
-				{
-					"filename": "adventurer_walk_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 19,
-						"y": 8,
-						"w": 18,
-						"h": 28
-					},
-					"frame": {
-						"x": 255,
-						"y": 120,
-						"w": 18,
-						"h": 28
-					}
-				},
-				{
-					"filename": "adventurer_run_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 17,
-						"y": 8,
-						"w": 23,
-						"h": 28
-					},
-					"frame": {
-						"x": 258,
-						"y": 31,
-						"w": 23,
-						"h": 28
-					}
-				},
-				{
-					"filename": "adventurer_walk_04.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 19,
-						"y": 8,
-						"w": 16,
-						"h": 28
-					},
-					"frame": {
-						"x": 258,
-						"y": 61,
-						"w": 16,
-						"h": 28
-					}
-				},
-				{
-					"filename": "adventurer_run3_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 12,
-						"y": 8,
-						"w": 24,
-						"h": 28
+						"x": 14,
+						"y": 7,
+						"w": 19,
+						"h": 29
 					},
 					"frame": {
 						"x": 257,
-						"y": 181,
-						"w": 24,
-						"h": 28
+						"y": 158,
+						"w": 19,
+						"h": 29
 					}
 				},
 				{
-					"filename": "adventurer_run_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 17,
-						"y": 8,
-						"w": 20,
-						"h": 28
-					},
-					"frame": {
-						"x": 257,
-						"y": 211,
-						"w": 20,
-						"h": 28
-					}
-				},
-				{
-					"filename": "adventurer_run3_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 13,
-						"y": 8,
-						"w": 27,
-						"h": 28
-					},
-					"frame": {
-						"x": 1,
-						"y": 261,
-						"w": 27,
-						"h": 28
-					}
-				},
-				{
-					"filename": "adventurer_cast_loop_00.png",
+					"filename": "adventurer_runPunch_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1699,19 +1615,187 @@
 					},
 					"spriteSourceSize": {
 						"x": 15,
-						"y": 12,
-						"w": 27,
-						"h": 24
+						"y": 14,
+						"w": 25,
+						"h": 22
 					},
 					"frame": {
-						"x": 99,
-						"y": 39,
-						"w": 27,
-						"h": 24
+						"x": 98,
+						"y": 255,
+						"w": 25,
+						"h": 22
 					}
 				},
 				{
-					"filename": "adventurer_run3_04.png",
+					"filename": "adventurer_runPunch_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 14,
+						"w": 25,
+						"h": 22
+					},
+					"frame": {
+						"x": 231,
+						"y": 255,
+						"w": 25,
+						"h": 22
+					}
+				},
+				{
+					"filename": "adventurer_runSwordDrawn_05.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 14,
+						"y": 11,
+						"w": 22,
+						"h": 25
+					},
+					"frame": {
+						"x": 258,
+						"y": 255,
+						"w": 22,
+						"h": 25
+					}
+				},
+				{
+					"filename": "adventurer_ledgeSwordDraw_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 19,
+						"y": 3,
+						"w": 16,
+						"h": 34
+					},
+					"frame": {
+						"x": 261,
+						"y": 189,
+						"w": 16,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_fallSwordDraw_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 0,
+						"w": 17,
+						"h": 32
+					},
+					"frame": {
+						"x": 247,
+						"y": 37,
+						"w": 17,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_wallSlideSword_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 2,
+						"w": 17,
+						"h": 32
+					},
+					"frame": {
+						"x": 258,
+						"y": 1,
+						"w": 17,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_wallSlide_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 2,
+						"w": 17,
+						"h": 32
+					},
+					"frame": {
+						"x": 262,
+						"y": 71,
+						"w": 17,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_runSword_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 9,
+						"w": 20,
+						"h": 27
+					},
+					"frame": {
+						"x": 261,
+						"y": 225,
+						"w": 20,
+						"h": 27
+					}
+				},
+				{
+					"filename": "adventurer_runSword_05.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 9,
+						"w": 20,
+						"h": 27
+					},
+					"frame": {
+						"x": 1,
+						"y": 271,
+						"w": 20,
+						"h": 27
+					}
+				},
+				{
+					"filename": "adventurer_idleSwing1_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1721,34 +1805,13 @@
 					"spriteSourceSize": {
 						"x": 13,
 						"y": 9,
-						"w": 23,
+						"w": 20,
 						"h": 27
 					},
 					"frame": {
-						"x": 258,
-						"y": 91,
-						"w": 23,
-						"h": 27
-					}
-				},
-				{
-					"filename": "adventurer_jump_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 17,
-						"y": 7,
-						"w": 19,
-						"h": 27
-					},
-					"frame": {
-						"x": 30,
-						"y": 261,
-						"w": 19,
+						"x": 23,
+						"y": 278,
+						"w": 20,
 						"h": 27
 					}
 				},
@@ -1767,14 +1830,14 @@
 						"h": 27
 					},
 					"frame": {
-						"x": 51,
-						"y": 261,
+						"x": 45,
+						"y": 279,
 						"w": 20,
 						"h": 27
 					}
 				},
 				{
-					"filename": "adventurer_run_04.png",
+					"filename": "adventurer_run_05.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -1788,392 +1851,14 @@
 						"h": 27
 					},
 					"frame": {
-						"x": 73,
-						"y": 261,
+						"x": 160,
+						"y": 272,
 						"w": 20,
 						"h": 27
 					}
 				},
 				{
-					"filename": "adventurer_idle_2_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 10,
-						"y": 9,
-						"w": 23,
-						"h": 27
-					},
-					"frame": {
-						"x": 95,
-						"y": 261,
-						"w": 23,
-						"h": 27
-					}
-				},
-				{
-					"filename": "adventurer_idle_2_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 10,
-						"y": 9,
-						"w": 23,
-						"h": 27
-					},
-					"frame": {
-						"x": 157,
-						"y": 239,
-						"w": 23,
-						"h": 27
-					}
-				},
-				{
-					"filename": "adventurer_run3_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 13,
-						"y": 9,
-						"w": 23,
-						"h": 27
-					},
-					"frame": {
-						"x": 120,
-						"y": 254,
-						"w": 23,
-						"h": 27
-					}
-				},
-				{
-					"filename": "adventurer_cast_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 12,
-						"w": 27,
-						"h": 24
-					},
-					"frame": {
-						"x": 182,
-						"y": 254,
-						"w": 27,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_attack2_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 13,
-						"y": 9,
-						"w": 20,
-						"h": 27
-					},
-					"frame": {
-						"x": 211,
-						"y": 254,
-						"w": 20,
-						"h": 27
-					}
-				},
-				{
-					"filename": "adventurer_knock_dwn_04.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 1,
-						"y": 25,
-						"w": 27,
-						"h": 11
-					},
-					"frame": {
-						"x": 215,
-						"y": 241,
-						"w": 27,
-						"h": 11
-					}
-				},
-				{
-					"filename": "adventurer_attack2_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 9,
-						"w": 18,
-						"h": 27
-					},
-					"frame": {
-						"x": 233,
-						"y": 254,
-						"w": 18,
-						"h": 27
-					}
-				},
-				{
-					"filename": "adventurer_ladder_climb_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 19,
-						"y": 5,
-						"w": 13,
-						"h": 27
-					},
-					"frame": {
-						"x": 268,
-						"y": 150,
-						"w": 13,
-						"h": 27
-					}
-				},
-				{
-					"filename": "adventurer_attack1_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 7,
-						"y": 14,
-						"w": 27,
-						"h": 22
-					},
-					"frame": {
-						"x": 253,
-						"y": 241,
-						"w": 27,
-						"h": 22
-					}
-				},
-				{
-					"filename": "adventurer_ladder_climb_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 19,
-						"y": 5,
-						"w": 13,
-						"h": 27
-					},
-					"frame": {
-						"x": 285,
-						"y": 1,
-						"w": 13,
-						"h": 27
-					}
-				},
-				{
-					"filename": "adventurer_smrslt_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 11,
-						"y": 13,
-						"w": 26,
-						"h": 17
-					},
-					"frame": {
-						"x": 145,
-						"y": 268,
-						"w": 26,
-						"h": 17
-					}
-				},
-				{
-					"filename": "adventurer_crnr_clmb_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 21,
-						"y": 7,
-						"w": 15,
-						"h": 26
-					},
-					"frame": {
-						"x": 283,
-						"y": 31,
-						"w": 15,
-						"h": 26
-					}
-				},
-				{
-					"filename": "adventurer_swrd_drw_air_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 8,
-						"y": 7,
-						"w": 23,
-						"h": 26
-					},
-					"frame": {
-						"x": 275,
-						"y": 120,
-						"w": 23,
-						"h": 26
-					}
-				},
-				{
-					"filename": "adventurer_swrd_drw_air_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 13,
-						"y": 7,
-						"w": 19,
-						"h": 26
-					},
-					"frame": {
-						"x": 279,
-						"y": 211,
-						"w": 19,
-						"h": 26
-					}
-				},
-				{
-					"filename": "adventurer_wall_run_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 6,
-						"w": 21,
-						"h": 26
-					},
-					"frame": {
-						"x": 276,
-						"y": 61,
-						"w": 21,
-						"h": 26
-					}
-				},
-				{
-					"filename": "adventurer_attack3_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 20,
-						"y": 10,
-						"w": 20,
-						"h": 26
-					},
-					"frame": {
-						"x": 1,
-						"y": 291,
-						"w": 20,
-						"h": 26
-					}
-				},
-				{
-					"filename": "adventurer_run2_04.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 14,
-						"w": 26,
-						"h": 19
-					},
-					"frame": {
-						"x": 23,
-						"y": 291,
-						"w": 26,
-						"h": 19
-					}
-				},
-				{
-					"filename": "adventurer_swrd_drw_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 10,
-						"w": 18,
-						"h": 26
-					},
-					"frame": {
-						"x": 51,
-						"y": 290,
-						"w": 18,
-						"h": 26
-					}
-				},
-				{
-					"filename": "adventurer_run2_03.png",
+					"filename": "adventurer_runSwordDraw_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2182,19 +1867,19 @@
 					},
 					"spriteSourceSize": {
 						"x": 17,
-						"y": 12,
-						"w": 26,
-						"h": 23
+						"y": 8,
+						"w": 19,
+						"h": 28
 					},
 					"frame": {
-						"x": 71,
-						"y": 290,
-						"w": 26,
-						"h": 23
+						"x": 265,
+						"y": 105,
+						"w": 19,
+						"h": 28
 					}
 				},
 				{
-					"filename": "adventurer_run2_01.png",
+					"filename": "adventurer_wallSlide_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2203,40 +1888,19 @@
 					},
 					"spriteSourceSize": {
 						"x": 16,
-						"y": 12,
-						"w": 26,
-						"h": 22
+						"y": 3,
+						"w": 17,
+						"h": 31
 					},
 					"frame": {
-						"x": 99,
-						"y": 290,
-						"w": 26,
-						"h": 22
+						"x": 266,
+						"y": 35,
+						"w": 17,
+						"h": 31
 					}
 				},
 				{
-					"filename": "adventurer_attack2_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 10,
-						"w": 18,
-						"h": 26
-					},
-					"frame": {
-						"x": 127,
-						"y": 287,
-						"w": 18,
-						"h": 26
-					}
-				},
-				{
-					"filename": "adventurer_run2_00.png",
+					"filename": "adventurer_fallSwordDraw_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2245,40 +1909,19 @@
 					},
 					"spriteSourceSize": {
 						"x": 18,
-						"y": 11,
-						"w": 26,
-						"h": 25
+						"y": 1,
+						"w": 17,
+						"h": 31
 					},
 					"frame": {
-						"x": 147,
-						"y": 287,
-						"w": 26,
-						"h": 25
+						"x": 98,
+						"y": 279,
+						"w": 17,
+						"h": 31
 					}
 				},
 				{
-					"filename": "adventurer_air_attack2_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 7,
-						"w": 16,
-						"h": 26
-					},
-					"frame": {
-						"x": 282,
-						"y": 239,
-						"w": 16,
-						"h": 26
-					}
-				},
-				{
-					"filename": "adventurer_punch_07.png",
+					"filename": "adventurer_wallSlideSword_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2287,19 +1930,19 @@
 					},
 					"spriteSourceSize": {
 						"x": 16,
-						"y": 13,
-						"w": 26,
-						"h": 23
+						"y": 3,
+						"w": 17,
+						"h": 31
 					},
 					"frame": {
-						"x": 253,
-						"y": 265,
-						"w": 26,
-						"h": 23
+						"x": 117,
+						"y": 279,
+						"w": 17,
+						"h": 31
 					}
 				},
 				{
-					"filename": "adventurer_air_attack1_00.png",
+					"filename": "adventurer_fall_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2307,20 +1950,62 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 15,
-						"y": 9,
-						"w": 18,
-						"h": 26
+						"x": 18,
+						"y": 1,
+						"w": 17,
+						"h": 31
 					},
 					"frame": {
-						"x": 175,
-						"y": 290,
-						"w": 18,
-						"h": 26
+						"x": 182,
+						"y": 273,
+						"w": 17,
+						"h": 31
 					}
 				},
 				{
-					"filename": "adventurer_swrd_shte_air_01.png",
+					"filename": "adventurer_fallSword_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 1,
+						"w": 17,
+						"h": 31
+					},
+					"frame": {
+						"x": 201,
+						"y": 273,
+						"w": 17,
+						"h": 31
+					}
+				},
+				{
+					"filename": "adventurer_groundKick_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 21,
+						"y": 12,
+						"w": 22,
+						"h": 24
+					},
+					"frame": {
+						"x": 136,
+						"y": 283,
+						"w": 22,
+						"h": 24
+					}
+				},
+				{
+					"filename": "adventurer_punch1_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2329,19 +2014,61 @@
 					},
 					"spriteSourceSize": {
 						"x": 13,
-						"y": 7,
-						"w": 19,
-						"h": 26
+						"y": 11,
+						"w": 21,
+						"h": 25
 					},
 					"frame": {
-						"x": 195,
-						"y": 290,
-						"w": 19,
-						"h": 26
+						"x": 67,
+						"y": 283,
+						"w": 21,
+						"h": 25
 					}
 				},
 				{
-					"filename": "adventurer_swrd_shte_02.png",
+					"filename": "adventurer_runPunch_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 11,
+						"w": 21,
+						"h": 25
+					},
+					"frame": {
+						"x": 220,
+						"y": 279,
+						"w": 21,
+						"h": 25
+					}
+				},
+				{
+					"filename": "adventurer_groundKick_06.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 14,
+						"y": 11,
+						"w": 21,
+						"h": 25
+					},
+					"frame": {
+						"x": 243,
+						"y": 282,
+						"w": 21,
+						"h": 25
+					}
+				},
+				{
+					"filename": "adventurer_idleSwordSheath_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2355,14 +2082,35 @@
 						"h": 26
 					},
 					"frame": {
-						"x": 216,
-						"y": 290,
+						"x": 281,
+						"y": 68,
 						"w": 20,
 						"h": 26
 					}
 				},
 				{
-					"filename": "adventurer_attack3_00.png",
+					"filename": "adventurer_runSwing_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 20,
+						"y": 10,
+						"w": 20,
+						"h": 26
+					},
+					"frame": {
+						"x": 277,
+						"y": 1,
+						"w": 20,
+						"h": 26
+					}
+				},
+				{
+					"filename": "adventurer_runSwing_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2376,14 +2124,14 @@
 						"h": 26
 					},
 					"frame": {
-						"x": 238,
-						"y": 290,
+						"x": 285,
+						"y": 29,
 						"w": 20,
 						"h": 26
 					}
 				},
 				{
-					"filename": "adventurer_knock_dwn_05.png",
+					"filename": "adventurer_ledgeGrabSword_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2391,41 +2139,20 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 4,
-						"y": 24,
-						"w": 26,
-						"h": 12
-					},
-					"frame": {
 						"x": 20,
-						"y": 145,
-						"w": 26,
-						"h": 12
-					}
-				},
-				{
-					"filename": "adventurer_items_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 10,
-						"w": 19,
-						"h": 26
+						"y": 3,
+						"w": 15,
+						"h": 34
 					},
 					"frame": {
-						"x": 260,
-						"y": 290,
-						"w": 19,
-						"h": 26
+						"x": 282,
+						"y": 254,
+						"w": 15,
+						"h": 34
 					}
 				},
 				{
-					"filename": "adventurer_cast_00.png",
+					"filename": "adventurer_ledgeGrab_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2433,20 +2160,20 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 15,
-						"y": 10,
-						"w": 21,
-						"h": 26
+						"x": 20,
+						"y": 3,
+						"w": 15,
+						"h": 34
 					},
 					"frame": {
-						"x": 300,
-						"y": 1,
-						"w": 21,
-						"h": 26
+						"x": 278,
+						"y": 135,
+						"w": 15,
+						"h": 34
 					}
 				},
 				{
-					"filename": "adventurer_get_up_03.png",
+					"filename": "adventurer_wallSwordDraw_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2454,20 +2181,62 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 4,
-						"y": 20,
-						"w": 26,
-						"h": 16
+						"x": 17,
+						"y": 2,
+						"w": 16,
+						"h": 32
+					},
+					"frame": {
+						"x": 286,
+						"y": 96,
+						"w": 16,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_ledgeSwordDraw_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 20,
+						"y": 3,
+						"w": 15,
+						"h": 34
+					},
+					"frame": {
+						"x": 279,
+						"y": 171,
+						"w": 15,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_fallSword_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 2,
+						"w": 17,
+						"h": 30
 					},
 					"frame": {
 						"x": 283,
-						"y": 148,
-						"w": 26,
-						"h": 16
+						"y": 207,
+						"w": 17,
+						"h": 30
 					}
 				},
 				{
-					"filename": "adventurer_get_up_04.png",
+					"filename": "adventurer_fall_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2475,20 +2244,20 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 9,
-						"y": 7,
-						"w": 21,
-						"h": 26
+						"x": 18,
+						"y": 2,
+						"w": 17,
+						"h": 30
 					},
 					"frame": {
-						"x": 300,
-						"y": 29,
-						"w": 21,
-						"h": 26
+						"x": 303,
+						"y": 57,
+						"w": 17,
+						"h": 30
 					}
 				},
 				{
-					"filename": "adventurer_run3_05.png",
+					"filename": "adventurer_fallSwordDraw_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2496,125 +2265,104 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 14,
-						"y": 11,
+						"x": 18,
+						"y": 2,
+						"w": 17,
+						"h": 30
+					},
+					"frame": {
+						"x": 307,
+						"y": 1,
+						"w": 17,
+						"h": 30
+					}
+				},
+				{
+					"filename": "adventurer_idleSword_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 6,
+						"w": 17,
+						"h": 30
+					},
+					"frame": {
+						"x": 295,
+						"y": 130,
+						"w": 17,
+						"h": 30
+					}
+				},
+				{
+					"filename": "adventurer_idle_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 6,
+						"w": 17,
+						"h": 30
+					},
+					"frame": {
+						"x": 304,
+						"y": 89,
+						"w": 17,
+						"h": 30
+					}
+				},
+				{
+					"filename": "adventurer_jumpSword_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 5,
 						"w": 22,
-						"h": 25
+						"h": 23
+					},
+					"frame": {
+						"x": 296,
+						"y": 162,
+						"w": 22,
+						"h": 23
+					}
+				},
+				{
+					"filename": "adventurer_punch3_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 13,
+						"w": 22,
+						"h": 23
 					},
 					"frame": {
 						"x": 299,
-						"y": 59,
+						"y": 239,
 						"w": 22,
-						"h": 25
+						"h": 23
 					}
 				},
 				{
-					"filename": "adventurer_punch_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 11,
-						"w": 18,
-						"h": 25
-					},
-					"frame": {
-						"x": 300,
-						"y": 166,
-						"w": 18,
-						"h": 25
-					}
-				},
-				{
-					"filename": "adventurer_cast_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 11,
-						"w": 18,
-						"h": 25
-					},
-					"frame": {
-						"x": 300,
-						"y": 86,
-						"w": 18,
-						"h": 25
-					}
-				},
-				{
-					"filename": "adventurer_cast_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 11,
-						"w": 17,
-						"h": 25
-					},
-					"frame": {
-						"x": 300,
-						"y": 193,
-						"w": 17,
-						"h": 25
-					}
-				},
-				{
-					"filename": "adventurer_kick_07.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 11,
-						"w": 15,
-						"h": 25
-					},
-					"frame": {
-						"x": 283,
-						"y": 166,
-						"w": 15,
-						"h": 25
-					}
-				},
-				{
-					"filename": "adventurer_kick_06.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 14,
-						"y": 11,
-						"w": 21,
-						"h": 25
-					},
-					"frame": {
-						"x": 300,
-						"y": 113,
-						"w": 21,
-						"h": 25
-					}
-				},
-				{
-					"filename": "adventurer_wall_run_02.png",
+					"filename": "adventurer_jump_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2623,82 +2371,19 @@
 					},
 					"spriteSourceSize": {
 						"x": 13,
-						"y": 10,
-						"w": 25,
-						"h": 22
+						"y": 5,
+						"w": 22,
+						"h": 23
 					},
 					"frame": {
-						"x": 281,
-						"y": 267,
-						"w": 25,
-						"h": 22
+						"x": 302,
+						"y": 187,
+						"w": 22,
+						"h": 23
 					}
 				},
 				{
-					"filename": "adventurer_jump_up_swrd_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 11,
-						"y": 6,
-						"w": 24,
-						"h": 25
-					},
-					"frame": {
-						"x": 281,
-						"y": 291,
-						"w": 24,
-						"h": 25
-					}
-				},
-				{
-					"filename": "adventurer_jump_up_swrd_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 11,
-						"y": 6,
-						"w": 24,
-						"h": 25
-					},
-					"frame": {
-						"x": 1,
-						"y": 319,
-						"w": 24,
-						"h": 25
-					}
-				},
-				{
-					"filename": "adventurer_run3_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 13,
-						"y": 11,
-						"w": 23,
-						"h": 25
-					},
-					"frame": {
-						"x": 27,
-						"y": 318,
-						"w": 23,
-						"h": 25
-					}
-				},
-				{
-					"filename": "adventurer_attack1_01.png",
+					"filename": "adventurer_idleSwing2_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2712,14 +2397,14 @@
 						"h": 20
 					},
 					"frame": {
-						"x": 99,
-						"y": 314,
+						"x": 299,
+						"y": 264,
 						"w": 25,
 						"h": 20
 					}
 				},
 				{
-					"filename": "adventurer_swrd_shte_03.png",
+					"filename": "adventurer_runSword_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2729,13 +2414,55 @@
 					"spriteSourceSize": {
 						"x": 16,
 						"y": 11,
-						"w": 17,
+						"w": 20,
 						"h": 25
 					},
 					"frame": {
-						"x": 52,
-						"y": 318,
-						"w": 17,
+						"x": 302,
+						"y": 212,
+						"w": 20,
+						"h": 25
+					}
+				},
+				{
+					"filename": "adventurer_run_06.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 11,
+						"w": 20,
+						"h": 25
+					},
+					"frame": {
+						"x": 299,
+						"y": 286,
+						"w": 20,
+						"h": 25
+					}
+				},
+				{
+					"filename": "adventurer_runSword_06.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 11,
+						"w": 20,
+						"h": 25
+					},
+					"frame": {
+						"x": 160,
+						"y": 301,
+						"w": 20,
 						"h": 25
 					}
 				},
@@ -2754,56 +2481,14 @@
 						"h": 25
 					},
 					"frame": {
-						"x": 300,
-						"y": 220,
+						"x": 136,
+						"y": 309,
 						"w": 20,
 						"h": 25
 					}
 				},
 				{
-					"filename": "adventurer_items_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 11,
-						"w": 21,
-						"h": 25
-					},
-					"frame": {
-						"x": 126,
-						"y": 318,
-						"w": 21,
-						"h": 25
-					}
-				},
-				{
-					"filename": "adventurer_run_05.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 11,
-						"w": 20,
-						"h": 25
-					},
-					"frame": {
-						"x": 149,
-						"y": 318,
-						"w": 20,
-						"h": 25
-					}
-				},
-				{
-					"filename": "adventurer_run_punch_00.png",
+					"filename": "adventurer_jumpSwordDraw_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2812,19 +2497,40 @@
 					},
 					"spriteSourceSize": {
 						"x": 13,
-						"y": 11,
-						"w": 21,
-						"h": 25
+						"y": 7,
+						"w": 19,
+						"h": 26
 					},
 					"frame": {
-						"x": 171,
-						"y": 318,
-						"w": 21,
-						"h": 25
+						"x": 1,
+						"y": 300,
+						"w": 19,
+						"h": 26
 					}
 				},
 				{
-					"filename": "adventurer_run_punch_01.png",
+					"filename": "adventurer_jumpSwordSheath_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 7,
+						"w": 19,
+						"h": 26
+					},
+					"frame": {
+						"x": 22,
+						"y": 307,
+						"w": 19,
+						"h": 26
+					}
+				},
+				{
+					"filename": "adventurer_idleSwing1_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2833,19 +2539,19 @@
 					},
 					"spriteSourceSize": {
 						"x": 15,
-						"y": 14,
-						"w": 25,
-						"h": 22
+						"y": 9,
+						"w": 18,
+						"h": 27
 					},
 					"frame": {
-						"x": 71,
-						"y": 315,
-						"w": 25,
-						"h": 22
+						"x": 43,
+						"y": 308,
+						"w": 18,
+						"h": 27
 					}
 				},
 				{
-					"filename": "adventurer_run_punch_02.png",
+					"filename": "adventurer_wallSwordDraw_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2853,41 +2559,62 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 15,
-						"y": 14,
-						"w": 25,
-						"h": 22
-					},
-					"frame": {
-						"x": 194,
-						"y": 318,
-						"w": 25,
-						"h": 22
-					}
-				},
-				{
-					"filename": "adventurer_run_punch_06.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 19,
-						"y": 11,
+						"x": 18,
+						"y": 2,
 						"w": 15,
-						"h": 25
+						"h": 32
+					},
+					"frame": {
+						"x": 266,
+						"y": 290,
+						"w": 15,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_wallSwing_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 2,
+						"w": 15,
+						"h": 32
+					},
+					"frame": {
+						"x": 182,
+						"y": 306,
+						"w": 15,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_ledgeGrab_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 21,
+						"y": 3,
+						"w": 14,
+						"h": 34
 					},
 					"frame": {
 						"x": 283,
-						"y": 89,
-						"w": 15,
-						"h": 25
+						"y": 290,
+						"w": 14,
+						"h": 34
 					}
 				},
 				{
-					"filename": "adventurer_punch_01.png",
+					"filename": "adventurer_ledgeGrabSword_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2895,20 +2622,20 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 13,
-						"y": 11,
-						"w": 21,
-						"h": 25
+						"x": 21,
+						"y": 3,
+						"w": 14,
+						"h": 34
 					},
 					"frame": {
-						"x": 221,
-						"y": 318,
-						"w": 21,
-						"h": 25
+						"x": 324,
+						"y": 212,
+						"w": 14,
+						"h": 34
 					}
 				},
 				{
-					"filename": "adventurer_swrd_drw_00.png",
+					"filename": "adventurer_ledgeGrabSword_03.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2916,20 +2643,41 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 15,
-						"y": 11,
-						"w": 18,
-						"h": 25
+						"x": 21,
+						"y": 3,
+						"w": 14,
+						"h": 34
 					},
 					"frame": {
-						"x": 244,
-						"y": 318,
-						"w": 18,
-						"h": 25
+						"x": 322,
+						"y": 33,
+						"w": 14,
+						"h": 34
 					}
 				},
 				{
-					"filename": "adventurer_wall_run_05.png",
+					"filename": "adventurer_ledgeGrabSword_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 21,
+						"y": 3,
+						"w": 14,
+						"h": 34
+					},
+					"frame": {
+						"x": 314,
+						"y": 121,
+						"w": 14,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_jump_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -2938,103 +2686,19 @@
 					},
 					"spriteSourceSize": {
 						"x": 14,
-						"y": 10,
-						"w": 24,
-						"h": 22
-					},
-					"frame": {
-						"x": 264,
-						"y": 318,
-						"w": 24,
-						"h": 22
-					}
-				},
-				{
-					"filename": "adventurer_crnr_clmb_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 20,
-						"y": 8,
-						"w": 15,
-						"h": 24
-					},
-					"frame": {
-						"x": 290,
-						"y": 318,
-						"w": 15,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_crnr_clmb_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 21,
-						"y": 6,
-						"w": 14,
-						"h": 24
-					},
-					"frame": {
-						"x": 307,
-						"y": 291,
-						"w": 14,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_punch_04.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 12,
-						"w": 18,
-						"h": 24
-					},
-					"frame": {
-						"x": 311,
-						"y": 140,
-						"w": 18,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_crnr_clmb_04.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 21,
-						"y": 6,
-						"w": 15,
-						"h": 24
+						"y": 5,
+						"w": 21,
+						"h": 23
 					},
 					"frame": {
 						"x": 320,
-						"y": 86,
-						"w": 15,
-						"h": 24
+						"y": 157,
+						"w": 21,
+						"h": 23
 					}
 				},
 				{
-					"filename": "adventurer_punch_11.png",
+					"filename": "adventurer_jumpSword_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -3042,188 +2706,20 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 12,
-						"w": 20,
-						"h": 24
+						"x": 14,
+						"y": 5,
+						"w": 21,
+						"h": 23
 					},
 					"frame": {
-						"x": 319,
-						"y": 193,
-						"w": 20,
-						"h": 24
+						"x": 63,
+						"y": 310,
+						"w": 21,
+						"h": 23
 					}
 				},
 				{
-					"filename": "adventurer_punch_12.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 12,
-						"w": 19,
-						"h": 24
-					},
-					"frame": {
-						"x": 322,
-						"y": 219,
-						"w": 19,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_jump_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 12,
-						"w": 20,
-						"h": 24
-					},
-					"frame": {
-						"x": 320,
-						"y": 166,
-						"w": 20,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_punch_05.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 12,
-						"w": 18,
-						"h": 24
-					},
-					"frame": {
-						"x": 323,
-						"y": 1,
-						"w": 18,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_kick_04.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 12,
-						"w": 12,
-						"h": 24
-					},
-					"frame": {
-						"x": 323,
-						"y": 112,
-						"w": 12,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_wall_run_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 8,
-						"w": 22,
-						"h": 24
-					},
-					"frame": {
-						"x": 307,
-						"y": 317,
-						"w": 22,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_kick_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 21,
-						"y": 12,
-						"w": 22,
-						"h": 24
-					},
-					"frame": {
-						"x": 308,
-						"y": 247,
-						"w": 22,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_kick_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 12,
-						"w": 17,
-						"h": 24
-					},
-					"frame": {
-						"x": 323,
-						"y": 27,
-						"w": 17,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_items_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 17,
-						"y": 12,
-						"w": 18,
-						"h": 24
-					},
-					"frame": {
-						"x": 323,
-						"y": 273,
-						"w": 18,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_run_punch_04.png",
+					"filename": "adventurer_runPunch_04.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -3237,14 +2733,455 @@
 						"h": 20
 					},
 					"frame": {
-						"x": 343,
-						"y": 1,
+						"x": 299,
+						"y": 313,
 						"w": 24,
 						"h": 20
 					}
 				},
 				{
-					"filename": "adventurer_run_punch_05.png",
+					"filename": "adventurer_punch3_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 12,
+						"w": 20,
+						"h": 24
+					},
+					"frame": {
+						"x": 321,
+						"y": 286,
+						"w": 20,
+						"h": 24
+					}
+				},
+				{
+					"filename": "adventurer_idleSwing1_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 10,
+						"w": 18,
+						"h": 26
+					},
+					"frame": {
+						"x": 323,
+						"y": 69,
+						"w": 18,
+						"h": 26
+					}
+				},
+				{
+					"filename": "adventurer_airSwing1_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 9,
+						"w": 18,
+						"h": 26
+					},
+					"frame": {
+						"x": 86,
+						"y": 312,
+						"w": 18,
+						"h": 26
+					}
+				},
+				{
+					"filename": "adventurer_idleSwordDraw_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 10,
+						"w": 18,
+						"h": 26
+					},
+					"frame": {
+						"x": 106,
+						"y": 312,
+						"w": 18,
+						"h": 26
+					}
+				},
+				{
+					"filename": "adventurer_jumpSwordSheath_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 13,
+						"y": 10,
+						"w": 20,
+						"h": 23
+					},
+					"frame": {
+						"x": 199,
+						"y": 306,
+						"w": 20,
+						"h": 23
+					}
+				},
+				{
+					"filename": "adventurer_punch1_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 13,
+						"w": 20,
+						"h": 23
+					},
+					"frame": {
+						"x": 221,
+						"y": 306,
+						"w": 20,
+						"h": 23
+					}
+				},
+				{
+					"filename": "adventurer_punch3_04.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 12,
+						"w": 19,
+						"h": 24
+					},
+					"frame": {
+						"x": 243,
+						"y": 309,
+						"w": 19,
+						"h": 24
+					}
+				},
+				{
+					"filename": "adventurer_groundKick_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 12,
+						"w": 19,
+						"h": 24
+					},
+					"frame": {
+						"x": 63,
+						"y": 335,
+						"w": 19,
+						"h": 24
+					}
+				},
+				{
+					"filename": "adventurer_punch1_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 11,
+						"w": 18,
+						"h": 25
+					},
+					"frame": {
+						"x": 1,
+						"y": 328,
+						"w": 18,
+						"h": 25
+					}
+				},
+				{
+					"filename": "adventurer_ledgeGrab_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 22,
+						"y": 3,
+						"w": 13,
+						"h": 34
+					},
+					"frame": {
+						"x": 326,
+						"y": 248,
+						"w": 13,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_ledgeGrab_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 22,
+						"y": 3,
+						"w": 13,
+						"h": 34
+					},
+					"frame": {
+						"x": 264,
+						"y": 324,
+						"w": 13,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_idleSwordDraw_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 11,
+						"w": 18,
+						"h": 25
+					},
+					"frame": {
+						"x": 21,
+						"y": 335,
+						"w": 18,
+						"h": 25
+					}
+				},
+				{
+					"filename": "adventurer_punch2_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 12,
+						"w": 18,
+						"h": 24
+					},
+					"frame": {
+						"x": 41,
+						"y": 337,
+						"w": 18,
+						"h": 24
+					}
+				},
+				{
+					"filename": "adventurer_punch2_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 12,
+						"w": 18,
+						"h": 24
+					},
+					"frame": {
+						"x": 279,
+						"y": 326,
+						"w": 18,
+						"h": 24
+					}
+				},
+				{
+					"filename": "adventurer_idleSwordSheath_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 11,
+						"w": 17,
+						"h": 25
+					},
+					"frame": {
+						"x": 158,
+						"y": 328,
+						"w": 17,
+						"h": 25
+					}
+				},
+				{
+					"filename": "adventurer_airKick_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 9,
+						"w": 19,
+						"h": 22
+					},
+					"frame": {
+						"x": 126,
+						"y": 336,
+						"w": 19,
+						"h": 22
+					}
+				},
+				{
+					"filename": "adventurer_airSwing2_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 7,
+						"w": 16,
+						"h": 26
+					},
+					"frame": {
+						"x": 325,
+						"y": 312,
+						"w": 16,
+						"h": 26
+					}
+				},
+				{
+					"filename": "adventurer_jumpSwordDraw_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 10,
+						"w": 18,
+						"h": 23
+					},
+					"frame": {
+						"x": 299,
+						"y": 335,
+						"w": 18,
+						"h": 23
+					}
+				},
+				{
+					"filename": "adventurer_groundKick_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 12,
+						"w": 17,
+						"h": 24
+					},
+					"frame": {
+						"x": 319,
+						"y": 340,
+						"w": 17,
+						"h": 24
+					}
+				},
+				{
+					"filename": "adventurer_punch3_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 15,
+						"w": 19,
+						"h": 21
+					},
+					"frame": {
+						"x": 84,
+						"y": 340,
+						"w": 19,
+						"h": 21
+					}
+				},
+				{
+					"filename": "adventurer_jumpSwordDraw_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 11,
+						"w": 18,
+						"h": 22
+					},
+					"frame": {
+						"x": 323,
+						"y": 97,
+						"w": 18,
+						"h": 22
+					}
+				},
+				{
+					"filename": "adventurer_runPunch_05.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -3258,308 +3195,14 @@
 						"h": 24
 					},
 					"frame": {
-						"x": 341,
-						"y": 192,
+						"x": 105,
+						"y": 340,
 						"w": 16,
 						"h": 24
 					}
 				},
 				{
-					"filename": "adventurer_knock_dwn_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 5,
-						"y": 22,
-						"w": 24,
-						"h": 14
-					},
-					"frame": {
-						"x": 343,
-						"y": 23,
-						"w": 24,
-						"h": 14
-					}
-				},
-				{
-					"filename": "adventurer_hurt_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 12,
-						"w": 19,
-						"h": 24
-					},
-					"frame": {
-						"x": 331,
-						"y": 138,
-						"w": 19,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_die_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 12,
-						"w": 21,
-						"h": 24
-					},
-					"frame": {
-						"x": 332,
-						"y": 245,
-						"w": 21,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_die_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 17,
-						"y": 12,
-						"w": 19,
-						"h": 24
-					},
-					"frame": {
-						"x": 343,
-						"y": 218,
-						"w": 19,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_knock_dwn_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 12,
-						"w": 18,
-						"h": 24
-					},
-					"frame": {
-						"x": 342,
-						"y": 164,
-						"w": 18,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_die_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 12,
-						"w": 19,
-						"h": 24
-					},
-					"frame": {
-						"x": 343,
-						"y": 271,
-						"w": 19,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_get_up_05.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 9,
-						"y": 12,
-						"w": 24,
-						"h": 24
-					},
-					"frame": {
-						"x": 343,
-						"y": 297,
-						"w": 24,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_kick_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 12,
-						"w": 19,
-						"h": 24
-					},
-					"frame": {
-						"x": 342,
-						"y": 39,
-						"w": 19,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_smrslt_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 14,
-						"y": 10,
-						"w": 24,
-						"h": 17
-					},
-					"frame": {
-						"x": 323,
-						"y": 65,
-						"w": 24,
-						"h": 17
-					}
-				},
-				{
-					"filename": "adventurer_get_up_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 3,
-						"y": 22,
-						"w": 23,
-						"h": 14
-					},
-					"frame": {
-						"x": 331,
-						"y": 323,
-						"w": 23,
-						"h": 14
-					}
-				},
-				{
-					"filename": "adventurer_punch_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 13,
-						"w": 20,
-						"h": 23
-					},
-					"frame": {
-						"x": 337,
-						"y": 84,
-						"w": 20,
-						"h": 23
-					}
-				},
-				{
-					"filename": "adventurer_knock_dwn_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 10,
-						"y": 10,
-						"w": 20,
-						"h": 23
-					},
-					"frame": {
-						"x": 337,
-						"y": 109,
-						"w": 20,
-						"h": 23
-					}
-				},
-				{
-					"filename": "adventurer_punch_08.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 13,
-						"w": 22,
-						"h": 23
-					},
-					"frame": {
-						"x": 1,
-						"y": 346,
-						"w": 22,
-						"h": 23
-					}
-				},
-				{
-					"filename": "adventurer_wall_run_04.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 17,
-						"y": 9,
-						"w": 19,
-						"h": 23
-					},
-					"frame": {
-						"x": 25,
-						"y": 346,
-						"w": 19,
-						"h": 23
-					}
-				},
-				{
-					"filename": "adventurer_run2_02.png",
+					"filename": "adventurer_runPunch_06.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -3568,19 +3211,19 @@
 					},
 					"spriteSourceSize": {
 						"x": 19,
-						"y": 13,
-						"w": 21,
-						"h": 23
+						"y": 11,
+						"w": 15,
+						"h": 25
 					},
 					"frame": {
-						"x": 46,
-						"y": 345,
-						"w": 21,
-						"h": 23
+						"x": 326,
+						"y": 182,
+						"w": 15,
+						"h": 25
 					}
 				},
 				{
-					"filename": "adventurer_swrd_drw_air_01.png",
+					"filename": "adventurer_groundKick_07.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -3588,251 +3231,20 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 15,
-						"y": 10,
-						"w": 18,
-						"h": 23
+						"x": 16,
+						"y": 11,
+						"w": 15,
+						"h": 25
 					},
 					"frame": {
-						"x": 69,
-						"y": 345,
-						"w": 18,
-						"h": 23
+						"x": 326,
+						"y": 1,
+						"w": 15,
+						"h": 25
 					}
 				},
 				{
-					"filename": "adventurer_run2_05.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 13,
-						"w": 23,
-						"h": 23
-					},
-					"frame": {
-						"x": 264,
-						"y": 342,
-						"w": 23,
-						"h": 23
-					}
-				},
-				{
-					"filename": "adventurer_jump_up_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 14,
-						"y": 5,
-						"w": 21,
-						"h": 23
-					},
-					"frame": {
-						"x": 89,
-						"y": 345,
-						"w": 21,
-						"h": 23
-					}
-				},
-				{
-					"filename": "adventurer_jump_up_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 13,
-						"y": 5,
-						"w": 22,
-						"h": 23
-					},
-					"frame": {
-						"x": 112,
-						"y": 345,
-						"w": 22,
-						"h": 23
-					}
-				},
-				{
-					"filename": "adventurer_jump_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 14,
-						"y": 5,
-						"w": 21,
-						"h": 23
-					},
-					"frame": {
-						"x": 136,
-						"y": 345,
-						"w": 21,
-						"h": 23
-					}
-				},
-				{
-					"filename": "adventurer_get_up_06.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 11,
-						"y": 13,
-						"w": 22,
-						"h": 23
-					},
-					"frame": {
-						"x": 159,
-						"y": 345,
-						"w": 22,
-						"h": 23
-					}
-				},
-				{
-					"filename": "adventurer_swrd_shte_air_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 13,
-						"y": 10,
-						"w": 20,
-						"h": 23
-					},
-					"frame": {
-						"x": 183,
-						"y": 345,
-						"w": 20,
-						"h": 23
-					}
-				},
-				{
-					"filename": "adventurer_crouch_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 14,
-						"w": 20,
-						"h": 22
-					},
-					"frame": {
-						"x": 205,
-						"y": 345,
-						"w": 20,
-						"h": 22
-					}
-				},
-				{
-					"filename": "adventurer_jump_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 14,
-						"w": 20,
-						"h": 22
-					},
-					"frame": {
-						"x": 227,
-						"y": 345,
-						"w": 20,
-						"h": 22
-					}
-				},
-				{
-					"filename": "adventurer_stand_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 19,
-						"w": 22,
-						"h": 17
-					},
-					"frame": {
-						"x": 289,
-						"y": 344,
-						"w": 22,
-						"h": 17
-					}
-				},
-				{
-					"filename": "adventurer_crouch_walk_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 14,
-						"w": 20,
-						"h": 22
-					},
-					"frame": {
-						"x": 313,
-						"y": 343,
-						"w": 20,
-						"h": 22
-					}
-				},
-				{
-					"filename": "adventurer_crouch_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 14,
-						"w": 19,
-						"h": 22
-					},
-					"frame": {
-						"x": 335,
-						"y": 339,
-						"w": 19,
-						"h": 22
-					}
-				},
-				{
-					"filename": "adventurer_swrd_shte_air_03.png",
+					"filename": "adventurer_jumpSwordSheath_03.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -3846,14 +3258,14 @@
 						"h": 22
 					},
 					"frame": {
-						"x": 369,
-						"y": 1,
+						"x": 199,
+						"y": 331,
 						"w": 17,
 						"h": 22
 					}
 				},
 				{
-					"filename": "adventurer_crouch_walk_04.png",
+					"filename": "adventurer_airKick_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -3861,20 +3273,20 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 15,
-						"y": 14,
-						"w": 20,
-						"h": 22
+						"x": 18,
+						"y": 10,
+						"w": 15,
+						"h": 20
 					},
 					"frame": {
-						"x": 364,
-						"y": 39,
-						"w": 20,
-						"h": 22
+						"x": 177,
+						"y": 340,
+						"w": 15,
+						"h": 20
 					}
 				},
 				{
-					"filename": "adventurer_die_03.png",
+					"filename": "adventurer_groundKick_04.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -3882,20 +3294,251 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 14,
-						"w": 22,
-						"h": 22
+						"x": 18,
+						"y": 12,
+						"w": 12,
+						"h": 24
 					},
 					"frame": {
-						"x": 364,
-						"y": 63,
-						"w": 22,
-						"h": 22
+						"x": 218,
+						"y": 331,
+						"w": 12,
+						"h": 24
 					}
 				},
 				{
-					"filename": "adventurer_wall_run_01.png",
+					"filename": "adventurer_fallSwordSheath_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 2,
+						"w": 17,
+						"h": 30
+					},
+					"frame": {
+						"x": 307,
+						"y": 1,
+						"w": 17,
+						"h": 30
+					}
+				},
+				{
+					"filename": "adventurer_fallSwordSheath_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 1,
+						"w": 17,
+						"h": 31
+					},
+					"frame": {
+						"x": 98,
+						"y": 279,
+						"w": 17,
+						"h": 31
+					}
+				},
+				{
+					"filename": "adventurer_fallSwordSheath_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 0,
+						"w": 17,
+						"h": 32
+					},
+					"frame": {
+						"x": 247,
+						"y": 37,
+						"w": 17,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_fallSwordDrawn_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 10,
+						"y": 1,
+						"w": 25,
+						"h": 31
+					},
+					"frame": {
+						"x": 153,
+						"y": 1,
+						"w": 25,
+						"h": 31
+					}
+				},
+				{
+					"filename": "adventurer_fallSwordSheath_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 10,
+						"y": 1,
+						"w": 25,
+						"h": 31
+					},
+					"frame": {
+						"x": 153,
+						"y": 1,
+						"w": 25,
+						"h": 31
+					}
+				},
+				{
+					"filename": "adventurer_idleSwordSheath_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 8,
+						"y": 7,
+						"w": 24,
+						"h": 29
+					},
+					"frame": {
+						"x": 121,
+						"y": 168,
+						"w": 24,
+						"h": 29
+					}
+				},
+				{
+					"filename": "adventurer_jumpSwordSheath_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 8,
+						"y": 7,
+						"w": 23,
+						"h": 26
+					},
+					"frame": {
+						"x": 1,
+						"y": 216,
+						"w": 23,
+						"h": 26
+					}
+				},
+				{
+					"filename": "adventurer_ledgeSwordSheath_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 19,
+						"y": 3,
+						"w": 16,
+						"h": 34
+					},
+					"frame": {
+						"x": 261,
+						"y": 189,
+						"w": 16,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_ledgeSwordSheath_02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 20,
+						"y": 3,
+						"w": 15,
+						"h": 34
+					},
+					"frame": {
+						"x": 279,
+						"y": 171,
+						"w": 15,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_ledgeSwordSheath_01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 12,
+						"y": 3,
+						"w": 23,
+						"h": 34
+					},
+					"frame": {
+						"x": 150,
+						"y": 101,
+						"w": 23,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_ledgeSwordSheath_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 3,
+						"w": 17,
+						"h": 34
+					},
+					"frame": {
+						"x": 228,
+						"y": 54,
+						"w": 17,
+						"h": 34
+					}
+				},
+				{
+					"filename": "adventurer_runSwordSheath_03.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -3905,60 +3548,18 @@
 					"spriteSourceSize": {
 						"x": 17,
 						"y": 8,
-						"w": 20,
-						"h": 22
-					},
-					"frame": {
-						"x": 364,
-						"y": 87,
-						"w": 20,
-						"h": 22
-					}
-				},
-				{
-					"filename": "adventurer_swrd_drw_air_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 11,
-						"w": 18,
-						"h": 22
-					},
-					"frame": {
-						"x": 355,
-						"y": 244,
-						"w": 18,
-						"h": 22
-					}
-				},
-				{
-					"filename": "adventurer_drop_kick_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 9,
 						"w": 19,
-						"h": 22
+						"h": 28
 					},
 					"frame": {
-						"x": 364,
-						"y": 111,
+						"x": 265,
+						"y": 105,
 						"w": 19,
-						"h": 22
+						"h": 28
 					}
 				},
 				{
-					"filename": "adventurer_crouch_00.png",
+					"filename": "adventurer_runSwordSheath_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -3967,61 +3568,19 @@
 					},
 					"spriteSourceSize": {
 						"x": 16,
-						"y": 15,
-						"w": 19,
-						"h": 21
-					},
-					"frame": {
-						"x": 364,
-						"y": 268,
-						"w": 19,
-						"h": 21
-					}
-				},
-				{
-					"filename": "adventurer_crouch_walk_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 15,
+						"y": 8,
 						"w": 20,
-						"h": 21
+						"h": 28
 					},
 					"frame": {
-						"x": 364,
-						"y": 135,
+						"x": 76,
+						"y": 253,
 						"w": 20,
-						"h": 21
+						"h": 28
 					}
 				},
 				{
-					"filename": "adventurer_smrslt_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 20,
-						"y": 10,
-						"w": 18,
-						"h": 21
-					},
-					"frame": {
-						"x": 364,
-						"y": 158,
-						"w": 18,
-						"h": 21
-					}
-				},
-				{
-					"filename": "adventurer_crouch_walk_00.png",
+					"filename": "adventurer_runSwordSheath_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -4030,19 +3589,61 @@
 					},
 					"spriteSourceSize": {
 						"x": 16,
-						"y": 15,
-						"w": 19,
-						"h": 21
+						"y": 7,
+						"w": 20,
+						"h": 29
 					},
 					"frame": {
-						"x": 364,
-						"y": 181,
-						"w": 19,
-						"h": 21
+						"x": 239,
+						"y": 224,
+						"w": 20,
+						"h": 29
 					}
 				},
 				{
-					"filename": "adventurer_crouch_03.png",
+					"filename": "adventurer_runSwordSheath_00.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 8,
+						"w": 26,
+						"h": 28
+					},
+					"frame": {
+						"x": 121,
+						"y": 138,
+						"w": 26,
+						"h": 28
+					}
+				},
+				{
+					"filename": "adventurer_wallSwordSheath_03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 18,
+						"y": 2,
+						"w": 15,
+						"h": 32
+					},
+					"frame": {
+						"x": 266,
+						"y": 290,
+						"w": 15,
+						"h": 32
+					}
+				},
+				{
+					"filename": "adventurer_wallSwordSheath_02.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -4051,19 +3652,19 @@
 					},
 					"spriteSourceSize": {
 						"x": 17,
-						"y": 15,
-						"w": 17,
-						"h": 21
+						"y": 2,
+						"w": 16,
+						"h": 32
 					},
 					"frame": {
-						"x": 369,
-						"y": 291,
-						"w": 17,
-						"h": 21
+						"x": 286,
+						"y": 96,
+						"w": 16,
+						"h": 32
 					}
 				},
 				{
-					"filename": "adventurer_get_up_02.png",
+					"filename": "adventurer_wallSwordSheath_01.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -4071,20 +3672,20 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 3,
-						"y": 24,
-						"w": 21,
-						"h": 12
+						"x": 5,
+						"y": 2,
+						"w": 28,
+						"h": 32
 					},
 					"frame": {
-						"x": 359,
-						"y": 204,
-						"w": 21,
-						"h": 12
+						"x": 97,
+						"y": 34,
+						"w": 28,
+						"h": 32
 					}
 				},
 				{
-					"filename": "adventurer_crouch_walk_03.png",
+					"filename": "adventurer_wallSwordSheath_00.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -4092,310 +3693,16 @@
 						"h": 37
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 15,
-						"w": 19,
-						"h": 21
+						"x": 11,
+						"y": 2,
+						"w": 22,
+						"h": 32
 					},
 					"frame": {
-						"x": 364,
-						"y": 218,
-						"w": 19,
-						"h": 21
-					}
-				},
-				{
-					"filename": "adventurer_crouch_walk_05.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 15,
-						"w": 20,
-						"h": 21
-					},
-					"frame": {
-						"x": 356,
-						"y": 323,
-						"w": 20,
-						"h": 21
-					}
-				},
-				{
-					"filename": "adventurer_punch_09.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 15,
-						"w": 19,
-						"h": 21
-					},
-					"frame": {
-						"x": 356,
-						"y": 346,
-						"w": 19,
-						"h": 21
-					}
-				},
-				{
-					"filename": "adventurer_smrslt_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 7,
-						"w": 15,
-						"h": 21
-					},
-					"frame": {
-						"x": 1,
-						"y": 371,
-						"w": 15,
-						"h": 21
-					}
-				},
-				{
-					"filename": "adventurer_drop_kick_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 10,
-						"w": 15,
-						"h": 20
-					},
-					"frame": {
-						"x": 18,
-						"y": 371,
-						"w": 15,
-						"h": 20
-					}
-				},
-				{
-					"filename": "adventurer_die_04.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 18,
-						"w": 18,
-						"h": 18
-					},
-					"frame": {
-						"x": 335,
-						"y": 363,
-						"w": 18,
-						"h": 18
-					}
-				},
-				{
-					"filename": "adventurer_die_05.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 21,
-						"y": 19,
-						"w": 15,
-						"h": 17
-					},
-					"frame": {
-						"x": 35,
-						"y": 371,
-						"w": 15,
-						"h": 17
-					}
-				},
-				{
-					"filename": "adventurer_cast_loop_02.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 15,
-						"y": 12,
-						"w": 27,
-						"h": 24
-					},
-					"frame": {
-						"x": 99,
-						"y": 39,
-						"w": 27,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_cast_loop_03.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 13,
-						"y": 12,
-						"w": 29,
-						"h": 24
-					},
-					"frame": {
-						"x": 126,
-						"y": 228,
-						"w": 29,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_hurt_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 16,
-						"y": 12,
-						"w": 21,
-						"h": 24
-					},
-					"frame": {
-						"x": 332,
-						"y": 245,
-						"w": 21,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_hurt_01.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 17,
-						"y": 12,
-						"w": 19,
-						"h": 24
-					},
-					"frame": {
-						"x": 343,
-						"y": 218,
-						"w": 19,
-						"h": 24
-					}
-				},
-				{
-					"filename": "adventurer_die_06.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 18,
-						"y": 18,
-						"w": 18,
-						"h": 18
-					},
-					"frame": {
-						"x": 335,
-						"y": 363,
-						"w": 18,
-						"h": 18
-					}
-				},
-				{
-					"filename": "adventurer_knock_dwn_06.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 4,
-						"y": 29,
-						"w": 29,
-						"h": 7
-					},
-					"frame": {
-						"x": 126,
-						"y": 219,
-						"w": 29,
-						"h": 7
-					}
-				},
-				{
-					"filename": "adventurer_swrd_shte_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 8,
-						"y": 7,
-						"w": 24,
-						"h": 29
-					},
-					"frame": {
-						"x": 223,
-						"y": 151,
-						"w": 24,
-						"h": 29
-					}
-				},
-				{
-					"filename": "adventurer_swrd_shte_air_00.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 50,
-						"h": 37
-					},
-					"spriteSourceSize": {
-						"x": 8,
-						"y": 7,
-						"w": 23,
-						"h": 26
-					},
-					"frame": {
-						"x": 275,
-						"y": 120,
-						"w": 23,
-						"h": 26
+						"x": 175,
+						"y": 100,
+						"w": 22,
+						"h": 32
 					}
 				}
 			]

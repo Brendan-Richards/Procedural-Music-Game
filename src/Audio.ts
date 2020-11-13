@@ -113,7 +113,7 @@ class Audio {
 
 
         this.scene.player.on('animationstart', (animation, frame) => {
-            if(animation.key==='attack1' || animation.key==='attack2' || animation.key==='attack3'){
+            if(animation.key==='idleSwing1' || animation.key==='idleSwing2' || animation.key==='runSwing'){
                 this.runSound.stop(); 
                 this.windFlap.stop();
                 this.wallSlideSound.stop();
@@ -122,7 +122,7 @@ class Audio {
                 scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y);
                 scene.swordCollided = false;
             } 
-            else if(animation.key==='wallAttack'){
+            else if(animation.key==='wallSwing'){
                 this.runSound.stop(); 
                 this.windFlap.stop();
                 this.attackSound.play(this.attackSoundConfig);
@@ -132,21 +132,21 @@ class Audio {
                 //scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y); 
                  
             }
-            else if(animation.key==='airAttack1' || animation.key==='airAttack2'){
+            else if(animation.key==='airSwing1' || animation.key==='airSwing2'){
                 this.runSound.stop(); 
                 this.windFlap.stop();
                 this.wallSlideSound.stop();
                 this.attackSound.play(this.attackSoundConfig);
                 scene.swordCollided = false;
             }  
-            else if(animation.key==='airAttack3Loop'){
+            else if(animation.key==='airSwing3Loop'){
                 this.windFlap.play(this.windFlapConfig);
             }
-            else if(animation.key==='airAttack3End'){
+            else if(animation.key==='airSwing3End'){
                 this.windFlap.stop();
                 this.swordRockImpact.play(this.swordRockImpactConfig);
             }
-            else if(animation.key==='run' || animation.key==='runSword'){
+            else if(animation.key==='run' || animation.key==='runSword' || animation.key==='runSwordDrawn'){
                 if(!this.runSound.isPlaying){
                     this.runSound.play(this.runConfig); 
                 }               
@@ -167,11 +167,11 @@ class Audio {
                 this.windFlap.stop();
                 this.wallJumpSound.play(this.jumpConfig);               
             }
-            else if(animation.key==='fall' || animation.key==='fallSword'){
+            else if(animation.key==='fall' || animation.key==='fallSword' || animation.key==='fallSwordDrawn'){
                 this.runSound.stop();
                 this.wallSlideSound.stop();               
             }   
-            else if(animation.key==='ledgeGrab' || animation.key==='ledgeGrabSword'){
+            else if(animation.key==='ledgeGrab' || animation.key==='ledgeGrabSword' || animation.key==='ledgeGrabSwordDrawn'){
                 this.runSound.stop();
                 this.wallSlideSound.stop();
                 this.windFlap.stop();
@@ -183,28 +183,34 @@ class Audio {
                 this.wallSlideSound.stop();
                 this.jumpSound.play(this.jumpConfig);               
             } 
-            else if(animation.key==='wallSlide' || animation.key==='wallSlideSword'){
+            else if(animation.key==='wallSlide' || animation.key==='wallSlideSword' || animation.key==='wallSlideSwordDrawn'){
                 this.runSound.stop();
                 this.windFlap.stop();
-                if(!this.wallSmackSound.isPlaying && scene.currentPlayerAnimation!=='wallAttack'){
+                if(!this.wallSmackSound.isPlaying && scene.currentPlayerAnimation!=='wallSwing'){
                     this.wallSmackSound.play(this.wallSmackConfig);
                 }
                 this.wallSlideSound.play(this.wallSlideConfig);  
                 //console.log('in hook for wall slide anim start')
-                if(scene.currentPlayerAnimation==='wallAttack'){
+                if(scene.currentPlayerAnimation==='wallSwing'){
                     //console.log('previous anim was wall attack')
                     scene.player.setPosition(scene.stopWallSlidingPosition.x, scene.player.y);
                 }             
             }
-            else if(animation.key==='idle1' || animation.key==='idleSword'){
+            else if(animation.key==='idle' || animation.key==='idleSword' || animation.key==='idleSwordDrawn'){
                 this.runSound.stop(); 
                 this.windFlap.stop();
                 this.wallSlideSound.stop();              
-            }  
-            else if(animation.key==='draw' || animation.key==='drawAir' ){
+            }
+            else if(scene.swordDraws.includes(animation.key)){
+                if(animation.key==='ledgeSwordDraw'){
+                    scene.player.setIgnoreGravity(true);
+                }
                 this.drawSound.play(this.drawSoundConfig);
             }    
-            else if(animation.key==='sheath' || animation.key==='sheathAir'){
+            else if(scene.swordSheaths.includes(animation.key)){
+                if(animation.key==='ledgeSwordSheath'){
+                    scene.player.setIgnoreGravity(true);
+                }
                 this.sheathSound.play(this.sheathSoundConfig);
             }        
         });

@@ -20,12 +20,12 @@ export default (scene: MountainScene): void => {
                         //console.log(scene.playerBody.velocity); 
                         scene.inContactWithWall = false;
 
-                        if(scene.currentPlayerAnimation==='airAttack3Loop'){
-                            scene.player.play('airAttack3End', true);
-                            scene.prevPlayerAnimation = 'airAttack3Loop';
-                            scene.currentPlayerAnimation = 'airAttack3End';
+                        if(scene.currentPlayerAnimation==='airSwing3Loop'){
+                            scene.player.play('airSwing3End', true);
+                            scene.prevPlayerAnimation = 'airSwing3Loop';
+                            scene.currentPlayerAnimation = 'airSwing3End';
                         }
-                        else if(scene.currentPlayerAnimation==='airAttack3End'){
+                        else if(scene.currentPlayerAnimation==='airSwing3End'){
                             scene.playerCanJump = false;
                         }
                         else{
@@ -91,8 +91,8 @@ export default (scene: MountainScene): void => {
                         scene.inContactWithWall = true;
                         scene.wallCollisionDirection = scene.currentPlayerDirection==='left' ? 'left' : 'right';
 
-                        if(scene.currentPlayerAnimation==='attack1' || scene.currentPlayerAnimation==='attack2' || scene.currentPlayerAnimation==='attack3' ||
-                           scene.currentPlayerAnimation==='airAttack1' || scene.currentPlayerAnimation==='airAttack2'){
+                        if(scene.currentPlayerAnimation==='idleSwing1' || scene.currentPlayerAnimation==='idleSwing2' || scene.currentPlayerAnimation==='runSwing' ||
+                           scene.currentPlayerAnimation==='airSwing1' || scene.currentPlayerAnimation==='airSwing2'){
                             if(!scene.swordCollided){
                                 scene.audio.attackSound.stop();
                                 scene.audio.swordRockImpact.play(scene.audio.swordRockImpactConfig);
@@ -148,8 +148,8 @@ export default (scene: MountainScene): void => {
                     else if(other.tile.properties.collisionLabel==='topWall'){
                         //console.log(other);
                         //console.log(collisionNormal);
-                        if(scene.currentPlayerAnimation==='attack1' || scene.currentPlayerAnimation==='attack2' || scene.currentPlayerAnimation==='attack3' ||
-                            scene.currentPlayerAnimation==='airAttack1' || scene.currentPlayerAnimation==='airAttack2'){
+                        if(scene.currentPlayerAnimation==='idleSwing1' || scene.currentPlayerAnimation==='idleSwing2' || scene.currentPlayerAnimation==='runSwing' ||
+                        scene.currentPlayerAnimation==='airSwing1' || scene.currentPlayerAnimation==='airSwing2'){
                             if(!scene.swordCollided){
                                 scene.audio.attackSound.stop();
                                 scene.audio.swordRockImpact.play(scene.audio.swordRockImpactConfig);
@@ -216,7 +216,7 @@ export default (scene: MountainScene): void => {
                                         scene.currentPlayerDirection = 'right';
                                     };
     
-                                    const grabPositionY = other.tile.pixelY + 16;
+                                    const grabPositionY = other.tile.pixelY + 22;
                                     const buffer = 20;
     
                                     //if we collided with the outward facing side of the tile block
