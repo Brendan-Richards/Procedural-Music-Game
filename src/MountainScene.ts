@@ -112,6 +112,9 @@ export default class MountainScene extends Phaser.Scene
     audio: Audio;
     bg2: Phaser.GameObjects.Image;
     prevMeeleeAttack: string;
+    prevEquippedWeapon: string;
+    minTimeBetweenWeaponChanges: number;
+    lastWeaponChangeTime: number;
 
     back1: Phaser.GameObjects.Image;
 
@@ -145,6 +148,8 @@ export default class MountainScene extends Phaser.Scene
         this.lastAttackTime = -1;
         this.attackStaminaPenalty = 10;
         this.attackReboundDistance = 15;
+        this.minTimeBetweenWeaponChanges = 300; // in milliseconds
+        this.lastWeaponChangeTime = 0;
         this.prevSwordSwing = '';
         this.prevMeeleeAttack = '';
         this.swordAttacks = ['idleSwing1', 'idleSwing2', 'runSwing', 'airSwing1', 'airSwing2', 'wallSwing'];
@@ -152,6 +157,7 @@ export default class MountainScene extends Phaser.Scene
         this.swordSheaths = ['idleSwordSheath', 'runSwordSheath', 'jumpSwordSheath', 'fallSwordSheath', 'wallSwordSheath', 'ledgeSwordSheath'];
         this.meeleeAttacks = ['punch1', 'punch2', 'punch3', 'runPunch', 'groundKick', 'airKick'];
         this.equippedWeapon = 'none';
+        this.prevEquippedWeapon = '';
         this.weaponsFound = ['none', 'sword'];
 
         //flags
@@ -281,29 +287,47 @@ export default class MountainScene extends Phaser.Scene
                     }
                 }
             }
-            else  if(this.equippedWeapon==='none' && !this.meeleeAttacks.includes(this.currentPlayerAnimation)){
-                if(pointer.rightButtonDown()){ 
-                    this.playerKick = true;
+            else  if(this.equippedWeapon==='none' && !this.meeleeAttacks.includes(this.currentPlayerAnimation) && !this.playerLedgeGrab){
+                if(!this.playerWallSliding || (this.playerWallSliding && this.currentPlayerAnimation==='run')){
+                    if(pointer.rightButtonDown()){ 
+                        this.playerKick = true;
+                    }
+                    this.playerAttacking = true;
                 }
-                this.playerAttacking = true;
             }
         }, this);
 
         this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
             //console.log(pointer);
-            const currWeaponIdx = this.weaponsFound.findIndex((element) => {
-                return element===this.equippedWeapon;
-            });
-            if(pointer.deltaY > 0){
-                //console.log('scrolled mouse wheel down');
-                this.equippedWeapon = this.weaponsFound[(currWeaponIdx + 1) % this.weaponsFound.length];
+            if(this.time.now - this.lastWeaponChangeTime > this.minTimeBetweenWeaponChanges &&
+                    !this.swordAttacks.includes(this.currentPlayerAnimation) &&
+                    !this.meeleeAttacks.includes(this.currentPlayerAnimation) &&
+                    !this.swordDraws.includes(this.currentPlayerAnimation) &&
+                    !this.swordSheaths.includes(this.currentPlayerAnimation) &&
+                    this.currentPlayerAnimation!=='airSwing3Start' &&
+                    this.currentPlayerAnimation!=='airSwing3Loop' &&
+                    this.currentPlayerAnimation!=='airSwing3End'){
+                this.prevEquippedWeapon = this.equippedWeapon;
+                const currWeaponIdx = this.weaponsFound.findIndex((element) => {
+                    return element===this.equippedWeapon;
+                });
+                if(pointer.deltaY > 0){
+                    //console.log('scrolled mouse wheel down');
+                    this.equippedWeapon = this.weaponsFound[(currWeaponIdx + 1) % this.weaponsFound.length];
+                }
+                else{
+                    //console.log('scrolled mouse wheel up');
+                    this.equippedWeapon = this.weaponsFound[(currWeaponIdx - 1) + (currWeaponIdx===0 ? this.weaponsFound.length : 0)];
+                }
+                console.log('previous weapon:', this.prevEquippedWeapon);
+                console.log('current Weapon:', this.equippedWeapon);
+                this.changedWeapon = true;
+                this.swordDrawn = false;
+                this.drawSword = false;
+                this.sheathSword = false;
+
+                this.lastWeaponChangeTime = this.time.now;
             }
-            else{
-                //console.log('scrolled mouse wheel up');
-                this.equippedWeapon = this.weaponsFound[(currWeaponIdx - 1) + (currWeaponIdx===0 ? this.weaponsFound.length : 0)];
-            }
-            console.log('current Weapon:', this.equippedWeapon);
-            this.changedWeapon = true;
         }, this);
 
         this.input.keyboard.on('keyup-' + 'A', (event) => {

@@ -11,7 +11,11 @@ export default (scene: MountainScene) => {
     //console.log(scene.playerWallJumping);
     const prevVelocity = scene.player.body.velocity;
 
-    if(scene.playerCanJump){
+    if(scene.changedWeapon){
+        changedWeaponHandler(scene, prevVelocity);
+        scene.changedWeapon = false;
+    }
+    else if(scene.playerCanJump){
         //console.log(scene.timer.getTime());
         const timeDiff = scene.time.now - scene.playerLastOnGroundTime;
         //console.log('time since last on ground', timeDiff);
@@ -39,6 +43,108 @@ export default (scene: MountainScene) => {
             scene.player.body.velocity.x,
             scene.player.body.velocity.y > 0 ? scene.playerMaxSpeed : -1 * scene.playerMaxSpeed);
     }
+}
+
+const changedWeaponHandler = (scene: MountainScene, prevVelocity: velocity) => {
+    let newAnimation = '';
+
+    switch(scene.equippedWeapon){
+        case 'none': {
+            switch(scene.prevEquippedWeapon){
+                case 'sword': {
+                    switch(scene.currentPlayerAnimation){
+                        case 'idleSword':
+                        case 'idleSwordDrawn': {
+                            newAnimation = 'idle';
+                            break;
+                        }
+                        case 'runSword':
+                        case 'runSwordDrawn': {
+                            newAnimation = 'run';
+                            break;
+                        }
+                        case 'jumpSword':
+                        case 'jumpSwordDrawn': {
+                            newAnimation = 'jump';
+                            break;
+                        }
+                        case 'wallSlideSword':
+                        case 'wallSlideSwordDrawn': {
+                            newAnimation = 'wallSlide';
+                            break;
+                        }
+                        case 'ledgeGrabSword':
+                        case 'ledgeGrabSwordDrawn': {
+                            newAnimation = 'ledgeGrab';
+                            break;
+                        }
+                        case 'fallSword':
+                        case 'fallSwordDrawn': {
+                            newAnimation = 'fall';
+                            break;
+                        }
+                    }
+                    break;
+                }
+                case 'bow': {
+                    break;
+                }
+            }
+            break;
+        }
+        case 'sword': {
+            switch(scene.prevEquippedWeapon){
+                case 'none': {
+                    switch(scene.currentPlayerAnimation){
+                        case 'idle': {
+                            newAnimation = 'idleSword';
+                            break;
+                        }
+                        case 'run': {
+                            newAnimation = 'runSword';
+                            break;
+                        }
+                        case 'jump': {
+                            newAnimation = 'jumpSword';
+                            break;
+                        }
+                        case 'wallSlide': {
+                            newAnimation = 'wallSlideSword';
+                            break;
+                        }
+                        case 'ledgeGrab': {
+                            newAnimation = 'ledgeGrabSword';
+                            break;
+                        }
+                        case 'fall': {
+                            newAnimation = 'fallSword';
+                            break;
+                        }
+                    }
+                    break;
+                }
+                case 'bow': {
+                    break;
+                }
+            }
+            break;
+        }
+        case 'bow': {
+            break;
+        }
+    }
+
+    if(['ledgeGrab', 'ledgeGrabSword', 'ledgeGrabSwordDrawn'].includes(newAnimation)){
+        setNewCharacterAnimation(scene, newAnimation, scene.currentPlayerDirection==='left', false);
+        scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
+        scene.player.setIgnoreGravity(true);
+    }
+    else{
+        setNewCharacterAnimation(scene, newAnimation, scene.currentPlayerDirection==='left', false);
+        const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
+        scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, factor * Math.abs(prevVelocity.x), prevVelocity.y);
+    }
+
 }
 
 const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {

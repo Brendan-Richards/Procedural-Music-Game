@@ -94,13 +94,22 @@ export default (scene: MountainScene): void => {
                         if(scene.currentPlayerAnimation==='idleSwing1' || scene.currentPlayerAnimation==='idleSwing2' || scene.currentPlayerAnimation==='runSwing' ||
                            scene.currentPlayerAnimation==='airSwing1' || scene.currentPlayerAnimation==='airSwing2'){
                             if(!scene.swordCollided){
-                                scene.audio.attackSound.stop();
+                                scene.audio.swordSwingSound.stop();
                                 scene.audio.swordRockImpact.play(scene.audio.swordRockImpactConfig);
                                 const factor = scene.currentPlayerDirection==='left' ? 1 : -1;
                                 scene.player.setVelocityX(factor * scene.playerSpeed);
                                 scene.swordCollided = true;
                             }
 
+                        }
+                        else if(scene.meeleeAttacks.includes(scene.currentPlayerAnimation)){
+                            //if(!scene.swordCollided){
+                                scene.audio.punchSound.stop();
+                                scene.audio.fistWallImpact.play(scene.audio.fistWallImpactConfig);
+                                const factor = scene.currentPlayerDirection==='left' ? 1 : -1;
+                                scene.player.setVelocityX(factor * scene.playerSpeed * 0.2);
+                                //scene.swordCollided = true;
+                            //}
                         }
                         else{
                             if(!scene.losingStamina && scene.currentPlayerAnimation!=='run'){ //&& scene.playerLastOnGroundTime < scene.time.now - 100){
@@ -151,7 +160,7 @@ export default (scene: MountainScene): void => {
                         if(scene.currentPlayerAnimation==='idleSwing1' || scene.currentPlayerAnimation==='idleSwing2' || scene.currentPlayerAnimation==='runSwing' ||
                         scene.currentPlayerAnimation==='airSwing1' || scene.currentPlayerAnimation==='airSwing2'){
                             if(!scene.swordCollided){
-                                scene.audio.attackSound.stop();
+                                scene.audio.swordSwingSound.stop();
                                 scene.audio.swordRockImpact.play(scene.audio.swordRockImpactConfig);
                                 const factor = scene.currentPlayerDirection==='left' ? 1 : -1;
                                 scene.player.setVelocityX(factor * scene.playerSpeed);
