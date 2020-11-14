@@ -280,6 +280,7 @@ const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         case 'idleSwing1':
         case 'idleSwing2':
         case 'idleSword':
+        case 'runSwing':
         case 'idleSwordDrawn':
         case 'idle': {
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, prevVelocity.y);

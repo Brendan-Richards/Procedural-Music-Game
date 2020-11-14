@@ -103,13 +103,10 @@ export default (scene: MountainScene): void => {
 
                         }
                         else if(scene.meeleeAttacks.includes(scene.currentPlayerAnimation)){
-                            //if(!scene.swordCollided){
-                                scene.audio.punchSound.stop();
-                                scene.audio.fistWallImpact.play(scene.audio.fistWallImpactConfig);
-                                const factor = scene.currentPlayerDirection==='left' ? 1 : -1;
-                                scene.player.setVelocityX(factor * scene.playerSpeed * 0.2);
-                                //scene.swordCollided = true;
-                            //}
+                            scene.audio.punchSound.stop();
+                            scene.audio.fistWallImpact.play(scene.audio.fistWallImpactConfig);
+                            const factor = scene.currentPlayerDirection==='left' ? 1 : -1;
+                            scene.player.setVelocityX(factor * scene.playerSpeed * 0);
                         }
                         else{
                             if(!scene.losingStamina && scene.currentPlayerAnimation!=='run'){ //&& scene.playerLastOnGroundTime < scene.time.now - 100){
