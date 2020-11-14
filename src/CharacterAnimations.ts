@@ -494,6 +494,9 @@ export default (scene: MountainScene) => {
         else if(scene.swordAttacks.includes(animation.key) || scene.meeleeAttacks.includes(animation.key)){
             //console.log('setting player attacking flag to false');
             scene.playerAttacking = false;
+            if(animation.key==='groundKick'){
+                scene.playerKick = false;
+            }
         }
         else if(scene.swordDraws.includes(animation.key)){
             //console.log('done with draw animation');

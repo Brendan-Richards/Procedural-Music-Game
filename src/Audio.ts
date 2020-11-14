@@ -15,10 +15,16 @@ class Audio {
     hardLanding: Phaser.Sound.BaseSound;
     windFlap: Phaser.Sound.BaseSound;
     wallSmackSound: Phaser.Sound.BaseSound;
-    attackSound: Phaser.Sound.BaseSound;
+    swordSwingSound: Phaser.Sound.BaseSound;
     swordRockImpact: Phaser.Sound.BaseSound;;
     drawSound: Phaser.Sound.BaseSound;
     sheathSound: Phaser.Sound.BaseSound;
+    punchSound: Phaser.Sound.BaseSound;
+    fistWallImpact: Phaser.Sound.BaseSound;
+    kickSound: Phaser.Sound.BaseSound;
+    kickSoundConfig: object;
+    fistWallImpactConfig: object;
+    punchSoundConfig: object;
     sheathSoundConfig: object;
     wallSmackConfig: object;
     softLandingConfig: object;
@@ -53,11 +59,26 @@ class Audio {
         this.wallSmackSound = scene.sound.add('wallSmack');
         this.wallJumpSound = scene.sound.add('jump');
         this.windFlap = scene.sound.add('windFlap');
-        this.attackSound = scene.sound.add('attack');
+        this.swordSwingSound = scene.sound.add('attack');
         this.drawSound = scene.sound.add('draw');
         this.sheathSound = scene.sound.add('sheath');
         this.swordRockImpact = scene.sound.add('swordRockImpact');
+        this.fistWallImpact = scene.sound.add('fistWallImpact');
+        this.punchSound = scene.sound.add('punch');
+        this.kickSound = scene.sound.add('kick');
 
+        this.kickSoundConfig = {
+            loop: false,
+            volume: 0.1
+        }
+        this.fistWallImpactConfig = {
+            loop: false,
+            volume: 0.1
+        }
+        this.punchSoundConfig = {
+            loop: false,
+            volume: 0.1
+        }
         this.swordRockImpactConfig = {
             loop: false,
             volume: 0.13
@@ -117,15 +138,29 @@ class Audio {
                 this.runSound.stop(); 
                 this.windFlap.stop();
                 this.wallSlideSound.stop();
-                this.attackSound.play(this.attackSoundConfig);
+                this.swordSwingSound.play(this.attackSoundConfig);
                 const nudge = scene.currentPlayerDirection==='left' ? -1 : 1;
                 scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y);
                 scene.swordCollided = false;
-            } 
+            }
+            if(scene.meeleeAttacks.includes(animation.key)){
+                this.runSound.stop(); 
+                this.windFlap.stop();
+                this.wallSlideSound.stop();
+                if(animation.key==='groundKick' || animation.key==='airKick'){
+                    this.kickSound.play(this.kickSoundConfig);
+                }
+                else{
+                    this.punchSound.play(this.attackSoundConfig);
+                }
+                //const nudge = scene.currentPlayerDirection==='left' ? -1 : 1;
+                //scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y);
+                //scene.swordCollided = false;
+            }  
             else if(animation.key==='wallSwing'){
                 this.runSound.stop(); 
                 this.windFlap.stop();
-                this.attackSound.play(this.attackSoundConfig);
+                this.swordSwingSound.play(this.attackSoundConfig);
                 const nudge = scene.currentPlayerDirection==='left' ? 1 : -1;
                 console.log('setting stop wall slide position');
                 scene.swordCollided = false;
@@ -136,7 +171,7 @@ class Audio {
                 this.runSound.stop(); 
                 this.windFlap.stop();
                 this.wallSlideSound.stop();
-                this.attackSound.play(this.attackSoundConfig);
+                this.swordSwingSound.play(this.attackSoundConfig);
                 scene.swordCollided = false;
             }  
             else if(animation.key==='airSwing3Loop'){

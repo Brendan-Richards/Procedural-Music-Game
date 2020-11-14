@@ -84,13 +84,16 @@ const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             }
         }
         else if(scene.equippedWeapon==='none'){
-            if(!scene.meeleeAttacks.includes(scene.currentPlayerAnimation) && scene.time.now - scene.lastAttackTime > 500){
+            if(scene.playerKick && scene.currentPlayerAnimation!=='groundKick'){
+                setNewCharacterAnimation(scene, 'groundKick', scene.currentPlayerDirection==='left', false);
+            }
+            else if(!scene.meeleeAttacks.includes(scene.currentPlayerAnimation) && scene.time.now - scene.lastAttackTime > 500){
                 let attack = '';
                 switch(scene.prevMeeleeAttack){
                     case 'punch1': {attack = 'punch2'; scene.prevMeeleeAttack = 'punch2'; break;}
                     case 'punch2': {attack = 'punch3'; scene.prevMeeleeAttack = 'punch3'; break;}
                     case 'punch3': {attack = 'runPunch'; scene.prevMeeleeAttack = 'runPunch'; break;}
-                    case 'runPunch': {attack = 'groundKick'; scene.prevMeeleeAttack = 'groundKick'; break;}
+                    //case 'runPunch': {attack = 'groundKick'; scene.prevMeeleeAttack = 'groundKick'; break;}
                     default: {attack = 'punch1'; scene.prevMeeleeAttack = 'punch1'; break;}
                 }
                 setNewCharacterAnimation(scene, attack, scene.currentPlayerDirection==='left', false);
@@ -305,7 +308,9 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             }
         }
         else if(scene.equippedWeapon==='none'){
-
+            if(scene.currentPlayerAnimation!=='airKick' && scene.time.now - scene.lastAttackTime > 500){
+                setNewCharacterAnimation(scene, 'airKick', scene.currentPlayerDirection==='left', false);
+            }            
         }
 
     }
@@ -618,6 +623,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         case 'fallSwordDraw':
         case 'fallSwordSheath':
         case 'fallSwordDrawn':
+        case 'airKick':
         case 'fall': {
             if(scene.currentPlayerDirection==='right' && scene.controlConfig.rightControl.isDown){
                 scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, prevVelocity.y);

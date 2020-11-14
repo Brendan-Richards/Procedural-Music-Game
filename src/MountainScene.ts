@@ -106,6 +106,7 @@ export default class MountainScene extends Phaser.Scene
     prevPlayerAnimation: string;
     currentPlayerDirection: string;
     prevPlayerDirection: string;
+    playerKick: boolean;
     playerMaxSpeed: number;
     lastLandingTime: number;
     audio: Audio;
@@ -177,6 +178,7 @@ export default class MountainScene extends Phaser.Scene
         this.downAttack = false;
         this.swordCollided = false;
         this.changedWeapon = false;
+        this.playerKick = false;
         this.wallCollisionDirection = '';
 
         //movement logic
@@ -279,10 +281,11 @@ export default class MountainScene extends Phaser.Scene
                     }
                 }
             }
-            else  if(this.equippedWeapon==='none'){
-                if(pointer.leftButtonDown() && !this.meeleeAttacks.includes(this.currentPlayerAnimation)){
-                    this.playerAttacking = true;
+            else  if(this.equippedWeapon==='none' && !this.meeleeAttacks.includes(this.currentPlayerAnimation)){
+                if(pointer.rightButtonDown()){ 
+                    this.playerKick = true;
                 }
+                this.playerAttacking = true;
             }
         }, this);
 
