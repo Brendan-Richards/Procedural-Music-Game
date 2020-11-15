@@ -143,7 +143,10 @@ class Audio {
                 scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y);
                 scene.swordCollided = false;
             }
-            if(scene.meeleeAttacks.includes(animation.key)){
+            else if(scene.bowAttacks.includes(animation.key)){
+                
+            }
+            else if(scene.meeleeAttacks.includes(animation.key)){
                 this.runSound.stop(); 
                 this.windFlap.stop();
                 this.wallSlideSound.stop();

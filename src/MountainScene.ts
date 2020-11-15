@@ -110,7 +110,9 @@ export default class MountainScene extends Phaser.Scene
     playerMaxSpeed: number;
     lastLandingTime: number;
     audio: Audio;
+    bowRelease: boolean;
     bg2: Phaser.GameObjects.Image;
+    bowAttacks: Array<string>;
     prevMeeleeAttack: string;
     prevEquippedWeapon: string;
     minTimeBetweenWeaponChanges: number;
@@ -153,12 +155,13 @@ export default class MountainScene extends Phaser.Scene
         this.prevSwordSwing = '';
         this.prevMeeleeAttack = '';
         this.swordAttacks = ['idleSwing1', 'idleSwing2', 'runSwing', 'airSwing1', 'airSwing2', 'wallSwing'];
+        this.bowAttacks = ['idleNotch', 'idleHoldLoop', 'idleRelease', 'runNotch', 'runHoldLoop', 'runRelease', 'jumpNotch', 'jumpHoldLoop', 'jumpRelease', 'fallNotch', 'fallHoldLoop', 'fallRelease'];
         this.swordDraws = ['idleSwordDraw', 'runSwordDraw', 'jumpSwordDraw', 'fallSwordDraw', 'wallSwordDraw', 'ledgeSwordDraw'];
         this.swordSheaths = ['idleSwordSheath', 'runSwordSheath', 'jumpSwordSheath', 'fallSwordSheath', 'wallSwordSheath', 'ledgeSwordSheath'];
         this.meeleeAttacks = ['punch1', 'punch2', 'punch3', 'runPunch', 'groundKick', 'airKick'];
-        this.equippedWeapon = 'none';
+        this.equippedWeapon = 'bow';
         this.prevEquippedWeapon = '';
-        this.weaponsFound = ['none', 'sword'];
+        this.weaponsFound = ['none', 'sword', 'bow'];
 
         //flags
         this.playerCanJump = true;
@@ -185,6 +188,7 @@ export default class MountainScene extends Phaser.Scene
         this.swordCollided = false;
         this.changedWeapon = false;
         this.playerKick = false;
+        this.bowRelease = false;
         this.wallCollisionDirection = '';
 
         //movement logic
@@ -294,6 +298,21 @@ export default class MountainScene extends Phaser.Scene
                     }
                     this.playerAttacking = true;
                 }
+            }
+            else if(this.equippedWeapon==='bow' && !this.bowAttacks.includes(this.currentPlayerAnimation)){
+                if(pointer.leftButtonDown()){ 
+                    this.playerAttacking = true; 
+                    this.bowRelease = false;
+                }                
+            }
+        }, this);
+
+        this.input.on('pointerup', (pointer) => {
+            // console.log('pointer up');
+            // console.log(pointer);
+            const leftButton = 0;
+            if(this.equippedWeapon==='bow' && pointer.button===leftButton){
+                this.bowRelease = true;               
             }
         }, this);
 
