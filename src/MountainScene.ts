@@ -299,7 +299,7 @@ export default class MountainScene extends Phaser.Scene
                     this.playerAttacking = true;
                 }
             }
-            else if(this.equippedWeapon==='bow' && !this.bowAttacks.includes(this.currentPlayerAnimation)){
+            else if(this.equippedWeapon==='bow' && !this.bowAttacks.includes(this.currentPlayerAnimation) && !this.playerLedgeGrab){
                 if(pointer.leftButtonDown()){ 
                     this.playerAttacking = true; 
                     this.bowRelease = false;

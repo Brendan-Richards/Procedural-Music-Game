@@ -661,7 +661,7 @@ export default (scene: MountainScene) => {
             end: 2, 
             zeroPad: 2 
             }),
-            frameRate: swingFrameRate
+            frameRate: frameRate
     });
     scene.anims.create({
         key: 'fallRelease',
@@ -671,7 +671,7 @@ export default (scene: MountainScene) => {
             end: 2, 
             zeroPad: 2 
             }),
-            frameRate: swingFrameRate
+            frameRate: frameRate
     });
 
 
@@ -694,6 +694,7 @@ export default (scene: MountainScene) => {
         }
         else if(scene.bowAttacks.includes(animation.key)){
             switch(animation.key){
+                //ground bow attacks
                 case 'idleNotch': {
                     scene.player.play('idleHoldLoop', true);
                     scene.prevPlayerAnimation = 'idleNotch';
@@ -711,6 +712,29 @@ export default (scene: MountainScene) => {
                     break;
                 }
                 case 'runRelease': {
+                    scene.playerAttacking = false;
+                    break;
+                }
+
+                //air bow attacks
+                case 'jumpNotch': {
+                    scene.player.play('jumpHoldLoop', true);
+                    scene.prevPlayerAnimation = 'jumpNotch';
+                    scene.currentPlayerAnimation = 'jumpHoldLoop'; 
+                    break;
+                }
+                case 'fallNotch': {
+                    scene.player.play('fallHoldLoop', true);
+                    console.log('playing fallHoldLoop')
+                    scene.prevPlayerAnimation = 'fallNotch';
+                    scene.currentPlayerAnimation = 'fallHoldLoop'; 
+                    break;
+                }
+                case 'jumpRelease': {
+                    scene.playerAttacking = false;
+                    break;
+                }
+                case 'fallRelease': {
                     scene.playerAttacking = false;
                     break;
                 }

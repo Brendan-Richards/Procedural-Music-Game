@@ -209,7 +209,14 @@ const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         }
         else if(scene.equippedWeapon==='bow'){
             if(scene.currentPlayerAnimation==='idleHoldLoop' || scene.currentPlayerAnimation==='runHoldLoop'){
-                if(scene.bowRelease){
+                if (scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime){
+                    setNewCharacterAnimation(scene, 'jumpHoldLoop', scene.currentPlayerDirection==='left', false);
+                    scene.playerCanJump = false;
+                    scene.playerFlatSliding = false;
+                    scene.playerRampSliding = false;
+                    scene.prevJumpTime = scene.controlConfig.jumpControl.timeDown;
+                }
+                else if(scene.bowRelease){
                     let animation = '';
                     switch(scene.currentPlayerAnimation){
                         case 'idleHoldLoop': { animation = 'idleRelease'; break; }
@@ -236,6 +243,9 @@ const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                         setNewCharacterAnimation(scene, 'idleHoldLoop', scene.currentPlayerDirection==='left', false);
                     }
                 }
+            }
+            else if(scene.currentPlayerAnimation==='fallHoldLoop'){ // hit the ground while notched in mid air
+                setNewCharacterAnimation(scene, 'idleHoldLoop', scene.currentPlayerDirection==='left', false);
             }
             else if(!scene.bowAttacks.includes(scene.currentPlayerAnimation)){
                 let animation = '';
@@ -355,8 +365,9 @@ const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         case 'jumpSword':
         case 'jumpSwordDrawn':
         case 'jumpBowDrawn':
+        case 'jumpHoldLoop':
         case 'jump': {
-            if(scene.prevPlayerAnimation==='idle' || scene.prevPlayerAnimation==='idleSword' || scene.prevPlayerAnimation==='idleSwordDrawn'){
+            if(scene.prevPlayerAnimation==='idle' || scene.prevPlayerAnimation==='idleSword' || scene.prevPlayerAnimation==='idleSwordDrawn' || scene.prevPlayerAnimation==='idleBowDrawn'){
                 scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, prevVelocity.x, -1*scene.playerJumpHeight);
             }
             else{
@@ -392,13 +403,6 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         }
     }
     else if(scene.drawSword || scene.sheathSword){
-        // if(scene.drawSword && scene.currentPlayerAnimation !== 'drawAir'){
-        //     setNewCharacterAnimation(scene, 'drawAir', scene.currentPlayerDirection==='left', false);
-        // }
-        // else if(scene.sheathSword && scene.currentPlayerAnimation !== 'sheathAir'){
-        //     setNewCharacterAnimation(scene, 'sheathAir', scene.currentPlayerDirection==='left', false);
-        // }
-        //console.log('trying to draw or sheath sword, current player animation:', scene.currentPlayerAnimation);
         if(scene.drawSword && !scene.swordDraws.includes(scene.currentPlayerAnimation)){
             let animation = '';
             switch(scene.currentPlayerAnimation){
@@ -503,10 +507,11 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
     }
     else if(scene.playerWallSliding){
         //start wallsliding
-        if((scene.currentPlayerAnimation!=='wallSlide' && scene.currentPlayerAnimation!=='wallSlideSword' && scene.currentPlayerAnimation!=='wallSlideSwordDrawn') || scene.resetWallSlide){
+        if((scene.currentPlayerAnimation!=='wallSlide' && scene.currentPlayerAnimation!=='wallSlideSword' && scene.currentPlayerAnimation!=='wallSlideSwordDrawn' && scene.currentPlayerAnimation!=='wallSlideBowDrawn') || scene.resetWallSlide){
             //scene.playerFriction = 0.2;
             let animation = '';
             switch(scene.equippedWeapon){
+                case 'bow': {animation = 'wallSlideBowDrawn'; break;}
                 case 'none': {animation = 'wallSlide'; break;}
                 case 'sword': {animation = scene.swordDrawn ? 'wallSlideSwordDrawn' : 'wallSlideSword'; break;}
             }
@@ -520,6 +525,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             //const animationName = scene.swordDrawn ? 'jumpSword' : 'jump';
             let animation = '';
             switch(scene.equippedWeapon){
+                case 'bow': {animation = 'jumpBowDrawn'; break;}
                 case 'none': {animation = 'jump'; break;}
                 case 'sword': {animation = scene.swordDrawn ? 'jumpSwordDrawn' : 'jumpSword'; break;}
             }
@@ -556,6 +562,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                    //const animationName = scene.swordDrawn ? 'fallSword' : 'fall';
                    let animation = '';
                    switch(scene.equippedWeapon){
+                       case 'bow': {animation = 'fallBowDrawn'; break;}
                        case 'none': {animation = 'fall'; break;}
                        case 'sword': {animation = scene.swordDrawn ? 'fallSwordDrawn' : 'fallSword'; break;}
                    }
@@ -577,6 +584,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             //const animationName = scene.swordDrawn ? 'fallSword' : 'fall';
             let animation = '';
             switch(scene.equippedWeapon){
+                case 'bow': {animation = 'fallBowDrawn'; break;}
                 case 'none': {animation = 'fall'; break;}
                 case 'sword': {animation = scene.swordDrawn ? 'fallSwordDrawn' : 'fallSword'; break;}
             }
@@ -584,30 +592,31 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             scene.playerLedgeGrab = false;
             scene.playerLedgeClimb = false;
         }
-        else if(scene.currentPlayerAnimation!=='ledgeGrab' && scene.currentPlayerAnimation!=='ledgeGrabSword' && scene.currentPlayerAnimation!=='ledgeGrabSwordDrawn' && scene.playerLedgeGrab){
+        else if(scene.currentPlayerAnimation!=='ledgeGrab' && scene.currentPlayerAnimation!=='ledgeGrabSword' && scene.currentPlayerAnimation!=='ledgeGrabSwordDrawn' && scene.currentPlayerAnimation!=='ledgeGrabBowDrawn' && scene.playerLedgeGrab){
             //const animationName = scene.swordDrawn ? 'ledgeGrabSword' : 'ledgeGrab';
             let animation = '';
             switch(scene.equippedWeapon){
+                case 'bow': {animation = 'ledgeGrabBowDrawn'; break;}
                 case 'none': {animation = 'ledgeGrab'; break;}
                 case 'sword': {animation = scene.swordDrawn ? 'ledgeGrabSwordDrawn' : 'ledgeGrabSword'; break;}
             }           
             setNewCharacterAnimation(scene, animation, scene.currentPlayerDirection==='left', false);
             scene.player.setIgnoreGravity(true);
         }
-        else if(scene.currentPlayerAnimation!=='jump' && scene.currentPlayerAnimation!=='jumpSword' && scene.currentPlayerAnimation!=='jumpSwordDrawn' && scene.controlConfig.jumpControl.isDown && scene.stamina > 0){
+        else if(scene.currentPlayerAnimation!=='jump' && scene.currentPlayerAnimation!=='jumpSword' && scene.currentPlayerAnimation!=='jumpSwordDrawn' && scene.currentPlayerAnimation!=='jumpBowDrawn' && scene.controlConfig.jumpControl.isDown && scene.stamina > 0){
             //console.log('setting to ledge climb');
             scene.playerLedgeGrab = false;
             scene.playerLedgeClimb = true;
 
-            const animationName = scene.swordDrawn ? 'jumpSword' : 'jump';
             let animation = '';
             switch(scene.equippedWeapon){
+                case 'bow': {animation = 'jumpBowDrawn'; break;}
                 case 'none': {animation = 'jump'; break;}
                 case 'sword': {animation = scene.swordDrawn ? 'jumpSwordDrawn' : 'jumpSword'; break;}
             }
             setNewCharacterAnimation(scene, animation, scene.currentPlayerDirection==='left', false);
             scene.player.once('animationcomplete', (animation, frame) => {
-                if(animation.key==='jump' || animation.key==='jumpSword' || animation.key==='jumpSwordDrawn'){
+                if(animation.key==='jump' || animation.key==='jumpSword' || animation.key==='jumpSwordDrawn' || animation.key==='jumpBowDrawn'){
                     scene.playerLedgeClimb = false;
                 }
             }, scene);
@@ -786,6 +795,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
     switch(scene.currentPlayerAnimation){
         case 'wallSlideSword':
         case 'wallSlideSwordDrawn':
+        case 'wallSlideBowDrawn':
         case 'wallSwing':
         case 'wallSlide': {
             const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
@@ -807,7 +817,6 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         case 'airSwing2':
         case 'jumpSwordDraw':
         case 'jumpSwordSheath':
-        case 'jumpBowDrawn':
         case 'jumpNotch':
         case 'fallNotch':
         case 'fallSword':
@@ -815,6 +824,10 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         case 'fallSwordSheath':
         case 'fallSwordDrawn':
         case 'fallBowDrawn':
+        case 'fallHoldLoop':
+        case 'jumpHoldLoop':
+        case 'fallRelease':
+        case 'jumpRelease':
         case 'airKick':
         case 'fall': {
             if(scene.currentPlayerDirection==='right' && scene.controlConfig.rightControl.isDown){
@@ -832,6 +845,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         }
         case 'jumpSword':
         case 'jumpSwordDrawn':
+        case 'jumpBowDrawn':
         case 'jump': {
             if(scene.playerLedgeClimb){
 
