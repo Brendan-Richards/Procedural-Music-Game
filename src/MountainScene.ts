@@ -118,6 +118,7 @@ export default class MountainScene extends Phaser.Scene
     minTimeBetweenWeaponChanges: number;
     lastWeaponChangeTime: number;
     arrowSpeed: number;
+    heavyAttack: boolean;
 
     back1: Phaser.GameObjects.Image;
 
@@ -182,7 +183,7 @@ export default class MountainScene extends Phaser.Scene
         this.staminaActive = false;
         this.playerAttacking = false;
         this.playerSwordOut = false;
-        this.swordDrawn = false;
+        this.swordDrawn = true;
         this.sheathSword = false;
         this.drawSword = false;
         this.inContactWithWall = false;
@@ -191,6 +192,7 @@ export default class MountainScene extends Phaser.Scene
         this.changedWeapon = false;
         this.playerKick = false;
         this.bowRelease = false;
+        this.heavyAttack = false;
         this.wallCollisionDirection = '';
 
         //movement logic
@@ -269,17 +271,12 @@ export default class MountainScene extends Phaser.Scene
         //this.input.setDefaultCursor('none');
 
         this.input.on('pointerdown', (pointer) => {
-            if(this.equippedWeapon==='sword' && !this.swordAttacks.includes(this.currentPlayerAnimation) && !this.swordDraws.includes(this.currentPlayerAnimation) && !this.swordSheaths.includes(this.currentPlayerAnimation)){
+            const canAttack = !this.swordAttacks.includes(this.currentPlayerAnimation) && !this.bowAttacks.includes(this.currentPlayerAnimation) && !this.playerAttacking && !this.meeleeAttacks.includes(this.currentPlayerAnimation) && !this.playerLedgeGrab; //&& !this.swordDraws.includes(this.currentPlayerAnimation) && !this.swordSheaths.includes(this.currentPlayerAnimation)
+           
+            if(this.equippedWeapon==='sword' && canAttack){
                 if(pointer.leftButtonDown()){
-                    if(!this.swordDrawn){
-                        this.drawSword = true;
-                    }
-                    else{
-                        if(!this.playerLedgeGrab){ 
-                            this.playerAttacking = true;
-                            //console.log('setting player attacking to true');
-                        }
-                    }
+                    this.playerAttacking = true;
+
                     if(!this.playerCanJump && this.controlConfig.downControl.isDown){
                         this.downAttack = true;
                     }
@@ -288,13 +285,11 @@ export default class MountainScene extends Phaser.Scene
                     }
                 }
                 else if(pointer.rightButtonDown()){
-                    if(this.swordDrawn && !this.playerAttacking){
-                        this.sheathSword = true;
-                        this.swordDrawn = false;
-                    }
+                    this.playerAttacking = true;
+                    this.heavyAttack = true;
                 }
             }
-            else  if(this.equippedWeapon==='none' && !this.meeleeAttacks.includes(this.currentPlayerAnimation) && !this.playerLedgeGrab){
+            else  if(this.equippedWeapon==='none' && canAttack){
                 if(!this.playerWallSliding || (this.playerWallSliding && this.currentPlayerAnimation==='run')){
                     if(pointer.rightButtonDown()){ 
                         this.playerKick = true;
@@ -302,13 +297,15 @@ export default class MountainScene extends Phaser.Scene
                     this.playerAttacking = true;
                 }
             }
-            else if(this.equippedWeapon==='bow' && !this.bowAttacks.includes(this.currentPlayerAnimation) && !this.playerLedgeGrab && !this.playerWallSliding){
+            else if(this.equippedWeapon==='bow' && canAttack && !this.playerWallSliding){
                 if(pointer.leftButtonDown()){ 
                     this.playerAttacking = true; 
                     this.bowRelease = false;
                 }                
             }
-            this.swordDrawn = true;
+            // this.swordDrawn = true;
+            // this.drawSword = false;
+            // this.sheathSword = false;
         }, this);
 
         this.input.on('pointerup', (pointer) => {
