@@ -308,6 +308,7 @@ export default class MountainScene extends Phaser.Scene
                     this.bowRelease = false;
                 }                
             }
+            this.swordDrawn = true;
         }, this);
 
         this.input.on('pointerup', (pointer) => {
@@ -323,6 +324,7 @@ export default class MountainScene extends Phaser.Scene
             //console.log(pointer);
             if(this.time.now - this.lastWeaponChangeTime > this.minTimeBetweenWeaponChanges &&
                     !this.swordAttacks.includes(this.currentPlayerAnimation) &&
+                    !this.bowAttacks.includes(this.currentPlayerAnimation) &&
                     !this.meeleeAttacks.includes(this.currentPlayerAnimation) &&
                     !this.swordDraws.includes(this.currentPlayerAnimation) &&
                     !this.swordSheaths.includes(this.currentPlayerAnimation) &&

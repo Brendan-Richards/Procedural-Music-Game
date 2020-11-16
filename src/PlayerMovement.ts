@@ -86,7 +86,32 @@ const changedWeaponHandler = (scene: MountainScene, prevVelocity: velocity) => {
                     break;
                 }
                 case 'bow': {
-                    break;
+                    switch(scene.currentPlayerAnimation){
+                        case 'idleBowDrawn': {
+                            newAnimation = 'idle';
+                            break;
+                        }
+                        case 'runBowDrawn': {
+                            newAnimation = 'run';
+                            break;
+                        }
+                        case 'jumpBowDrawn': {
+                            newAnimation = 'jump';
+                            break;
+                        }
+                        case 'wallSlideBowDrawn': {
+                            newAnimation = 'wallSlide';
+                            break;
+                        }
+                        case 'ledgeGrabBowDrawn': {
+                            newAnimation = 'ledgeGrab';
+                            break;
+                        }
+                        case 'fallBowDrawn': {
+                            newAnimation = 'fall';
+                            break;
+                        }
+                    }
                 }
             }
             break;
@@ -123,12 +148,103 @@ const changedWeaponHandler = (scene: MountainScene, prevVelocity: velocity) => {
                     break;
                 }
                 case 'bow': {
-                    break;
+                    switch(scene.currentPlayerAnimation){
+                        case 'idleBowDrawn': {
+                            newAnimation = 'idleSword';
+                            break;
+                        }
+                        case 'runBowDrawn': {
+                            newAnimation = 'runSword';
+                            break;
+                        }
+                        case 'jumpBowDrawn': {
+                            newAnimation = 'jumpSword';
+                            break;
+                        }
+                        case 'wallSlideBowDrawn': {
+                            newAnimation = 'wallSlideSword';
+                            break;
+                        }
+                        case 'ledgeGrabBowDrawn': {
+                            newAnimation = 'ledgeGrabSword';
+                            break;
+                        }
+                        case 'fallBowDrawn': {
+                            newAnimation = 'fallSword';
+                            break;
+                        }
+                    }
                 }
             }
             break;
         }
         case 'bow': {
+            switch(scene.prevEquippedWeapon){
+                case 'sword': {
+                    switch(scene.currentPlayerAnimation){
+                        case 'idleSword':
+                        case 'idleSwordDrawn': {
+                            newAnimation = 'idleBowDrawn';
+                            break;
+                        }
+                        case 'runSword':
+                        case 'runSwordDrawn': {
+                            newAnimation = 'runBowDrawn';
+                            break;
+                        }
+                        case 'jumpSword':
+                        case 'jumpSwordDrawn': {
+                            newAnimation = 'jumpBowDrawn';
+                            break;
+                        }
+                        case 'wallSlideSword':
+                        case 'wallSlideSwordDrawn': {
+                            newAnimation = 'wallSlideBowDrawn';
+                            break;
+                        }
+                        case 'ledgeGrabSword':
+                        case 'ledgeGrabSwordDrawn': {
+                            newAnimation = 'ledgeGrabBowDrawn';
+                            break;
+                        }
+                        case 'fallSword':
+                        case 'fallSwordDrawn': {
+                            newAnimation = 'fallBowDrawn';
+                            break;
+                        }
+                    }                    
+                    break;
+                }
+                case 'none': {
+                    switch(scene.currentPlayerAnimation){
+                        case 'idle': {
+                            newAnimation = 'idleBowDrawn';
+                            break;
+                        }
+                        case 'run': {
+                            newAnimation = 'runBowDrawn';
+                            break;
+                        }
+                        case 'jump': {
+                            newAnimation = 'jumpBowDrawn';
+                            break;
+                        }
+                        case 'wallSlide': {
+                            newAnimation = 'wallSlideBowDrawn';
+                            break;
+                        }
+                        case 'ledgeGrab': {
+                            newAnimation = 'ledgeGrabBowDrawn';
+                            break;
+                        }
+                        case 'fall': {
+                            newAnimation = 'fallBowDrawn';
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
             break;
         }
     }
