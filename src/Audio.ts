@@ -22,6 +22,16 @@ class Audio {
     punchSound: Phaser.Sound.BaseSound;
     fistWallImpact: Phaser.Sound.BaseSound;
     kickSound: Phaser.Sound.BaseSound;
+    bowDrawSound: Phaser.Sound.BaseSound;
+    bowReleaseSound: Phaser.Sound.BaseSound;
+    arrowWallImpact1: Phaser.Sound.BaseSound;
+    arrowWallImpact2: Phaser.Sound.BaseSound;
+    arrowWallImpact3: Phaser.Sound.BaseSound;
+    bowDrawSoundConfig: object;
+    bowReleaseSoundConfig: object;
+    arrowWallImpact1Config: object;
+    arrowWallImpact2Config: object;
+    arrowWallImpact3Config: object;
     kickSoundConfig: object;
     fistWallImpactConfig: object;
     punchSoundConfig: object;
@@ -66,7 +76,32 @@ class Audio {
         this.fistWallImpact = scene.sound.add('fistWallImpact');
         this.punchSound = scene.sound.add('punch');
         this.kickSound = scene.sound.add('kick');
+        this.bowDrawSound = scene.sound.add('bowDraw');
+        this.bowReleaseSound = scene.sound.add('bowRelease');
+        this.arrowWallImpact1 = scene.sound.add('arrowWallImpact1');
+        this.arrowWallImpact2 = scene.sound.add('arrowWallImpact2');
+        this.arrowWallImpact3 = scene.sound.add('arrowWallImpact3');
 
+        this.bowDrawSoundConfig = {
+            loop: false,
+            volume: 0.5
+        }
+        this.bowReleaseSoundConfig = {
+            loop: false,
+            volume: 0.1
+        }
+        this.arrowWallImpact1Config = {
+            loop: false,
+            volume: 0.1
+        }
+        this.arrowWallImpact2Config = {
+            loop: false,
+            volume: 0.1
+        }
+        this.arrowWallImpact3Config = {
+            loop: false,
+            volume: 0.1
+        }
         this.kickSoundConfig = {
             loop: false,
             volume: 0.1
@@ -144,7 +179,51 @@ class Audio {
                 scene.swordCollided = false;
             }
             else if(scene.bowAttacks.includes(animation.key)){
-                
+                scene.playerFriction = 0;
+                switch(animation.key){
+                    case 'idleHoldLoop':
+                    case 'jumpHoldLoop':
+                    case 'fallHoldLoop': {
+                        if(this.runSound.isPlaying){
+                            this.runSound.stop();
+                        }
+                        break;
+                    }
+                    case 'jumpNotch':
+                    case 'fallNotch':
+                    case 'idleNotch': {
+                        if(this.runSound.isPlaying){
+                            this.runSound.stop();
+                        }            
+                    }
+                    case 'runNotch': {
+                        this.bowDrawSound.play(this.bowDrawSoundConfig);
+                        break;
+                    }
+                    case 'idleRelease':
+                    case 'runRelease':
+                    case 'jumpRelease':
+                    case 'fallRelease': {
+                        if(this.bowDrawSound.isPlaying){
+                            this.bowDrawSound.stop();
+                        }
+                        this.bowReleaseSound.play(this.bowReleaseSoundConfig);
+
+                        //make arrow
+                        scene.playerAttacking = false;
+                        const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
+                        const arrow = scene.matter.add.sprite(scene.player.x+(factor * 30), scene.player.y-6, 'arrow', undefined);
+                        if(scene.currentPlayerDirection==='left'){
+                            arrow.setFlipX(true);
+                        }
+                        arrow.setCollisionGroup(-1);
+                        arrow.setIgnoreGravity(true);
+                        arrow.setFixedRotation();
+                        scene.matter.setVelocity(arrow, factor * scene.arrowSpeed, 0);
+
+                        break;
+                    }
+                }
             }
             else if(scene.meeleeAttacks.includes(animation.key)){
                 this.runSound.stop(); 
@@ -184,14 +263,14 @@ class Audio {
                 this.windFlap.stop();
                 this.swordRockImpact.play(this.swordRockImpactConfig);
             }
-            else if(animation.key==='run' || animation.key==='runSword' || animation.key==='runSwordDrawn'){
+            else if(animation.key==='run' || animation.key==='runSword' || animation.key==='runSwordDrawn' || animation.key==='runBowDrawn'){
                 if(!this.runSound.isPlaying){
                     this.runSound.play(this.runConfig); 
                 }               
                 this.wallSlideSound.stop();
                 this.windFlap.stop();
             } 
-            else if(animation.key==='jump' || animation.key==='jumpSword'){
+            else if(animation.key==='jump' || animation.key==='jumpSword' || animation.key==='jumpBowDrawn'){
                 this.runSound.stop();
                 this.wallSlideSound.stop();
                 this.windFlap.stop();
@@ -205,23 +284,17 @@ class Audio {
                 this.windFlap.stop();
                 this.wallJumpSound.play(this.jumpConfig);               
             }
-            else if(animation.key==='fall' || animation.key==='fallSword' || animation.key==='fallSwordDrawn'){
+            else if(animation.key==='fall' || animation.key==='fallSword' || animation.key==='fallSwordDrawn' || animation.key==='fallBowDrawn'){
                 this.runSound.stop();
                 this.wallSlideSound.stop();               
             }   
-            else if(animation.key==='ledgeGrab' || animation.key==='ledgeGrabSword' || animation.key==='ledgeGrabSwordDrawn'){
+            else if(animation.key==='ledgeGrab' || animation.key==='ledgeGrabSword' || animation.key==='ledgeGrabSwordDrawn' || animation.key==='ledgeGrabBowDrawn'){
                 this.runSound.stop();
                 this.wallSlideSound.stop();
                 this.windFlap.stop();
                 this.wallSmackSound.play(this.wallSmackConfig);               
             }    
-            else if(animation.key==='ledgeClimb'){
-                this.runSound.stop();
-                this.windFlap.stop();
-                this.wallSlideSound.stop();
-                this.jumpSound.play(this.jumpConfig);               
-            } 
-            else if(animation.key==='wallSlide' || animation.key==='wallSlideSword' || animation.key==='wallSlideSwordDrawn'){
+            else if(animation.key==='wallSlide' || animation.key==='wallSlideSword' || animation.key==='wallSlideSwordDrawn' || animation.key==='wallSlideBowDrawn'){
                 this.runSound.stop();
                 this.windFlap.stop();
                 if(!this.wallSmackSound.isPlaying && scene.currentPlayerAnimation!=='wallSwing'){
@@ -234,7 +307,7 @@ class Audio {
                     scene.player.setPosition(scene.stopWallSlidingPosition.x, scene.player.y);
                 }             
             }
-            else if(animation.key==='idle' || animation.key==='idleSword' || animation.key==='idleSwordDrawn'){
+            else if(animation.key==='idle' || animation.key==='idleSword' || animation.key==='idleSwordDrawn' || animation.key==='idleBowDrawn'){
                 this.runSound.stop(); 
                 this.windFlap.stop();
                 this.wallSlideSound.stop();              
