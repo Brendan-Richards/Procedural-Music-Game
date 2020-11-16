@@ -707,14 +707,6 @@ export default (scene: MountainScene) => {
                     scene.currentPlayerAnimation = 'runHoldLoop'; 
                     break;
                 }
-                case 'idleRelease': {
-                    scene.playerAttacking = false;
-                    break;
-                }
-                case 'runRelease': {
-                    scene.playerAttacking = false;
-                    break;
-                }
 
                 //air bow attacks
                 case 'jumpNotch': {
@@ -728,14 +720,6 @@ export default (scene: MountainScene) => {
                     console.log('playing fallHoldLoop')
                     scene.prevPlayerAnimation = 'fallNotch';
                     scene.currentPlayerAnimation = 'fallHoldLoop'; 
-                    break;
-                }
-                case 'jumpRelease': {
-                    scene.playerAttacking = false;
-                    break;
-                }
-                case 'fallRelease': {
-                    scene.playerAttacking = false;
                     break;
                 }
             }

@@ -4,9 +4,9 @@ import ContentGenerator from './ContentGenerator';
 import handleCollisions from './Collisions';
 import handlePlayerMovement from './PlayerMovement';
 import Audio from './Audio';
-import { startRNN, pauseRNN, resumeRNN } from './performanceRNN';
+//import { startRNN, pauseRNN, resumeRNN } from './performanceRNN';
 import 'regenerator-runtime/runtime';
-import magentaTest from './MagentaTest';
+//import magentaTest from './MagentaTest';
 
 type controlConfig = {
     leftControl: control,
@@ -117,6 +117,7 @@ export default class MountainScene extends Phaser.Scene
     prevEquippedWeapon: string;
     minTimeBetweenWeaponChanges: number;
     lastWeaponChangeTime: number;
+    arrowSpeed: number;
 
     back1: Phaser.GameObjects.Image;
 
@@ -162,6 +163,7 @@ export default class MountainScene extends Phaser.Scene
         this.equippedWeapon = 'bow';
         this.prevEquippedWeapon = '';
         this.weaponsFound = ['none', 'sword', 'bow'];
+        this.arrowSpeed = 30;
 
         //flags
         this.playerCanJump = true;
@@ -218,6 +220,7 @@ export default class MountainScene extends Phaser.Scene
         contentGenerator.createLevel();
 
         this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');
+        
         this.characterShapes = this.cache.json.get('characterShapes');
         this.playerBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, undefined, false);    
         //console.log('player body slop value:', this.playerBody.slop);
@@ -299,7 +302,7 @@ export default class MountainScene extends Phaser.Scene
                     this.playerAttacking = true;
                 }
             }
-            else if(this.equippedWeapon==='bow' && !this.bowAttacks.includes(this.currentPlayerAnimation) && !this.playerLedgeGrab){
+            else if(this.equippedWeapon==='bow' && !this.bowAttacks.includes(this.currentPlayerAnimation) && !this.playerLedgeGrab && !this.playerWallSliding){
                 if(pointer.leftButtonDown()){ 
                     this.playerAttacking = true; 
                     this.bowRelease = false;

@@ -40,7 +40,8 @@ export default class Preloader extends Phaser.Scene
 
         //environment sprites
         this.load.atlas('environmentAtlas', 'assets/images/environment/environmentAtlas.png', 'assets/json/environmentAtlas.json');
-        this.load.json('environmentAtlasData', 'assets/json/environmentAtlas.json');        
+        this.load.json('environmentAtlasData', 'assets/json/environmentAtlas.json'); 
+        this.load.image("arrow", "assets/images/environment/arrow.png");       
 
         //tilemap
         //this.load.image("tiles", "assets/images/tilesets/snowyRocks.png");
@@ -66,6 +67,11 @@ export default class Preloader extends Phaser.Scene
         this.load.audio('fistWallImpact', 'assets/audio/fistWallImpact.mp3');
         this.load.audio('punch', 'assets/audio/punch.mp3');
         this.load.audio('kick', 'assets/audio/kick.mp3');
+        this.load.audio('arrowWallImpact1', 'assets/audio/arrowWallImpact1.mp3');
+        this.load.audio('arrowWallImpact2', 'assets/audio/arrowWallImpact2.mp3');
+        this.load.audio('arrowWallImpact3', 'assets/audio/arrowWallImpact3.mp3');
+        this.load.audio('bowDraw', 'assets/audio/bowDraw.mp3');
+        this.load.audio('bowRelease', 'assets/audio/bowRelease.mp3');
 
         //UI
         this.load.image("staminaOutline", "assets/images/UI/staminaOutline.png");

@@ -1,4 +1,3 @@
-import { Identity } from '@tensorflow/tfjs-core';
 import Phaser from 'phaser';
 import MountainScene from './MountainScene';
 
@@ -244,14 +243,37 @@ const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                     }
                 }
             }
+            else if(scene.currentPlayerAnimation==='idleNotch' || scene.currentPlayerAnimation==='runNotch'){
+                if(scene.controlConfig.leftControl.isDown && scene.currentPlayerDirection==='right'){
+                    setNewCharacterAnimation(scene, scene.currentPlayerAnimation, true, false);
+                }
+                else if(scene.controlConfig.rightControl.isDown && scene.currentPlayerDirection==='left'){
+                    setNewCharacterAnimation(scene, scene.currentPlayerAnimation, false, false);
+                }
+                else if(scene.controlConfig.rightControl.isUp && scene.controlConfig.leftControl.isUp && scene.currentPlayerAnimation!=='idleNotch'){
+                    setNewCharacterAnimation(scene, 'idleNotch', scene.currentPlayerDirection==='left', false);
+                }               
+            }
+            else if(scene.currentPlayerAnimation==='idleRelease' || scene.currentPlayerAnimation==='runRelease'){
+                if(scene.controlConfig.leftControl.isDown && scene.currentPlayerDirection==='right'){
+                    setNewCharacterAnimation(scene, scene.currentPlayerAnimation, true, false);
+                }
+                else if(scene.controlConfig.rightControl.isDown && scene.currentPlayerDirection==='left'){
+                    setNewCharacterAnimation(scene, scene.currentPlayerAnimation, false, false);
+                }
+                else if(scene.controlConfig.rightControl.isUp && scene.controlConfig.leftControl.isUp && scene.currentPlayerAnimation!=='idleRelease'){
+                    setNewCharacterAnimation(scene, 'idleRelease', scene.currentPlayerDirection==='left', false);
+                }               
+            }
             else if(scene.currentPlayerAnimation==='fallHoldLoop'){ // hit the ground while notched in mid air
                 setNewCharacterAnimation(scene, 'idleHoldLoop', scene.currentPlayerDirection==='left', false);
             }
             else if(!scene.bowAttacks.includes(scene.currentPlayerAnimation)){
                 let animation = '';
                 switch(scene.currentPlayerAnimation){
-                    case 'idleBowDrawn': { animation = 'idleNotch'; break; }
                     case 'runBowDrawn': { animation = 'runNotch'; break; }
+                    case 'idleBowDrawn':
+                    default: { animation = 'idleNotch'; break; }
                 }
                 setNewCharacterAnimation(scene, animation, scene.currentPlayerDirection==='left', false);
             }
@@ -336,11 +358,13 @@ const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         case 'runSwing':
         case 'idleSwordDrawn':
         case 'idleBowDrawn':
+        case 'idleNotch':
         case 'idle': {
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, prevVelocity.y);
             break;
         }
         case 'runHoldLoop':
+        case 'runNotch':
         case 'runSword':
         case 'runNotch':
         case 'runRelease':
@@ -494,6 +518,28 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                     }
                 }
             }
+            else if(scene.currentPlayerAnimation==='jumpNotch' || scene.currentPlayerAnimation==='fallNotch'){
+                if(scene.controlConfig.leftControl.isDown && scene.currentPlayerDirection==='right'){
+                    setNewCharacterAnimation(scene, scene.currentPlayerAnimation, true, false);
+                }
+                else if(scene.controlConfig.rightControl.isDown && scene.currentPlayerDirection==='left'){
+                    setNewCharacterAnimation(scene, scene.currentPlayerAnimation, false, false);
+                }
+                // else if(scene.controlConfig.rightControl.isUp && scene.controlConfig.leftControl.isUp && scene.currentPlayerAnimation!=='fallNotch'){
+                //     setNewCharacterAnimation(scene, 'idleNotch', scene.currentPlayerDirection==='left', false);
+                // }               a
+            }
+            else if(scene.currentPlayerAnimation==='jumpRelease' || scene.currentPlayerAnimation==='fallRelease'){
+                if(scene.controlConfig.leftControl.isDown && scene.currentPlayerDirection==='right'){
+                    setNewCharacterAnimation(scene, scene.currentPlayerAnimation, true, false);
+                }
+                else if(scene.controlConfig.rightControl.isDown && scene.currentPlayerDirection==='left'){
+                    setNewCharacterAnimation(scene, scene.currentPlayerAnimation, false, false);
+                }
+                // else if(scene.controlConfig.rightControl.isUp && scene.controlConfig.leftControl.isUp && scene.currentPlayerAnimation!=='idleRelease'){
+                //     setNewCharacterAnimation(scene, 'idleRelease', scene.currentPlayerDirection==='left', false);
+                // }               
+            }
             else if(!scene.bowAttacks.includes(scene.currentPlayerAnimation)){
                 let animation = '';
                 switch(scene.currentPlayerAnimation){
@@ -547,11 +593,12 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             scene.wallJumpOffPosition = {x: scene.player.x, y: scene.player.y};  
             scene.prevJumpTime = scene.controlConfig.jumpControl.timeDown;
             //console.log('jujst set player wall jump position as:', this.wallJumpOffPosition);
+
+            scene.inContactWithWall = false;
         }
         else{//check if we should stop wall sliding
             if(scene.controlConfig.rightControl.isDown  && scene.controlConfig.leftControl.isUp && scene.currentPlayerDirection!=='right' ||
-                scene.controlConfig.leftControl.isDown  && scene.controlConfig.rightControl.isUp && scene.currentPlayerDirection!=='left' ||
-               !scene.controlConfig.rightControl.isDown && !scene.controlConfig.leftControl.isDown){
+                scene.controlConfig.leftControl.isDown  && scene.controlConfig.rightControl.isUp && scene.currentPlayerDirection!=='left'){
                    //console.log('stopping wall slide');
                    scene.playerFriction = 0;
                    //flip the players direction cause they were facing the opposite way when on the wall
@@ -680,27 +727,42 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
             //scene.player.setIgnoreGravity(true);
         }        
     }
-    else if(!scene.playerWallJumping){
+    else{
         if(prevVelocity.y >= 0){ // player moving down
-            if(scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime){
-                if(scene.player.x===scene.stopWallSlidingPosition.x && scene.stamina > 0){
-                    //scene.currentPlayerDirection = scene.currentPlayerDirection==='left' ? 'right' : 'left';
-                    setNewCharacterAnimation(scene, 'jump', scene.currentPlayerDirection==='left', false); 
-                    
-                    const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
-                    //scene.player.setPosition(scene.player.body.position.x + (-1*factor*100), scene.player.body.position.y);
+            const buffer = 20; // how far we can be from the wall and still do a wall jump
+            const withinWallJumpRange = scene.player.x > scene.stopWallSlidingPosition.x - buffer && scene.player.x < scene.stopWallSlidingPosition.x + buffer;
+            const validJump = scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime;
+            const canWallSlideAgain = scene.player.x===scene.stopWallSlidingPosition.x && scene.stamina > 0;
 
-                    const jumpX = factor*scene.playerSpeed;
-                    const jumpY = scene.playerIceWallSliding ? scene.playerIceJumpHeight : scene.playerWallJumpHeight;
-                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY); 
+            if(withinWallJumpRange && validJump && scene.stamina > 0){
+                let animationName = '';
+                
+                switch(scene.equippedWeapon){
+                    case 'bow': {animationName = 'jumpBowDrawn'; break;}
+                    case 'none': {animationName = 'jump'; break;}
+                    case 'sword': {animationName = scene.swordDrawn ? 'jumpSwordDrawn' : 'jumpSword'; break;}
+                }
+                setNewCharacterAnimation(scene, animationName, scene.currentPlayerDirection==='left', false); 
+                
+                const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
+                //scene.player.setPosition(scene.player.body.position.x + (-1*factor*100), scene.player.body.position.y);
 
-                    scene.playerCanJump = false;        
-                    scene.playerWallSliding = false;   
-                    scene.playerWallJumping = true;  
-                    // scene.wallJumpOffPosition = {...scene.playerBody.position};
-                    scene.wallJumpOffPosition = {x: scene.player.x, y: scene.player.y};  
-                    scene.prevJumpTime = scene.controlConfig.jumpControl.timeDown;
-                }                
+                const jumpX = factor*scene.playerSpeed;
+                const jumpY = scene.playerIceWallSliding ? scene.playerIceJumpHeight : scene.playerWallJumpHeight;
+                scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY); 
+
+                scene.playerCanJump = false;        
+                scene.playerWallSliding = false;   
+                scene.playerWallJumping = true;  
+                // scene.wallJumpOffPosition = {...scene.playerBody.position};
+                scene.wallJumpOffPosition = {x: scene.player.x, y: scene.player.y};  
+                scene.prevJumpTime = scene.controlConfig.jumpControl.timeDown;
+
+                console.log('set player to wall jump from fall next to wall');
+                               
+            }
+            else if(canWallSlideAgain){
+
             }
             else if(scene.currentPlayerAnimation!=='fall' && scene.currentPlayerAnimation!=='fallSword' && scene.currentPlayerAnimation!=='fallSwordDrawn' && scene.currentPlayerAnimation!=='fallBowDrawn'){
                 let animationName = '';
@@ -804,6 +866,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         }
         case 'ledgeGrab':
         case 'ledgeGrabSwordDrawn':
+        case 'ledgeGrabBowDrawn':
         case 'ledgeGrabSword': {
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
             break;
@@ -812,6 +875,12 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         case 'airSwing3Loop': {
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, scene.playerMaxSpeed);
             break;
+        }
+        case 'fallHoldLoop': {
+            if(scene.inContactWithWall){
+                scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, prevVelocity.y);
+                break;
+            }
         }
         case 'airSwing1':
         case 'airSwing2':
@@ -824,7 +893,6 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         case 'fallSwordSheath':
         case 'fallSwordDrawn':
         case 'fallBowDrawn':
-        case 'fallHoldLoop':
         case 'jumpHoldLoop':
         case 'fallRelease':
         case 'jumpRelease':
@@ -847,10 +915,7 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         case 'jumpSwordDrawn':
         case 'jumpBowDrawn':
         case 'jump': {
-            if(scene.playerLedgeClimb){
-
-            }
-            else{
+            if(!scene.playerLedgeClimb){
                 if(scene.controlConfig.rightControl.isDown && !scene.playerWallJumping){
                     //scene.currentPlayerDirection = 'right';
                     scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, scene.playerSpeed, prevVelocity.y);
@@ -964,4 +1029,5 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName, flipX, fl
 
     scene.player.setBounce(0);
     scene.player.setFixedRotation(); 
+    scene.player.setCollisionGroup(-1);
 }
