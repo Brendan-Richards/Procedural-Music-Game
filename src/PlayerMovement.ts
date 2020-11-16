@@ -360,15 +360,23 @@ const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {
                 }
             }
             else if(scene.currentPlayerAnimation==='idleNotch' || scene.currentPlayerAnimation==='runNotch'){
-                if(scene.controlConfig.leftControl.isDown && scene.currentPlayerDirection==='right'){
-                    setNewCharacterAnimation(scene, scene.currentPlayerAnimation, true, false);
+                if(scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime){
+                    const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
+                    const jumpX = scene.currentPlayerAnimation==='idleNotch' ? 0 : factor*scene.playerSpeed;
+                    const jumpY = -1*scene.playerJumpHeight;
+                    
+                    setNewCharacterAnimation(scene, 'jumpNotch', scene.currentPlayerDirection==='left', false);
+                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY);  
                 }
-                else if(scene.controlConfig.rightControl.isDown && scene.currentPlayerDirection==='left'){
-                    setNewCharacterAnimation(scene, scene.currentPlayerAnimation, false, false);
+                else if(scene.controlConfig.leftControl.isDown && (scene.currentPlayerDirection==='right' || scene.currentPlayerAnimation==='idleNotch')){
+                    setNewCharacterAnimation(scene, 'runNotch', true, false);
+                }
+                else if(scene.controlConfig.rightControl.isDown && (scene.currentPlayerDirection==='left' || scene.currentPlayerAnimation==='idleNotch')){
+                    setNewCharacterAnimation(scene, 'runNotch', false, false);
                 }
                 else if(scene.controlConfig.rightControl.isUp && scene.controlConfig.leftControl.isUp && scene.currentPlayerAnimation!=='idleNotch'){
                     setNewCharacterAnimation(scene, 'idleNotch', scene.currentPlayerDirection==='left', false);
-                }               
+                }        
             }
             else if(scene.currentPlayerAnimation==='idleRelease' || scene.currentPlayerAnimation==='runRelease'){
                 if(scene.controlConfig.leftControl.isDown && scene.currentPlayerDirection==='right'){
