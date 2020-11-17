@@ -165,7 +165,7 @@
 				"label": "",
 				"isSensor": false,
 				"vertices": [
-					[ { "x":23, "y":6 }, { "x":24, "y":32 }, { "x":35, "y":32 }, { "x":35, "y":8 } ]
+					[ { "x":35, "y":32 }, { "x":33, "y":9 }, { "x":23, "y":6 }, { "x":24, "y":32 } ]
 				]
 			}
 		]
@@ -1511,6 +1511,390 @@
 				"isSensor": false,
 				"vertices": [
 					[ { "x":23, "y":33 }, { "x":33, "y":28 }, { "x":30, "y":10 }, { "x":23, "y":10 } ]
+				]
+			}
+		]
+	},
+	"adventurer_fallCast_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_fallCast_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":33, "y":35 }, { "x":31, "y":12 }, { "x":21, "y":11 }, { "x":22, "y":35 } ]
+				]
+			}
+		]
+	},
+	"adventurer_fallCastLoop_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_fallCastLoop_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":35, "y":35 }, { "x":35, "y":15 }, { "x":26, "y":14 }, { "x":24, "y":35 } ]
+				]
+			}
+		]
+	},
+	"adventurer_fallGlove_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_fallGlove_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":35, "y":32 }, { "x":33, "y":9 }, { "x":23, "y":6 }, { "x":24, "y":32 } ]
+				]
+			}
+		]
+	},
+	"adventurer_idleCast_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_idleCast_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":20, "y":36 }, { "x":31, "y":36 }, { "x":32, "y":19 }, { "x":30, "y":12 }, { "x":24, "y":11 }, { "x":16, "y":23 } ]
+				]
+			}
+		]
+	},
+	"adventurer_idleCastLoop_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_idleCastLoop_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":20, "y":36 }, { "x":32, "y":36 }, { "x":35, "y":31 }, { "x":35, "y":15 }, { "x":28, "y":13 }, { "x":21, "y":21 } ]
+				]
+			}
+		]
+	},
+	"adventurer_idleGlove_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_idleGlove_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":31, "y":36 }, { "x":33, "y":23 }, { "x":28, "y":7 }, { "x":22, "y":7 }, { "x":15, "y":23 }, { "x":20, "y":36 } ]
+				]
+			}
+		]
+	},
+	"adventurer_jumpCast_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_jumpCast_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":31, "y":11 }, { "x":23, "y":10 }, { "x":20, "y":32 }, { "x":28, "y":32 }, { "x":31, "y":29 }, { "x":33, "y":17 } ]
+				]
+			}
+		]
+	},
+	"adventurer_jumpCastLoop_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_jumpCastLoop_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":34, "y":14 }, { "x":27, "y":13 }, { "x":22, "y":33 }, { "x":30, "y":33 }, { "x":33, "y":30 }, { "x":35, "y":18 } ]
+				]
+			}
+		]
+	},
+	"adventurer_jumpGlove_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_jumpGlove_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":33, "y":7 }, { "x":25, "y":6 }, { "x":22, "y":28 }, { "x":30, "y":28 }, { "x":33, "y":25 }, { "x":35, "y":13 } ]
+				]
+			}
+		]
+	},
+	"adventurer_ledgeGrabGlove_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_ledgeGrabGlove_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":31, "y":3 }, { "x":25, "y":6 }, { "x":25, "y":36 }, { "x":32, "y":36 }, { "x":34, "y":5 } ]
+				]
+			}
+		]
+	},
+	"adventurer_runCast_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_runCast_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":30, "y":36 }, { "x":33, "y":19 }, { "x":30, "y":11 }, { "x":23, "y":11 }, { "x":17, "y":36 } ]
+				]
+			}
+		]
+	},
+	"adventurer_runCastLoop_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_runCastLoop_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":33, "y":36 }, { "x":36, "y":21 }, { "x":34, "y":14 }, { "x":28, "y":14 }, { "x":20, "y":36 } ]
+				]
+			}
+		]
+	},
+	"adventurer_runGlove_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_runGlove_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":33, "y":36 }, { "x":37, "y":22 }, { "x":36, "y":9 }, { "x":29, "y":9 }, { "x":20, "y":36 } ]
+				]
+			}
+		]
+	},
+	"adventurer_wallSlideCast_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_wallSlideCast_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":23, "y":28 }, { "x":33, "y":14 }, { "x":33, "y":6 }, { "x":20, "y":7 } ]
+				]
+			}
+		]
+	},
+	"adventurer_wallSlideCastLoop_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_wallSlideCastLoop_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":23, "y":28 }, { "x":33, "y":14 }, { "x":33, "y":6 }, { "x":20, "y":7 } ]
+				]
+			}
+		]
+	},
+	"adventurer_wallSlideGlove_00": {
+		"type": "fromPhysicsEditor",
+		"label": "adventurer_wallSlideGlove_00",
+		"isStatic": false,
+		"density": 0.10000000149011612,
+		"restitution": 0,
+		"friction": 0.10000000149011612,
+		"frictionAir": 0.009999999776482582,
+		"frictionStatic": 0.5,
+		"collisionFilter": {
+			"group": 0,
+			"category": 1,
+			"mask": 255
+		},
+		"fixtures": [
+			{
+				"label": "",
+				"isSensor": false,
+				"vertices": [
+					[ { "x":23, "y":28 }, { "x":33, "y":14 }, { "x":33, "y":6 }, { "x":20, "y":7 } ]
 				]
 			}
 		]

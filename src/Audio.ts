@@ -263,14 +263,14 @@ class Audio {
                 this.windFlap.stop();
                 this.swordRockImpact.play(this.swordRockImpactConfig);
             }
-            else if(animation.key==='run' || animation.key==='runSword' || animation.key==='runSwordDrawn' || animation.key==='runBowDrawn'){
+            else if(animation.key==='run' || animation.key==='runSword' || animation.key==='runSwordDrawn' || animation.key==='runBowDrawn' || animation.key==='runGlove'){
                 if(!this.runSound.isPlaying){
                     this.runSound.play(this.runConfig); 
                 }               
                 this.wallSlideSound.stop();
                 this.windFlap.stop();
             } 
-            else if(animation.key==='jump' || animation.key==='jumpSword' || animation.key==='jumpBowDrawn'){
+            else if(animation.key==='jump' || animation.key==='jumpSwordDrawn' || animation.key==='jumpBowDrawn' || animation.key==='jumpGlove'){
                 this.runSound.stop();
                 this.wallSlideSound.stop();
                 this.windFlap.stop();
@@ -284,17 +284,17 @@ class Audio {
                 this.windFlap.stop();
                 this.wallJumpSound.play(this.jumpConfig);               
             }
-            else if(animation.key==='fall' || animation.key==='fallSword' || animation.key==='fallSwordDrawn' || animation.key==='fallBowDrawn'){
+            else if(animation.key==='fall' || animation.key==='fallSword' || animation.key==='fallSwordDrawn' || animation.key==='fallBowDrawn' || animation.key==='jumpGlove'){
                 this.runSound.stop();
                 this.wallSlideSound.stop();               
             }   
-            else if(animation.key==='ledgeGrab' || animation.key==='ledgeGrabSword' || animation.key==='ledgeGrabSwordDrawn' || animation.key==='ledgeGrabBowDrawn'){
+            else if(animation.key==='ledgeGrab' || animation.key==='ledgeGrabSword' || animation.key==='ledgeGrabSwordDrawn' || animation.key==='ledgeGrabBowDrawn' || animation.key==='ledgeGrabGlove'){
                 this.runSound.stop();
                 this.wallSlideSound.stop();
                 this.windFlap.stop();
                 this.wallSmackSound.play(this.wallSmackConfig);               
             }    
-            else if(animation.key==='wallSlide' || animation.key==='wallSlideSword' || animation.key==='wallSlideSwordDrawn' || animation.key==='wallSlideBowDrawn'){
+            else if(animation.key==='wallSlide' || animation.key==='wallSlideSword' || animation.key==='wallSlideSwordDrawn' || animation.key==='wallSlideBowDrawn' || animation.key==='wallSlideGlove'){
                 this.runSound.stop();
                 this.windFlap.stop();
                 if(!this.wallSmackSound.isPlaying && scene.currentPlayerAnimation!=='wallSwing'){
@@ -307,7 +307,7 @@ class Audio {
                     scene.player.setPosition(scene.stopWallSlidingPosition.x, scene.player.y);
                 }             
             }
-            else if(animation.key==='idle' || animation.key==='idleSword' || animation.key==='idleSwordDrawn' || animation.key==='idleBowDrawn'){
+            else if(animation.key==='idle' || animation.key==='idleSword' || animation.key==='idleSwordDrawn' || animation.key==='idleBowDrawn' || animation.key==='idleGlove'){
                 this.runSound.stop(); 
                 this.windFlap.stop();
                 this.wallSlideSound.stop();              

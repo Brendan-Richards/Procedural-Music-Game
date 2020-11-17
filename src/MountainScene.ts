@@ -119,6 +119,13 @@ export default class MountainScene extends Phaser.Scene
     lastWeaponChangeTime: number;
     arrowSpeed: number;
     heavyAttack: boolean;
+    magicType: 'red' | 'blue';
+    mana: number;
+    magicAttacks: Array<string>;
+    casts: Array<string>;
+    stopCasting: boolean;
+    castFinished: boolean;
+    holdingCast: boolean;
 
     back1: Phaser.GameObjects.Image;
 
@@ -161,10 +168,15 @@ export default class MountainScene extends Phaser.Scene
         this.swordDraws = ['idleSwordDraw', 'runSwordDraw', 'jumpSwordDraw', 'fallSwordDraw', 'wallSwordDraw', 'ledgeSwordDraw'];
         this.swordSheaths = ['idleSwordSheath', 'runSwordSheath', 'jumpSwordSheath', 'fallSwordSheath', 'wallSwordSheath', 'ledgeSwordSheath'];
         this.meeleeAttacks = ['punch1', 'punch2', 'punch3', 'runPunch', 'groundKick', 'airKick'];
-        this.equippedWeapon = 'bow';
+        this.magicAttacks = ['idleCast','runCast','jumpCast','fallCast','wallSlideCast','idleCastLoop','runCastLoop','jumpCastLoop','fallCastLoop','wallSlideCastLoop'];
+        this.casts = ['idleCast','runCast','jumpCast','fallCast','wallSlideCast'];
+        this.equippedWeapon = 'glove';
         this.prevEquippedWeapon = '';
-        this.weaponsFound = ['none', 'sword', 'bow'];
+        this.weaponsFound = ['none', 'sword', 'bow', 'glove'];
         this.arrowSpeed = 30;
+        this.mana = 100;
+        this.magicType = 'red';
+
 
         //flags
         this.playerCanJump = true;
@@ -193,6 +205,8 @@ export default class MountainScene extends Phaser.Scene
         this.playerKick = false;
         this.bowRelease = false;
         this.heavyAttack = false;
+        this.stopCasting = false;
+        this.holdingCast = false;
         this.wallCollisionDirection = '';
 
         //movement logic
@@ -303,17 +317,45 @@ export default class MountainScene extends Phaser.Scene
                     this.bowRelease = false;
                 }                
             }
-            // this.swordDrawn = true;
-            // this.drawSword = false;
-            // this.sheathSword = false;
+            if(this.equippedWeapon==='glove'){
+                const leftButton = 0;
+                const rightButton = 2;
+                //console.log(pointer)
+                if(pointer.button===leftButton){                   
+                    this.magicType = 'red';
+                    this.playerAttacking = true;
+                    this.holdingCast = true;
+                }
+                else if(pointer.button===rightButton){ 
+                    this.magicType = 'blue';
+                    this.playerAttacking = true;
+                    this.holdingCast = true;
+                }  
+                //console.log('current magic type:', this.magicType);                      
+            }
         }, this);
 
         this.input.on('pointerup', (pointer) => {
             // console.log('pointer up');
             // console.log(pointer);
             const leftButton = 0;
+            const rightButton = 2;
             if(this.equippedWeapon==='bow' && pointer.button===leftButton){
                 this.bowRelease = true;               
+            }
+            if(this.equippedWeapon==='glove'){
+                console.log(this.player.anims);
+                //console.log('pointer up glove');
+                if(pointer.button===leftButton && this.magicType==='red'){
+                    //console.log('left button just released, stopping');
+                    this.holdingCast = false;
+                    
+                }
+                else if(pointer.button===rightButton && this.magicType==='blue'){
+                    this.holdingCast = false;
+                    //console.log('right button just released, stopping');
+                }  
+                //console.log('current magic type:', this.magicType);             
             }
         }, this);
 
