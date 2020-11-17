@@ -126,6 +126,7 @@ export default class MountainScene extends Phaser.Scene
     stopCasting: boolean;
     castFinished: boolean;
     holdingCast: boolean;
+    magicSpeed: number;
 
     back1: Phaser.GameObjects.Image;
 
@@ -174,6 +175,7 @@ export default class MountainScene extends Phaser.Scene
         this.prevEquippedWeapon = '';
         this.weaponsFound = ['none', 'sword', 'bow', 'glove'];
         this.arrowSpeed = 30;
+        this.magicSpeed = 10;
         this.mana = 100;
         this.magicType = 'red';
 
@@ -441,7 +443,7 @@ export default class MountainScene extends Phaser.Scene
 
     update()
     {
-        //console.log(this.player.y);
+        //console.log(this.player.body.velocity);
         // console.log('prev player animation:', this.prevPlayerAnimation);
         //console.log('current player animation:', this.currentPlayerAnimation);
         // console.log('player wall sliding?', this.playerWallSliding);

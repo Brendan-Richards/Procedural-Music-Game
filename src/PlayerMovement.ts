@@ -365,6 +365,7 @@ const groundDrawSheath = (scene: MountainScene) => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 const groundPlayerAttacking = (scene: MountainScene) => {
+    console.log('in ground player attacking');
     if(scene.equippedWeapon==='sword'){
         if(!scene.swordAttacks.includes(scene.currentPlayerAnimation) && scene.time.now - scene.lastAttackTime > 500){
             let swing = '';
@@ -499,8 +500,21 @@ const groundPlayerAttacking = (scene: MountainScene) => {
             }
             setNewCharacterAnimation(scene, animation, scene.currentPlayerDirection==='left', false);
         }
+        else if(scene.currentPlayerAnimation==='wallSlideCast' || scene.currentPlayerAnimation==='wallSlideCastLoop'){
+            setNewCharacterAnimation(scene, 'idleGlove', scene.currentPlayerDirection==='left', false);
+            scene.playerAttacking = false;
+        }
         else if(scene.currentPlayerAnimation==='idleCast' || scene.currentPlayerAnimation==='runCast'){
-            if(scene.controlConfig.leftControl.isDown && (scene.currentPlayerDirection==='right' || scene.currentPlayerAnimation==='idleCast')){
+            if(scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime){
+                const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
+                const jumpX = scene.currentPlayerAnimation==='idleCast' ? 0 : factor*scene.playerSpeed;
+                const jumpY = -1*scene.playerJumpHeight;
+                
+                const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
+                setNewCharacterAnimation(scene, 'jumpCast', scene.currentPlayerDirection==='left', false, currentFrameIndex);
+                scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY);  
+            }
+            else if(scene.controlConfig.leftControl.isDown && (scene.currentPlayerDirection==='right' || scene.currentPlayerAnimation==='idleCast')){
                 const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
                 setNewCharacterAnimation(scene, 'runCast', true, false, currentFrameIndex);                
             }
@@ -512,6 +526,7 @@ const groundPlayerAttacking = (scene: MountainScene) => {
                 const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
                 setNewCharacterAnimation(scene, 'idleCast', scene.currentPlayerDirection==='left', false, currentFrameIndex);
             }
+
             if(scene.player.anims.currentFrame.isLast){
                 scene.stopCasting = true;
             }
@@ -523,7 +538,16 @@ const groundPlayerAttacking = (scene: MountainScene) => {
             if(!scene.holdingCast){
                 scene.playerAttacking = false;
                 scene.stopCasting = true;
-            }      
+            }
+            else if(scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime){
+                const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
+                const jumpX = scene.currentPlayerAnimation==='idleCastLoop' ? 0 : factor*scene.playerSpeed;
+                const jumpY = -1*scene.playerJumpHeight;
+                
+                const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
+                setNewCharacterAnimation(scene, 'jumpCastLoop', scene.currentPlayerDirection==='left', false, currentFrameIndex);
+                scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY);  
+            }  
             else if(scene.controlConfig.leftControl.isDown && (scene.currentPlayerDirection==='right' || scene.currentPlayerAnimation==='idleCastLoop')){
                 setNewCharacterAnimation(scene, 'runCastLoop', true, false);
             }
@@ -533,6 +557,12 @@ const groundPlayerAttacking = (scene: MountainScene) => {
             else if(scene.controlConfig.rightControl.isUp && scene.controlConfig.leftControl.isUp && scene.currentPlayerAnimation==='runCastLoop'){
                 setNewCharacterAnimation(scene, 'idleCastLoop', scene.currentPlayerDirection==='left', false);
             }
+        }
+        else if(scene.currentPlayerAnimation==='fallCastLoop'){ // hit the ground while cast looping in mid air
+            setNewCharacterAnimation(scene, 'idleCastLoop', scene.currentPlayerDirection==='left', false);
+        }
+        else if(scene.currentPlayerAnimation==='fallCast'){ // hit the ground while casting in mid air
+            setNewCharacterAnimation(scene, 'idleCast', scene.currentPlayerDirection==='left', false);
         }
     }
 }
@@ -604,7 +634,7 @@ const setGroundVelocity = (scene: MountainScene, prevVelocity: velocity) => {
         case 'jumpGlove':
         case 'jumpHoldLoop':
         case 'jump': {
-            if(scene.prevPlayerAnimation==='idle' || scene.prevPlayerAnimation==='idleSword' || scene.prevPlayerAnimation==='idleSwordDrawn' || scene.prevPlayerAnimation==='idleBowDrawn' || scene.prevPlayerAnimation==='idleGlove'){
+            if(scene.prevPlayerAnimation==='idle' || scene.prevPlayerAnimation==='idleSword' || scene.prevPlayerAnimation==='idleSwordDrawn' || scene.prevPlayerAnimation==='idleBowDrawn' || scene.prevPlayerAnimation==='idleGlove' || scene.prevPlayerAnimation==='idleCastLoop'){
                 scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, prevVelocity.x, -1*scene.playerJumpHeight);
             }
             else{
@@ -920,6 +950,120 @@ const airPlayerAttacking = (scene: MountainScene, prevVelocity: velocity) => {
             setNewCharacterAnimation(scene, animation, scene.currentPlayerDirection==='left', false);
         }
     }
+    else if(scene.equippedWeapon==='glove'){
+        if(scene.mana <= 0){
+            scene.playerAttacking = false;
+            scene.stopCasting = false;
+            //scene.regenMana = true;
+        }
+        else if(!scene.magicAttacks.includes(scene.currentPlayerAnimation)){
+            let animation = '';
+            switch(scene.currentPlayerAnimation){
+                case 'wallSlideGlove': {animation = 'wallSlideCast'; break;}
+                case 'jumpGlove': { animation = 'jumpCast'; break; }
+                case 'fallGlove':
+                default: { animation = 'fallCast'; break; }
+            }
+            setNewCharacterAnimation(scene, animation, scene.currentPlayerDirection==='left', false);
+        }
+        else if(scene.currentPlayerAnimation==='wallSlideCast' || scene.currentPlayerAnimation==='wallSlideCastLoop'){
+            if(scene.currentPlayerAnimation==='wallSlideCast'){
+                if(scene.player.anims.currentFrame.isLast){
+                    scene.stopCasting = true;
+                }
+                else{
+                    scene.stopCasting = false;
+                } 
+            }
+            else if(scene.currentPlayerAnimation==='wallSlideCastLoop'){
+                if(!scene.holdingCast){
+                    scene.playerAttacking = false;
+                }
+            }
+
+            //jump off the wall
+            if(scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime && scene.stamina > 0){
+                //console.log('jump off wall');
+                //flip the players direction cause they were facing the opposite way when on the wall
+                scene.currentPlayerDirection = scene.currentPlayerDirection==='left' ? 'right' : 'left';
+
+                scene.stopWallSlidingPosition = {x: scene.player.x, y: scene.player.y};
+                setNewCharacterAnimation(scene, 'jumpCastLoop', scene.currentPlayerDirection==='left', false);
+                //console.log('player direction at tiem of wall jump:', scene.currentPlayerDirection);
+
+                const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
+                const jumpX = factor*scene.playerSpeed;
+                const jumpY = scene.playerIceWallSliding ? scene.playerIceJumpHeight : scene.playerWallJumpHeight;
+                scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY);  
+                
+                scene.playerCanJump = false;        
+                scene.playerWallSliding = false;
+                scene.playerIceWallSliding = false;   
+                scene.playerWallJumping = true;  
+                scene.wallJumpOffPosition = {x: scene.player.x, y: scene.player.y};  
+                scene.prevJumpTime = scene.controlConfig.jumpControl.timeDown;
+
+                scene.inContactWithWall = false;
+            }
+        }
+        else if(scene.playerWallSliding){
+            scene.playerAttacking = false;
+        }
+        else if(scene.currentPlayerAnimation==='jumpCast'){
+            if(prevVelocity.y >= 0){
+                const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
+                setNewCharacterAnimation(scene, 'fallCast', scene.currentPlayerDirection==='left', false, currentFrameIndex);                
+            }
+            else if(scene.controlConfig.leftControl.isDown && scene.currentPlayerDirection==='right'){
+                const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
+                setNewCharacterAnimation(scene, 'jumpCast', true, false, currentFrameIndex);                
+            }
+            else if(scene.controlConfig.rightControl.isDown && scene.currentPlayerDirection==='left'){
+                const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
+                setNewCharacterAnimation(scene, 'jumpCast', false, false, currentFrameIndex);
+            }
+
+            if(scene.player.anims.currentFrame.isLast){
+                scene.stopCasting = true;
+            }
+            else{
+                scene.stopCasting = false;
+            } 
+
+        }
+        else if(scene.currentPlayerAnimation==='fallCast'){
+            if(scene.controlConfig.leftControl.isDown && scene.currentPlayerDirection==='right'){
+                const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
+                setNewCharacterAnimation(scene, 'fallCast', true, false, currentFrameIndex);                
+            }
+            else if(scene.controlConfig.rightControl.isDown && scene.currentPlayerDirection==='left'){
+                const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
+                setNewCharacterAnimation(scene, 'fallCast', false, false, currentFrameIndex);
+            }
+
+            if(scene.player.anims.currentFrame.isLast){
+                scene.stopCasting = true;
+            }
+            else{
+                scene.stopCasting = false;
+            }           
+        }
+        else if(scene.currentPlayerAnimation==='jumpCastLoop' || scene.currentPlayerAnimation==='fallCastLoop'){
+            if(!scene.holdingCast){
+                scene.playerAttacking = false;
+                scene.stopCasting = true;
+            }
+            else if(scene.currentPlayerAnimation==='jumpCastLoop' && prevVelocity.y >= 0){
+                setNewCharacterAnimation(scene, 'fallCastLoop', scene.currentPlayerDirection==='left', false);
+            }
+            else if(scene.controlConfig.leftControl.isDown && scene.currentPlayerDirection==='right'){
+                setNewCharacterAnimation(scene, scene.currentPlayerAnimation, true, false);
+            }
+            else if(scene.controlConfig.rightControl.isDown && scene.currentPlayerDirection==='left'){
+                setNewCharacterAnimation(scene, scene.currentPlayerAnimation, false, false);
+            }
+        }
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1096,6 +1240,15 @@ const setAirVelocity = (scene: MountainScene, prevVelocity: velocity) => {
                 break;
             }
         }
+       // case 'jumpGlove':
+        case 'jumpCast':
+        case 'fallCast':
+        case 'jumpCastLoop': {
+            if(scene.prevPlayerAnimation==='wallSlideCastLoop'){
+                break;
+            }
+        }
+        case 'fallCastLoop':
         case 'airSwing1':
         case 'airSwing2':
         case 'jumpSwordDraw':

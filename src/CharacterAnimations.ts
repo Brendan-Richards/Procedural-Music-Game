@@ -6,6 +6,7 @@ export default (scene: MountainScene) => {
     
     const frameRate = 10;
     const swingFrameRate = 18;
+    const magicFrameRate = 30;
 
     // no weapon animations
     scene.anims.create({
@@ -482,7 +483,7 @@ export default (scene: MountainScene) => {
     });
 
 
-// bow equipped animations
+    // bow equipped animations
     scene.anims.create({
         key: 'idleBowDrawn',
         frames: scene.anims.generateFrameNames('characterAtlas', {
@@ -848,8 +849,33 @@ export default (scene: MountainScene) => {
             repeat: -1
     });
 
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //magic animations
+    scene.anims.create({
+        key: 'redMagic',
+        frames: scene.anims.generateFrameNames('magicAtlas', {
+            prefix: 'redMagic_', 
+            suffix: '.png',
+            end: 60, 
+            zeroPad: 2 
+            }),
+            frameRate: magicFrameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'blueMagic',
+        frames: scene.anims.generateFrameNames('magicAtlas', {
+            prefix: 'blueMagic_', 
+            suffix: '.png',
+            end: 60, 
+            zeroPad: 2 
+            }),
+            frameRate: magicFrameRate,
+            repeat: -1
+    });
 
-/////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
     scene.player.on('animationcomplete', (animation, frame) => {
         //console.log('in animation complete callback');
         if(animation.key==='idleSwing1' || animation.key==='idleSwing2' || animation.key==='runSwing'){
@@ -877,8 +903,9 @@ export default (scene: MountainScene) => {
                             scene.playerAttacking = false;
                         }
                         scene.stopCasting = false;
+                        makeMagic(scene);
                     }
- 
+                    
                     break;
                 }
                 case 'runCast': {
@@ -891,7 +918,54 @@ export default (scene: MountainScene) => {
                             scene.playerAttacking = false;
                         }
                         scene.stopCasting = false;
+                        makeMagic(scene);
                     }
+                    break;
+                }
+                case 'jumpCast': {
+                    if(scene.stopCasting){
+                        console.log('jumpCast ended')
+                        //console.log(animation)
+                        scene.player.play('jumpCastLoop', true);
+                        scene.prevPlayerAnimation = 'jumpCast';
+                        scene.currentPlayerAnimation = 'jumpCastLoop'; 
+                        if(!scene.holdingCast){
+                            scene.playerAttacking = false;
+                        }
+                        scene.stopCasting = false;
+                        makeMagic(scene);
+                    }
+ 
+                    break;
+                }
+                case 'fallCast': {
+                    if(scene.stopCasting){
+                        console.log('fallCast ended')
+                        scene.player.play('fallCastLoop', true);
+                        scene.prevPlayerAnimation = 'fallCast';
+                        scene.currentPlayerAnimation = 'fallCastLoop'; 
+                        if(!scene.holdingCast){
+                            scene.playerAttacking = false;
+                        }
+                        scene.stopCasting = false;
+                        makeMagic(scene);
+                    }
+                    break;
+                }
+                case 'wallSlideCast': {
+                    if(scene.stopCasting){
+                        console.log('wallSlideCast ended')
+                        //console.log(animation)
+                        scene.player.play('wallSlideCastLoop', true);
+                        scene.prevPlayerAnimation = 'wallSlideCast';
+                        scene.currentPlayerAnimation = 'wallSlideCastLoop'; 
+                        if(!scene.holdingCast){
+                            scene.playerAttacking = false;
+                        }
+                        scene.stopCasting = false;
+                        makeMagic(scene);
+                    }
+ 
                     break;
                 }
             }
@@ -950,7 +1024,42 @@ export default (scene: MountainScene) => {
         }
     }, scene);
 
-
-    // scene.player.on('animationupdate-', (animation, frame) => {})
-
 };
+
+const makeMagic = (scene: MountainScene) => {
+    //make magic
+    let factor = scene.currentPlayerDirection==='left' ? -1 : 1;
+    if(scene.prevPlayerAnimation==='wallSlideCast'){
+        factor *= -1;
+    }
+    
+    const frameName = scene.magicType==='red' ? 'redMagic_00.png' : 'blueMagic_00.png';
+
+    let yPosition = scene.player.y-6;
+    if(['wallSlideCast', 'fallCast'].includes(scene.prevPlayerAnimation)){
+        yPosition += 15;
+    }
+
+    const magic = scene.matter.add.sprite(scene.player.x+(factor * 25), yPosition, 'magicAtlas', frameName);
+    if(scene.currentPlayerDirection==='right'){
+        if(scene.prevPlayerAnimation==='wallSlideCast'){
+            magic.setFlipX(false);
+        }
+        else{
+            magic.setFlipX(true);
+        } 
+    }
+    if(scene.magicType==='red'){
+        magic.play('redMagic', true);
+    }
+    else{
+        magic.play('blueMagic', true);
+    }
+    
+    magic.setCollisionGroup(-1);
+    magic.setIgnoreGravity(true);
+    magic.setFixedRotation();
+    scene.matter.setVelocity(magic, factor * scene.magicSpeed, 0);
+
+    scene.audio.fireballSound.play(scene.audio.fireballSoundConfig);
+}

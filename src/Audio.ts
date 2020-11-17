@@ -27,6 +27,10 @@ class Audio {
     arrowWallImpact1: Phaser.Sound.BaseSound;
     arrowWallImpact2: Phaser.Sound.BaseSound;
     arrowWallImpact3: Phaser.Sound.BaseSound;
+    castSound: Phaser.Sound.BaseSound;
+    fireballSound: Phaser.Sound.BaseSound;
+    castSoundConfig: object;
+    fireballSoundConfig: object;
     bowDrawSoundConfig: object;
     bowReleaseSoundConfig: object;
     arrowWallImpact1Config: object;
@@ -81,7 +85,17 @@ class Audio {
         this.arrowWallImpact1 = scene.sound.add('arrowWallImpact1');
         this.arrowWallImpact2 = scene.sound.add('arrowWallImpact2');
         this.arrowWallImpact3 = scene.sound.add('arrowWallImpact3');
+        this.castSound = scene.sound.add('cast');
+        this.fireballSound = scene.sound.add('fireball');
 
+        this.castSoundConfig = {
+            loop: false,
+            volume: 0.1
+        }
+        this.fireballSoundConfig = {
+            loop: false,
+            volume: 0.1
+        }
         this.bowDrawSoundConfig = {
             loop: false,
             volume: 0.5
@@ -225,6 +239,20 @@ class Audio {
                     }
                 }
             }
+            else if(scene.magicAttacks.includes(animation.key)){
+                switch(animation.key){
+                    case 'runCast':
+                    case 'jumpCast':
+                    case 'fallCast':
+                    case 'wallSlideCast':
+                    case 'idleCast': {
+                        if(!this.castSound.isPlaying && !scene.casts.includes(scene.currentPlayerAnimation)){
+                            this.castSound.play(this.castSoundConfig);
+                        }
+                        break;
+                    }
+                }                
+            }
             else if(scene.meeleeAttacks.includes(animation.key)){
                 this.runSound.stop(); 
                 this.windFlap.stop();
@@ -284,7 +312,7 @@ class Audio {
                 this.windFlap.stop();
                 this.wallJumpSound.play(this.jumpConfig);               
             }
-            else if(animation.key==='fall' || animation.key==='fallSword' || animation.key==='fallSwordDrawn' || animation.key==='fallBowDrawn' || animation.key==='jumpGlove'){
+            else if(animation.key==='fall' || animation.key==='fallSword' || animation.key==='fallSwordDrawn' || animation.key==='fallBowDrawn' || animation.key==='fallGlove'){
                 this.runSound.stop();
                 this.wallSlideSound.stop();               
             }   
