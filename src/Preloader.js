@@ -75,8 +75,7 @@ export default class Preloader extends Phaser.Scene
         this.load.audio('arrowWallImpact3', 'assets/audio/arrowWallImpact3.mp3');
         this.load.audio('bowDraw', 'assets/audio/bowDraw.mp3');
         this.load.audio('bowRelease', 'assets/audio/bowRelease.mp3');
-        this.load.audio('fireball', 'assets/audio/fireball.mp3');
-        this.load.audio('cast', 'assets/audio/cast.mp3');
+        this.load.audio('cast', 'assets/audio/fullCast.mp3');
 
         //UI
         this.load.image("staminaOutline", "assets/images/UI/staminaOutline.png");
