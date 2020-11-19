@@ -170,81 +170,9 @@
 			}
 		]
 	},
-	"adventurer_fallSword_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_fallSword_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":23, "y":6 }, { "x":24, "y":32 }, { "x":35, "y":32 }, { "x":35, "y":8 } ]
-				]
-			}
-		]
-	},
-	"adventurer_fallSwordDraw_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_fallSwordDraw_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":23, "y":6 }, { "x":24, "y":32 }, { "x":35, "y":32 }, { "x":35, "y":8 } ]
-				]
-			}
-		]
-	},
 	"adventurer_fallSwordDrawn_00": {
 		"type": "fromPhysicsEditor",
 		"label": "adventurer_fallSwordDrawn_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":23, "y":6 }, { "x":24, "y":32 }, { "x":35, "y":32 }, { "x":35, "y":8 } ]
-				]
-			}
-		]
-	},
-	"adventurer_fallSwordSheath_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_fallSwordSheath_00",
 		"isStatic": false,
 		"density": 0.10000000149011612,
 		"restitution": 0,
@@ -362,54 +290,6 @@
 			}
 		]
 	},
-	"adventurer_idleSword_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_idleSword_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":31, "y":36 }, { "x":33, "y":23 }, { "x":28, "y":7 }, { "x":22, "y":7 }, { "x":15, "y":23 }, { "x":20, "y":36 } ]
-				]
-			}
-		]
-	},
-	"adventurer_idleSwordDraw_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_idleSwordDraw_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":18, "y":36 }, { "x":32, "y":36 }, { "x":30, "y":13 }, { "x":24, "y":12 }, { "x":15, "y":19 } ]
-				]
-			}
-		]
-	},
 	"adventurer_idleSwordDrawn_00": {
 		"type": "fromPhysicsEditor",
 		"label": "adventurer_idleSwordDrawn_00",
@@ -434,30 +314,6 @@
 			}
 		]
 	},
-	"adventurer_idleSwordSheath_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_idleSwordSheath_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":18, "y":36 }, { "x":32, "y":36 }, { "x":29, "y":11 }, { "x":22, "y":11 }, { "x":15, "y":19 } ]
-				]
-			}
-		]
-	},
 	"adventurer_jump_00": {
 		"type": "fromPhysicsEditor",
 		"label": "adventurer_jump_00",
@@ -478,54 +334,6 @@
 				"isSensor": false,
 				"vertices": [
 					[ { "x":33, "y":7 }, { "x":25, "y":6 }, { "x":22, "y":28 }, { "x":30, "y":28 }, { "x":33, "y":25 }, { "x":35, "y":13 } ]
-				]
-			}
-		]
-	},
-	"adventurer_jumpSword_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_jumpSword_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":33, "y":7 }, { "x":25, "y":6 }, { "x":22, "y":28 }, { "x":30, "y":28 }, { "x":33, "y":25 }, { "x":35, "y":13 } ]
-				]
-			}
-		]
-	},
-	"adventurer_jumpSwordDraw_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_jumpSwordDraw_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":18, "y":32 }, { "x":31, "y":32 }, { "x":30, "y":12 }, { "x":22, "y":11 }, { "x":15, "y":19 } ]
 				]
 			}
 		]
@@ -555,30 +363,6 @@
 			}
 		]
 	},
-	"adventurer_jumpSwordSheath_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_jumpSwordSheath_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":18, "y":33 }, { "x":31, "y":33 }, { "x":29, "y":11 }, { "x":22, "y":11 }, { "x":15, "y":19 } ]
-				]
-			}
-		]
-	},
 	"adventurer_ledgeGrab_00": {
 		"type": "fromPhysicsEditor",
 		"label": "adventurer_ledgeGrab_00",
@@ -603,81 +387,9 @@
 			}
 		]
 	},
-	"adventurer_ledgeGrabSword_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_ledgeGrabSword_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":31, "y":3 }, { "x":25, "y":6 }, { "x":25, "y":36 }, { "x":32, "y":36 }, { "x":34, "y":5 } ]
-				]
-			}
-		]
-	},
 	"adventurer_ledgeGrabSwordDrawn_00": {
 		"type": "fromPhysicsEditor",
 		"label": "adventurer_ledgeGrabSwordDrawn_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":31, "y":3 }, { "x":25, "y":6 }, { "x":25, "y":36 }, { "x":32, "y":36 }, { "x":34, "y":5 } ]
-				]
-			}
-		]
-	},
-	"adventurer_ledgeSwordDraw_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_ledgeSwordDraw_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":31, "y":3 }, { "x":25, "y":6 }, { "x":25, "y":36 }, { "x":32, "y":36 }, { "x":34, "y":5 } ]
-				]
-			}
-		]
-	},
-	"adventurer_ledgeSwordSheath_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_ledgeSwordSheath_00",
 		"isStatic": false,
 		"density": 0.10000000149011612,
 		"restitution": 0,
@@ -819,30 +531,6 @@
 			}
 		]
 	},
-	"adventurer_runSword_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_runSword_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":33, "y":36 }, { "x":37, "y":22 }, { "x":36, "y":9 }, { "x":28, "y":8 }, { "x":20, "y":36 } ]
-				]
-			}
-		]
-	},
 	"adventurer_runPunch_00": {
 		"type": "fromPhysicsEditor",
 		"label": "adventurer_runPunch_00",
@@ -863,54 +551,6 @@
 				"isSensor": false,
 				"vertices": [
 					[ { "x":45, "y":25 }, { "x":32, "y":12 }, { "x":23, "y":11 }, { "x":21, "y":36 }, { "x":34, "y":36 } ]
-				]
-			}
-		]
-	},
-	"adventurer_runSwordDraw_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_runSwordDraw_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":33, "y":36 }, { "x":37, "y":22 }, { "x":36, "y":9 }, { "x":28, "y":8 }, { "x":20, "y":36 } ]
-				]
-			}
-		]
-	},
-	"adventurer_runSwordSheath_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_runSwordSheath_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":33, "y":36 }, { "x":37, "y":22 }, { "x":36, "y":9 }, { "x":28, "y":8 }, { "x":20, "y":36 } ]
 				]
 			}
 		]
@@ -942,30 +582,6 @@
 	"adventurer_wallSlide_00": {
 		"type": "fromPhysicsEditor",
 		"label": "adventurer_wallSlide_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":23, "y":28 }, { "x":33, "y":14 }, { "x":33, "y":6 }, { "x":20, "y":7 } ]
-				]
-			}
-		]
-	},
-	"adventurer_wallSlideSword_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_wallSlideSword_00",
 		"isStatic": false,
 		"density": 0.10000000149011612,
 		"restitution": 0,
@@ -1031,54 +647,6 @@
 				"isSensor": false,
 				"vertices": [
 					[ { "x":31, "y":32 }, { "x":33, "y":14 }, { "x":33, "y":5 }, { "x":16, "y":1 }, { "x":1, "y":15 }, { "x":5, "y":27 } ]
-				]
-			}
-		]
-	},
-	"adventurer_wallSwordDraw_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_wallSwordDraw_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":23, "y":28 }, { "x":33, "y":14 }, { "x":33, "y":6 }, { "x":20, "y":7 } ]
-				]
-			}
-		]
-	},
-	"adventurer_wallSwordSheath_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_wallSwordSheath_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":23, "y":28 }, { "x":33, "y":14 }, { "x":33, "y":6 }, { "x":20, "y":7 } ]
 				]
 			}
 		]
@@ -1539,30 +1107,6 @@
 			}
 		]
 	},
-	"adventurer_fallCastLoop_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_fallCastLoop_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":35, "y":35 }, { "x":35, "y":15 }, { "x":26, "y":14 }, { "x":24, "y":35 } ]
-				]
-			}
-		]
-	},
 	"adventurer_fallGlove_00": {
 		"type": "fromPhysicsEditor",
 		"label": "adventurer_fallGlove_00",
@@ -1611,30 +1155,6 @@
 			}
 		]
 	},
-	"adventurer_idleCastLoop_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_idleCastLoop_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":20, "y":36 }, { "x":32, "y":36 }, { "x":35, "y":31 }, { "x":35, "y":15 }, { "x":28, "y":13 }, { "x":21, "y":21 } ]
-				]
-			}
-		]
-	},
 	"adventurer_idleGlove_00": {
 		"type": "fromPhysicsEditor",
 		"label": "adventurer_idleGlove_00",
@@ -1679,30 +1199,6 @@
 				"isSensor": false,
 				"vertices": [
 					[ { "x":31, "y":11 }, { "x":23, "y":10 }, { "x":20, "y":32 }, { "x":28, "y":32 }, { "x":31, "y":29 }, { "x":33, "y":17 } ]
-				]
-			}
-		]
-	},
-	"adventurer_jumpCastLoop_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_jumpCastLoop_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":34, "y":14 }, { "x":27, "y":13 }, { "x":22, "y":33 }, { "x":30, "y":33 }, { "x":33, "y":30 }, { "x":35, "y":18 } ]
 				]
 			}
 		]
@@ -1779,30 +1275,6 @@
 			}
 		]
 	},
-	"adventurer_runCastLoop_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_runCastLoop_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":33, "y":36 }, { "x":36, "y":21 }, { "x":34, "y":14 }, { "x":28, "y":14 }, { "x":20, "y":36 } ]
-				]
-			}
-		]
-	},
 	"adventurer_runGlove_00": {
 		"type": "fromPhysicsEditor",
 		"label": "adventurer_runGlove_00",
@@ -1830,30 +1302,6 @@
 	"adventurer_wallSlideCast_00": {
 		"type": "fromPhysicsEditor",
 		"label": "adventurer_wallSlideCast_00",
-		"isStatic": false,
-		"density": 0.10000000149011612,
-		"restitution": 0,
-		"friction": 0.10000000149011612,
-		"frictionAir": 0.009999999776482582,
-		"frictionStatic": 0.5,
-		"collisionFilter": {
-			"group": 0,
-			"category": 1,
-			"mask": 255
-		},
-		"fixtures": [
-			{
-				"label": "",
-				"isSensor": false,
-				"vertices": [
-					[ { "x":23, "y":28 }, { "x":33, "y":14 }, { "x":33, "y":6 }, { "x":20, "y":7 } ]
-				]
-			}
-		]
-	},
-	"adventurer_wallSlideCastLoop_00": {
-		"type": "fromPhysicsEditor",
-		"label": "adventurer_wallSlideCastLoop_00",
 		"isStatic": false,
 		"density": 0.10000000149011612,
 		"restitution": 0,

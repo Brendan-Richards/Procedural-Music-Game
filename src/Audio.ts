@@ -28,9 +28,7 @@ class Audio {
     arrowWallImpact2: Phaser.Sound.BaseSound;
     arrowWallImpact3: Phaser.Sound.BaseSound;
     castSound: Phaser.Sound.BaseSound;
-    fireballSound: Phaser.Sound.BaseSound;
     castSoundConfig: object;
-    fireballSoundConfig: object;
     bowDrawSoundConfig: object;
     bowReleaseSoundConfig: object;
     arrowWallImpact1Config: object;
@@ -86,13 +84,8 @@ class Audio {
         this.arrowWallImpact2 = scene.sound.add('arrowWallImpact2');
         this.arrowWallImpact3 = scene.sound.add('arrowWallImpact3');
         this.castSound = scene.sound.add('cast');
-        this.fireballSound = scene.sound.add('fireball');
 
         this.castSoundConfig = {
-            loop: false,
-            volume: 0.1
-        }
-        this.fireballSoundConfig = {
             loop: false,
             volume: 0.1
         }
@@ -241,11 +234,17 @@ class Audio {
             }
             else if(scene.magicAttacks.includes(animation.key)){
                 switch(animation.key){
-                    case 'runCast':
-                    case 'jumpCast':
-                    case 'fallCast':
-                    case 'wallSlideCast':
-                    case 'idleCast': {
+                    case 'runCastRed':
+                    case 'jumpCastRed':
+                    case 'fallCastRed':
+                    case 'wallSlideCastRed':
+                    case 'idleCastRed':
+                    case 'runCastBlue':
+                    case 'jumpCastBlue':
+                    case 'fallCastBlue':
+                    case 'wallSlideCastBlue':
+                    case 'idleCastBlue': {
+                        //console.log('in precast animation callback, current player animation is:', scene.currentPlayerAnimation);
                         if(!this.castSound.isPlaying && !scene.casts.includes(scene.currentPlayerAnimation)){
                             this.castSound.play(this.castSoundConfig);
                         }

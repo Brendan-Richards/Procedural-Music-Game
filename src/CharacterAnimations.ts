@@ -6,7 +6,7 @@ export default (scene: MountainScene) => {
     
     const frameRate = 10;
     const swingFrameRate = 18;
-    const magicFrameRate = 30;
+    const magicFrameRate = 10;
 
     // no weapon animations
     scene.anims.create({
@@ -139,72 +139,6 @@ export default (scene: MountainScene) => {
 
     // sword equipped animations
     scene.anims.create({
-        key: 'idleSword',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleSword_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-        }),
-        frameRate: frameRate,
-        repeat: -1
-    });
-    scene.anims.create({
-        key: 'runSword',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runSword_', 
-            suffix: '.png',
-            end: 7, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'jumpSword',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpSword_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'wallSlideSword',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_wallSlideSword_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'ledgeGrabSword',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_ledgeGrabSword_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'fallSword',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallSword_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
         key: 'idleSwordDrawn',
         frames: scene.anims.generateFrameNames('characterAtlas', {
             prefix: 'adventurer_idleSwordDrawn_', 
@@ -269,126 +203,6 @@ export default (scene: MountainScene) => {
             }),
             frameRate: frameRate,
             repeat: -1
-    });
-    scene.anims.create({
-        key: 'idleSwordDraw',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleSwordDraw_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'runSwordDraw',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runSwordDraw_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'jumpSwordDraw',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpSwordDraw_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'fallSwordDraw',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallSwordDraw_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'wallSwordDraw',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_wallSwordDraw_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'ledgeSwordDraw',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_ledgeSwordDraw_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'idleSwordSheath',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleSwordSheath_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'runSwordSheath',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runSwordSheath_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'jumpSwordSheath',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpSwordSheath_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'fallSwordSheath',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallSwordSheath_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'wallSwordSheath',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_wallSwordSheath_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'ledgeSwordSheath',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_ledgeSwordSheath_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
     });
     scene.anims.create({
         key: 'idleSwing1',
@@ -743,120 +557,120 @@ export default (scene: MountainScene) => {
             frameRate: frameRate,
             repeat: -1
     });
+
+    //casting animations
+    //red
     scene.anims.create({
-        key: 'idleCast',
+        key: 'idleCastRed',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleCast_', 
+            prefix: 'adventurer_idleCastRed_', 
             suffix: '.png',
-            end: 4, 
+            end: 8, 
             zeroPad: 2 
             }),
             frameRate: frameRate
     });
     scene.anims.create({
-        key: 'runCast',
+        key: 'runCastRed',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runCast_', 
+            prefix: 'adventurer_runCastRed_', 
             suffix: '.png',
-            end: 4, 
+            end: 8, 
             zeroPad: 2 
             }),
             frameRate: frameRate
     });
     scene.anims.create({
-        key: 'jumpCast',
+        key: 'jumpCastRed',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpCast_', 
+            prefix: 'adventurer_jumpCastRed_', 
             suffix: '.png',
-            end: 4, 
+            end: 8, 
             zeroPad: 2 
             }),
             frameRate: frameRate
     });
     scene.anims.create({
-        key: 'fallCast',
+        key: 'fallCastRed',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallCast_', 
+            prefix: 'adventurer_fallCastRed_', 
             suffix: '.png',
-            end: 4, 
+            end: 8, 
             zeroPad: 2 
             }),
             frameRate: frameRate
     });
     scene.anims.create({
-        key: 'wallSlideCast',
+        key: 'wallSlideCastRed',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_wallSlideCast_', 
+            prefix: 'adventurer_wallSlideCastRed_', 
             suffix: '.png',
-            end: 4, 
+            end: 8, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    // blue magic
+    scene.anims.create({
+        key: 'idleCastBlue',
+        frames: scene.anims.generateFrameNames('characterAtlas', {
+            prefix: 'adventurer_idleCastBlue_', 
+            suffix: '.png',
+            end: 8, 
             zeroPad: 2 
             }),
             frameRate: frameRate
     });
     scene.anims.create({
-        key: 'idleCastLoop',
+        key: 'runCastBlue',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleCastLoop_', 
+            prefix: 'adventurer_runCastBlue_', 
             suffix: '.png',
-            end: 4, 
+            end: 8, 
             zeroPad: 2 
             }),
-            frameRate: frameRate,
-            repeat: -1
+            frameRate: frameRate
     });
     scene.anims.create({
-        key: 'runCastLoop',
+        key: 'jumpCastBlue',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runCastLoop_', 
+            prefix: 'adventurer_jumpCastBlue_', 
             suffix: '.png',
-            end: 4, 
+            end: 8, 
             zeroPad: 2 
             }),
-            frameRate: frameRate,
-            repeat: -1
+            frameRate: frameRate
     });
     scene.anims.create({
-        key: 'jumpCastLoop',
+        key: 'fallCastBlue',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpCastLoop_', 
+            prefix: 'adventurer_fallCastBlue_', 
             suffix: '.png',
-            end: 4, 
+            end: 8, 
             zeroPad: 2 
             }),
-            frameRate: frameRate,
-            repeat: -1
+            frameRate: frameRate
     });
     scene.anims.create({
-        key: 'fallCastLoop',
+        key: 'wallSlideCastBlue',
         frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallCastLoop_', 
+            prefix: 'adventurer_wallSlideCastBlue_', 
             suffix: '.png',
-            end: 4, 
+            end: 8, 
             zeroPad: 2 
             }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'wallSlideCastLoop',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_wallSlideCastLoop_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
+            frameRate: frameRate
     });
 
+
     //////////////////////////////////////////////////////////////////////////////////////////
-    //magic animations
+    //magic projectile animations
     scene.anims.create({
         key: 'redMagic',
         frames: scene.anims.generateFrameNames('magicAtlas', {
             prefix: 'redMagic_', 
             suffix: '.png',
-            end: 60, 
+            end: 20, 
             zeroPad: 2 
             }),
             frameRate: magicFrameRate,
@@ -867,7 +681,7 @@ export default (scene: MountainScene) => {
         frames: scene.anims.generateFrameNames('magicAtlas', {
             prefix: 'blueMagic_', 
             suffix: '.png',
-            end: 60, 
+            end: 20, 
             zeroPad: 2 
             }),
             frameRate: magicFrameRate,
@@ -876,6 +690,7 @@ export default (scene: MountainScene) => {
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////
+
     scene.player.on('animationcomplete', (animation, frame) => {
         //console.log('in animation complete callback');
         if(animation.key==='idleSwing1' || animation.key==='idleSwing2' || animation.key==='runSwing'){
@@ -892,78 +707,65 @@ export default (scene: MountainScene) => {
         }
         else if(scene.magicAttacks.includes(animation.key)){
             switch(animation.key){
-                case 'idleCast': {
+                case 'idleCastRed':
+                case 'idleCastBlue': {
                     if(scene.stopCasting){
                         console.log('idleCast ended')
-                        //console.log(animation)
-                        scene.player.play('idleCastLoop', true);
+                        scene.player.play('idleGlove', true);
                         scene.prevPlayerAnimation = 'idleCast';
-                        scene.currentPlayerAnimation = 'idleCastLoop'; 
-                        if(!scene.holdingCast){
-                            scene.playerAttacking = false;
-                        }
+                        scene.currentPlayerAnimation = 'idleGlove'; 
+                        scene.playerAttacking = false;
                         scene.stopCasting = false;
-                        makeMagic(scene);
                     }
                     
                     break;
                 }
-                case 'runCast': {
+                case 'runCastRed':
+                case 'runCastBlue': {
                     if(scene.stopCasting){
                         console.log('runCast ended')
-                        scene.player.play('runCastLoop', true);
+                        scene.player.play('runGlove', true);
                         scene.prevPlayerAnimation = 'runCast';
-                        scene.currentPlayerAnimation = 'runCastLoop'; 
-                        if(!scene.holdingCast){
-                            scene.playerAttacking = false;
-                        }
+                        scene.currentPlayerAnimation = 'runGlove'; 
+                        scene.playerAttacking = false;
                         scene.stopCasting = false;
-                        makeMagic(scene);
                     }
                     break;
                 }
-                case 'jumpCast': {
+                case 'jumpCastRed':
+                case 'jumpCastBlue': {
                     if(scene.stopCasting){
                         console.log('jumpCast ended')
-                        //console.log(animation)
-                        scene.player.play('jumpCastLoop', true);
+                        scene.player.play('jumpGlove', true);
                         scene.prevPlayerAnimation = 'jumpCast';
-                        scene.currentPlayerAnimation = 'jumpCastLoop'; 
-                        if(!scene.holdingCast){
-                            scene.playerAttacking = false;
-                        }
+                        scene.currentPlayerAnimation = 'jumpGlove'; 
+                        scene.playerAttacking = false;
                         scene.stopCasting = false;
-                        makeMagic(scene);
                     }
  
                     break;
                 }
-                case 'fallCast': {
+                case 'fallCastRed':
+                case 'fallCastBlue': {
                     if(scene.stopCasting){
                         console.log('fallCast ended')
-                        scene.player.play('fallCastLoop', true);
+                        scene.player.play('fallGlove', true);
                         scene.prevPlayerAnimation = 'fallCast';
-                        scene.currentPlayerAnimation = 'fallCastLoop'; 
-                        if(!scene.holdingCast){
-                            scene.playerAttacking = false;
-                        }
+                        scene.currentPlayerAnimation = 'fallGlove'; 
+                        scene.playerAttacking = false;
                         scene.stopCasting = false;
-                        makeMagic(scene);
                     }
                     break;
                 }
-                case 'wallSlideCast': {
+                case 'wallSlideCastRed':
+                case 'wallSlideCastBlue': {
                     if(scene.stopCasting){
                         console.log('wallSlideCast ended')
-                        //console.log(animation)
-                        scene.player.play('wallSlideCastLoop', true);
+                        scene.player.play('wallSlideGlove', true);
                         scene.prevPlayerAnimation = 'wallSlideCast';
-                        scene.currentPlayerAnimation = 'wallSlideCastLoop'; 
-                        if(!scene.holdingCast){
-                            scene.playerAttacking = false;
-                        }
+                        scene.currentPlayerAnimation = 'wallSlideGlove'; 
+                        scene.playerAttacking = false;
                         scene.stopCasting = false;
-                        makeMagic(scene);
                     }
  
                     break;
@@ -1026,40 +828,3 @@ export default (scene: MountainScene) => {
 
 };
 
-const makeMagic = (scene: MountainScene) => {
-    //make magic
-    let factor = scene.currentPlayerDirection==='left' ? -1 : 1;
-    if(scene.prevPlayerAnimation==='wallSlideCast'){
-        factor *= -1;
-    }
-    
-    const frameName = scene.magicType==='red' ? 'redMagic_00.png' : 'blueMagic_00.png';
-
-    let yPosition = scene.player.y-6;
-    if(['wallSlideCast', 'fallCast'].includes(scene.prevPlayerAnimation)){
-        yPosition += 15;
-    }
-
-    const magic = scene.matter.add.sprite(scene.player.x+(factor * 25), yPosition, 'magicAtlas', frameName);
-    if(scene.currentPlayerDirection==='right'){
-        if(scene.prevPlayerAnimation==='wallSlideCast'){
-            magic.setFlipX(false);
-        }
-        else{
-            magic.setFlipX(true);
-        } 
-    }
-    if(scene.magicType==='red'){
-        magic.play('redMagic', true);
-    }
-    else{
-        magic.play('blueMagic', true);
-    }
-    
-    magic.setCollisionGroup(-1);
-    magic.setIgnoreGravity(true);
-    magic.setFixedRotation();
-    scene.matter.setVelocity(magic, factor * scene.magicSpeed, 0);
-
-    scene.audio.fireballSound.play(scene.audio.fireballSoundConfig);
-}
