@@ -338,27 +338,11 @@ export default class MountainScene extends Phaser.Scene
         }, this);
 
         this.input.on('pointerup', (pointer) => {
-            // console.log('pointer up');
-            // console.log(pointer);
             const leftButton = 0;
             const rightButton = 2;
             if(this.equippedWeapon==='bow' && pointer.button===leftButton){
                 this.bowRelease = true;               
             }
-            // if(this.equippedWeapon==='glove'){
-            //     console.log(this.player.anims);
-            //     //console.log('pointer up glove');
-            //     if(pointer.button===leftButton && this.magicType==='red'){
-            //         //console.log('left button just released, stopping');
-            //         this.holdingCast = false;
-                    
-            //     }
-            //     else if(pointer.button===rightButton && this.magicType==='blue'){
-            //         this.holdingCast = false;
-            //         //console.log('right button just released, stopping');
-            //     }  
-            //     //console.log('current magic type:', this.magicType);             
-            // }
         }, this);
 
         this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
@@ -387,8 +371,8 @@ export default class MountainScene extends Phaser.Scene
                 }
                 console.log('previous weapon:', this.prevEquippedWeapon);
                 console.log('current Weapon:', this.equippedWeapon);
+                console.log('current player animation:', this.currentPlayerAnimation);
                 this.changedWeapon = true;
-                this.swordDrawn = false;
 
                 this.lastWeaponChangeTime = this.time.now;
             }
