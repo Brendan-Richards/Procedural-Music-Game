@@ -6,6 +6,26 @@ import {buildWall, buildFlat, terrainFill} from './PlaceTerrain';
 
 
 const createTileMap = (scene: MountainScene, totalHeight: number): void => {
+
+    // const map = scene.make.tilemap({ key: "map" });
+
+    // const tileset = map.addTilesetImage("dirtGrassCastle", "grassCastleTiles");
+
+    // // const t1 = map.addTilesetImage("trees", "t1");
+    // // const t2 = map.addTilesetImage("trees", "t2");
+    // // const t3 = map.addTilesetImage("trees", "t3");
+    // // const t4 = map.addTilesetImage("trees", "t4");
+    // // const t5 = map.addTilesetImage("trees", "t5");
+    // const groundLayer = map.createDynamicLayer("grass", tileset);
+    // groundLayer.setPosition(0,-1*(groundLayer.height - totalHeight));
+
+    // createMountains(scene, 15, groundLayer, map, tileset);
+
+    // groundLayer.setDepth(5);
+
+    // groundLayer.setCollisionByProperty({ collides: true });
+
+    // scene.matter.world.convertTilemapLayer(groundLayer);  
        
     const map = scene.make.tilemap({ key: "map" });
 
@@ -14,7 +34,7 @@ const createTileMap = (scene: MountainScene, totalHeight: number): void => {
     const groundLayer = map.createDynamicLayer("climbingSurfaces", tileset);
     groundLayer.setPosition(0,-1*(groundLayer.height - totalHeight));
 
-    createMountains(scene, 15, groundLayer, map, tileset);
+   createMountains(scene, 15, groundLayer, map, tileset);
    createSkyMountains(scene, groundLayer, map, tileset);
 
     groundLayer.setDepth(5);

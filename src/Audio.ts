@@ -220,6 +220,7 @@ class Audio {
                         scene.playerAttacking = false;
                         const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
                         const arrow = scene.matter.add.sprite(scene.player.x+(factor * 30), scene.player.y-6, 'arrow', undefined);
+                        arrow.setScale(scene.arrowScale);
                         if(scene.currentPlayerDirection==='left'){
                             arrow.setFlipX(true);
                         }

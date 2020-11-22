@@ -32,6 +32,7 @@
 		"parcel": "^1.12.4",
 		"phaser": "^3.24.1",
 		"regenerator-runtime": "^0.13.7",
+		"socket.io-client": "^3.0.3",
 		"tone": "^14.7.58",
 		"tone-piano": "^0.0.12",
 		"wavefunctioncollapse": "^2.0.0"

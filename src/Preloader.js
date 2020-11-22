@@ -19,19 +19,6 @@ export default class Preloader extends Phaser.Scene
         this.load.image('backgroundLayer3', './assets/images/background/originals/backgroundLayer3_ex.png');
        // this.load.image('backgroundLayer3b', './assets/images/background/originals/backgroundLayer3b.png');
 
-        // this.load.image('backgroundLayer0', './assets/images/background/rescaledCompressed/backgroundLayer0.png');
-        // this.load.image('backgroundLayer0b', './assets/images/background/rescaledCompressed/backgroundLayer0b.png');
-        // this.load.image('backgroundLayer1', './assets/images/background/rescaledCompressed/backgroundLayer1.png');
-        // this.load.image('backgroundLayer1b', './assets/images/background/rescaledCompressed/backgroundLayer1b.png');
-        // this.load.image('backgroundLayer2', './assets/images/background/rescaledCompressed/backgroundLayer2.png');
-        // this.load.image('backgroundLayer2b', './assets/images/background/rescaledCompressed/backgroundLayer2b.png');
-        // this.load.image('backgroundLayer3', './assets/images/background/rescaledCompressed/backgroundLayer3.png');
-        // this.load.image('backgroundLayer3b', './assets/images/background/rescaledCompressed/backgroundLayer3b.png');
-
-        //background prebuilt
-        //this.load.image('background', './assets/images/background/originals/background.png');
-       // this.load.image('background2', './assets/images/background/originals/background2.png');
-
         //all character sprites
         this.load.atlas('characterAtlas', 'assets/images/characters/characterAtlas.png', 'assets/json/characterAtlas.json');
         this.load.json('characterAtlasData', 'assets/json/characterAtlas.json');
@@ -47,10 +34,13 @@ export default class Preloader extends Phaser.Scene
         this.load.json('magicAtlasData', 'assets/json/magic.json');    
 
         //tilemap
-        //this.load.image("tiles", "assets/images/tilesets/snowyRocks.png");
-       // this.load.tilemapTiledJSON('map', 'assets/json/newnewnew.json');
         this.load.tilemapTiledJSON('map', 'assets/json/snowWithIce.json');
         this.load.image("iceTiles", "assets/images/tilesets/icyRocks.png");
+
+        // this.load.tilemapTiledJSON('map', 'assets/json/new_forest.json');
+        // this.load.image("grassCastleTiles", "assets/images/tilesets/grassCastleTileset.png");
+
+        //this.load.image("iceTiles", "assets/images/tilesets/icyRocks.png");
        // this.load.tilemapTiledJSON('iceMap', 'assets/json/newnewnew.json');
 
         //audio

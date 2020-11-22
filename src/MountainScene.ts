@@ -4,6 +4,7 @@ import ContentGenerator from './ContentGenerator';
 import handleCollisions from './Collisions';
 import handlePlayerMovement from './PlayerMovement';
 import Audio from './Audio';
+import io, { Socket } from 'socket.io-client';
 //import { startRNN, pauseRNN, resumeRNN } from './performanceRNN';
 import 'regenerator-runtime/runtime';
 //import magentaTest from './MagentaTest';
@@ -128,6 +129,8 @@ export default class MountainScene extends Phaser.Scene
     holdingCast: boolean;
     magicSpeed: number;
     madeMagic: boolean;
+    arrowScale: number;
+    socket: io.Socket;
 
     back1: Phaser.GameObjects.Image;
 
@@ -137,10 +140,21 @@ export default class MountainScene extends Phaser.Scene
 
         //this.timer = new Date();
 
+        // this.maxGameHeight = 1280;
+        // this.maxGameWidth = 8000;
         this.maxGameHeight = 6400;
         this.maxGameWidth = 6400;
         this.chestScaleFactor = 0.6;
         this.numChests = 5;
+        this.socket = io.io();
+        console.log('this.socket', this.socket);
+        this.socket.on('currentPlayers', (players) => {
+            Object.keys(players).forEach((id) => {
+              if (players[id].playerId === this.socket.id) {
+                //addPlayer(self, players[id]);
+                }
+            });
+        });
 
         //set up player
         this.playerScaleFactor = 1.6;
@@ -175,11 +189,12 @@ export default class MountainScene extends Phaser.Scene
         this.equippedWeapon = 'glove';
         this.prevEquippedWeapon = '';
         this.weaponsFound = ['none', 'sword', 'bow', 'glove'];
-        this.arrowSpeed = 30;
+        this.arrowSpeed = 20;
         this.magicSpeed = 15;
         this.mana = 100;
         this.madeMagic = false;
         this.magicType = 'red';
+        this.arrowScale = 1;
 
 
         //flags
@@ -234,6 +249,7 @@ export default class MountainScene extends Phaser.Scene
         //set camera and world bounds 
         this.matter.world.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight, 64, true, true, false, true);
         this.cameras.main.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight);
+        //this.cameras.main.setZoom(1.6);
         //this.cameras.main.setZoom(0.07);
 
         const contentGenerator = new ContentGenerator(this, this.maxGameWidth, this.maxGameHeight, 'sparse');
