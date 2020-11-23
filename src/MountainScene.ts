@@ -71,8 +71,6 @@ export default class MountainScene extends Phaser.Scene
     playerSpeed: number;
     swordAttacks: Array<string>;
     meeleeAttacks: Array<string>;
-    swordDraws: Array<string>;
-    swordSheaths: Array<string>;
     equippedWeapon: string;
     weaponsFound: Array<string>;
     lastAttackTime: number;
@@ -84,10 +82,7 @@ export default class MountainScene extends Phaser.Scene
     prevSwordSwing: string;
     playerLedgeClimb: boolean;
     playerAttacking: boolean;
-    sheathSword: boolean;
-    drawSword: boolean;
     attackDown: boolean;
-    swordDrawn: boolean;
     stamina: number;
     playerSwordOut: boolean;
     inContactWithWall: boolean;
@@ -131,12 +126,15 @@ export default class MountainScene extends Phaser.Scene
     madeMagic: boolean;
     arrowScale: number;
     socket: io.Socket;
+    opponent: Phaser.Physics.Matter.Sprite | null;
 
     back1: Phaser.GameObjects.Image;
 
 	constructor()
 	{
         super('mountainScene');
+
+        this.opponent = null;
 
         //this.timer = new Date();
 
@@ -147,14 +145,7 @@ export default class MountainScene extends Phaser.Scene
         this.chestScaleFactor = 0.6;
         this.numChests = 5;
         this.socket = io.io();
-        console.log('this.socket', this.socket);
-        this.socket.on('currentPlayers', (players) => {
-            Object.keys(players).forEach((id) => {
-              if (players[id].playerId === this.socket.id) {
-                //addPlayer(self, players[id]);
-                }
-            });
-        });
+        console.log('this.socket:', this.socket);
 
         //set up player
         this.playerScaleFactor = 1.6;
@@ -181,12 +172,10 @@ export default class MountainScene extends Phaser.Scene
         this.prevMeeleeAttack = '';
         this.swordAttacks = ['idleSwing1', 'idleSwing2', 'runSwing', 'airSwing1', 'airSwing2', 'wallSwing'];
         this.bowAttacks = ['idleNotch', 'idleHoldLoop', 'idleRelease', 'runNotch', 'runHoldLoop', 'runRelease', 'jumpNotch', 'jumpHoldLoop', 'jumpRelease', 'fallNotch', 'fallHoldLoop', 'fallRelease'];
-        this.swordDraws = ['idleSwordDraw', 'runSwordDraw', 'jumpSwordDraw', 'fallSwordDraw', 'wallSwordDraw', 'ledgeSwordDraw'];
-        this.swordSheaths = ['idleSwordSheath', 'runSwordSheath', 'jumpSwordSheath', 'fallSwordSheath', 'wallSwordSheath', 'ledgeSwordSheath'];
         this.meeleeAttacks = ['punch1', 'punch2', 'punch3', 'runPunch', 'groundKick', 'airKick'];
         this.magicAttacks = ['idleCastRed','runCastRed','jumpCastRed','fallCastRed','wallSlideCastRed','idleCastBlue','runCastBlue','jumpCastBlue','fallCastBlue','wallSlideCastBlue'];
         this.casts = ['idleCastRed','runCastRed','jumpCastRed','fallCastRed','wallSlideCastRed','idleCastBlue','runCastBlue','jumpCastBlue','fallCastBlue','wallSlideCastBlue'];
-        this.equippedWeapon = 'glove';
+        this.equippedWeapon = 'none';
         this.prevEquippedWeapon = '';
         this.weaponsFound = ['none', 'sword', 'bow', 'glove'];
         this.arrowSpeed = 20;
@@ -213,10 +202,6 @@ export default class MountainScene extends Phaser.Scene
         this.gainingStamina = false;
         this.staminaActive = false;
         this.playerAttacking = false;
-        this.playerSwordOut = false;
-        this.swordDrawn = true;
-        this.sheathSword = false;
-        this.drawSword = false;
         this.inContactWithWall = false;
         this.downAttack = false;
         this.swordCollided = false;
@@ -367,8 +352,6 @@ export default class MountainScene extends Phaser.Scene
                     !this.swordAttacks.includes(this.currentPlayerAnimation) &&
                     !this.bowAttacks.includes(this.currentPlayerAnimation) &&
                     !this.meeleeAttacks.includes(this.currentPlayerAnimation) &&
-                    !this.swordDraws.includes(this.currentPlayerAnimation) &&
-                    !this.swordSheaths.includes(this.currentPlayerAnimation) &&
                     !this.magicAttacks.includes(this.currentPlayerAnimation) &&
                     this.currentPlayerAnimation!=='airSwing3Start' &&
                     this.currentPlayerAnimation!=='airSwing3Loop' &&
@@ -425,6 +408,93 @@ export default class MountainScene extends Phaser.Scene
         this.audio = new Audio(this);
         this.audio.ambience();
 
+        this.socket.on('opponentMovementUpdate', (opponentData) => {
+            console.log('client recieved opponentMovement Update');
+            if(!this.opponent){
+                this.opponent = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');
+                const opponentBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, undefined, false);     
+                this.opponent.setExistingBody(opponentBody);
+                this.opponent.setScale(this.playerScaleFactor);
+            }
+            this.opponent.setPosition(opponentData.x, opponentData.y);
+            this.opponent.setVelocity(opponentData.vx, opponentData.vy);
+        });
+        this.socket.on('createArrow', (arrowData) => {
+            console.log('client recieved createArrow event');
+           
+            const arrow = this.matter.add.sprite(arrowData.x, arrowData.y, 'arrow', undefined);
+            arrow.setScale(this.arrowScale);
+            
+            if(arrowData.flipX){
+                arrow.setFlipX(true);
+            }
+            arrow.setCollisionGroup(-1);
+            arrow.setIgnoreGravity(true);
+            arrow.setFixedRotation();
+            this.matter.setVelocity(arrow, arrowData.factor * this.arrowSpeed, 0);            
+        });
+        this.socket.on('createMagic', (magicData) => {
+            console.log('client recieved createMagic event');
+
+            //make magic
+            const magic = this.matter.add.sprite(magicData.x, magicData.y, 'magicAtlas', magicData.frameName);
+            magic.setScale(this.playerScaleFactor, this.playerScaleFactor);
+
+            if(magicData.flipX){
+                magic.setFlipX(true); 
+            }
+            
+            if(magicData.magicType==='red'){
+                magic.play('redMagic', true);
+            }
+            else{
+                magic.play('blueMagic', true);
+            }
+            
+            magic.setCollisionGroup(-1);
+            magic.setIgnoreGravity(true);
+            magic.setFixedRotation();
+            this.matter.setVelocity(magic, magicData.factor * this.magicSpeed, 0);
+        
+        });
+        this.socket.on('opponentAnimationUpdate', (opponentData) => {
+            if(this.opponent){
+                console.log('setting opponent animation to:', opponentData.currentAnimation);
+                this.opponent.setScale(1);
+
+                let bodyData = null;
+                if(opponentData.currentAnimation.includes('Cast')){
+                    switch(opponentData.currentAnimation){
+                        case 'idleCastBlue':
+                        case 'idleCastRed': {bodyData = this.characterShapes.adventurer_idleCast_00; break;}
+                        case 'runCastRed':
+                        case 'runCastBlue': {bodyData = this.characterShapes.adventurer_runCast_00; break;}
+                        case 'jumpCastRed':
+                        case 'jumpCastBlue': {bodyData = this.characterShapes.adventurer_jumpCast_00; break;}
+                        case 'fallCastRed':
+                        case 'fallCastBlue': {bodyData = this.characterShapes.adventurer_fallCast_00; break;}
+                        case 'wallSlideCastRed':
+                        case 'wallSlideCastBlue': {bodyData = this.characterShapes.adventurer_wallSlideCast_00; break;}   
+                    }
+                }
+                else{
+                    bodyData = this.characterShapes['adventurer_' + opponentData.currentAnimation + '_00'];
+                }
+                
+                const opponentBody = this.matter.add.fromPhysicsEditor(this.opponent.x, this.opponent.y, bodyData, undefined, false);
+                opponentBody.friction = opponentData.playerFriction;
+            
+                this.opponent.setExistingBody(opponentBody);
+            
+                this.opponent.setScale((opponentData.flipX ? -1 : 1)*this.playerScaleFactor, this.playerScaleFactor);
+            
+                this.opponent.play(opponentData.currentAnimation, false, 0);  
+                
+                this.opponent.setBounce(0);
+                this.opponent.setFixedRotation(); 
+                this.opponent.setCollisionGroup(-1);
+            }
+        });
 
         //startRNN();
         // this.input.keyboard.on('keydown-' + 'P', (event) => {
@@ -440,14 +510,7 @@ export default class MountainScene extends Phaser.Scene
         //this.add.image(200, 6400-64, 'environmentAtlas', 'chest_closed_green').setScale(this.chestScaleFactor).setOrigin(0,1);
     }
 
-    update()
-    {
-        //console.log(this.player.body.velocity);
-        // console.log('prev player animation:', this.prevPlayerAnimation);
-        //console.log('current player animation:', this.currentPlayerAnimation);
-        // console.log('player wall sliding?', this.playerWallSliding);
-        // console.log(' ');
-        //console.log(this.stopWallSlidingPosition);
+    update(){
         if(this.playerLedgeGrab){
             this.losingStamina = true;
         } 
@@ -458,6 +521,13 @@ export default class MountainScene extends Phaser.Scene
         }
         this.setSoundVolumes();
         handlePlayerMovement(this);
+
+        this.socket.emit('playerMovementUpdate', {
+            x: this.player.x, 
+            y: this.player.y, 
+            vx: this.player.body.velocity.x, 
+            vy: this.player.body.velocity.y
+        });
     }
 
     setSoundVolumes = () => {
@@ -530,3 +600,4 @@ export default class MountainScene extends Phaser.Scene
         }
     }
 }
+

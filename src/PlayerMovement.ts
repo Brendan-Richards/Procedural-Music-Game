@@ -508,13 +508,16 @@ const makeMagic = (scene: MountainScene) => {
     const magic = scene.matter.add.sprite(xPosition, yPosition, 'magicAtlas', frameName);
     magic.setScale(scene.playerScaleFactor, scene.playerScaleFactor);
 
+    let flipX = false;
     if(scene.currentPlayerDirection==='right'){
         if(['wallSlideCastRed', 'wallSlideCastBlue'].includes(scene.currentPlayerAnimation)){
             magic.setFlipX(true);
+            flipX = true;
         }
     }
     else if(!['wallSlideCastRed', 'wallSlideCastBlue'].includes(scene.currentPlayerAnimation)){
             magic.setFlipX(true);
+            flipX = true;
     }
 
     
@@ -529,6 +532,15 @@ const makeMagic = (scene: MountainScene) => {
     magic.setIgnoreGravity(true);
     magic.setFixedRotation();
     scene.matter.setVelocity(magic, factor * scene.magicSpeed, 0);
+
+    scene.socket.emit('createMagic', {
+        x: xPosition, 
+        y: yPosition, 
+        flipX: flipX,
+        frameName: frameName,
+        magicType: scene.magicType,
+        factor: factor
+    });    
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1237,6 +1249,12 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
         //console.trace();
     }
 
+    scene.socket.emit('playerNewAnimation', {
+        animation: animationName, 
+        flipX: flipX, 
+        friction: scene.playerFriction
+    });
+
     let bodyData = null;
     switch(animationName){
         case 'idle': {bodyData = scene.characterShapes.adventurer_idle_00; break;}
@@ -1339,4 +1357,5 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
     scene.player.setBounce(0);
     scene.player.setFixedRotation(); 
     scene.player.setCollisionGroup(-1);
+
 }

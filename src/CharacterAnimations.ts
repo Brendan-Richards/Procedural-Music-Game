@@ -1,5 +1,6 @@
 
 //import Phaser from 'phaser';
+import { Scene } from 'phaser';
 import MountainScene from './MountainScene';
 
 export default (scene: MountainScene) => {
@@ -716,6 +717,7 @@ export default (scene: MountainScene) => {
                         scene.currentPlayerAnimation = 'idleGlove'; 
                         scene.playerAttacking = false;
                         scene.stopCasting = false;
+                        emitAnimationEvent(scene, 'idleGlove', false);
                     }
                     
                     break;
@@ -729,6 +731,7 @@ export default (scene: MountainScene) => {
                         scene.currentPlayerAnimation = 'runGlove'; 
                         scene.playerAttacking = false;
                         scene.stopCasting = false;
+                        emitAnimationEvent(scene, 'runGlove', false);
                     }
                     break;
                 }
@@ -741,6 +744,7 @@ export default (scene: MountainScene) => {
                         scene.currentPlayerAnimation = 'jumpGlove'; 
                         scene.playerAttacking = false;
                         scene.stopCasting = false;
+                        emitAnimationEvent(scene, 'jumpGlove', false);
                     }
  
                     break;
@@ -754,6 +758,7 @@ export default (scene: MountainScene) => {
                         scene.currentPlayerAnimation = 'fallGlove'; 
                         scene.playerAttacking = false;
                         scene.stopCasting = false;
+                        emitAnimationEvent(scene, 'fallGlove', false);
                     }
                     break;
                 }
@@ -766,6 +771,7 @@ export default (scene: MountainScene) => {
                         scene.currentPlayerAnimation = 'wallSlideGlove'; 
                         scene.playerAttacking = false;
                         scene.stopCasting = false;
+                        emitAnimationEvent(scene, 'wallSlideGlove', false);
                     }
  
                     break;
@@ -779,12 +785,14 @@ export default (scene: MountainScene) => {
                     scene.player.play('idleHoldLoop', true);
                     scene.prevPlayerAnimation = 'idleNotch';
                     scene.currentPlayerAnimation = 'idleHoldLoop'; 
+                    emitAnimationEvent(scene, 'idleHoldLoop', scene.currentPlayerDirection==='left');
                     break;
                 }
                 case 'runNotch': {
                     scene.player.play('runHoldLoop', true);
                     scene.prevPlayerAnimation = 'runNotch';
-                    scene.currentPlayerAnimation = 'runHoldLoop'; 
+                    scene.currentPlayerAnimation = 'runHoldLoop';
+                    emitAnimationEvent(scene, 'runHoldLoop', scene.currentPlayerDirection==='left'); 
                     break;
                 }
 
@@ -793,6 +801,7 @@ export default (scene: MountainScene) => {
                     scene.player.play('jumpHoldLoop', true);
                     scene.prevPlayerAnimation = 'jumpNotch';
                     scene.currentPlayerAnimation = 'jumpHoldLoop'; 
+                    emitAnimationEvent(scene, 'jumpHoldLoop', scene.currentPlayerDirection==='left');
                     break;
                 }
                 case 'fallNotch': {
@@ -800,23 +809,16 @@ export default (scene: MountainScene) => {
                     console.log('playing fallHoldLoop')
                     scene.prevPlayerAnimation = 'fallNotch';
                     scene.currentPlayerAnimation = 'fallHoldLoop'; 
+                    emitAnimationEvent(scene, 'fallHoldLoop', scene.currentPlayerDirection==='left');
                     break;
                 }
             }
-        }
-        else if(scene.swordDraws.includes(animation.key)){
-            //console.log('done with draw animation');
-            scene.drawSword = false;
-            scene.swordDrawn = true;
-        }
-        else if(scene.swordSheaths.includes(animation.key)){
-            scene.sheathSword = false;
-            scene.swordDrawn = false;
         }
         else if(animation.key==='airSwing3Start'){
             scene.player.play('airSwing3Loop', true);
             scene.prevPlayerAnimation = 'airSwing3Start';
             scene.currentPlayerAnimation = 'airSwing3Loop';
+            emitAnimationEvent(scene, 'airSwing3Loop', scene.currentPlayerDirection==='left');
         }
 
         else if(animation.key==='airSwing3End'){
@@ -827,4 +829,12 @@ export default (scene: MountainScene) => {
     }, scene);
 
 };
+
+const emitAnimationEvent = (scene: MountainScene, animationName: string, flipX: boolean) => {
+    scene.socket.emit('playerNewAnimation', {
+        animation: animationName, 
+        flipX: flipX, 
+        friction: scene.playerFriction
+    });
+}
 

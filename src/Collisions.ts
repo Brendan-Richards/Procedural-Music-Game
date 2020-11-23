@@ -1,6 +1,14 @@
 //import Phaser from 'phaser';
 import MountainScene from './MountainScene';
 
+const emitAnimationEvent = (scene: MountainScene, animationName: string, flipX: boolean) => {
+    scene.socket.emit('playerNewAnimation', {
+        animation: animationName, 
+        flipX: flipX, 
+        friction: scene.playerFriction
+    });
+}
+
 export default (scene: MountainScene): void => {
     //collision between player, ground, and wall
     scene.matter.world.on("collisionstart", (event, body1, body2) => {
@@ -24,6 +32,7 @@ export default (scene: MountainScene): void => {
                             scene.player.play('airSwing3End', true);
                             scene.prevPlayerAnimation = 'airSwing3Loop';
                             scene.currentPlayerAnimation = 'airSwing3End';
+                            emitAnimationEvent(scene, 'airSwing3End', scene.currentPlayerDirection==='left');
                         }
                         else if(scene.currentPlayerAnimation==='airSwing3End'){
                             scene.playerCanJump = false;
