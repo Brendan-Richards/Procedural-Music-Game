@@ -18,6 +18,7 @@ export default class Preloader extends Phaser.Scene
         //this.load.image('backgroundLayer2b', './assets/images/background/originals/backgroundLayer2b.png');
         this.load.image('backgroundLayer3', './assets/images/background/originals/backgroundLayer3_ex.png');
        // this.load.image('backgroundLayer3b', './assets/images/background/originals/backgroundLayer3b.png');
+       this.load.image('newBackground', './assets/images/background/originals/newBackground.png');
 
         //all character sprites
         this.load.atlas('characterAtlas', 'assets/images/characters/characterAtlasBlue.png', 'assets/json/characterAtlas.json');

@@ -16,15 +16,16 @@ export default class ContentGenerator{
     } 
 
     createLevel = (): void => {
-        //this.createBackground();
+        this.createBackground();
         createForeground(this.scene, this.totalHeight);    
     }
 
     createBackground = (): void => {
-        this.createBackgroundLayer('backgroundLayer0', 0, 0.05, 0.05);
-        this.createBackgroundLayer('backgroundLayer1', 250, 0.1, 0.1);
-        this.createBackgroundLayer('backgroundLayer2', 150, 0.2, 0.2);
-        this.createBackgroundLayer('backgroundLayer3', -30, 0.4, 0.4);
+        this.createBackgroundLayer('newBackground', 0, 0.05, 0.05);
+        //this.createBackgroundLayer('backgroundLayer0', 0, 0.05, 0.05);
+        // this.createBackgroundLayer('backgroundLayer1', 250, 0.1, 0.1);
+        // this.createBackgroundLayer('backgroundLayer2', 150, 0.2, 0.2);
+        // this.createBackgroundLayer('backgroundLayer3', -30, 0.4, 0.4);
     }
 
     createBackgroundLayer = (texture: string, heightOffset: number, scrollFactorX: number, scrollFactorY: number): void => {
