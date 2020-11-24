@@ -138,19 +138,19 @@ export default class MountainScene extends Phaser.Scene
 
         //this.timer = new Date();
 
-        // this.maxGameHeight = 1280;
-        // this.maxGameWidth = 8000;
-        this.maxGameHeight = 6400;
-        this.maxGameWidth = 6400;
+        this.maxGameHeight = 800;
+        this.maxGameWidth = 1280;
+        // this.maxGameHeight = 6400;
+        // this.maxGameWidth = 6400;
         this.chestScaleFactor = 0.6;
         this.numChests = 5;
         this.socket = io.io();
         console.log('this.socket:', this.socket);
 
         //set up player
-        this.playerScaleFactor = 1.6;
-        this.playerSpeed = 6;
-        this.playerJumpHeight = 12;
+        this.playerScaleFactor = 1;
+        this.playerSpeed = 5
+        this.playerJumpHeight = 8;
         this.playerWallJumpHeight = -2.5*this.playerSpeed;
         this.playerFriction = 0;
         this.playerMaxSpeed = 10;
@@ -178,12 +178,12 @@ export default class MountainScene extends Phaser.Scene
         this.equippedWeapon = 'none';
         this.prevEquippedWeapon = '';
         this.weaponsFound = ['none', 'sword', 'bow', 'glove'];
-        this.arrowSpeed = 20;
-        this.magicSpeed = 15;
+        this.arrowSpeed = 17;
+        this.magicSpeed = 11;
         this.mana = 100;
         this.madeMagic = false;
         this.magicType = 'red';
-        this.arrowScale = 1;
+        this.arrowScale = 0.6;
 
 
         //flags
@@ -232,9 +232,9 @@ export default class MountainScene extends Phaser.Scene
     create()
     {
         //set camera and world bounds 
-        this.matter.world.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight, 64, true, true, false, true);
+        this.matter.world.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight, 200, true, true, true, true);
         this.cameras.main.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight);
-        //this.cameras.main.setZoom(1.6);
+        this.cameras.main.setZoom(1.7);
         //this.cameras.main.setZoom(0.07);
 
         const contentGenerator = new ContentGenerator(this, this.maxGameWidth, this.maxGameHeight, 'sparse');
@@ -253,8 +253,8 @@ export default class MountainScene extends Phaser.Scene
         
         console.log('created character at:', this.playerBody.position);
 
-        // this.cameras.main.setBackgroundColor('rgba(2, 63, 157, 1)');
-        this.cameras.main.setBackgroundColor('rgba(0, 0, 0, 1)');
+        //this.cameras.main.setBackgroundColor('rgba(2, 63, 157, 1)');
+        this.cameras.main.setBackgroundColor('rgba(255, 255, 255, 1)');
         //this.cameras.main.setTint(30);
         this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
       

@@ -20,7 +20,8 @@ export default class Preloader extends Phaser.Scene
        // this.load.image('backgroundLayer3b', './assets/images/background/originals/backgroundLayer3b.png');
 
         //all character sprites
-        this.load.atlas('characterAtlas', 'assets/images/characters/characterAtlas.png', 'assets/json/characterAtlas.json');
+        this.load.atlas('characterAtlas', 'assets/images/characters/characterAtlasBlue.png', 'assets/json/characterAtlas.json');
+        this.load.atlas('opponentAtlas', 'assets/images/characters/characterAtlasOrange.png', 'assets/json/characterAtlas.json');
         this.load.json('characterAtlasData', 'assets/json/characterAtlas.json');
         //bounding vertex information for the character
         this.load.json('characterShapes', 'assets/json/characterVerticies.json');
@@ -28,14 +29,16 @@ export default class Preloader extends Phaser.Scene
         //environment sprites
         this.load.atlas('environmentAtlas', 'assets/images/environment/environmentAtlas.png', 'assets/json/environmentAtlas.json');
         this.load.json('environmentAtlasData', 'assets/json/environmentAtlas.json'); 
-        this.load.image("arrow", "assets/images/environment/arrow.png");    
+        this.load.image("arrow", "assets/images/environment/arrowBlue.png");    
         //magic
-        this.load.atlas('magicAtlas', 'assets/images/environment/magic.png', 'assets/json/magic.json');
+        this.load.atlas('magicAtlas', 'assets/images/environment/magicBlueOrange.png', 'assets/json/magic.json');
         this.load.json('magicAtlasData', 'assets/json/magic.json');    
 
         //tilemap
-        this.load.tilemapTiledJSON('map', 'assets/json/snowWithIce.json');
-        this.load.image("iceTiles", "assets/images/tilesets/icyRocks.png");
+        // this.load.tilemapTiledJSON('map', 'assets/json/snowWithIce.json');
+        // this.load.image("iceTiles", "assets/images/tilesets/icyRocks.png");
+        this.load.tilemapTiledJSON('map', 'assets/json/blackPixelMap.json');
+        this.load.image("blackPixelTiles", "assets/images/tilesets/blackPixelTiles.png"); 
 
         // this.load.tilemapTiledJSON('map', 'assets/json/new_forest.json');
         // this.load.image("grassCastleTiles", "assets/images/tilesets/grassCastleTileset.png");
