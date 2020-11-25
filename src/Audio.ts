@@ -176,6 +176,7 @@ class Audio {
 
 
         this.scene.player.on('animationstart', (animation, frame) => {
+            
             if(animation.key==='idleSwing1' || animation.key==='idleSwing2' || animation.key==='runSwing'){
                 this.runSound.stop(); 
                 this.windFlap.stop();
@@ -217,17 +218,7 @@ class Audio {
                         this.bowReleaseSound.play(this.bowReleaseSoundConfig);
 
                         //make arrow
-                        scene.playerAttacking = false;
-                        const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
-                        const arrow = scene.matter.add.sprite(scene.player.x+(factor * 30), scene.player.y-6, 'arrow', undefined);
-                        arrow.setScale(scene.arrowScale);
-                        if(scene.currentPlayerDirection==='left'){
-                            arrow.setFlipX(true);
-                        }
-                        arrow.setCollisionGroup(-1);
-                        arrow.setIgnoreGravity(true);
-                        arrow.setFixedRotation();
-                        scene.matter.setVelocity(arrow, factor * scene.arrowSpeed, 0);
+                        makePlayerArrow(scene);
 
                         break;
                     }
@@ -339,19 +330,7 @@ class Audio {
                 this.runSound.stop(); 
                 this.windFlap.stop();
                 this.wallSlideSound.stop();              
-            }
-            else if(scene.swordDraws.includes(animation.key)){
-                if(animation.key==='ledgeSwordDraw'){
-                    scene.player.setIgnoreGravity(true);
-                }
-                this.drawSound.play(this.drawSoundConfig);
-            }    
-            else if(scene.swordSheaths.includes(animation.key)){
-                if(animation.key==='ledgeSwordSheath'){
-                    scene.player.setIgnoreGravity(true);
-                }
-                this.sheathSound.play(this.sheathSoundConfig);
-            }        
+            }      
         });
 
         //music
@@ -377,6 +356,33 @@ class Audio {
         return choices[index];
     }
 
+}
+
+const makePlayerArrow = (scene: MountainScene) => {
+    scene.playerAttacking = false;
+
+    const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
+    const arrowX = scene.player.x+(factor * 30);
+    const arrowY = scene.player.y-6;
+    const flipX = scene.currentPlayerDirection==='left';
+
+    scene.socket.emit('createArrow', {
+        factor: factor,
+        flipX: flipX, 
+        x: arrowX,
+        y: arrowY
+    });
+
+    const arrow = scene.matter.add.sprite(arrowX, arrowY, 'arrow', undefined);
+    arrow.setScale(scene.arrowScale);
+    
+    if(flipX){
+        arrow.setFlipX(true);
+    }
+    arrow.setCollisionGroup(-1);
+    arrow.setIgnoreGravity(true);
+    arrow.setFixedRotation();
+    scene.matter.setVelocity(arrow, factor * scene.arrowSpeed, 0);
 }
 
 export default Audio;

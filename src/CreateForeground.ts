@@ -2,55 +2,38 @@ import Phaser from 'phaser';
 import MountainScene from 'MountainScene';
 import {flatFoliage, verticalFoliage} from './Foliage';
 import createSkyMountains from './SkyMountains';
-import {buildWall, buildFlat, terrainFill} from './PlaceTerrain';
+import {buildWall, buildFlat, terrainFill, setBottomRow} from './PlaceTerrain';
 
 
 const createTileMap = (scene: MountainScene, totalHeight: number): void => {
-
-    // const map = scene.make.tilemap({ key: "map" });
-
-    // const tileset = map.addTilesetImage("dirtGrassCastle", "grassCastleTiles");
-
-    // // const t1 = map.addTilesetImage("trees", "t1");
-    // // const t2 = map.addTilesetImage("trees", "t2");
-    // // const t3 = map.addTilesetImage("trees", "t3");
-    // // const t4 = map.addTilesetImage("trees", "t4");
-    // // const t5 = map.addTilesetImage("trees", "t5");
-    // const groundLayer = map.createDynamicLayer("grass", tileset);
-    // groundLayer.setPosition(0,-1*(groundLayer.height - totalHeight));
-
-    // createMountains(scene, 15, groundLayer, map, tileset);
-
-    // groundLayer.setDepth(5);
-
-    // groundLayer.setCollisionByProperty({ collides: true });
-
-    // scene.matter.world.convertTilemapLayer(groundLayer);  
-       
+      
     const map = scene.make.tilemap({ key: "map" });
 
-    const tileset = map.addTilesetImage("iceRocks", "iceTiles");
+    const tileset = map.addTilesetImage("blackPixel", "blackPixelTiles", 16, 16, 1, 2);
 
-    const groundLayer = map.createDynamicLayer("climbingSurfaces", tileset);
+    const groundLayer = map.createDynamicLayer("tiles", tileset);
     groundLayer.setPosition(0,-1*(groundLayer.height - totalHeight));
 
-   createMountains(scene, 15, groundLayer, map, tileset);
-   createSkyMountains(scene, groundLayer, map, tileset);
+    //createTowers(scene, groundLayer, map, tileset);
+    createMountains(scene, 15, groundLayer, map, tileset);
+    //createSkyMountains(scene, groundLayer, map, tileset);
+
+    setBottomRow(groundLayer, map);
 
     groundLayer.setDepth(5);
 
     groundLayer.setCollisionByProperty({ collides: true });
 
-    groundLayer.forEachTile(tile => {
-        if ([10, 33].includes(tile.index)){
-            tile.collideRight = false;
-            tile.collideDown = false;
-        }
-        else if([12, 35].includes(tile.index)){
-            tile.collideLeft = false;
-            tile.collideDown = false;
-        }
-    });
+    // groundLayer.forEachTile(tile => {
+    //     if ([10, 33].includes(tile.index)){
+    //         tile.collideRight = false;
+    //         tile.collideDown = false;
+    //     }
+    //     else if([12, 35].includes(tile.index)){
+    //         tile.collideLeft = false;
+    //         tile.collideDown = false;
+    //     }
+    // });
 
     scene.matter.world.convertTilemapLayer(groundLayer);  
 }
@@ -63,7 +46,7 @@ const createMountains = (scene: MountainScene, startX: number,
     let x = startX;
     let prevType = 'flat';
     const maxWallHeight = 15;
-    const maxFlatLength = 5;
+    const maxFlatLength = 3;
     const maxMountainHeight = map.height - Math.floor(map.height*0.7);
    // const maxMountainHeight = 95;
     let y = map.height - 1;
@@ -72,7 +55,8 @@ const createMountains = (scene: MountainScene, startX: number,
 
     while(x < map.width){// make one mountain
         let mountainHeight = y - 1 - Math.floor(Math.random() * (y - maxMountainHeight - 1));
-        let mountainEndHeight = map.height - 1 - Math.floor(Math.random() * (map.height - mountainHeight - 1));
+        //let mountainEndHeight = map.height - 1 - Math.floor(Math.random() * (map.height - mountainHeight - 1));
+        let mountainEndHeight = map.height - 1;
 
         // console.log('mountainHeight:', mountainHeight);
         // console.log('mountainEndHeight:', mountainEndHeight);
@@ -85,6 +69,9 @@ const createMountains = (scene: MountainScene, startX: number,
         x = params.x;
         y = params.y;
         prevType = params.prevType;
+
+        const inBetweenLength = Math.floor(Math.random() * 10) + 10;
+        x += inBetweenLength;
     }
 };
 
@@ -102,7 +89,7 @@ const buildMountainUp = (scene: MountainScene, mountainHeight: number, maxWallHe
         }
 
         if(prevType==='flat'){// make a vertical wall
-            let wallHeight = Math.floor(Math.random() * (maxWallHeight-2)) + 2;
+            let wallHeight = Math.floor(Math.random() * (maxWallHeight-4)) + 4;
 
             //console.log('building up wallHeight before:', wallHeight);
 
@@ -111,9 +98,14 @@ const buildMountainUp = (scene: MountainScene, mountainHeight: number, maxWallHe
                 reachedTop = true;
             }
 
+            // if(wallHeight < 3){
+            //     wallHeight = 3;
+            // }
+
+
             //console.log('building up wallHeight after:', wallHeight);
 
-            verticalFoliage(scene, (y - wallHeight)*64, (y + 1)*64, x*64, true);
+            //verticalFoliage(scene, (y - wallHeight)*64, (y + 1)*64, x*64, true);
             //console.log('calling buildWall with y1:', y - wallHeight 'y2:', y + 1, 'x:', x);
             buildWall(layer, map, tileset, y - (wallHeight - 1), y + 1, x, 'left', 'ground');
             terrainFill(layer, map, tileset, x, x + 1, y + 1, map.height);
@@ -125,7 +117,7 @@ const buildMountainUp = (scene: MountainScene, mountainHeight: number, maxWallHe
         else{// make a flat section
             const flatLength = Math.floor(Math.random() * (maxFlatLength-1)) + 1;
 
-            flatFoliage(scene, x*64, (x + flatLength)*64, 64 * (y));
+            //flatFoliage(scene, x*64, (x + flatLength)*64, 64 * (y));
 
             //console.log('building up flat length:', flatLength);
 
@@ -159,7 +151,7 @@ const buildMountainDown = (scene: MountainScene, mountainHeight: number, mountai
 
         if(prevType==='flat'){// make a vertical wall
             let wallHeight = Math.floor(Math.random() * (maxWallHeight-2)) + 2;
-
+            console.log('wallHeight:',wallHeight)
             //console.log('building down wallHeight before:', wallHeight);
 
             if(y + wallHeight > mountainEndHeight){
@@ -167,9 +159,13 @@ const buildMountainDown = (scene: MountainScene, mountainHeight: number, mountai
                 reachedTop = true;
             }
 
+            // if(wallHeight < 3){
+            //     wallHeight = 3;
+            // }
+
             //console.log('bulding down wallHeight after:', wallHeight);
 
-            verticalFoliage(scene, (y)*64, (y + wallHeight - 1)*64, x*64, false);
+            //verticalFoliage(scene, (y)*64, (y + wallHeight - 1)*64, x*64, false);
             
             // console.log('calling buildWall with y1:', y 'y2:', y + wallHeight, 'x:', x);
             // console.log('y:', y);
@@ -182,7 +178,7 @@ const buildMountainDown = (scene: MountainScene, mountainHeight: number, mountai
         else{// make a flat section
             const flatLength = Math.floor(Math.random() * (maxFlatLength-1)) + 1;
 
-            flatFoliage(scene, x*64, (x + flatLength)*64, 64 * (y));
+            //flatFoliage(scene, x*64, (x + flatLength)*64, 64 * (y));
 
             //console.log('building down flat length:', flatLength);
 

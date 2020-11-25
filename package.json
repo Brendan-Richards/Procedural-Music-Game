@@ -4,7 +4,7 @@
 	"description": "A template project for Phaser3 using Parceljs",
 	"scripts": {
 		"start": "parcel src/index.html -p 8000",
-		"build": "parcel build src/index.html --out-dir dist",
+		"build": "parcel build src/index.html --out-dir C:/Users/Brendan/Desktop/gameServer/public",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"lint": "eslint ./src --ext .js,.jsx,.ts,.tsx"
 	},
@@ -38,7 +38,8 @@
 		"wavefunctioncollapse": "^2.0.0"
 	},
 	"parcelCleanPaths": [
-		"dist"
+		"dist",
+		"C:/Users/Brendan/Desktop/gameServer/public"
 	],
 	"staticFiles": {
 		"staticPath": "public",
