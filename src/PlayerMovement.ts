@@ -626,7 +626,7 @@ const setGroundVelocity = (scene: MountainScene, prevVelocity: velocity) => {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
     if(scene.playerWallJumping){
-        const tolerance = 60;
+        const tolerance = 40;
         const prevX = scene.wallJumpOffPosition.x;
         const currX = scene.player.x
         const distance = Math.abs(currX-prevX);
@@ -1248,6 +1248,8 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
         flipX: flipX, 
         friction: scene.playerFriction
     });
+
+
 
     let bodyData = null;
     switch(animationName){

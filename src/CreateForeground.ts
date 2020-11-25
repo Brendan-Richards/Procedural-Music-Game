@@ -46,7 +46,7 @@ const createMountains = (scene: MountainScene, startX: number,
     let x = startX;
     let prevType = 'flat';
     const maxWallHeight = 15;
-    const maxFlatLength = 1;
+    const maxFlatLength = 3;
     const maxMountainHeight = map.height - Math.floor(map.height*0.7);
    // const maxMountainHeight = 95;
     let y = map.height - 1;
@@ -98,6 +98,11 @@ const buildMountainUp = (scene: MountainScene, mountainHeight: number, maxWallHe
                 reachedTop = true;
             }
 
+            // if(wallHeight < 3){
+            //     wallHeight = 3;
+            // }
+
+
             //console.log('building up wallHeight after:', wallHeight);
 
             //verticalFoliage(scene, (y - wallHeight)*64, (y + 1)*64, x*64, true);
@@ -146,13 +151,17 @@ const buildMountainDown = (scene: MountainScene, mountainHeight: number, mountai
 
         if(prevType==='flat'){// make a vertical wall
             let wallHeight = Math.floor(Math.random() * (maxWallHeight-2)) + 2;
-
+            console.log('wallHeight:',wallHeight)
             //console.log('building down wallHeight before:', wallHeight);
 
             if(y + wallHeight > mountainEndHeight){
                 wallHeight = mountainEndHeight - y + 1;
                 reachedTop = true;
             }
+
+            // if(wallHeight < 3){
+            //     wallHeight = 3;
+            // }
 
             //console.log('bulding down wallHeight after:', wallHeight);
 

@@ -24,7 +24,7 @@ export default (scene: MountainScene): void => {
                 const other = (bodyA.gameObject===scene.player ? bodyB.gameObject : bodyA.gameObject);
                 
                 if(other!==null){
-                    if(other.tile.properties.collisionLabel==='ground'){
+                    if(other.tile.properties.collisionLabel==='ground' && !scene.playerLedgeGrab){
                         //console.log(scene.playerBody.velocity); 
                         scene.inContactWithWall = false;
 
@@ -163,7 +163,7 @@ export default (scene: MountainScene): void => {
                         }
                         
                     }
-                    else if(other.tile.properties.collisionLabel==='topWall'){
+                    else if(other.tile.properties.collisionLabel==='topWall' && !['run', 'runSwordDrawn', 'runBowDrawn', 'runGlove'].includes(scene.currentPlayerAnimation)){
                         //console.log(other);
                         //console.log(collisionNormal);
                         if(scene.currentPlayerAnimation==='idleSwing1' || scene.currentPlayerAnimation==='idleSwing2' || scene.currentPlayerAnimation==='runSwing' ||
@@ -209,7 +209,7 @@ export default (scene: MountainScene): void => {
                                 //scene.playerFriction = 0.01;
                                 //console.log(event, body1, body2);
     
-                                if(!scene.playerLedgeClimb){
+                                if(!scene.playerLedgeClimb && false){
                                     scene.ledgePosition = other.body.position;
                                     scene.add.circle(scene.ledgePosition.x, scene.ledgePosition.y, 2, 0x0000ff).setDepth(100);
                                     //console.log('other.tile:', other.tile);
@@ -227,12 +227,17 @@ export default (scene: MountainScene): void => {
                                     const grabPositionY = other.tile.pixelY + 15;
                                     const buffer = 10;
 
+                                    const tileX = other.tile.x
+                                    const tileY = other.tile.y;
+                                    const belowIdx = other.tile.layer.data[tileY + 1][tileX];
+
                                     scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100);
                                     scene.add.circle(grabPositionX, grabPositionY, 2, 0xffff00).setDepth(100);
-    
+                                    console.log('other:', other);
                                     //if we collided with the outward facing side of the tile block
-                                    if(collisionPoint.x > scene.ledgePosition.x && [11, 25, 39, 53, 67].includes(other.tile.index) ||
-                                       collisionPoint.x < scene.ledgePosition.x && [10, 24, 38, 52, 66].includes(other.tile.index)){
+                                    if((collisionPoint.x > scene.ledgePosition.x && [11, 25, 39, 53, 67].includes(other.tile.index) ||
+                                       collisionPoint.x < scene.ledgePosition.x && [10, 24, 38, 52, 66].includes(other.tile.index))){
+                                    
                                         // if(grabPositionY - buffer < scene.player.body.position.y && scene.player.body.position.y < grabPositionY + buffer && scene.stamina > 0){
                                         if(other.tile.pixelY - buffer < collisionPoint.y && other.tile.pixelY + buffer > collisionPoint.y && scene.stamina > 0){
                                             scene.playerLedgeGrab = true;

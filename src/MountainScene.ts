@@ -156,7 +156,7 @@ export default class MountainScene extends Phaser.Scene
         this.playerScaleFactor = 1;
         this.playerSpeed = 4.5
         this.playerJumpHeight = 8;
-        this.playerWallJumpHeight = -2.5*this.playerSpeed;
+        this.playerWallJumpHeight = -2*this.playerSpeed;
         this.playerFriction = 0;
         this.playerMaxSpeed = 10;
         this.playerIceJumpHeight = -1.5*this.playerSpeed;

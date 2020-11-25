@@ -1,5 +1,5 @@
 const tileIds = {
-    blank: [70],
+    blank: [79, 80, 88, 89, 90, 91, 92 ,93, 94, 95, 96, 97],
     leftCorners: [13, 41],
     rightCorners: [14, 42],
     leftTopWalls: [10, 24, 38, 52, 66],
@@ -8,7 +8,7 @@ const tileIds = {
     leftWallDecorations: [1, 15, 29, 43, 57, 5, 19, 33, 47, 61, 9, 23, 37, 51, 65],
     rightWallDecorations: [4, 18, 32, 46, 60, 8, 22, 36, 50, 64, 12, 26, 40, 54, 68],
     rightWalls: [3, 17, 31, 45, 59, 7, 21, 35, 49, 63],
-    flatGround: [69],
+    flatGround: [69, 70, 81, 82, 83],
     bottomRow: [71, 72, 73, 74, 75, 76, 77, 78],
     platformSingleCenter: [25],
     platformSingleLeft: [24],
@@ -108,7 +108,7 @@ const buildFlat = (layer: Phaser.Tilemaps.DynamicTilemapLayer,
     tileset: Phaser.Tilemaps.Tileset,
     x1: number, x2: number, y: number, type: string, heightOne: boolean) => {
 
-    let idx = type==='top' ? tileIds.flatGround[0] : tileIds.platformBottomCenter[0];
+    let idx = type==='top' ? randomChoice(tileIds.flatGround) : tileIds.platformBottomCenter[0];
     if(heightOne){
         idx = tileIds.platformSingleCenter[0];
     }
@@ -125,7 +125,13 @@ const terrainFill = (layer: Phaser.Tilemaps.DynamicTilemapLayer,
                      tileset: Phaser.Tilemaps.Tileset,
                      x1: number, x2: number, y1: number, y2: number) => {
     
-    map.fill(tileIds.blank[0], x1, y1, x2 - x1, y2 - y1);
+    for(let x=x1; x < x2; x++){
+        for(let y=y1; y < y2; y++){
+            const tile = new Phaser.Tilemaps.Tile(layer.layer, randomChoice(tileIds.blank), 0, 0, 16, 16, 16, 16);
+            map.putTileAt(tile, x, y, true, layer);
+        }
+    }
+    // map.fill(randomChoice(tileIds.blank), x1, y1, x2 - x1, y2 - y1);
 };
 
 
