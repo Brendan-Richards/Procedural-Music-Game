@@ -89,7 +89,7 @@ const buildMountainUp = (scene: MountainScene, mountainHeight: number, maxWallHe
         }
 
         if(prevType==='flat'){// make a vertical wall
-            let wallHeight = Math.floor(Math.random() * (maxWallHeight-2)) + 2;
+            let wallHeight = Math.floor(Math.random() * (maxWallHeight-4)) + 4;
 
             //console.log('building up wallHeight before:', wallHeight);
 

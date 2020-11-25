@@ -1,5 +1,7 @@
 const tileIds = {
     blank: [70],
+    leftCorners: [13, 41],
+    rightCorners: [14, 42],
     leftTopWalls: [10, 24, 38, 52, 66],
     rightTopWalls: [11, 25, 39, 53, 67],
     leftWalls: [2, 16, 30, 44, 58, 6, 20, 34, 48, 62],

@@ -70,14 +70,14 @@ export default class ContentGenerator{
             graphics.clear();
 
             const scrollAmount = this.scene.maxGameHeight - this.scene.cameras.main.height;
-            console.log('camera height:', this.scene.cameras.main.height);
-            console.log('scroll amount:', scrollAmount);
+            //console.log('camera height:', this.scene.cameras.main.height);
+            //console.log('scroll amount:', scrollAmount);
             const offsetY = 66;
             //scrollFactorY * scrollAmount + this.scene.cameras.main.height + offsetY
             const posX = Math.floor(Math.random()*(this.scene.maxGameWidth-300))+ 150;
             //const posY = scrollFactorY * scrollAmount + this.scene.cameras.main.height - 70;
             const posY = 420 * scrollFactorY + 380; // from linear equation
-            console.log('posY:', posY);
+           //console.log('posY:', posY);
             this.scene.add.sprite(posX, posY, treeKey)
                 .setOrigin(layer[i].rootX, 1)
                 .setScale(this.scene.treeScaleFactor)
