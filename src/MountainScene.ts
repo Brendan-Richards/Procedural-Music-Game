@@ -236,6 +236,7 @@ export default class MountainScene extends Phaser.Scene
 
     create()
     {
+        this.matter.set60Hz();
         this.matter.world.engine.positionIterations=30;
         this.matter.world.engine.velocityIterations=30;
         console.log('velocity iterations:', this.matter.world.engine.velocityIterations);
