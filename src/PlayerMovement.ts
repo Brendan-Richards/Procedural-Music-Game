@@ -498,10 +498,10 @@ const makeMagic = (scene: MountainScene) => {
     let yPosition = scene.player.y-6;
 
     if(['fallCastRed', 'fallCastBlue'].includes(scene.currentPlayerAnimation)){
-        yPosition += 20;
+        yPosition += 3;
     }
     if(['wallSlideCastRed', 'wallSlideCastBlue'].includes(scene.currentPlayerAnimation)){
-        yPosition += 20;
+        yPosition += 10;
     }
 
     const xPosition = scene.player.x+(factor * (scene.magicType==='red' ? 20 : 13));
@@ -982,14 +982,6 @@ const airPlayerAttacking = (scene: MountainScene, prevVelocity: velocity) => {
                 scene.playerWallSliding = false;
                 scene.playerIceWallSliding = false;
             }
-            // else if(scene.controlConfig.leftControl.isDown && scene.currentPlayerDirection==='right'){
-            //     setNewCharacterAnimation(scene, 'fallCast' + magicColor, true, false, currentFrameIndex); 
-            //     scene.playerWallSliding = false;               
-            // }
-            // else if(scene.controlConfig.rightControl.isDown && scene.currentPlayerDirection==='left'){
-            //     setNewCharacterAnimation(scene, 'fallCast' + magicColor, false, false, currentFrameIndex);
-            //     scene.playerWallSliding = false;
-            // }
         }
         else if(scene.playerWallSliding){
             scene.playerAttacking = false;

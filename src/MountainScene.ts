@@ -5,6 +5,7 @@ import handleCollisions from './Collisions';
 import handlePlayerMovement from './PlayerMovement';
 import Audio from './Audio';
 import io, { Socket } from 'socket.io-client';
+import drawTree from './Trees';
 //import { startRNN, pauseRNN, resumeRNN } from './performanceRNN';
 import 'regenerator-runtime/runtime';
 //import magentaTest from './MagentaTest';
@@ -127,6 +128,8 @@ export default class MountainScene extends Phaser.Scene
     arrowScale: number;
     socket: io.Socket;
     opponent: Phaser.Physics.Matter.Sprite | null;
+    trees: Array<Array<object>>;
+    treeScaleFactor: number;
 
     back1: Phaser.GameObjects.Image;
 
@@ -135,6 +138,7 @@ export default class MountainScene extends Phaser.Scene
         super('mountainScene');
 
         this.opponent = null;
+        this.trees = [];
 
         //this.timer = new Date();
 
@@ -143,6 +147,7 @@ export default class MountainScene extends Phaser.Scene
         // this.maxGameHeight = 6400;
         // this.maxGameWidth = 6400;
         this.chestScaleFactor = 0.6;
+        this.treeScaleFactor = 0.4;
         this.numChests = 5;
         this.socket = io.io();
         console.log('this.socket:', this.socket);
@@ -231,11 +236,16 @@ export default class MountainScene extends Phaser.Scene
 
     create()
     {
+        this.matter.world.engine.positionIterations=30;
+        this.matter.world.engine.velocityIterations=30;
+        console.log('velocity iterations:', this.matter.world.engine.velocityIterations);
+        console.log('position iterations:', this.matter.world.engine.positionIterations);
+
         //set camera and world bounds 
         this.matter.world.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight, 200, true, true, true, true);
         this.cameras.main.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight);
         this.cameras.main.setZoom(1.7);
-        //this.cameras.main.setZoom(0.07);
+        //this.cameras.main.setZoom(0.7);
 
         const contentGenerator = new ContentGenerator(this, this.maxGameWidth, this.maxGameHeight, 'sparse');
         contentGenerator.createLevel();
