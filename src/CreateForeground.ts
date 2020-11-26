@@ -5,20 +5,20 @@ import createSkyMountains from './SkyMountains';
 import {buildWall, buildFlat, terrainFill, setBottomRow} from './PlaceTerrain';
 
 
-const createTileMap = (scene: MountainScene, totalHeight: number): void => {
+const createTileMap = (scene: MountainScene): void => {
       
     const map = scene.make.tilemap({ key: "map" });
 
     const tileset = map.addTilesetImage("blackPixel", "blackPixelTiles", 16, 16, 1, 2);
 
     const groundLayer = map.createDynamicLayer("tiles", tileset);
-    groundLayer.setPosition(0,-1*(groundLayer.height - totalHeight));
+    groundLayer.setPosition(0,-1*(groundLayer.height - scene.maxGameHeight));
 
     //createTowers(scene, groundLayer, map, tileset);
-    createMountains(scene, 15, groundLayer, map, tileset);
+    //createMountains(scene, 15, groundLayer, map, tileset);
     //createSkyMountains(scene, groundLayer, map, tileset);
 
-    setBottomRow(groundLayer, map);
+    //setBottomRow(groundLayer, map);
 
     groundLayer.setDepth(5);
 

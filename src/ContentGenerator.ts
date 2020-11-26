@@ -4,20 +4,14 @@ import createForeground from './CreateForeground';
 
 export default class ContentGenerator{
     scene: MountainScene;
-    totalWidth: number;
-    totalHeight: number;
-    backgroundType: string;
 
-    constructor(scene: MountainScene, totalWidth: number, totalHeight: number, backgroundType: string){
+    constructor(scene: MountainScene){
         this.scene = scene
-        this.totalWidth = totalWidth;
-        this.totalHeight = totalHeight;
-        this.backgroundType = backgroundType;
     } 
 
     createLevel = (): void => {
-        //this.createBackground();
-        createForeground(this.scene, this.totalHeight);   
+        this.createBackground();
+        createForeground(this.scene);   
         
     }
 

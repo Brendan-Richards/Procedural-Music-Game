@@ -4,10 +4,8 @@ import ContentGenerator from './ContentGenerator';
 import handleCollisions from './Collisions';
 import handlePlayerMovement from './PlayerMovement';
 import Audio from './Audio';
-import io, { Socket } from 'socket.io-client';
-import drawTree from './Trees';
+import { io } from 'socket.io-client';
 //import { startRNN, pauseRNN, resumeRNN } from './performanceRNN';
-import 'regenerator-runtime/runtime';
 //import magentaTest from './MagentaTest';
 
 type controlConfig = {
@@ -130,6 +128,7 @@ export default class MountainScene extends Phaser.Scene
     opponent: Phaser.Physics.Matter.Sprite | null;
     trees: Array<Array<object>>;
     treeScaleFactor: number;
+    loaded: boolean;
 
     back1: Phaser.GameObjects.Image;
 
@@ -149,8 +148,7 @@ export default class MountainScene extends Phaser.Scene
         this.chestScaleFactor = 0.6;
         this.treeScaleFactor = 0.4;
         this.numChests = 5;
-        this.socket = io.io();
-        console.log('this.socket:', this.socket);
+        this.loaded = false;
 
         //set up player
         this.playerScaleFactor = 1;
@@ -248,26 +246,14 @@ export default class MountainScene extends Phaser.Scene
         this.cameras.main.setZoom(1.7);
         //this.cameras.main.setZoom(0.7);
 
-        const contentGenerator = new ContentGenerator(this, this.maxGameWidth, this.maxGameHeight, 'sparse');
-        contentGenerator.createLevel();
-
-        this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');
-        
-        this.characterShapes = this.cache.json.get('characterShapes');
-        this.playerBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, undefined, false);    
-        //console.log('player body slop value:', this.playerBody.slop);
-          
-        this.player.setExistingBody(this.playerBody);
-        this.player.setScale(this.playerScaleFactor);
-
-        makeCharacterAnimations(this);
-        
-        console.log('created character at:', this.playerBody.position);
+        this.manageSocket();
+           
+        //console.log('created character at:', this.playerBody.position);
 
         //this.cameras.main.setBackgroundColor('rgba(2, 63, 157, 1)');
         this.cameras.main.setBackgroundColor('rgba(255, 255, 255, 1)');
         //this.cameras.main.setTint(30);
-        this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
+        
       
         //input setup
         /////////////////////////////////////////////////////////////////////////////////
@@ -413,11 +399,59 @@ export default class MountainScene extends Phaser.Scene
             this.controlConfig.downControl.isUp = false;
         });
 
-        handleCollisions(this);
+        
 
-        //ambient audio
-        this.audio = new Audio(this);
-        this.audio.ambience();
+        //startRNN();
+        // this.input.keyboard.on('keydown-' + 'P', (event) => {
+        //     resumeRNN();
+        // });
+        // this.input.keyboard.on('keydown-' + 'O', (event) => {
+        //     pauseRNN();
+        // });
+
+        //magentaTest();
+
+
+        //this.add.image(200, 6400-64, 'environmentAtlas', 'chest_closed_green').setScale(this.chestScaleFactor).setOrigin(0,1);
+    }
+
+    manageSocket = () => {
+        this.socket = io();
+        console.log('this.socket:', this.socket);
+
+        this.socket.on("connect", () => {
+            console.log('connected at this id:', this.socket.id);
+        });
+
+        this.socket.once('tileMap', (tileMapJson) => {
+            console.log('client recieved tilemap:');
+            console.log(tileMapJson);
+            this.load.tilemapTiledJSON('map', tileMapJson);
+            this.load.image("blackPixelTiles", "assets/images/tilesets/blackPixelTiles.png"); 
+            this.load.start();
+            this.load.on('complete', () => {
+                console.log('finished loading tile files');
+                const contentGenerator = new ContentGenerator(this);
+                contentGenerator.createLevel();
+        
+                this.characterShapes = this.cache.json.get('characterShapes');  
+                this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');  
+                this.playerBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, undefined, false);    
+                this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
+                this.player.setExistingBody(this.playerBody);
+                this.player.setScale(this.playerScaleFactor);
+                makeCharacterAnimations(this);
+                handleCollisions(this);
+        
+                //ambient audio
+                this.audio = new Audio(this);
+                this.audio.ambience();
+                this.audio.floorAmbience.volume = 0.3;
+                this.audio.windSound.volume = 0.05;
+        
+                this.loaded = true;   
+            }, this);
+        });
 
         this.socket.on('opponentMovementUpdate', (opponentData) => {
             console.log('client recieved opponentMovement Update');
@@ -430,6 +464,7 @@ export default class MountainScene extends Phaser.Scene
             this.opponent.setPosition(opponentData.x, opponentData.y);
             this.opponent.setVelocity(opponentData.vx, opponentData.vy);
         });
+
         this.socket.on('createArrow', (arrowData) => {
             console.log('client recieved createArrow event');
            
@@ -444,6 +479,7 @@ export default class MountainScene extends Phaser.Scene
             arrow.setFixedRotation();
             this.matter.setVelocity(arrow, arrowData.factor * this.arrowSpeed, 0);            
         });
+
         this.socket.on('createMagic', (magicData) => {
             console.log('client recieved createMagic event');
 
@@ -468,6 +504,7 @@ export default class MountainScene extends Phaser.Scene
             this.matter.setVelocity(magic, magicData.factor * this.magicSpeed, 0);
         
         });
+
         this.socket.on('opponentAnimationUpdate', (opponentData) => {
             if(this.opponent){
                 console.log('setting opponent animation to:', opponentData.currentAnimation);
@@ -506,42 +543,28 @@ export default class MountainScene extends Phaser.Scene
                 this.opponent.setCollisionGroup(-1);
             }
         });
-
-        this.audio.floorAmbience.volume = 0.3;
-        this.audio.windSound.volume = 0.05;
-
-        //startRNN();
-        // this.input.keyboard.on('keydown-' + 'P', (event) => {
-        //     resumeRNN();
-        // });
-        // this.input.keyboard.on('keydown-' + 'O', (event) => {
-        //     pauseRNN();
-        // });
-
-        //magentaTest();
-
-
-        //this.add.image(200, 6400-64, 'environmentAtlas', 'chest_closed_green').setScale(this.chestScaleFactor).setOrigin(0,1);
     }
 
     update(){
-        if(this.playerLedgeGrab){
-            this.losingStamina = true;
-        } 
- 
-        if(this.losingStamina || this.gainingStamina){
-            this.updateStaminaPosition();
-            this.removeStamina();
+        if(this.loaded){
+            if(this.playerLedgeGrab){
+                this.losingStamina = true;
+            } 
+     
+            if(this.losingStamina || this.gainingStamina){
+                this.updateStaminaPosition();
+                this.removeStamina();
+            }
+            this.setSoundVolumes();
+            handlePlayerMovement(this);
+    
+            this.socket.emit('playerMovementUpdate', {
+                x: this.player.x, 
+                y: this.player.y, 
+                vx: this.player.body.velocity.x, 
+                vy: this.player.body.velocity.y
+            });
         }
-        this.setSoundVolumes();
-        handlePlayerMovement(this);
-
-        this.socket.emit('playerMovementUpdate', {
-            x: this.player.x, 
-            y: this.player.y, 
-            vx: this.player.body.velocity.x, 
-            vy: this.player.body.velocity.y
-        });
     }
 
     setSoundVolumes = () => {

@@ -28,8 +28,8 @@ export default class Preloader extends Phaser.Scene
         this.load.json('magicAtlasData', 'assets/json/magic.json');    
 
         //tilemap
-        this.load.tilemapTiledJSON('map', 'assets/json/blackPixelMap.json');
-        this.load.image("blackPixelTiles", "assets/images/tilesets/blackPixelTiles.png"); 
+        // this.load.tilemapTiledJSON('map', 'assets/json/blackPixelMap.json');
+        // this.load.image("blackPixelTiles", "assets/images/tilesets/blackPixelTiles.png"); 
 
         //audio
         this.load.audio('floorAmbience', 'assets/audio/floorAmbience.mp3');
