@@ -2,6 +2,6 @@
 /node_modules
 /package-lock.json
 /dist
-/public/assets
+/public
 /gameserver/node_modules
 /gameserver/public
