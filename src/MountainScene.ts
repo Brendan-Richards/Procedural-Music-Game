@@ -129,6 +129,8 @@ export default class MountainScene extends Phaser.Scene
     trees: Array<Array<object>>;
     treeScaleFactor: number;
     loaded: boolean;
+    initialPlayerPosition: position;
+    initialOpponentPosition: position;
 
     back1: Phaser.GameObjects.Image;
 
@@ -230,10 +232,75 @@ export default class MountainScene extends Phaser.Scene
         this.prevPlayerDirection = '';
         this.lastLandingTime = -1;
         
-	}
+    }
+
+    init(data){
+        console.log('in the init function');
+        this.load.tilemapTiledJSON('map', data.tileMap);
+        this.load.image("blackPixelTiles", "assets/images/tilesets/blackPixelTiles.png");   
+        this.load.start();
+        console.log('in init function, got tile data:', data.tileMap);
+        this.socket = data.socket;
+        this.initialPlayerPosition = data.playerPosition;
+        this.initialOpponentPosition = data.opponentPosition;
+    }
+    
+    preload(){
+        console.log('in the preload function');
+        //background layer
+       this.load.image('grayBackground', './assets/images/background/grayBackground.png');
+
+        //all character sprites
+        this.load.atlas('characterAtlas', 'assets/images/characters/characterAtlasBlue.png', 'assets/json/characterAtlas.json');
+        this.load.atlas('opponentAtlas', 'assets/images/characters/characterAtlasOrange.png', 'assets/json/characterAtlas.json');
+        this.load.json('characterAtlasData', 'assets/json/characterAtlas.json');
+        //bounding vertex information for the character
+        this.load.json('characterShapes', 'assets/json/characterVerticies.json');
+
+        //environment sprites
+        this.load.atlas('environmentAtlas', 'assets/images/environment/environmentAtlas.png', 'assets/json/environmentAtlas.json');
+        this.load.json('environmentAtlasData', 'assets/json/environmentAtlas.json'); 
+        this.load.image("arrow", "assets/images/environment/arrowBlue.png");    
+        //magic
+        this.load.atlas('magicAtlas', 'assets/images/environment/magicBlueOrange.png', 'assets/json/magic.json');
+        this.load.json('magicAtlasData', 'assets/json/magic.json');    
+
+        //tilemap
+        // this.load.tilemapTiledJSON('map', 'assets/json/blackPixelMap.json');
+        // this.load.image("blackPixelTiles", "assets/images/tilesets/blackPixelTiles.png"); 
+
+        //audio
+        this.load.audio('floorAmbience', 'assets/audio/floorAmbience.mp3');
+        this.load.audio('steps', 'assets/audio/2step.mp3');
+        this.load.audio('jump', 'assets/audio/swoosh.mp3');
+        this.load.audio('wallSlide', 'assets/audio/wallSlide2.mp3');
+        this.load.audio('wallSmack', 'assets/audio/wallSmack.mp3');
+        this.load.audio('wallJump', 'assets/audio/wallSmack.mp3');
+        this.load.audio('wind', 'assets/audio/windLoop.mp3');
+        this.load.audio('hardLanding', 'assets/audio/landing.mp3');
+        this.load.audio('windFlap', 'assets/audio/windFlap.mp3');
+        this.load.audio('attack', 'assets/audio/attack.mp3');
+        this.load.audio('draw', 'assets/audio/swordDraw.mp3');
+        this.load.audio('sheath', 'assets/audio/swordSheath.mp3');
+        this.load.audio('swordRockImpact', 'assets/audio/swordRockImpact.mp3');
+        this.load.audio('fistWallImpact', 'assets/audio/fistWallImpact.mp3');
+        this.load.audio('punch', 'assets/audio/punch.mp3');
+        this.load.audio('kick', 'assets/audio/kick.mp3');
+        this.load.audio('arrowWallImpact1', 'assets/audio/arrowWallImpact1.mp3');
+        this.load.audio('arrowWallImpact2', 'assets/audio/arrowWallImpact2.mp3');
+        this.load.audio('arrowWallImpact3', 'assets/audio/arrowWallImpact3.mp3');
+        this.load.audio('bowDraw', 'assets/audio/bowDraw.mp3');
+        this.load.audio('bowRelease', 'assets/audio/bowRelease.mp3');
+        this.load.audio('cast', 'assets/audio/fullCast.mp3');
+
+        //UI
+        this.load.image("staminaOutline", "assets/images/UI/staminaOutline.png");
+        this.load.image("staminaFill", "assets/images/UI/staminaFill.png");      
+    }
 
     create()
     {
+        console.log('in the create function')
         this.matter.set60Hz();
         this.matter.world.engine.positionIterations=30;
         this.matter.world.engine.velocityIterations=30;
@@ -246,6 +313,31 @@ export default class MountainScene extends Phaser.Scene
         this.cameras.main.setZoom(1.7);
         //this.cameras.main.setZoom(0.7);
 
+        const contentGenerator = new ContentGenerator(this);
+        contentGenerator.createLevel();
+
+        //make player character
+        this.characterShapes = this.cache.json.get('characterShapes');  
+        this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');  
+        this.playerBody = this.matter.add.fromPhysicsEditor(this.initialPlayerPosition.x, this.initialPlayerPosition.y, this.characterShapes.adventurer_idle_00, undefined, false);    
+        this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
+        this.player.setExistingBody(this.playerBody);
+        this.player.setScale(this.playerScaleFactor);
+        makeCharacterAnimations(this);
+        handleCollisions(this);
+
+        //make opponent
+        this.opponent = this.matter.add.sprite(0, 0, 'characterAtlas', 'adventurer_idle_00.png');
+        const opponentBody = this.matter.add.fromPhysicsEditor(this.initialOpponentPosition.x, this.initialOpponentPosition.y, this.characterShapes.adventurer_idle_00, undefined, false);     
+        this.opponent.setExistingBody(opponentBody);
+        this.opponent.setScale(this.playerScaleFactor);
+
+        //ambient audio
+        this.audio = new Audio(this);
+        this.audio.ambience();
+        this.audio.floorAmbience.volume = 0.3;
+        this.audio.windSound.volume = 0.05;
+
         this.manageSocket();
            
         //console.log('created character at:', this.playerBody.position);
@@ -254,7 +346,23 @@ export default class MountainScene extends Phaser.Scene
         this.cameras.main.setBackgroundColor('rgba(255, 255, 255, 1)');
         //this.cameras.main.setTint(30);
         
-      
+        this.manageInput();
+
+        //startRNN();
+        // this.input.keyboard.on('keydown-' + 'P', (event) => {
+        //     resumeRNN();
+        // });
+        // this.input.keyboard.on('keydown-' + 'O', (event) => {
+        //     pauseRNN();
+        // });
+
+        //magentaTest();
+
+
+        //this.add.image(200, 6400-64, 'environmentAtlas', 'chest_closed_green').setScale(this.chestScaleFactor).setOrigin(0,1);
+    }
+
+    manageInput = () => {
         //input setup
         /////////////////////////////////////////////////////////////////////////////////
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -398,60 +506,45 @@ export default class MountainScene extends Phaser.Scene
             this.controlConfig.downControl.isDown = true;
             this.controlConfig.downControl.isUp = false;
         });
-
-        
-
-        //startRNN();
-        // this.input.keyboard.on('keydown-' + 'P', (event) => {
-        //     resumeRNN();
-        // });
-        // this.input.keyboard.on('keydown-' + 'O', (event) => {
-        //     pauseRNN();
-        // });
-
-        //magentaTest();
-
-
-        //this.add.image(200, 6400-64, 'environmentAtlas', 'chest_closed_green').setScale(this.chestScaleFactor).setOrigin(0,1);
     }
 
     manageSocket = () => {
-        this.socket = io();
-        console.log('this.socket:', this.socket);
+        //this.socket = io();
+        //console.log('this.socket:', this.socket);
 
-        this.socket.on("connect", () => {
-            console.log('connected at this id:', this.socket.id);
-        });
+        // this.socket.on("connect", () => {
+        //     console.log('connected at this id:', this.socket.id);
+        // });
 
-        this.socket.once('tileMap', (tileMapJson) => {
-            console.log('client recieved tilemap:');
-            console.log(tileMapJson);
-            this.load.tilemapTiledJSON('map', tileMapJson);
-            this.load.image("blackPixelTiles", "assets/images/tilesets/blackPixelTiles.png"); 
-            this.load.start();
-            this.load.on('complete', () => {
-                console.log('finished loading tile files');
-                const contentGenerator = new ContentGenerator(this);
-                contentGenerator.createLevel();
+        // this.socket.once('tileMap', (tileMapJson) => {
+        //     console.log('client recieved tilemap:');
+        //     console.log(tileMapJson);
+        //     this.load.tilemapTiledJSON('map', tileMapJson);
+        //     this.load.image("blackPixelTiles", "assets/images/tilesets/blackPixelTiles.png"); 
+        //     this.load.start();
+        //     this.load.on('complete', () => {
+        //         console.log('finished loading tile files');
+        //         const contentGenerator = new ContentGenerator(this);
+        //         contentGenerator.createLevel();
         
-                this.characterShapes = this.cache.json.get('characterShapes');  
-                this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');  
-                this.playerBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, undefined, false);    
-                this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
-                this.player.setExistingBody(this.playerBody);
-                this.player.setScale(this.playerScaleFactor);
-                makeCharacterAnimations(this);
-                handleCollisions(this);
+        //         this.characterShapes = this.cache.json.get('characterShapes');  
+        //         this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');  
+        //         this.playerBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, undefined, false);    
+        //         this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
+        //         this.player.setExistingBody(this.playerBody);
+        //         this.player.setScale(this.playerScaleFactor);
+        //         makeCharacterAnimations(this);
+        //         handleCollisions(this);
         
-                //ambient audio
-                this.audio = new Audio(this);
-                this.audio.ambience();
-                this.audio.floorAmbience.volume = 0.3;
-                this.audio.windSound.volume = 0.05;
+        //         //ambient audio
+        //         this.audio = new Audio(this);
+        //         this.audio.ambience();
+        //         this.audio.floorAmbience.volume = 0.3;
+        //         this.audio.windSound.volume = 0.05;
         
-                this.loaded = true;   
-            }, this);
-        });
+        //         this.loaded = true;   
+        //     }, this);
+        // });
 
         this.socket.on('opponentMovementUpdate', (opponentData) => {
             console.log('client recieved opponentMovement Update');
@@ -546,7 +639,7 @@ export default class MountainScene extends Phaser.Scene
     }
 
     update(){
-        if(this.loaded){
+        //if(this.loaded){
             if(this.playerLedgeGrab){
                 this.losingStamina = true;
             } 
@@ -564,7 +657,7 @@ export default class MountainScene extends Phaser.Scene
                 vx: this.player.body.velocity.x, 
                 vy: this.player.body.velocity.y
             });
-        }
+       // }
     }
 
     setSoundVolumes = () => {

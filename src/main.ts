@@ -1,6 +1,6 @@
 //import Phaser from 'phaser';
 import MountainScene from './MountainScene';
-import Preloader from './Preloader';
+import MatchFindingScene from './MatchFindingScene';
 
 const config = {
 	type: Phaser.AUTO,
@@ -10,7 +10,7 @@ const config = {
 		mode: Phaser.Scale.ScaleModes.FIT,
 		//autoCenter: Phaser.Scale.CENTER_BOTH
 	},
-	scene: [Preloader, MountainScene],
+	scene: [MatchFindingScene, MountainScene],
     physics: {
         default: 'matter',
         matter: {
