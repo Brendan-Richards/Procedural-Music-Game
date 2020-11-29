@@ -27,6 +27,12 @@ class Audio {
     arrowWallImpact1: Phaser.Sound.BaseSound;
     arrowWallImpact2: Phaser.Sound.BaseSound;
     arrowWallImpact3: Phaser.Sound.BaseSound;
+    arrowBodyImpact: Phaser.Sound.BaseSound;
+    swordSwordImpact: Phaser.Sound.BaseSound;
+    swordBodyImpact: Phaser.Sound.BaseSound;
+    swordBodyImpactConfig: object;
+    arrowBodyImpactConfig: object;
+    swordSwordImpactConfig: object;
     castSound: Phaser.Sound.BaseSound;
     castSoundConfig: object;
     bowDrawSoundConfig: object;
@@ -84,7 +90,22 @@ class Audio {
         this.arrowWallImpact2 = scene.sound.add('arrowWallImpact2');
         this.arrowWallImpact3 = scene.sound.add('arrowWallImpact3');
         this.castSound = scene.sound.add('cast');
+        this.arrowBodyImpact = scene.sound.add('arrowBodyImpact');
+        this.swordSwordImpact = scene.sound.add('swordSwordImpact');
+        this.swordBodyImpact = scene.sound.add('swordBodyImpact');
 
+        this.swordBodyImpactConfig = {
+            loop: false,
+            volume: 0.1
+        }
+        this.arrowBodyImpactConfig = {
+            loop: false,
+            volume: 0.1
+        }
+        this.swordSwordImpactConfig = {
+            loop: false,
+            volume: 0.1
+        }
         this.castSoundConfig = {
             loop: false,
             volume: 0.1
