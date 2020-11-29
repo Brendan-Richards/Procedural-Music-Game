@@ -142,7 +142,7 @@ const idx = (x, y, width) => {
   return width * y + x;
 }
  
-server.listen(80, function () {
+server.listen(8081, function () {
   console.log(`Listening on ${server.address().port}`);
 });
 

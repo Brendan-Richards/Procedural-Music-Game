@@ -27,26 +27,16 @@ export default (scene: MountainScene): void => {
                     if(!other.tile){ //we didn't collide with a tile
                         if(other===scene.opponent){ // player collided with opponent
                             console.log('collided with opponent');
-                            if(scene.swordAttacks.includes(scene.currentPlayerAnimation) && scene.swordAttacks.includes(scene.currentOpponentAnimation)){
-                                //both player and opponent are sword attacking and have colllided
-                                //now check if the are facing eachother
-                                const option1 = scene.currentPlayerDirection==='right' && collisionPoint.x > scene.player.x && scene.currentOpponentDirection==='left' && collisionPoint.x < scene.opponent.x;
-                                const option2 = scene.currentPlayerDirection==='left' && collisionPoint.x < scene.player.x && scene.currentOpponentDirection==='right' && collisionPoint.x > scene.opponent.x;
-                                if(option1 || option2){
-                                    scene.audio.swordSwordImpact.play(scene.audio.swordSwordImpactConfig);
-                                }
-                            }
-                            // scene.playerHealthBar.decrease(10);
-                            // scene.opponentHealthBar.decrease(10);
+                            scene.playerHealthBar.decrease(10);
+                            scene.opponentHealthBar.decrease(10);
                         }
                         else if(other.texture.key==='arrow'){ // player collided with enemy arrow
                             if(!scene.swordAttacks.includes(scene.currentPlayerAnimation)){
                                 const damageAmount = 20;
                                 scene.playerHealthBar.decrease(damageAmount);
                                 scene.socket.emit('playerDamaged', damageAmount);
-                                scene.audio.arrowBodyImpact.play(scene.audio.arrowBodyImpactConfig);
                             }
-                            //scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100); 
+                            scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100); 
                         }
                         console.log(other);
                     }
