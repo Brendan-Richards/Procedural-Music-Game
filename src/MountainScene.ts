@@ -1,8 +1,9 @@
 import Phaser, { Scene } from 'phaser';
-import makeCharacterAnimations from './CharacterAnimations';
+import {animationLogic, createAnimations} from './CharacterAnimations';
 import ContentGenerator from './ContentGenerator';
 import handleCollisions from './Collisions';
 import handlePlayerMovement from './PlayerMovement';
+import HealthBar from './HealthBar';
 import Audio from './Audio';
 import { io } from 'socket.io-client';
 //import { startRNN, pauseRNN, resumeRNN } from './performanceRNN';
@@ -129,6 +130,8 @@ export default class MountainScene extends Phaser.Scene
     trees: Array<Array<object>>;
     treeScaleFactor: number;
     loaded: boolean;
+    playerHealthBar: HealthBar;
+    opponentHealthBar: HealthBar;
     initialPlayerPosition: position;
     initialOpponentPosition: position;
 
@@ -183,7 +186,7 @@ export default class MountainScene extends Phaser.Scene
         this.equippedWeapon = 'none';
         this.prevEquippedWeapon = '';
         this.weaponsFound = ['none', 'sword', 'bow', 'glove'];
-        this.arrowSpeed = 17;
+        this.arrowSpeed = 14;
         this.magicSpeed = 11;
         this.mana = 100;
         this.madeMagic = false;
@@ -323,14 +326,19 @@ export default class MountainScene extends Phaser.Scene
         this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
         this.player.setExistingBody(this.playerBody);
         this.player.setScale(this.playerScaleFactor);
-        makeCharacterAnimations(this);
+        this.playerHealthBar = new HealthBar(this, this.player, 0x2635be);
+        animationLogic(this);
+        createAnimations(this);
+        //makeCharacterAnimations(this);
         handleCollisions(this);
 
         //make opponent
-        this.opponent = this.matter.add.sprite(0, 0, 'characterAtlas', 'adventurer_idle_00.png');
+        this.opponent = this.matter.add.sprite(0, 0, 'opponentAtlas', 'adventurer_idle_00.png');
         const opponentBody = this.matter.add.fromPhysicsEditor(this.initialOpponentPosition.x, this.initialOpponentPosition.y, this.characterShapes.adventurer_idle_00, undefined, false);     
         this.opponent.setExistingBody(opponentBody);
         this.opponent.setScale(this.playerScaleFactor);
+        this.opponentHealthBar = new HealthBar(this, this.opponent, 0xa24700);
+        createAnimations(this, 'Opponent', 'opponentAtlas');
 
         //ambient audio
         this.audio = new Audio(this);
@@ -547,19 +555,13 @@ export default class MountainScene extends Phaser.Scene
         // });
 
         this.socket.on('opponentMovementUpdate', (opponentData) => {
-            console.log('client recieved opponentMovement Update');
-            if(!this.opponent){
-                this.opponent = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');
-                const opponentBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, undefined, false);     
-                this.opponent.setExistingBody(opponentBody);
-                this.opponent.setScale(this.playerScaleFactor);
-            }
+            //console.log('client recieved opponentMovement Update');
             this.opponent.setPosition(opponentData.x, opponentData.y);
             this.opponent.setVelocity(opponentData.vx, opponentData.vy);
         });
 
         this.socket.on('createArrow', (arrowData) => {
-            console.log('client recieved createArrow event');
+            //console.log('client recieved createArrow event');
            
             const arrow = this.matter.add.sprite(arrowData.x, arrowData.y, 'arrow', undefined);
             arrow.setScale(this.arrowScale);
@@ -567,14 +569,14 @@ export default class MountainScene extends Phaser.Scene
             if(arrowData.flipX){
                 arrow.setFlipX(true);
             }
-            arrow.setCollisionGroup(-1);
+            arrow.setCollisionGroup(0);
             arrow.setIgnoreGravity(true);
             arrow.setFixedRotation();
             this.matter.setVelocity(arrow, arrowData.factor * this.arrowSpeed, 0);            
         });
 
         this.socket.on('createMagic', (magicData) => {
-            console.log('client recieved createMagic event');
+            //console.log('client recieved createMagic event');
 
             //make magic
             const magic = this.matter.add.sprite(magicData.x, magicData.y, 'magicAtlas', magicData.frameName);
@@ -591,16 +593,20 @@ export default class MountainScene extends Phaser.Scene
                 magic.play('blueMagic', true);
             }
             
-            magic.setCollisionGroup(-1);
+            magic.setCollisionGroup(0);
             magic.setIgnoreGravity(true);
             magic.setFixedRotation();
             this.matter.setVelocity(magic, magicData.factor * this.magicSpeed, 0);
         
         });
 
+        this.socket.on('opponentDamaged', damageAmount => {
+            this.opponentHealthBar.decrease(damageAmount);
+        });
+
         this.socket.on('opponentAnimationUpdate', (opponentData) => {
             if(this.opponent){
-                console.log('setting opponent animation to:', opponentData.currentAnimation);
+                //console.log('setting opponent animation to:', opponentData.currentAnimation + 'Opponent');
                 this.opponent.setScale(1);
 
                 let bodyData = null;
@@ -629,11 +635,11 @@ export default class MountainScene extends Phaser.Scene
             
                 this.opponent.setScale((opponentData.flipX ? -1 : 1)*this.playerScaleFactor, this.playerScaleFactor);
             
-                this.opponent.play(opponentData.currentAnimation, false, 0);  
-                
+                this.opponent.play(opponentData.currentAnimation + 'Opponent', false, 0);  
+    
                 this.opponent.setBounce(0);
                 this.opponent.setFixedRotation(); 
-                this.opponent.setCollisionGroup(-1);
+                this.opponent.setCollisionGroup(0);
             }
         });
     }
@@ -657,6 +663,9 @@ export default class MountainScene extends Phaser.Scene
                 vx: this.player.body.velocity.x, 
                 vy: this.player.body.velocity.y
             });
+
+            this.playerHealthBar.setPosition();
+            this.opponentHealthBar.setPosition();
        // }
     }
 

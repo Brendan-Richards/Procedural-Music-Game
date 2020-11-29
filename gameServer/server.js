@@ -47,6 +47,9 @@ io.on('connection', (socket) => {
         //socket.broadcast.emit('opponentAnimationUpdate', players[socket.id]);
         //console.log('players:', players);
     });
+    socket.on('playerDamaged', damageAmount => {
+      io.to(players[socket.id].opponent).emit('opponentDamaged', damageAmount);
+    });
     socket.on('createArrow', (arrowData) => {
       io.to(players[socket.id].opponent).emit('createArrow', arrowData);
       //socket.broadcast.emit('createArrow', arrowData);

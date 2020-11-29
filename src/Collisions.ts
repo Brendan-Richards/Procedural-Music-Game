@@ -24,7 +24,23 @@ export default (scene: MountainScene): void => {
                 const other = (bodyA.gameObject===scene.player ? bodyB.gameObject : bodyA.gameObject);
                 
                 if(other!==null){
-                    if(other.tile.properties.collisionLabel==='ground' && !scene.playerLedgeGrab){
+                    if(!other.tile){ //we didn't collide with a tile
+                        if(other===scene.opponent){ // player collided with opponent
+                            console.log('collided with opponent');
+                            scene.playerHealthBar.decrease(10);
+                            scene.opponentHealthBar.decrease(10);
+                        }
+                        else if(other.texture.key==='arrow'){ // player collided with enemy arrow
+                            if(!scene.swordAttacks.includes(scene.currentPlayerAnimation)){
+                                const damageAmount = 20;
+                                scene.playerHealthBar.decrease(damageAmount);
+                                scene.socket.emit('playerDamaged', damageAmount);
+                            }
+                            scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100); 
+                        }
+                        console.log(other);
+                    }
+                    else if(other.tile.properties.collisionLabel==='ground' && !scene.playerLedgeGrab){
                         //console.log(scene.playerBody.velocity); 
                         scene.inContactWithWall = false;
 
@@ -288,7 +304,12 @@ export default (scene: MountainScene): void => {
             if(bodyA.gameObject===scene.player || bodyB.gameObject===scene.player){
                 const other = bodyA.gameObject===scene.player ? bodyB.gameObject : bodyA.gameObject;
                 if(other!==null){
-                    if(other.tile.properties.collisionLabel==='ground' ||
+                    if(!other.tile){ //we didn't collide with a tile
+                        if(other===scene.opponent){
+                            console.log('opponent collision active');
+                        }
+                    }
+                    else if(other.tile.properties.collisionLabel==='ground' ||
                        other.tile.properties.collisionLabel==='leftSlideable' ||
                        other.tile.properties.collisionLabel==='rightSlideable'){
                         scene.playerLastOnGroundTime = scene.time.now;
@@ -315,7 +336,12 @@ export default (scene: MountainScene): void => {
             if(bodyA.gameObject===scene.player || bodyB.gameObject===scene.player){
                 const other = bodyA.gameObject===scene.player ? bodyB.gameObject : bodyA.gameObject;
                 if(other!==null){
-                    if(other.tile.properties.collisionLabel==='ground'){
+                    if(!other.tile){ //we didn't collide with a tile because other.tile is undefined
+                        if(other===scene.opponent){
+                            console.log('opponent collision ended');
+                        }
+                    }
+                    else if(other.tile.properties.collisionLabel==='ground'){
                         scene.playerLastOnGroundTime = scene.time.now;
                     }
                     else if(other.tile.properties.collisionLabel==='leftSlideable'){

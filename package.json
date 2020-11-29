@@ -39,7 +39,7 @@
 	},
 	"parcelCleanPaths": [
 		"dist",
-		"C:/Users/Brendan/Desktop/gameServer/public"
+		"gameServer/public"
 	],
 	"staticFiles": {
 		"staticPath": "public",

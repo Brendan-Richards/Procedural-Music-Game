@@ -1,697 +1,9 @@
 
-//import Phaser from 'phaser';
-import { Scene } from 'phaser';
 import MountainScene from './MountainScene';
 
-export default (scene: MountainScene) => {
+const animationLogic = (scene: MountainScene) => {
     
-    const frameRate = 10;
-    const swingFrameRate = 18;
-    const magicFrameRate = 10;
-
-    // no weapon animations
-    scene.anims.create({
-        key: 'idle',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idle_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'run',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_run_', 
-            suffix: '.png',
-            end: 7, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'jump',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jump_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'wallSlide',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_wallSlide_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'ledgeGrab',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_ledgeGrab_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'fall',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fall_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'punch1',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_punch1_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'punch2',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_punch2_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'punch3',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_punch3_', 
-            suffix: '.png',
-            end: 5, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'runPunch',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runPunch_', 
-            suffix: '.png',
-            end: 7, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'groundKick',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_groundKick_', 
-            suffix: '.png',
-            end: 8, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'airKick',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_airKick_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-
-
-    // sword equipped animations
-    scene.anims.create({
-        key: 'idleSwordDrawn',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleSwordDrawn_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'runSwordDrawn',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runSwordDrawn_', 
-            suffix: '.png',
-            end: 6, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'jumpSwordDrawn',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpSwordDrawn_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'wallSlideSwordDrawn',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_wallSlideSwordDrawn_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'ledgeGrabSwordDrawn',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_ledgeGrabSwordDrawn_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'fallSwordDrawn',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallSwordDrawn_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'idleSwing1',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleSwing1_', 
-            suffix: '.png',
-            end: 6, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'idleSwing2',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleSwing2_', 
-            suffix: '.png',
-            end: 5, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'runSwing',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runSwing_', 
-            suffix: '.png',
-            end: 6, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'airSwing1',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_airSwing1_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'airSwing2',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_airSwing2_', 
-            suffix: '.png',
-            end: 3, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'airSwing3Start',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_airSwing3Start_', 
-            suffix: '.png',
-            end: 1, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'airSwing3Loop',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_airSwing3Loop_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'airSwing3End',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_airSwing3End_', 
-            suffix: '.png',
-            end: 3, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'wallSwing',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_wallSwing_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-
-
-    // bow equipped animations
-    scene.anims.create({
-        key: 'idleBowDrawn',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleBowDrawn_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'runBowDrawn',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runBowDrawn_', 
-            suffix: '.png',
-            end: 6, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'jumpBowDrawn',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpBowDrawn_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'wallSlideBowDrawn',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_wallSlideBowDrawn_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'ledgeGrabBowDrawn',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_ledgeGrabBowDrawn_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'fallBowDrawn',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallBowDrawn_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'idleNotch',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleNotch_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate 
-    });
-    scene.anims.create({
-        key: 'runNotch',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runNotch_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate 
-    });
-    scene.anims.create({
-        key: 'jumpNotch',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpNotch_', 
-            suffix: '.png',
-            end: 3, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate 
-    });
-    scene.anims.create({
-        key: 'fallNotch',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallNotch_', 
-            suffix: '.png',
-            end: 3, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate 
-    });
-    scene.anims.create({
-        key: 'idleHoldLoop',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleHoldLoop_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'runHoldLoop',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runHoldLoop_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'jumpHoldLoop',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpHoldLoop_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'fallHoldLoop',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallHoldLoop_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate,
-        repeat: -1 
-    });
-    scene.anims.create({
-        key: 'idleRelease',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleRelease_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'runRelease',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runRelease_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: swingFrameRate
-    });
-    scene.anims.create({
-        key: 'jumpRelease',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpRelease_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate
-    });
-    scene.anims.create({
-        key: 'fallRelease',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallRelease_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate
-    });
-
-
-    // casting glove magic animations
-    scene.anims.create({
-        key: 'idleGlove',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleGlove_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'runGlove',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runGlove_', 
-            suffix: '.png',
-            end: 7, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'jumpGlove',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpGlove_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'fallGlove',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallGlove_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'ledgeGrabGlove',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_ledgeGrabGlove_', 
-            suffix: '.png',
-            end: 4, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'wallSlideGlove',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_wallSlideGlove_', 
-            suffix: '.png',
-            end: 2, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate,
-            repeat: -1
-    });
-
-    //casting animations
-    //red
-    scene.anims.create({
-        key: 'idleCastRed',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleCastRed_', 
-            suffix: '.png',
-            end: 8, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate
-    });
-    scene.anims.create({
-        key: 'runCastRed',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runCastRed_', 
-            suffix: '.png',
-            end: 8, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate
-    });
-    scene.anims.create({
-        key: 'jumpCastRed',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpCastRed_', 
-            suffix: '.png',
-            end: 8, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate
-    });
-    scene.anims.create({
-        key: 'fallCastRed',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallCastRed_', 
-            suffix: '.png',
-            end: 8, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate
-    });
-    scene.anims.create({
-        key: 'wallSlideCastRed',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_wallSlideCastRed_', 
-            suffix: '.png',
-            end: 8, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate
-    });
-    // blue magic
-    scene.anims.create({
-        key: 'idleCastBlue',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_idleCastBlue_', 
-            suffix: '.png',
-            end: 8, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate
-    });
-    scene.anims.create({
-        key: 'runCastBlue',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_runCastBlue_', 
-            suffix: '.png',
-            end: 8, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate
-    });
-    scene.anims.create({
-        key: 'jumpCastBlue',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_jumpCastBlue_', 
-            suffix: '.png',
-            end: 8, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate
-    });
-    scene.anims.create({
-        key: 'fallCastBlue',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_fallCastBlue_', 
-            suffix: '.png',
-            end: 8, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate
-    });
-    scene.anims.create({
-        key: 'wallSlideCastBlue',
-        frames: scene.anims.generateFrameNames('characterAtlas', {
-            prefix: 'adventurer_wallSlideCastBlue_', 
-            suffix: '.png',
-            end: 8, 
-            zeroPad: 2 
-            }),
-            frameRate: frameRate
-    });
-
-
-    //////////////////////////////////////////////////////////////////////////////////////////
-    //magic projectile animations
-    scene.anims.create({
-        key: 'redMagic',
-        frames: scene.anims.generateFrameNames('magicAtlas', {
-            prefix: 'redMagic_', 
-            suffix: '.png',
-            end: 20, 
-            zeroPad: 2 
-            }),
-            frameRate: magicFrameRate,
-            repeat: -1
-    });
-    scene.anims.create({
-        key: 'blueMagic',
-        frames: scene.anims.generateFrameNames('magicAtlas', {
-            prefix: 'blueMagic_', 
-            suffix: '.png',
-            end: 20, 
-            zeroPad: 2 
-            }),
-            frameRate: magicFrameRate,
-            repeat: -1
-    });
-
-
     /////////////////////////////////////////////////////////////////////////////////////////////
-
     scene.player.on('animationcomplete', (animation, frame) => {
         //console.log('in animation complete callback');
         if(animation.key==='idleSwing1' || animation.key==='idleSwing2' || animation.key==='runSwing'){
@@ -717,7 +29,7 @@ export default (scene: MountainScene) => {
                         scene.currentPlayerAnimation = 'idleGlove'; 
                         scene.playerAttacking = false;
                         scene.stopCasting = false;
-                        emitAnimationEvent(scene, 'idleGlove', false);
+                        emitAnimationEvent(scene, 'idleGlove', scene.currentPlayerDirection==='left');
                     }
                     
                     break;
@@ -836,5 +148,693 @@ const emitAnimationEvent = (scene: MountainScene, animationName: string, flipX: 
         flipX: flipX, 
         friction: scene.playerFriction
     });
-}
+};
 
+const createAnimations = (scene: MountainScene, suffix = '', atlasName = 'characterAtlas') => {
+    const frameRate = 10;
+    const swingFrameRate = 18;
+    const magicFrameRate = 10;
+
+    // no weapon animations
+    scene.anims.create({
+        key: 'idle'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_idle_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'run'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_run_', 
+            suffix: '.png',
+            end: 7, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'jump'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_jump_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'wallSlide'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_wallSlide_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'ledgeGrab'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_ledgeGrab_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'fall'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_fall_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'punch1'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_punch1_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'punch2'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_punch2_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'punch3'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_punch3_', 
+            suffix: '.png',
+            end: 5, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'runPunch'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_runPunch_', 
+            suffix: '.png',
+            end: 7, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'groundKick'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_groundKick_', 
+            suffix: '.png',
+            end: 8, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'airKick'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_airKick_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+
+
+    // sword equipped animations
+    scene.anims.create({
+        key: 'idleSwordDrawn'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_idleSwordDrawn_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'runSwordDrawn'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_runSwordDrawn_', 
+            suffix: '.png',
+            end: 6, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'jumpSwordDrawn'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_jumpSwordDrawn_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'wallSlideSwordDrawn'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_wallSlideSwordDrawn_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'ledgeGrabSwordDrawn'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_ledgeGrabSwordDrawn_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'fallSwordDrawn'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_fallSwordDrawn_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'idleSwing1'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_idleSwing1_', 
+            suffix: '.png',
+            end: 6, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'idleSwing2'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_idleSwing2_', 
+            suffix: '.png',
+            end: 5, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'runSwing'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_runSwing_', 
+            suffix: '.png',
+            end: 6, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'airSwing1'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_airSwing1_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'airSwing2'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_airSwing2_', 
+            suffix: '.png',
+            end: 3, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'airSwing3Start'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_airSwing3Start_', 
+            suffix: '.png',
+            end: 1, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'airSwing3Loop'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_airSwing3Loop_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'airSwing3End'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_airSwing3End_', 
+            suffix: '.png',
+            end: 3, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'wallSwing'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_wallSwing_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+
+
+    // bow equipped animations
+    scene.anims.create({
+        key: 'idleBowDrawn'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_idleBowDrawn_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'runBowDrawn'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_runBowDrawn_', 
+            suffix: '.png',
+            end: 6, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'jumpBowDrawn'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_jumpBowDrawn_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'wallSlideBowDrawn'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_wallSlideBowDrawn_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'ledgeGrabBowDrawn'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_ledgeGrabBowDrawn_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'fallBowDrawn'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_fallBowDrawn_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'idleNotch'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_idleNotch_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate 
+    });
+    scene.anims.create({
+        key: 'runNotch'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_runNotch_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate 
+    });
+    scene.anims.create({
+        key: 'jumpNotch'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_jumpNotch_', 
+            suffix: '.png',
+            end: 3, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate 
+    });
+    scene.anims.create({
+        key: 'fallNotch'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_fallNotch_', 
+            suffix: '.png',
+            end: 3, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate 
+    });
+    scene.anims.create({
+        key: 'idleHoldLoop'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_idleHoldLoop_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'runHoldLoop'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_runHoldLoop_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'jumpHoldLoop'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_jumpHoldLoop_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'fallHoldLoop'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_fallHoldLoop_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate,
+        repeat: -1 
+    });
+    scene.anims.create({
+        key: 'idleRelease'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_idleRelease_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'runRelease'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_runRelease_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: swingFrameRate
+    });
+    scene.anims.create({
+        key: 'jumpRelease'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_jumpRelease_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    scene.anims.create({
+        key: 'fallRelease'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_fallRelease_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+
+
+    // casting glove magic animations
+    scene.anims.create({
+        key: 'idleGlove'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_idleGlove_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'runGlove'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_runGlove_', 
+            suffix: '.png',
+            end: 7, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'jumpGlove'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_jumpGlove_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'fallGlove'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_fallGlove_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'ledgeGrabGlove'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_ledgeGrabGlove_', 
+            suffix: '.png',
+            end: 4, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'wallSlideGlove'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_wallSlideGlove_', 
+            suffix: '.png',
+            end: 2, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate,
+            repeat: -1
+    });
+
+    //casting animations
+    //red
+    scene.anims.create({
+        key: 'idleCastRed'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_idleCastRed_', 
+            suffix: '.png',
+            end: 8, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    scene.anims.create({
+        key: 'runCastRed'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_runCastRed_', 
+            suffix: '.png',
+            end: 8, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    scene.anims.create({
+        key: 'jumpCastRed'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_jumpCastRed_', 
+            suffix: '.png',
+            end: 8, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    scene.anims.create({
+        key: 'fallCastRed'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_fallCastRed_', 
+            suffix: '.png',
+            end: 8, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    scene.anims.create({
+        key: 'wallSlideCastRed'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_wallSlideCastRed_', 
+            suffix: '.png',
+            end: 8, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    // blue magic
+    scene.anims.create({
+        key: 'idleCastBlue'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_idleCastBlue_', 
+            suffix: '.png',
+            end: 8, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    scene.anims.create({
+        key: 'runCastBlue'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_runCastBlue_', 
+            suffix: '.png',
+            end: 8, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    scene.anims.create({
+        key: 'jumpCastBlue'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_jumpCastBlue_', 
+            suffix: '.png',
+            end: 8, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    scene.anims.create({
+        key: 'fallCastBlue'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_fallCastBlue_', 
+            suffix: '.png',
+            end: 8, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    scene.anims.create({
+        key: 'wallSlideCastBlue'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_wallSlideCastBlue_', 
+            suffix: '.png',
+            end: 8, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    //magic projectile animations
+    scene.anims.create({
+        key: 'redMagic'+ suffix,
+        frames: scene.anims.generateFrameNames('magicAtlas', {
+            prefix: 'redMagic_', 
+            suffix: '.png',
+            end: 20, 
+            zeroPad: 2 
+            }),
+            frameRate: magicFrameRate,
+            repeat: -1
+    });
+    scene.anims.create({
+        key: 'blueMagic'+ suffix,
+        frames: scene.anims.generateFrameNames('magicAtlas', {
+            prefix: 'blueMagic_', 
+            suffix: '.png',
+            end: 20, 
+            zeroPad: 2 
+            }),
+            frameRate: magicFrameRate,
+            repeat: -1
+    });
+
+};
+
+export {animationLogic, createAnimations};
