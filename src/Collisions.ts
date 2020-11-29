@@ -27,14 +27,40 @@ export default (scene: MountainScene): void => {
                     if(!other.tile){ //we didn't collide with a tile
                         if(other===scene.opponent){ // player collided with opponent
                             console.log('collided with opponent');
-                            scene.playerHealthBar.decrease(10);
-                            scene.opponentHealthBar.decrease(10);
+                            if(scene.swordAttacks.includes(scene.currentPlayerAnimation) && scene.swordAttacks.includes(scene.currentOpponentAnimation)){
+                                //both player and opponent are sword attacking
+                                
+                                const option1 = scene.currentPlayerDirection==='right' && collisionPoint.x > scene.player.x && scene.currentOpponentDirection==='left' && collisionPoint.x < scene.opponent.x;
+                                const option2 = scene.currentPlayerDirection==='left' && collisionPoint.x < scene.player.x && scene.currentOpponentDirection==='right' && collisionPoint.x > scene.opponent.x;
+                                //if they are facing eachother
+                                if(option1 || option2){
+                                    if(!scene.audio.swordSwordImpact.isPlaying){
+                                        scene.audio.swordSwordImpact.play(scene.audio.swordSwordImpactConfig);
+                                    }  
+                                }
+                            }
+                            else if(scene.swordAttacks.includes(scene.currentOpponentAnimation) && scene.time.now - scene.lastSwordDamageTime > 500){
+                                //player should take damage
+                                const damageAmount = 5;
+                                
+                                //if(!scene.audio.swordBodyImpact.isPlaying){
+                                    scene.audio.swordBodyImpact.play(scene.audio.swordBodyImpactConfig);
+                                //}                                
+
+                                scene.socket.emit('playerDamaged', damageAmount);
+                                scene.playerHealthBar.decrease(damageAmount);
+
+                                scene.lastSwordDamageTime = scene.time.now;
+                            }
+                            // scene.playerHealthBar.decrease(10);
+                            // scene.opponentHealthBar.decrease(10);
                         }
                         else if(other.texture.key==='arrow'){ // player collided with enemy arrow
                             if(!scene.swordAttacks.includes(scene.currentPlayerAnimation)){
                                 const damageAmount = 20;
                                 scene.playerHealthBar.decrease(damageAmount);
                                 scene.socket.emit('playerDamaged', damageAmount);
+                                scene.audio.arrowBodyImpact.play(scene.audio.arrowBodyImpactConfig);
                             }
                             scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100); 
                         }

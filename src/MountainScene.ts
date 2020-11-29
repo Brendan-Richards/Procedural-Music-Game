@@ -134,6 +134,9 @@ export default class MountainScene extends Phaser.Scene
     opponentHealthBar: HealthBar;
     initialPlayerPosition: position;
     initialOpponentPosition: position;
+    currentOpponentDirection: string;
+    currentOpponentAnimation: string;
+    lastSwordDamageTime: number;
 
     back1: Phaser.GameObjects.Image;
 
@@ -142,6 +145,9 @@ export default class MountainScene extends Phaser.Scene
         super('mountainScene');
 
         this.opponent = null;
+        this.currentOpponentAnimation = 'idle';
+        this.currentOpponentDirection = 'right';
+        this.lastSwordDamageTime = -1;
         this.trees = [];
 
         //this.timer = new Date();
@@ -295,6 +301,9 @@ export default class MountainScene extends Phaser.Scene
         this.load.audio('bowDraw', 'assets/audio/bowDraw.mp3');
         this.load.audio('bowRelease', 'assets/audio/bowRelease.mp3');
         this.load.audio('cast', 'assets/audio/fullCast.mp3');
+        this.load.audio('arrowBodyImpact', 'assets/audio/arrowBodyImpact.mp3');
+        this.load.audio('swordSwordImpact', 'assets/audio/swordSwordImpact1.mp3');
+        this.load.audio('swordBodyImpact', 'assets/audio/swordBodyImpact.mp3');
 
         //UI
         this.load.image("staminaOutline", "assets/images/UI/staminaOutline.png");
@@ -640,6 +649,9 @@ export default class MountainScene extends Phaser.Scene
                 this.opponent.setBounce(0);
                 this.opponent.setFixedRotation(); 
                 this.opponent.setCollisionGroup(0);
+
+                this.currentOpponentDirection = opponentData.flipX ? 'left' : 'right';
+                this.currentOpponentAnimation = opponentData.currentAnimation;
             }
         });
     }

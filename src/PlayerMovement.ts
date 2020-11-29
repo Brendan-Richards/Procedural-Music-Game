@@ -320,7 +320,7 @@ const groundPlayerAttacking = (scene: MountainScene) => {
             }
 
             setNewCharacterAnimation(scene, swing, scene.currentPlayerDirection==='left', false);
-
+            scene.lastAttackTime = scene.time.now;
            // scene.stamina -= scene.attackStaminaPenalty;
         }
     }
