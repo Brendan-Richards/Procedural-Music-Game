@@ -137,6 +137,11 @@ export default class MountainScene extends Phaser.Scene
     currentOpponentDirection: string;
     currentOpponentAnimation: string;
     lastSwordDamageTime: number;
+    pingSendTime: number;
+    latency: number;
+    playerAttackBox: MatterJS.BodyType;
+    opponentAttackBox: Phaser.GameObjects.GameObject;
+    wallTolerance: number;
 
     back1: Phaser.GameObjects.Image;
 
@@ -145,6 +150,8 @@ export default class MountainScene extends Phaser.Scene
         super('mountainScene');
 
         this.opponent = null;
+        this.playerAttackBox = null;
+        this.opponentAttackBox = null;
         this.currentOpponentAnimation = 'idle';
         this.currentOpponentDirection = 'right';
         this.lastSwordDamageTime = -1;
@@ -162,12 +169,13 @@ export default class MountainScene extends Phaser.Scene
         this.loaded = false;
 
         //set up player
+        this.wallTolerance = 30;
         this.playerScaleFactor = 1;
-        this.playerSpeed = 4.5
-        this.playerJumpHeight = 8;
+        this.playerSpeed = 3.5
+        this.playerJumpHeight = 10;
         this.playerWallJumpHeight = -2*this.playerSpeed;
         this.playerFriction = 0;
-        this.playerMaxSpeed = 10;
+        this.playerMaxSpeed = 7;
         this.playerIceJumpHeight = -1.5*this.playerSpeed;
         this.ledgePosition = {};
         this.stamina = 100;
@@ -192,8 +200,8 @@ export default class MountainScene extends Phaser.Scene
         this.equippedWeapon = 'none';
         this.prevEquippedWeapon = '';
         this.weaponsFound = ['none', 'sword', 'bow', 'glove'];
-        this.arrowSpeed = 14;
-        this.magicSpeed = 11;
+        this.arrowSpeed = 12;
+        this.magicSpeed = 10;
         this.mana = 100;
         this.madeMagic = false;
         this.magicType = 'red';
@@ -331,19 +339,24 @@ export default class MountainScene extends Phaser.Scene
         //make player character
         this.characterShapes = this.cache.json.get('characterShapes');  
         this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');  
-        this.playerBody = this.matter.add.fromPhysicsEditor(this.initialPlayerPosition.x, this.initialPlayerPosition.y, this.characterShapes.adventurer_idle_00, undefined, false);    
+        this.playerBody = this.matter.add.fromPhysicsEditor(this.initialPlayerPosition.x, this.initialPlayerPosition.y, this.characterShapes.adventurer_idleSwordDrawn_00, {
+            render: { sprite: { xOffset: 0, yOffset: 0.15 } },
+            label: 'playerBody'
+        }, false);    
         this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
         this.player.setExistingBody(this.playerBody);
         this.player.setScale(this.playerScaleFactor);
         this.playerHealthBar = new HealthBar(this, this.player, 0x2635be);
         animationLogic(this);
         createAnimations(this);
-        //makeCharacterAnimations(this);
         handleCollisions(this);
 
         //make opponent
         this.opponent = this.matter.add.sprite(0, 0, 'opponentAtlas', 'adventurer_idle_00.png');
-        const opponentBody = this.matter.add.fromPhysicsEditor(this.initialOpponentPosition.x, this.initialOpponentPosition.y, this.characterShapes.adventurer_idle_00, undefined, false);     
+        const opponentBody = this.matter.add.fromPhysicsEditor(this.initialOpponentPosition.x, this.initialOpponentPosition.y, this.characterShapes.adventurer_idleSwordDrawn_00, {
+            render: { sprite: { xOffset: 0, yOffset: 0.15 } },
+            label: 'opponentBody'
+        }, false);     
         this.opponent.setExistingBody(opponentBody);
         this.opponent.setScale(this.playerScaleFactor);
         this.opponentHealthBar = new HealthBar(this, this.opponent, 0xa24700);
@@ -377,6 +390,7 @@ export default class MountainScene extends Phaser.Scene
 
 
         //this.add.image(200, 6400-64, 'environmentAtlas', 'chest_closed_green').setScale(this.chestScaleFactor).setOrigin(0,1);
+
     }
 
     manageInput = () => {
@@ -526,42 +540,6 @@ export default class MountainScene extends Phaser.Scene
     }
 
     manageSocket = () => {
-        //this.socket = io();
-        //console.log('this.socket:', this.socket);
-
-        // this.socket.on("connect", () => {
-        //     console.log('connected at this id:', this.socket.id);
-        // });
-
-        // this.socket.once('tileMap', (tileMapJson) => {
-        //     console.log('client recieved tilemap:');
-        //     console.log(tileMapJson);
-        //     this.load.tilemapTiledJSON('map', tileMapJson);
-        //     this.load.image("blackPixelTiles", "assets/images/tilesets/blackPixelTiles.png"); 
-        //     this.load.start();
-        //     this.load.on('complete', () => {
-        //         console.log('finished loading tile files');
-        //         const contentGenerator = new ContentGenerator(this);
-        //         contentGenerator.createLevel();
-        
-        //         this.characterShapes = this.cache.json.get('characterShapes');  
-        //         this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idle_00.png');  
-        //         this.playerBody = this.matter.add.fromPhysicsEditor(100, this.maxGameHeight-100, this.characterShapes.adventurer_idle_00, undefined, false);    
-        //         this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
-        //         this.player.setExistingBody(this.playerBody);
-        //         this.player.setScale(this.playerScaleFactor);
-        //         makeCharacterAnimations(this);
-        //         handleCollisions(this);
-        
-        //         //ambient audio
-        //         this.audio = new Audio(this);
-        //         this.audio.ambience();
-        //         this.audio.floorAmbience.volume = 0.3;
-        //         this.audio.windSound.volume = 0.05;
-        
-        //         this.loaded = true;   
-        //     }, this);
-        // });
 
         this.socket.on('opponentMovementUpdate', (opponentData) => {
             //console.log('client recieved opponentMovement Update');
@@ -618,29 +596,29 @@ export default class MountainScene extends Phaser.Scene
                 //console.log('setting opponent animation to:', opponentData.currentAnimation + 'Opponent');
                 this.opponent.setScale(1);
 
-                let bodyData = null;
-                if(opponentData.currentAnimation.includes('Cast')){
-                    switch(opponentData.currentAnimation){
-                        case 'idleCastBlue':
-                        case 'idleCastRed': {bodyData = this.characterShapes.adventurer_idleCast_00; break;}
-                        case 'runCastRed':
-                        case 'runCastBlue': {bodyData = this.characterShapes.adventurer_runCast_00; break;}
-                        case 'jumpCastRed':
-                        case 'jumpCastBlue': {bodyData = this.characterShapes.adventurer_jumpCast_00; break;}
-                        case 'fallCastRed':
-                        case 'fallCastBlue': {bodyData = this.characterShapes.adventurer_fallCast_00; break;}
-                        case 'wallSlideCastRed':
-                        case 'wallSlideCastBlue': {bodyData = this.characterShapes.adventurer_wallSlideCast_00; break;}   
-                    }
-                }
-                else{
-                    bodyData = this.characterShapes['adventurer_' + opponentData.currentAnimation + '_00'];
-                }
+                // let bodyData = null;
+                // if(opponentData.currentAnimation.includes('Cast')){
+                //     switch(opponentData.currentAnimation){
+                //         case 'idleCastBlue':
+                //         case 'idleCastRed': {bodyData = this.characterShapes.adventurer_idleCast_00; break;}
+                //         case 'runCastRed':
+                //         case 'runCastBlue': {bodyData = this.characterShapes.adventurer_runCast_00; break;}
+                //         case 'jumpCastRed':
+                //         case 'jumpCastBlue': {bodyData = this.characterShapes.adventurer_jumpCast_00; break;}
+                //         case 'fallCastRed':
+                //         case 'fallCastBlue': {bodyData = this.characterShapes.adventurer_fallCast_00; break;}
+                //         case 'wallSlideCastRed':
+                //         case 'wallSlideCastBlue': {bodyData = this.characterShapes.adventurer_wallSlideCast_00; break;}   
+                //     }
+                // }
+                // else{
+                //     bodyData = this.characterShapes['adventurer_' + opponentData.currentAnimation + '_00'];
+                // }
                 
-                const opponentBody = this.matter.add.fromPhysicsEditor(this.opponent.x, this.opponent.y, bodyData, undefined, false);
-                opponentBody.friction = opponentData.playerFriction;
+                //const opponentBody = this.matter.add.fromPhysicsEditor(this.opponent.x, this.opponent.y, bodyData, undefined, false);
+                //opponentBody.friction = opponentData.playerFriction;
             
-                this.opponent.setExistingBody(opponentBody);
+                //this.opponent.setExistingBody(opponentBody);
             
                 this.opponent.setScale((opponentData.flipX ? -1 : 1)*this.playerScaleFactor, this.playerScaleFactor);
             
@@ -652,8 +630,30 @@ export default class MountainScene extends Phaser.Scene
 
                 this.currentOpponentDirection = opponentData.flipX ? 'left' : 'right';
                 this.currentOpponentAnimation = opponentData.currentAnimation;
+
+                if(this.opponentAttackBox){
+                    this.matter.world.remove(this.opponentAttackBox);
+                }
+                if(this.swordAttacks.includes(this.currentOpponentAnimation) || this.meeleeAttacks.includes(this.currentOpponentAnimation)){
+                    const xOffset = 15;
+                    const factor = opponentData.flipX ? -1 : 1;
+                    const gameObj = this.add.rectangle(this.opponent.x + (factor * xOffset), this.opponent.y, 13, 10, undefined, 0);
+                     this.opponentAttackBox = this.matter.add.gameObject(gameObj, {
+                        label: 'opponentAttackBody',
+                        ignoreGravity: true
+                    }) 
+                }
+
+
             }
         });
+
+        console.log('setting ping..');
+        this.socket.on('ping', () => {
+            this.latency = this.time.now - this.pingSendTime;
+            console.log('latency is:', this.latency, 'ms'); 
+        });
+        
     }
 
     update(){

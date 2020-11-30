@@ -8,8 +8,8 @@ const animationLogic = (scene: MountainScene) => {
         //console.log('in animation complete callback');
         if(animation.key==='idleSwing1' || animation.key==='idleSwing2' || animation.key==='runSwing'){
             scene.playerAttacking = false;
-            const nudge = scene.currentPlayerDirection==='left' ? 1 : -1;
-            scene.player.setPosition(scene.player.x + (10*nudge), scene.player.y);
+            //const nudge = scene.currentPlayerDirection==='left' ? 1 : -1;
+            //scene.player.setPosition(scene.player.x + (10*nudge), scene.player.y);
         }
         else if(scene.swordAttacks.includes(animation.key) || scene.meeleeAttacks.includes(animation.key)){
             //console.log('setting player attacking flag to false');

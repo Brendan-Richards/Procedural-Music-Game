@@ -24,6 +24,12 @@ io.on('connection', (socket) => {
       console.log('adding', socket.id, 'to the player queue');
       playerQueue.push(socket.id);
 
+      //remove for deployment
+      /////////////////////////////
+      players['dfsdf'] = {};
+      playerQueue.push('dfsdf');
+      ///////////////////////////////
+
       while(playerQueue.length > 1){
         const player1 = playerQueue.shift();
         const player2 = playerQueue.shift();
@@ -38,6 +44,9 @@ io.on('connection', (socket) => {
     //     delete players[socket.id];
     //     io.emit('dconnect', socket.id);
     // });
+    socket.on('ping', () => {
+      io.to(socket.id).emit('ping');
+    });
     socket.on('playerNewAnimation', (animationData) => {
         players[socket.id]['currentAnimation'] = animationData.animation;
         players[socket.id]['flipX'] = animationData.flipX;

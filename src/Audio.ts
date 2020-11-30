@@ -203,8 +203,8 @@ class Audio {
                 this.windFlap.stop();
                 this.wallSlideSound.stop();
                 this.swordSwingSound.play(this.attackSoundConfig);
-                const nudge = scene.currentPlayerDirection==='left' ? -1 : 1;
-                scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y);
+                //const nudge = scene.currentPlayerDirection==='left' ? -1 : 1;
+                //scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y);
                 scene.swordCollided = false;
             }
             else if(scene.bowAttacks.includes(animation.key)){
