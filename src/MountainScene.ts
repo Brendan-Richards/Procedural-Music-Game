@@ -378,7 +378,7 @@ export default class MountainScene extends Phaser.Scene
         this.characterShapes = this.cache.json.get('characterShapes');  
         this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idleSwordDrawn_00.png');  
         this.playerBody = this.matter.add.fromPhysicsEditor(this.initialPlayerPosition.x, this.initialPlayerPosition.y, this.characterShapes.adventurer_idleSwordDrawn_00, {
-            render: { sprite: { xOffset: 0, yOffset: 0.15 } },
+            render: { sprite: { xOffset: 0, yOffset: 0.1 } },
             label: 'playerBody'
         }, false);    
         this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
@@ -416,9 +416,6 @@ export default class MountainScene extends Phaser.Scene
         //this.cameras.main.setTint(30);
         
         this.manageInput();
-
-        const arrow = [{x: 0, y: 0}, {x: 30, y: 0}, {x: 30, y: -20}, {x: 50, y: -20}, {x: 50, y: 80}, {x: 0, y: 80}];
-        //var arrow = '40 0 40 20 100 20 100 80 40 80 40 100 0 50';
 
         //startRNN();
         // this.input.keyboard.on('keydown-' + 'P', (event) => {

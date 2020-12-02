@@ -37,9 +37,9 @@ const createTileMap = (scene: MountainScene): void => {
 
     scene.matter.world.convertTilemapLayer(groundLayer);  
 
-    scene.collisionPoints.forEach(point => {
-        scene.add.circle(point.x, point.y, 5, 0xff0000).setDepth(100);
-    });
+    // scene.collisionPoints.forEach(point => {
+    //     scene.add.circle(point.x, point.y, 5, 0xff0000).setDepth(100);
+    // });
 }
 
 const createMountains = (scene: MountainScene, startX: number, 
