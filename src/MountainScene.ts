@@ -152,6 +152,10 @@ export default class MountainScene extends Phaser.Scene
     lastWallCollision: number;
     lastGroundCollision: number;
     inContactWithGround: boolean;
+    playerArrows: Array<Phaser.Physics.Matter.Sprite>;
+    maxArrows: number;
+    opponentArrows: Array<Phaser.Physics.Matter.Sprite>;
+    bothAttacking: boolean;
 
     back1: Phaser.GameObjects.Image;
 
@@ -160,6 +164,10 @@ export default class MountainScene extends Phaser.Scene
         super('mountainScene');
 
         this.opponent = null;
+        this.bothAttacking = false;
+        this.maxArrows = 10;
+        this.playerArrows = [];
+        this.opponentArrows = [];
         this.inContactWithGround = true;
         this.lastGroundCollision = -1;
         this.lastWallCollision = -1;
@@ -393,7 +401,7 @@ export default class MountainScene extends Phaser.Scene
         //make opponent
         this.opponent = this.matter.add.sprite(0, 0, 'opponentAtlas', 'adventurer_idleSwordDrawn_00.png');
         const opponentBody = this.matter.add.fromPhysicsEditor(this.initialOpponentPosition.x, this.initialOpponentPosition.y, this.characterShapes.adventurer_idleSwordDrawn_00, {
-            render: { sprite: { xOffset: 0, yOffset: 0.15 } },
+            render: { sprite: { xOffset: 0, yOffset: 0.1 } },
             label: 'opponentBody'
         }, false);     
         this.opponent.setExistingBody(opponentBody);
@@ -588,9 +596,17 @@ export default class MountainScene extends Phaser.Scene
             const arrow = this.matter.add.sprite(arrowData.x, arrowData.y, 'arrow', undefined);
             arrow.setScale(this.arrowScale);
             
+            this.opponentArrows.push(arrow);
+
+            if(this.opponentArrows.length > this.maxArrows){
+                const oldest = this.opponentArrows.shift();
+                oldest.destroy();
+            }
+            
             if(arrowData.flipX){
                 arrow.setFlipX(true);
             }
+
             arrow.setCollisionGroup(this.opponentGroup);
             // arrow.setCollisionCategory(this.opponentMask);
             // arrow.setCollidesWith(this.playerMask);
@@ -628,6 +644,13 @@ export default class MountainScene extends Phaser.Scene
 
         this.socket.on('opponentDamaged', damageAmount => {
             this.opponentHealthBar.decrease(damageAmount);
+        });
+
+        this.socket.on('removeAttackBoxes', () => {
+            console.log('removing attack boxes');
+            this.bothAttacking = false;
+            this.matter.world.remove(this.playerAttackBox);
+            this.matter.world.remove(this.opponentAttackBox);
         });
 
         this.socket.on('opponentAnimationUpdate', (opponentData) => {

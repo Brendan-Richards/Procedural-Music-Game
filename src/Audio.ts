@@ -396,6 +396,13 @@ const makePlayerArrow = (scene: MountainScene) => {
 
     const arrow = scene.matter.add.sprite(arrowX, arrowY, 'arrow', undefined);
     arrow.setScale(scene.arrowScale);
+
+    scene.playerArrows.push(arrow);
+
+    if(scene.playerArrows.length > scene.maxArrows){
+        const oldest = scene.playerArrows.shift();
+        oldest.destroy();
+    }
     
     if(flipX){
         arrow.setFlipX(true);

@@ -20,14 +20,17 @@ io.on('connection', (socket) => {
     console.log('a user connected, adding to player list...');
     players[socket.id] = {status: 'startScreen'};
 
+    socket.on('removeAttackBoxes', () => {
+      io.to(players[socket.id].opponent).emit('removeAttackBoxes');        
+    });
     socket.on('findMatch', () => {
       console.log('adding', socket.id, 'to the player queue');
       playerQueue.push(socket.id);
 
       //remove for deployment
       /////////////////////////////
-      players['dfsdf'] = {};
-      playerQueue.push('dfsdf');
+      // players['dfsdf'] = {};
+      // playerQueue.push('dfsdf');
       ///////////////////////////////
 
       while(playerQueue.length > 1){
