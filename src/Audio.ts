@@ -400,7 +400,9 @@ const makePlayerArrow = (scene: MountainScene) => {
     if(flipX){
         arrow.setFlipX(true);
     }
-    arrow.setCollisionGroup(-1);
+    arrow.setCollisionGroup(scene.playerGroup);
+    // arrow.setCollisionCategory(scene.playerMask);
+    // arrow.setCollidesWith(scene.opponentMask);
     arrow.setIgnoreGravity(true);
     arrow.setFixedRotation();
     scene.matter.setVelocity(arrow, factor * scene.arrowSpeed, 0);

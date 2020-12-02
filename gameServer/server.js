@@ -87,8 +87,9 @@ io.on('connection', (socket) => {
 
 const startMatch = (player1, player2) => {
     console.log('starting match');
-    const tileMap = foreground.createTileMap();
+    const [tileMap, collisionPoints] = foreground.createTileMap();
 
+    tileMap.collisionPoints = collisionPoints;
     // numRooms += 1;
     // rooms['game' + numRooms.toString()] = {player1: player1, player2: player2};
 
@@ -141,6 +142,9 @@ const getInitialPlayerPositions = (tileMap) => {
     }
     player2Position.x = x * tileMap.tilewidth;
     player2Position.y = y * tileMap.tileheight;
+    // player2Position.x = player1Position.x + 50;
+    // player2Position.y = player1Position.y;
+
 
     //console.log('determined player 2 position:', player2Position);
 

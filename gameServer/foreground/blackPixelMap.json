@@ -32,7 +32,7 @@
         {
          "columns":14,
          "firstgid":1,
-         "image":"..\/..\/..\/..\/..\/blackPixelTiles.png",
+         "image":"blackPixelTiles.png",
          "imageheight":112,
          "imagewidth":224,
          "margin":0,
@@ -52,29 +52,6 @@
                 }, 
                 {
                  "id":1,
-                 "objectgroup":
-                    {
-                     "draworder":"index",
-                     "id":2,
-                     "name":"",
-                     "objects":[
-                            {
-                             "height":16,
-                             "id":1,
-                             "name":"",
-                             "rotation":0,
-                             "type":"",
-                             "visible":true,
-                             "width":16,
-                             "x":0,
-                             "y":0
-                            }],
-                     "opacity":1,
-                     "type":"objectgroup",
-                     "visible":true,
-                     "x":0,
-                     "y":0
-                    },
                  "properties":[
                         {
                          "name":"collides",

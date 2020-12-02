@@ -22,7 +22,7 @@ const createTileMap = (scene: MountainScene): void => {
 
     groundLayer.setDepth(5);
 
-    groundLayer.setCollisionByProperty({ collides: true });
+    //groundLayer.setCollisionByProperty({ collides: true });
 
     // groundLayer.forEachTile(tile => {
     //     if ([10, 33].includes(tile.index)){
@@ -36,6 +36,10 @@ const createTileMap = (scene: MountainScene): void => {
     // });
 
     scene.matter.world.convertTilemapLayer(groundLayer);  
+
+    scene.collisionPoints.forEach(point => {
+        scene.add.circle(point.x, point.y, 5, 0xff0000).setDepth(100);
+    });
 }
 
 const createMountains = (scene: MountainScene, startX: number, 

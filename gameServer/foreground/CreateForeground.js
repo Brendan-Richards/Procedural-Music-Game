@@ -1,6 +1,7 @@
 //import createSkyMountains from './SkyMountains';
 const placeTerrain =  require('./PlaceTerrain');
 const fs = require('fs');
+const { arraysEqual } = require('@tensorflow/tfjs/node_modules/@tensorflow/tfjs-core/dist/util');
 
 const createTileMap = () => {
 
@@ -29,14 +30,19 @@ const createTileMap = () => {
     // }
 
     // console.log('length of mapData after:', mapData.length);
+    const collisionPoints = [{x: 0, y: 16 * height}, {x: 0, y: 16 * (height-1)}];
+    createMountains(15, height, width, mapData, collisionPoints);
+    if(collisionPoints[collisionPoints.length-1].x < width * 16){
+        collisionPoints.push({x: (width) * 16, y: (height - 1) * 16});
+    }
+    collisionPoints.push({x: width * 16, y: height * 16});
 
-    createMountains(15, height, width, mapData);
     placeTerrain.setBottomRow(mapData, height, width);
     // //createSkyMountains(scene, groundLayer, map, tileset);
 
     //saveTileMap(mapData);
 
-    return map;
+    return [map, collisionPoints];
 }
 
 const saveTileMap = mapData => {
@@ -52,8 +58,8 @@ const saveTileMap = mapData => {
     file.end();
 }
 
-const createMountains = (startX, mapHeight, mapWidth, mapData) => {
-
+const createMountains = (startX, mapHeight, mapWidth, mapData, collisionPoints) => {
+    
     let x = startX;
     let prevType = 'flat';
     const maxWallHeight = 15;
@@ -73,10 +79,10 @@ const createMountains = (startX, mapHeight, mapWidth, mapData) => {
         // console.log('mountainEndHeight:', mountainEndHeight);
 
         let params;
-        params = buildMountainUp(mountainHeight, maxWallHeight, maxFlatLength, prevType, x, y, mapWidth, mapHeight, mapData);
+        params = buildMountainUp(mountainHeight, maxWallHeight, maxFlatLength, prevType, x, y, mapWidth, mapHeight, mapData, collisionPoints);
         
        // params.x += 3;
-        params = buildMountainDown(mountainEndHeight, maxWallHeight, params.prevType, maxFlatLength, params.x, params.y, mapWidth, mapHeight, mapData);
+        params = buildMountainDown(mountainEndHeight, maxWallHeight, params.prevType, maxFlatLength, params.x, params.y, mapWidth, mapHeight, mapData, collisionPoints);
         x = params.x;
         y = params.y;
         prevType = params.prevType;
@@ -86,7 +92,7 @@ const createMountains = (startX, mapHeight, mapWidth, mapData) => {
     }
 };
 
-const buildMountainUp = (mountainHeight, maxWallHeight, maxFlatLength, prevType, x, y, mapWidth, mapHeight, mapData) => {
+const buildMountainUp = (mountainHeight, maxWallHeight, maxFlatLength, prevType, x, y, mapWidth, mapHeight, mapData, collisionPoints) => {
 
     let reachedTop = false;
 
@@ -109,6 +115,13 @@ const buildMountainUp = (mountainHeight, maxWallHeight, maxFlatLength, prevType,
             placeTerrain.buildWall(mapData, y - (wallHeight - 1), y + 1, x, 'left', 'ground', mapWidth);
             placeTerrain.terrainFill(mapData, x, x + 1, y + 1, mapHeight, mapWidth);
 
+            collisionPoints.push({x: x * 16, y: y * 16});
+            collisionPoints.push({x: x * 16, y: (y - (wallHeight - 1)) * 16});
+            
+            if(x + 1 >= mapWidth){
+                collisionPoints.push({x: (mapWidth) * 16, y: (y - (wallHeight - 1)) * 16});
+            }
+
             prevType = 'wall';
             y -= (wallHeight - 1);
             x += 1;
@@ -121,6 +134,10 @@ const buildMountainUp = (mountainHeight, maxWallHeight, maxFlatLength, prevType,
             placeTerrain.buildFlat(mapData, x, x + flatLength, y, 'top', false, mapWidth);
             placeTerrain.terrainFill(mapData, x, x + flatLength + 1, y + 1, mapHeight, mapWidth);
 
+            if(x + flatLength >= mapWidth){
+                collisionPoints.push({x: (mapWidth) * 16, y: y * 16});
+            }
+
             prevType = 'flat';
             x += flatLength;
         }
@@ -132,7 +149,7 @@ const buildMountainUp = (mountainHeight, maxWallHeight, maxFlatLength, prevType,
     return {x:x, y:y, prevType:prevType};
 }
 
-const buildMountainDown = (mountainEndHeight, maxWallHeight, prevType, maxFlatLength, x, y, mapWidth, mapHeight, mapData) => {
+const buildMountainDown = (mountainEndHeight, maxWallHeight, prevType, maxFlatLength, x, y, mapWidth, mapHeight, mapData, collisionPoints) => {
 
     let reachedTop = false;
 
@@ -155,6 +172,9 @@ const buildMountainDown = (mountainEndHeight, maxWallHeight, prevType, maxFlatLe
 
             placeTerrain.buildWall(mapData, y, y + wallHeight, x, 'right', 'ground', mapWidth);
 
+            collisionPoints.push({x: (x + 1) * 16, y: y * 16});
+            collisionPoints.push({x: (x + 1) * 16, y: (y + wallHeight - 1) * 16});
+
             prevType = 'wall';
             y += wallHeight - 1;
             x += 1;
@@ -166,6 +186,10 @@ const buildMountainDown = (mountainEndHeight, maxWallHeight, prevType, maxFlatLe
 
             placeTerrain.buildFlat(mapData, x, x + flatLength, y, 'top', false, mapWidth);
             placeTerrain.terrainFill(mapData, x, x + flatLength + 1, y + 1, mapHeight, mapWidth);
+
+            if(x + flatLength >= mapWidth){
+                collisionPoints.push({x: (mapWidth) * 16, y: y * 16});
+            }
 
             prevType = 'flat';
             x += flatLength;
