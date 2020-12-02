@@ -1,7 +1,6 @@
 //import createSkyMountains from './SkyMountains';
 const placeTerrain =  require('./PlaceTerrain');
 const fs = require('fs');
-const { arraysEqual } = require('@tensorflow/tfjs/node_modules/@tensorflow/tfjs-core/dist/util');
 
 const createTileMap = () => {
 
