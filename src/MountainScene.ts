@@ -156,6 +156,8 @@ export default class MountainScene extends Phaser.Scene
     maxArrows: number;
     opponentArrows: Array<Phaser.Physics.Matter.Sprite>;
     bothAttacking: boolean;
+    swordRecoil: number;
+    recoilDuration: number;
 
     back1: Phaser.GameObjects.Image;
 
@@ -164,6 +166,8 @@ export default class MountainScene extends Phaser.Scene
         super('mountainScene');
 
         this.opponent = null;
+        this.swordRecoil = 20;
+        this.recoilDuration = 50;
         this.bothAttacking = false;
         this.maxArrows = 10;
         this.playerArrows = [];
@@ -644,6 +648,15 @@ export default class MountainScene extends Phaser.Scene
 
         this.socket.on('opponentDamaged', damageAmount => {
             this.opponentHealthBar.decrease(damageAmount);
+        });
+
+        this.socket.on('swordRecoil', () => {
+            const pFactor = this.currentPlayerDirection==='left' ? 1 : -1;
+            this.tweens.add({
+                targets: this.player,
+                duration: this.recoilDuration,
+                x: this.player.body.position.x+(pFactor * this.swordRecoil)
+            });
         });
 
         this.socket.on('removeAttackBoxes', () => {

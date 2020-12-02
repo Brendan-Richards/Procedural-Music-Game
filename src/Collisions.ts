@@ -190,7 +190,8 @@ export default (scene: MountainScene): void => {
                 else if(bodyA===scene.opponentAttackBox || bodyB===scene.opponentAttackBox){
                     console.log('player collided with opponent attack box');
                     other =  bodyA===scene.opponentAttackBox ? bodyA : bodyB;
-
+                    recoilPlayers(scene);
+                    scene.socket.emit('swordRecoil');
                     // if(scene.swordAttacks.includes(scene.currentPlayerAnimation) && scene.swordAttacks.includes(scene.currentOpponentAnimation)){
                     //     //both player and opponent are sword attacking
                         
@@ -204,13 +205,13 @@ export default (scene: MountainScene): void => {
                     //     }
                     // }
                     //else if(scene.swordAttacks.includes(scene.currentOpponentAnimation) && scene.time.now - scene.lastSwordDamageTime > 500){
-                    if(!scene.bothAttacking){
+                    if(!scene.bothAttacking && scene.time.now - scene.lastSwordDamageTime > 500){
                         //player should take damage
-                        const damageAmount = 40;
+                        const damageAmount = 20;
                         
-                        //if(!scene.audio.swordBodyImpact.isPlaying){
+                        if(!scene.audio.swordBodyImpact.isPlaying){
                             scene.audio.swordBodyImpact.play(scene.audio.swordBodyImpactConfig);
-                        //}                                
+                        }                                
 
                         scene.socket.emit('playerDamaged', damageAmount);
                         scene.playerHealthBar.decrease(damageAmount);
@@ -279,6 +280,7 @@ export default (scene: MountainScene): void => {
                         scene.matter.world.remove(scene.opponentAttackBox);
                         scene.socket.emit('removeAttackBoxes');
                     });
+                    recoilPlayers(scene);
                 }
             }
             else if(bodyA===scene.playerAttackBox || bodyB===scene.playerAttackBox){// one of the objects is the players attack box
@@ -306,6 +308,21 @@ export default (scene: MountainScene): void => {
             }
         });
     });
+
+    const recoilPlayers = (scene: MountainScene) => {
+        const pFactor = scene.currentPlayerDirection==='left' ? 1 : -1;
+        const oFactor = scene.currentOpponentDirection==='left' ? 1 : -1;
+        scene.tweens.add({
+            targets: scene.player,
+            duration: scene.recoilDuration,
+            x: scene.player.body.position.x+(pFactor * scene.swordRecoil)
+        });
+        scene.tweens.add({
+            targets: scene.opponent,
+            duration: scene.recoilDuration,
+            x: scene.opponent.body.position.x+(oFactor * scene.swordRecoil)
+        });
+    }
 
     scene.matter.world.on("collisionactive", event => {
         event.pairs.forEach(pair => {
