@@ -190,8 +190,8 @@ export default (scene: MountainScene): void => {
                 else if(bodyA===scene.opponentAttackBox || bodyB===scene.opponentAttackBox){
                     console.log('player collided with opponent attack box');
                     other =  bodyA===scene.opponentAttackBox ? bodyA : bodyB;
-                    recoilPlayers(scene);
-                    scene.socket.emit('swordRecoil');
+                    recoilPlayers(scene, false, true);
+                    // scene.socket.emit('swordRecoil');
                     // if(scene.swordAttacks.includes(scene.currentPlayerAnimation) && scene.swordAttacks.includes(scene.currentOpponentAnimation)){
                     //     //both player and opponent are sword attacking
                         
@@ -207,7 +207,7 @@ export default (scene: MountainScene): void => {
                     //else if(scene.swordAttacks.includes(scene.currentOpponentAnimation) && scene.time.now - scene.lastSwordDamageTime > 500){
                     if(!scene.bothAttacking && scene.time.now - scene.lastSwordDamageTime > 500){
                         //player should take damage
-                        const damageAmount = 20;
+                        const damageAmount = 40;
                         
                         if(!scene.audio.swordBodyImpact.isPlaying){
                             scene.audio.swordBodyImpact.play(scene.audio.swordBodyImpactConfig);
@@ -217,6 +217,19 @@ export default (scene: MountainScene): void => {
                         scene.playerHealthBar.decrease(damageAmount);
 
                         scene.lastSwordDamageTime = scene.time.now;
+
+                        const blood = scene.add.sprite(scene.player.x, scene.player.y, 'bloodAtlas', '1_0.png');
+                        blood.play('blood');
+                        blood.once('animationcomplete', animation => {
+                            console.log('finished blood animation');
+                            blood.destroy();
+                        });
+                        
+                        scene.socket.emit('bloodAnimation', {
+                            x: scene.player.x,
+                            y: scene.player.y
+                        });
+                        
                         //}
                     }
 
@@ -242,6 +255,9 @@ export default (scene: MountainScene): void => {
                         // scene.matter.add.constraint(scene.player, other, 20, 1);
                         //scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100); 
                     }
+                }
+                if(bodyA===scene.playerAttackBox || bodyB===scene.playerAttackBox){//other object is players attack box
+                    recoilPlayers(scene, true, false);
                 }
 
             }
@@ -280,7 +296,7 @@ export default (scene: MountainScene): void => {
                         scene.matter.world.remove(scene.opponentAttackBox);
                         scene.socket.emit('removeAttackBoxes');
                     });
-                    recoilPlayers(scene);
+                    recoilPlayers(scene, true, true);
                 }
             }
             else if(bodyA===scene.playerAttackBox || bodyB===scene.playerAttackBox){// one of the objects is the players attack box
@@ -309,19 +325,25 @@ export default (scene: MountainScene): void => {
         });
     });
 
-    const recoilPlayers = (scene: MountainScene) => {
+    const recoilPlayers = (scene: MountainScene, player, opponent) => {
         const pFactor = scene.currentPlayerDirection==='left' ? 1 : -1;
         const oFactor = scene.currentOpponentDirection==='left' ? 1 : -1;
-        scene.tweens.add({
-            targets: scene.player,
-            duration: scene.recoilDuration,
-            x: scene.player.body.position.x+(pFactor * scene.swordRecoil)
-        });
-        scene.tweens.add({
-            targets: scene.opponent,
-            duration: scene.recoilDuration,
-            x: scene.opponent.body.position.x+(oFactor * scene.swordRecoil)
-        });
+        if(player){
+            scene.tweens.add({
+                targets: scene.player,
+                duration: scene.recoilDuration,
+                x: scene.player.body.position.x+(pFactor * scene.swordRecoil)
+            });
+            scene.socket.emit('playerRecoil');
+        }
+        if(opponent){
+            scene.tweens.add({
+                targets: scene.opponent,
+                duration: scene.recoilDuration,
+                x: scene.opponent.body.position.x+(oFactor * scene.swordRecoil)
+            });
+        }
+
     }
 
     scene.matter.world.on("collisionactive", event => {

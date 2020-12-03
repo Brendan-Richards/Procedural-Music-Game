@@ -311,13 +311,13 @@ export default class MountainScene extends Phaser.Scene
         this.load.atlas('environmentAtlas', 'assets/images/environment/environmentAtlas.png', 'assets/json/environmentAtlas.json');
         this.load.json('environmentAtlasData', 'assets/json/environmentAtlas.json'); 
         this.load.image("arrow", "assets/images/environment/arrowBlue.png");    
+        
         //magic
         this.load.atlas('magicAtlas', 'assets/images/environment/magicBlueOrange.png', 'assets/json/magic.json');
-        this.load.json('magicAtlasData', 'assets/json/magic.json');    
-
-        //tilemap
-        // this.load.tilemapTiledJSON('map', 'assets/json/blackPixelMap.json');
-        // this.load.image("blackPixelTiles", "assets/images/tilesets/blackPixelTiles.png"); 
+        this.load.json('magicAtlasData', 'assets/json/magic.json');
+        //blood effects
+        this.load.atlas('bloodAtlas', 'assets/images/environment/blood.png', 'assets/json/blood.json');
+        this.load.json('bloodAtlasData', 'assets/json/blood.json');    
 
         //audio
         this.load.audio('floorAmbience', 'assets/audio/floorAmbience.mp3');
@@ -650,12 +650,21 @@ export default class MountainScene extends Phaser.Scene
             this.opponentHealthBar.decrease(damageAmount);
         });
 
-        this.socket.on('swordRecoil', () => {
-            const pFactor = this.currentPlayerDirection==='left' ? 1 : -1;
+        this.socket.on('opponentRecoil', () => {
+            const oFactor = this.currentOpponentDirection==='left' ? 1 : -1;
             this.tweens.add({
-                targets: this.player,
+                targets: this.opponent,
                 duration: this.recoilDuration,
-                x: this.player.body.position.x+(pFactor * this.swordRecoil)
+                x: this.opponent.body.position.x+(oFactor * this.swordRecoil)
+            });
+        });
+
+        this.socket.on('bloodAnimation', data => {
+            const blood = this.add.sprite(data.x, data.y, 'bloodAtlas', '1_0.png');
+            blood.play('blood');
+            blood.once('animationcomplete', animation => {
+                console.log('finished blood animation');
+                blood.destroy();
             });
         });
 

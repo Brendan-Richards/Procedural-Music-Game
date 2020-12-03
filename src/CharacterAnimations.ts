@@ -158,6 +158,7 @@ const createAnimations = (scene: MountainScene, suffix = '', atlasName = 'charac
     const frameRate = 10;
     const swingFrameRate = 17;
     const magicFrameRate = 10;
+    const bloodFrameRate = 30;
 
 
     // sword equipped animations
@@ -669,6 +670,18 @@ const createAnimations = (scene: MountainScene, suffix = '', atlasName = 'charac
             frameRate: magicFrameRate,
             repeat: -1
     });
+
+    //blood effects
+    scene.anims.create({
+        key: 'blood',
+        frames: scene.anims.generateFrameNames('bloodAtlas', {
+            prefix: '1_', 
+            suffix: '.png',
+            end: 15, 
+            zeroPad: 1 
+            }),
+            frameRate: bloodFrameRate
+    });   
 
 };
 

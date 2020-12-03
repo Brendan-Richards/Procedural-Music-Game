@@ -23,8 +23,11 @@ io.on('connection', (socket) => {
     socket.on('removeAttackBoxes', () => {
       io.to(players[socket.id].opponent).emit('removeAttackBoxes');        
     });
-    socket.on('swordRecoil', () => {
-      io.to(players[socket.id].opponent).emit('swordRecoil');        
+    socket.on('bloodAnimation', data => {
+      io.to(players[socket.id].opponent).emit('bloodAnimation', data);
+    });
+    socket.on('playerRecoil', () => {
+      io.to(players[socket.id].opponent).emit('opponentRecoil');        
     });
     socket.on('findMatch', () => {
       console.log('adding', socket.id, 'to the player queue');
