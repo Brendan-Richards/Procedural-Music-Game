@@ -313,6 +313,7 @@ const groundPlayerAttacking = (scene: MountainScene) => {
 
     //console.log('in ground player attacking');
     if(scene.equippedWeapon==='sword'){
+
         if(!scene.swordAttacks.includes(scene.currentPlayerAnimation) && scene.time.now - scene.lastAttackTime > 500){
             let swing = '';
             if(!scene.heavyAttack){
@@ -331,6 +332,7 @@ const groundPlayerAttacking = (scene: MountainScene) => {
             setNewCharacterAnimation(scene, swing, scene.currentPlayerDirection==='left', false);
             scene.lastAttackTime = scene.time.now;
            // scene.stamina -= scene.attackStaminaPenalty;
+
         }
     }
     else if(scene.equippedWeapon==='none'){
@@ -518,6 +520,7 @@ const makeMagic = (scene: MountainScene) => {
 
     const xPosition = scene.player.x+(factor * (scene.magicType==='red' ? 20 : 13));
     const magic = scene.matter.add.sprite(xPosition, yPosition, 'magicAtlas', frameName);
+    magic.name = 'playerMagic';
     magic.setScale(scene.playerScaleFactor, scene.playerScaleFactor);
 
     let flipX = false;
@@ -1385,6 +1388,8 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
 
     if(scene.playerAttackBox){
         scene.matter.world.remove(scene.playerAttackBox);
+        scene.playerAttackBox = null;
+        //console.log('just removed player attack box, leftin variable:', scene.playerAttackBox);
     }
     if(scene.swordAttacks.includes(scene.currentPlayerAnimation) || scene.currentPlayerAnimation==='bowKick'){
         let xOffset = 0;

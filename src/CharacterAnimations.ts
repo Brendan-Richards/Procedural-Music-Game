@@ -159,6 +159,7 @@ const createAnimations = (scene: MountainScene, suffix = '', atlasName = 'charac
     const swingFrameRate = 17;
     const magicFrameRate = 10;
     const bloodFrameRate = 30;
+    const explosionFrameRate = 20;
 
 
     // sword equipped animations
@@ -681,7 +682,28 @@ const createAnimations = (scene: MountainScene, suffix = '', atlasName = 'charac
             zeroPad: 1 
             }),
             frameRate: bloodFrameRate
+    }); 
+    //explosion effects
+    scene.anims.create({
+        key: 'blueExplosion',
+        frames: scene.anims.generateFrameNames('blueExplosionAtlas', {
+            prefix: 'Explosion_', 
+            suffix: '.png',
+            end: 7, 
+            zeroPad: 1 
+            }),
+            frameRate: explosionFrameRate
     });   
+    scene.anims.create({
+        key: 'orangeExplosion',
+        frames: scene.anims.generateFrameNames('orangeExplosionAtlas', {
+            prefix: 'Explosion_', 
+            suffix: '.png',
+            end: 7, 
+            zeroPad: 1 
+            }),
+            frameRate: explosionFrameRate
+    });    
 
 };
 

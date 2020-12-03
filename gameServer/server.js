@@ -26,6 +26,10 @@ io.on('connection', (socket) => {
     socket.on('bloodAnimation', data => {
       io.to(players[socket.id].opponent).emit('bloodAnimation', data);
     });
+    socket.on('explosion', data => {
+      data.opponent = !data.opponent;
+      io.to(players[socket.id].opponent).emit('explosion', data);
+    });
     socket.on('playerSound', soundData => {
       io.to(players[socket.id].opponent).emit('opponentSound', soundData);
     });
@@ -41,8 +45,8 @@ io.on('connection', (socket) => {
 
       //remove for deployment
       /////////////////////////////
-      // players['dfsdf'] = {};
-      // playerQueue.push('dfsdf');
+      players['dfsdf'] = {};
+      playerQueue.push('dfsdf');
       ///////////////////////////////
 
       while(playerQueue.length > 1){

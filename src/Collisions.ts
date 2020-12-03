@@ -9,7 +9,7 @@ const emitAnimationEvent = (scene: MountainScene, animationName: string, flipX: 
     });
 }
 
-export default (scene: MountainScene): void => {
+const handleCollisions = (scene: MountainScene): void => {
     //collision between player, ground, and wall
     scene.matter.world.on("collisionstart", (event, body1, body2) => {
 
@@ -20,11 +20,41 @@ export default (scene: MountainScene): void => {
             //console.log('collision happened');
             const { bodyA, bodyB } = pair;
             //console.log(pair);
-            if(bodyA.gameObject===scene.player || bodyB.gameObject===scene.player){// if one of the objects is the player
+
+            if(['opponentMagic', 'playerMagic'].includes(bodyA.gameObject.name) || ['opponentMagic', 'playerMagic'].includes(bodyB.gameObject.name)){
+                console.log('collision involving magic');
+                
+                if(['opponentMagic', 'playerMagic'].includes(bodyA.gameObject.name) && ['opponentMagic', 'playerMagic'].includes(bodyB.gameObject.name)){
+                    console.log('player magic collided with opponent magic');
+
+                }
+                else{ // only one of the bodies is magic
+                    const magic = ['opponentMagic', 'playerMagic'].includes(bodyA.gameObject.name) ? bodyA.gameObject : bodyB.gameObject;
+                    const other = ['opponentMagic', 'playerMagic'].includes(bodyA.gameObject.name) ? bodyB.gameObject : bodyA.gameObject;
+
+                    if(other===scene.player || other===scene.opponent){
+                        console.log('player hit by opponent magic');
+                        other.destroy();
+        
+                        scene.socket.emit('explosion', {x: scene.player.x, y: scene.player.y, opponent: true});
+                        const ex = makeExplosion(scene, scene.player.x, scene.player.y, true);
+                        
+                        ex.setCollisionGroup(scene.playerGroup);
+                        scene.matter.setVelocity(ex, scene.player.body.velocity.x, scene.player.body.velocity.y);
+        
+                        scene.socket.emit('playerDamaged', scene.magicDamageAmount);
+                        scene.playerHealthBar.decrease(scene.magicDamageAmount);
+                    }
+                    else if(!other || other.name==='terrain'){
+                        makeExplosion(scene, collisionPoint.x, collisionPoint.y, magic.name==='opponentMagic');
+                    }
+                }
+                
+            }
+            else if(bodyA.gameObject===scene.player || bodyB.gameObject===scene.player){// if one of the objects is the player
                 let other = (bodyA.gameObject===scene.player ? bodyB.gameObject : bodyA.gameObject);
-
+                console.log('other object that isnt the player', other);
                 if(other!==null){
-
                     if(other===scene.opponent){ // player collided with opponent
                         console.log('collided with opponent');
                     }
@@ -70,6 +100,7 @@ export default (scene: MountainScene): void => {
                                         // if(scene.playerBody.velocity.y > 10){
                                             //console.log('playing hard landing');
                                             scene.audio.hardLanding.sound.play(scene.audio.hardLanding.config);
+                                            scene.socket.emit('playerSound', {name: 'hardLanding', x: scene.player.x, y: scene.player.y});
                                         // }
                                         // else{
                                             //console.log('playing soft landing');
@@ -117,7 +148,9 @@ export default (scene: MountainScene): void => {
                                     scene.currentPlayerAnimation==='airSwing1' || scene.currentPlayerAnimation==='airSwing2'){
                                     if(!scene.swordCollided){
                                         scene.audio.swordSwingSound.sound.stop();
+                                        scene.socket.emit('playerSoundStop', ['swordSwingSound']);
                                         scene.audio.swordRockImpact.sound.play(scene.audio.swordRockImpact.config);
+                                        scene.socket.emit('playerSound', {name: 'swordRockImpact', x: scene.player.x, y: scene.player.y});
                                         const factor = scene.currentPlayerDirection==='left' ? 1 : -1;
                                         scene.player.setVelocityX(factor * scene.playerSpeed);
                                         scene.swordCollided = true;
@@ -169,6 +202,7 @@ export default (scene: MountainScene): void => {
                         scene.playerHealthBar.decrease(damageAmount);
                         scene.socket.emit('playerDamaged', damageAmount);
                         scene.audio.arrowBodyImpact.sound.play(scene.audio.arrowBodyImpact.config);
+                        scene.socket.emit('playerSound', {name: 'arrowBodyImpact', x: scene.player.x, y: scene.player.y});
                         //}
                         const arrowIndex = scene.opponentArrows.findIndex(val => {
                             return val===other;
@@ -206,31 +240,37 @@ export default (scene: MountainScene): void => {
                     // }
                     //else if(scene.swordAttacks.includes(scene.currentOpponentAnimation) && scene.time.now - scene.lastSwordDamageTime > 500){
                     if(!scene.bothAttacking && scene.time.now - scene.lastSwordDamageTime > 500){
-                        //player should take damage
-                        const damageAmount = 40;
-                        
-                        if(!scene.audio.swordBodyImpact.sound.isPlaying){
+
+                        const facingEachother = scene.currentPlayerDirection==='left' && scene.currentOpponentDirection==='right' ||
+                                                scene.currentPlayerDirection==='right' && scene.currentOpponentDirection==='left';
+                        const bothHitboxes = scene.playerAttackBox && scene.opponentAttackBox;
+                        const closeEnough = scene.player.x + 30 > scene.opponent.x && scene.player.x - 30 < scene.opponent.x;
+                        const noDamage = facingEachother && bothHitboxes && closeEnough;
+
+                        if(!noDamage){
+                            //player should take damage
+                            const damageAmount = 10;
+                            
                             scene.audio.swordBodyImpact.sound.play(scene.audio.swordBodyImpact.config);
-                        }                                
+                            scene.socket.emit('playerSound', {name: 'swordBodyImpact', x: scene.player.x, y: scene.player.y});
+                                
+                            scene.socket.emit('playerDamaged', damageAmount);
+                            scene.playerHealthBar.decrease(damageAmount);
 
-                        scene.socket.emit('playerDamaged', damageAmount);
-                        scene.playerHealthBar.decrease(damageAmount);
+                            scene.lastSwordDamageTime = scene.time.now;
 
-                        scene.lastSwordDamageTime = scene.time.now;
-
-                        const blood = scene.add.sprite(scene.player.x, scene.player.y, 'bloodAtlas', '1_0.png');
-                        blood.play('blood');
-                        blood.once('animationcomplete', animation => {
-                            console.log('finished blood animation');
-                            blood.destroy();
-                        });
-                        
-                        scene.socket.emit('bloodAnimation', {
-                            x: scene.player.x,
-                            y: scene.player.y
-                        });
-                        
-                        //}
+                            const blood = scene.add.sprite(scene.player.x, scene.player.y, 'bloodAtlas', '1_0.png');
+                            blood.play('blood');
+                            blood.once('animationcomplete', animation => {
+                                console.log('finished blood animation');
+                                blood.destroy();
+                            });
+                            
+                            scene.socket.emit('bloodAnimation', {
+                                x: scene.player.x,
+                                y: scene.player.y
+                            });
+                        }
                     }
 
 
@@ -250,6 +290,17 @@ export default (scene: MountainScene): void => {
                         if(arrowIndex !== -1){
                             other.destroy();
                         }
+
+                        const blood = scene.add.sprite(scene.opponent.x, scene.opponent.y, 'bloodAtlas', '1_0.png');
+                        blood.play('blood');
+                        scene.socket.emit('bloodAnimation', {
+                            x: scene.opponent.x,
+                            y: scene.opponent.y
+                        });
+                        blood.once('animationcomplete', animation => {
+                            console.log('finished blood animation');
+                            blood.destroy();
+                        });
     
                         // other.setCollisionGroup(-3);
                         // scene.matter.add.constraint(scene.player, other, 20, 1);
@@ -287,13 +338,20 @@ export default (scene: MountainScene): void => {
                 else if(bodyA===scene.playerAttackBox || bodyB===scene.playerAttackBox){//other object is players attack box
                     //other = (bodyA===scene.playerAttackBox ? bodyB.gameObject : bodyA.gameObject);
                     scene.audio.swordSwordImpact.sound.play(scene.audio.swordSwordImpact.config);
+                    scene.socket.emit('playerSound', {name: 'swordSwordImpact', x: scene.player.x, y: scene.player.y});
                     scene.bothAttacking = true;
                     console.log('setting both players attacking to true');
                     scene.player.once('animationstart', () => {
                         console.log('setting both players attacking to false');
                         scene.bothAttacking = false;
-                        scene.matter.world.remove(scene.playerAttackBox);
-                        scene.matter.world.remove(scene.opponentAttackBox);
+                        if(scene.playerAttackBox){
+                            scene.matter.world.remove(scene.playerAttackBox);
+                            scene.playerAttackBox = null;
+                        }
+                        if(scene.opponentAttackBox){
+                            scene.matter.world.remove(scene.opponentAttackBox);
+                            scene.opponentAttackBox = null;
+                        }
                         scene.socket.emit('removeAttackBoxes');
                     });
                     recoilPlayers(scene, true, true);
@@ -441,3 +499,21 @@ export default (scene: MountainScene): void => {
         });
     });
 }
+
+const makeExplosion = (scene: MountainScene, x: number, y: number, opponent: boolean) => {
+    const ex = scene.matter.add.sprite(x, y, opponent ? 'orangeExplosionAtlas': 'blueExplosionAtlas', 'Explosion_1.png');
+    const circle = scene.matter.add.circle(x, y, 80);
+    ex.setExistingBody(circle);
+    ex.setScale(0.25, 0.25);
+    ex.setFixedRotation()
+    ex.setIgnoreGravity(true);
+    ex.setCollisionGroup(opponent ? scene.opponentGroup : scene.playerGroup);
+    ex.play(opponent ? 'orangeExplosion': 'blueExplosion');
+    ex.once('animationcomplete', () => {
+        console.log('destroying explosion');
+        ex.destroy();
+    });
+    return ex;
+}
+
+export {handleCollisions, makeExplosion};

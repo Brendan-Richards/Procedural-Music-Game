@@ -361,7 +361,7 @@ class Audio {
             }  
             else if(animation.key==='airSwing3Loop'){
                 this.windFlap.sound.play(this.windFlap.config);
-                scene.socket.emit('playerSound', {name: 'windFlapSound', x: scene.player.x, y: scene.player.y});
+                scene.socket.emit('playerSound', {name: 'windFlap', x: scene.player.x, y: scene.player.y});
             }
             else if(animation.key==='airSwing3End'){
                 this.windFlap.sound.stop();
@@ -477,6 +477,9 @@ const makePlayerArrow = (scene: MountainScene) => {
         arrow.setFlipX(true);
     }
     arrow.setCollisionGroup(scene.playerGroup);
+    arrow.setCollisionCategory(scene.playerProjectilesCategory);
+    arrow.body.collisionFilter.mask = 0x0100
+    console.log('arrow:', arrow);
     // arrow.setCollisionCategory(scene.playerMask);
     // arrow.setCollidesWith(scene.opponentMask);
     arrow.setIgnoreGravity(true);

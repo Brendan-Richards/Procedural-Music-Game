@@ -1,11 +1,10 @@
 import Phaser, { Scene } from 'phaser';
 import {animationLogic, createAnimations} from './CharacterAnimations';
 import ContentGenerator from './ContentGenerator';
-import handleCollisions from './Collisions';
+import {handleCollisions, makeExplosion} from './Collisions';
 import handlePlayerMovement from './PlayerMovement';
 import HealthBar from './HealthBar';
 import Audio from './Audio';
-import { io } from 'socket.io-client';
 //import { startRNN, pauseRNN, resumeRNN } from './performanceRNN';
 //import magentaTest from './MagentaTest';
 
@@ -159,6 +158,11 @@ export default class MountainScene extends Phaser.Scene
     bothAttacking: boolean;
     swordRecoil: number;
     recoilDuration: number;
+    magicDamageAmount: number;
+    arrowDamageAmount: number;
+    swordDamageAmount: number;
+    playerProjectilesCategory: number
+    opponentProjectilesCategory: number;
 
     back1: Phaser.GameObjects.Image;
 
@@ -166,6 +170,11 @@ export default class MountainScene extends Phaser.Scene
 	{
         super('mountainScene');
 
+        this.playerProjectilesCategory = 2;
+        this.opponentProjectilesCategory = 4;
+        this.magicDamageAmount = 50;
+        this.arrowDamageAmount = 20;
+        this.swordDamageAmount = 35;
         this.opponent = null;
         this.swordRecoil = 20;
         this.recoilDuration = 50;
@@ -319,6 +328,10 @@ export default class MountainScene extends Phaser.Scene
         //blood effects
         this.load.atlas('bloodAtlas', 'assets/images/environment/blood.png', 'assets/json/blood.json');
         this.load.json('bloodAtlasData', 'assets/json/blood.json');    
+        //explosion
+        this.load.atlas('blueExplosionAtlas', 'assets/images/environment/blueExplosion.png', 'assets/json/explosion.json');
+        this.load.atlas('orangeExplosionAtlas', 'assets/images/environment/orangeExplosion.png', 'assets/json/explosion.json');
+        this.load.json('blueExplosionAtlasData', 'assets/json/explosion.json');   
 
         //audio
         this.load.audio('floorAmbience', 'assets/audio/floorAmbience.mp3');
@@ -618,6 +631,8 @@ export default class MountainScene extends Phaser.Scene
             }
 
             arrow.setCollisionGroup(this.opponentGroup);
+            arrow.setCollisionCategory(this.opponentProjectilesCategory);
+            arrow.body.collisionFilter.mask = 0x1000;
             // arrow.setCollisionCategory(this.opponentMask);
             // arrow.setCollidesWith(this.playerMask);
             arrow.setIgnoreGravity(true);
@@ -631,17 +646,19 @@ export default class MountainScene extends Phaser.Scene
             //make magic
             const magic = this.matter.add.sprite(magicData.x, magicData.y, 'magicAtlas', magicData.frameName);
             magic.setScale(this.playerScaleFactor, this.playerScaleFactor);
+            magic.name = 'opponentMagic';
 
             if(magicData.flipX){
                 magic.setFlipX(true); 
             }
             
-            if(magicData.magicType==='red'){
-                magic.play('redMagic', true);
-            }
-            else{
-                magic.play('blueMagic', true);
-            }
+            magic.play('redMagic', true);
+            // if(magicData.magicType==='red'){
+                
+            // }
+            // else{
+            //     magic.play('blueMagic', true);
+            // }
             
             magic.setCollisionGroup(this.opponentGroup);
             // magic.setCollisionCategory(this.opponentMask);
@@ -695,11 +712,23 @@ export default class MountainScene extends Phaser.Scene
             });
         });
 
+        this.socket.on('explosion', data => {
+            makeExplosion(this, data.x, data.y, data.opponent);
+        });
+
         this.socket.on('removeAttackBoxes', () => {
             console.log('removing attack boxes');
             this.bothAttacking = false;
-            this.matter.world.remove(this.playerAttackBox);
-            this.matter.world.remove(this.opponentAttackBox);
+            if(this.playerAttackBox){
+                this.matter.world.remove(this.playerAttackBox);
+                this.playerAttackBox = null;
+            }
+            if(this.opponentAttackBox){
+                this.matter.world.remove(this.opponentAttackBox);
+                this.opponentAttackBox = null;
+            }
+            
+            
         });
 
         this.socket.on('opponentAnimationUpdate', (opponentData) => {
@@ -746,6 +775,7 @@ export default class MountainScene extends Phaser.Scene
 
                 if(this.opponentAttackBox){
                     this.matter.world.remove(this.opponentAttackBox);
+                    this.opponentAttackBox = null;
                 }
                 if(this.swordAttacks.includes(opponentData.currentAnimation) || opponentData.currentAnimation==='bowKick'){
                     let xOffset = 0;
@@ -791,7 +821,7 @@ export default class MountainScene extends Phaser.Scene
 
     soundAttenuation = (v0: number, distance: {x: number, y: number}): number => {
         const norm = Math.sqrt(Math.pow(distance.x, 2) + Math.pow(distance.y, 2));
-        return v0 * Math.exp(norm/this.maxGameWidth);
+        return v0 * Math.exp(-1 * 2.5 * norm/this.maxGameWidth);
     }
 
     update(){
