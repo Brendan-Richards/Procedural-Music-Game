@@ -26,6 +26,12 @@ io.on('connection', (socket) => {
     socket.on('bloodAnimation', data => {
       io.to(players[socket.id].opponent).emit('bloodAnimation', data);
     });
+    socket.on('playerSound', soundData => {
+      io.to(players[socket.id].opponent).emit('opponentSound', soundData);
+    });
+    socket.on('playerSoundStop', soundData => {
+      io.to(players[socket.id].opponent).emit('opponentSoundStop', soundData);
+    });    
     socket.on('playerRecoil', () => {
       io.to(players[socket.id].opponent).emit('opponentRecoil');        
     });

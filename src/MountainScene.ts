@@ -106,6 +106,7 @@ export default class MountainScene extends Phaser.Scene
     playerMaxSpeed: number;
     lastLandingTime: number;
     audio: Audio;
+    opponentAudio: Audio;
     bowRelease: boolean;
     bg2: Phaser.GameObjects.Image;
     bowAttacks: Array<string>;
@@ -413,11 +414,13 @@ export default class MountainScene extends Phaser.Scene
         this.opponentHealthBar = new HealthBar(this, this.opponent, 0xa24700);
         createAnimations(this, 'Opponent', 'opponentAtlas');
 
-        //ambient audio
+        //set up audio
         this.audio = new Audio(this);
+        this.audio.startAnimationAudio(this);
         this.audio.ambience();
-        this.audio.floorAmbience.volume = 0.3;
-        this.audio.windSound.volume = 0.05;
+        this.audio.floorAmbience.sound.volume = 0.3;
+        this.audio.windSound.sound.volume = 0.05;
+        this.opponentAudio = new Audio(this);
 
         this.manageSocket();
            
@@ -428,6 +431,9 @@ export default class MountainScene extends Phaser.Scene
         //this.cameras.main.setTint(30);
         
         this.manageInput();
+
+        // console.log('checking log of sword swing sound:');
+        // console.log(this.audio['swordSwingSound']);
 
         //startRNN();
         // this.input.keyboard.on('keydown-' + 'P', (event) => {
@@ -505,7 +511,7 @@ export default class MountainScene extends Phaser.Scene
                     this.bowKick = true;
                 }                
             }
-            if(this.equippedWeapon==='glove' && !this.playerAttacking && !this.audio.castSound.isPlaying){
+            if(this.equippedWeapon==='glove' && !this.playerAttacking && !this.audio.castSound.sound.isPlaying){
                 const leftButton = 0;
                 const rightButton = 2;
                 //console.log(pointer)
@@ -650,6 +656,27 @@ export default class MountainScene extends Phaser.Scene
             this.opponentHealthBar.decrease(damageAmount);
         });
 
+        this.socket.on('opponentSound', soundData => {
+            console.log('recieved sound start event');
+            console.log(soundData);
+            const distance = {x: Math.abs(this.player.x - soundData.x), y: Math.abs(this.player.y - soundData.y)};
+            console.log('distance of sound to player:', distance);
+            this.opponentAudio[soundData.name].sound.play(this.opponentAudio[soundData.name].config);
+            console.log('sound object is:', this.opponentAudio[soundData.name]);
+            const newVolume = this.soundAttenuation(this.opponentAudio[soundData.name].config.volume, distance);
+            console.log('new volume:', newVolume);
+            this.opponentAudio[soundData.name].sound.volume = newVolume;
+        });
+
+        this.socket.on('opponentSoundStop', soundData => {
+            console.log('recieved sound stop event');
+            soundData.forEach(element => {
+                if(this.opponentAudio[element].sound.isPlaying){
+                    this.opponentAudio[element].sound.stop();
+                }
+            });
+        });
+
         this.socket.on('opponentRecoil', () => {
             const oFactor = this.currentOpponentDirection==='left' ? 1 : -1;
             this.tweens.add({
@@ -762,6 +789,11 @@ export default class MountainScene extends Phaser.Scene
         
     }
 
+    soundAttenuation = (v0: number, distance: {x: number, y: number}): number => {
+        const norm = Math.sqrt(Math.pow(distance.x, 2) + Math.pow(distance.y, 2));
+        return v0 * Math.exp(norm/this.maxGameWidth);
+    }
+
     update(){
         //if(this.loaded){
             if(this.playerLedgeGrab){
@@ -790,13 +822,13 @@ export default class MountainScene extends Phaser.Scene
     }
 
     setSoundVolumes = () => {
-        if(this.audio.wallSlideSound.isPlaying){
+        if(this.audio.wallSlideSound.sound.isPlaying){
             const factor = 0.05;
-            this.audio.wallSlideSound.volume = this.player.body.velocity.y * factor + 0.3;
+            this.audio.wallSlideSound.sound.volume = this.player.body.velocity.y * factor + 0.3;
         }
         if(this.currentPlayerAnimation==='fall' && this.player.body.velocity.y > this.playerMaxSpeed * 0.7){
-            if(!this.audio.windFlap.isPlaying){
-                this.audio.windFlap.play(this.audio.windFlapConfig);
+            if(!this.audio.windFlap.sound.isPlaying){
+                this.audio.windFlap.sound.play(this.audio.windFlap.config);
             }
         }
         // else{

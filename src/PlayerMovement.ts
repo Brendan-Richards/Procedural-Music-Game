@@ -216,10 +216,10 @@ const changedWeaponHandler = (scene: MountainScene, prevVelocity: velocity) => {
     }
 
     if(scene.prevEquippedWeapon==='sword'){
-        scene.audio.sheathSound.play(scene.audio.sheathSoundConfig);
+        scene.audio.sheathSound.sound.play(scene.audio.sheathSound.config);
     }
     if(scene.equippedWeapon==='sword'){
-        scene.audio.drawSound.play(scene.audio.drawSoundConfig);
+        scene.audio.drawSound.sound.play(scene.audio.drawSound.config);
     }
     if(['ledgeGrab', 'ledgeGrabSwordDrawn', 'ledgeGrabBowDrawn', 'ledgeGrabGlove'].includes(newAnimation)){
         setNewCharacterAnimation(scene, newAnimation, scene.currentPlayerDirection==='left', false);

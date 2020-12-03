@@ -69,7 +69,7 @@ export default (scene: MountainScene): void => {
                                         //if(currentTime - scene.playerLastOnGroundTime > 2000){
                                         // if(scene.playerBody.velocity.y > 10){
                                             //console.log('playing hard landing');
-                                            scene.audio.hardLanding.play(scene.audio.hardLandingConfig);
+                                            scene.audio.hardLanding.sound.play(scene.audio.hardLanding.config);
                                         // }
                                         // else{
                                             //console.log('playing soft landing');
@@ -116,8 +116,8 @@ export default (scene: MountainScene): void => {
                                 if(scene.currentPlayerAnimation==='idleSwing1' || scene.currentPlayerAnimation==='idleSwing2' || scene.currentPlayerAnimation==='runSwing' ||
                                     scene.currentPlayerAnimation==='airSwing1' || scene.currentPlayerAnimation==='airSwing2'){
                                     if(!scene.swordCollided){
-                                        scene.audio.swordSwingSound.stop();
-                                        scene.audio.swordRockImpact.play(scene.audio.swordRockImpactConfig);
+                                        scene.audio.swordSwingSound.sound.stop();
+                                        scene.audio.swordRockImpact.sound.play(scene.audio.swordRockImpact.config);
                                         const factor = scene.currentPlayerDirection==='left' ? 1 : -1;
                                         scene.player.setVelocityX(factor * scene.playerSpeed);
                                         scene.swordCollided = true;
@@ -168,7 +168,7 @@ export default (scene: MountainScene): void => {
                         const damageAmount = 20;
                         scene.playerHealthBar.decrease(damageAmount);
                         scene.socket.emit('playerDamaged', damageAmount);
-                        scene.audio.arrowBodyImpact.play(scene.audio.arrowBodyImpactConfig);
+                        scene.audio.arrowBodyImpact.sound.play(scene.audio.arrowBodyImpact.config);
                         //}
                         const arrowIndex = scene.opponentArrows.findIndex(val => {
                             return val===other;
@@ -209,8 +209,8 @@ export default (scene: MountainScene): void => {
                         //player should take damage
                         const damageAmount = 40;
                         
-                        if(!scene.audio.swordBodyImpact.isPlaying){
-                            scene.audio.swordBodyImpact.play(scene.audio.swordBodyImpactConfig);
+                        if(!scene.audio.swordBodyImpact.sound.isPlaying){
+                            scene.audio.swordBodyImpact.sound.play(scene.audio.swordBodyImpact.config);
                         }                                
 
                         scene.socket.emit('playerDamaged', damageAmount);
@@ -286,7 +286,7 @@ export default (scene: MountainScene): void => {
                 }
                 else if(bodyA===scene.playerAttackBox || bodyB===scene.playerAttackBox){//other object is players attack box
                     //other = (bodyA===scene.playerAttackBox ? bodyB.gameObject : bodyA.gameObject);
-                    scene.audio.swordSwordImpact.play(scene.audio.swordSwordImpactConfig);
+                    scene.audio.swordSwordImpact.sound.play(scene.audio.swordSwordImpact.config);
                     scene.bothAttacking = true;
                     console.log('setting both players attacking to true');
                     scene.player.once('animationstart', () => {
