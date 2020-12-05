@@ -27,7 +27,7 @@ const animationLogic = (scene: MountainScene) => {
                 case 'idleCastRed':
                 case 'idleCastBlue': {
                     if(scene.stopCasting){
-                        console.log('idleCast ended')
+                        //console.log('idleCast ended')
                         scene.player.play('idleGlove', true);
                         scene.prevPlayerAnimation = 'idleCast';
                         scene.currentPlayerAnimation = 'idleGlove'; 
@@ -41,7 +41,7 @@ const animationLogic = (scene: MountainScene) => {
                 case 'runCastRed':
                 case 'runCastBlue': {
                     if(scene.stopCasting){
-                        console.log('runCast ended')
+                        //console.log('runCast ended')
                         scene.player.play('runGlove', true);
                         scene.prevPlayerAnimation = 'runCast';
                         scene.currentPlayerAnimation = 'runGlove'; 
@@ -54,7 +54,7 @@ const animationLogic = (scene: MountainScene) => {
                 case 'jumpCastRed':
                 case 'jumpCastBlue': {
                     if(scene.stopCasting){
-                        console.log('jumpCast ended')
+                        //console.log('jumpCast ended')
                         scene.player.play('jumpGlove', true);
                         scene.prevPlayerAnimation = 'jumpCast';
                         scene.currentPlayerAnimation = 'jumpGlove'; 
@@ -68,7 +68,7 @@ const animationLogic = (scene: MountainScene) => {
                 case 'fallCastRed':
                 case 'fallCastBlue': {
                     if(scene.stopCasting){
-                        console.log('fallCast ended')
+                        //console.log('fallCast ended')
                         scene.player.play('fallGlove', true);
                         scene.prevPlayerAnimation = 'fallCast';
                         scene.currentPlayerAnimation = 'fallGlove'; 
@@ -81,7 +81,7 @@ const animationLogic = (scene: MountainScene) => {
                 case 'wallSlideCastRed':
                 case 'wallSlideCastBlue': {
                     if(scene.stopCasting){
-                        console.log('wallSlideCast ended')
+                        //console.log('wallSlideCast ended')
                         scene.player.play('wallSlideGlove', true);
                         scene.prevPlayerAnimation = 'wallSlideCast';
                         scene.currentPlayerAnimation = 'wallSlideGlove'; 
@@ -122,7 +122,7 @@ const animationLogic = (scene: MountainScene) => {
                 }
                 case 'fallNotch': {
                     scene.player.play('fallHoldLoop', true);
-                    console.log('playing fallHoldLoop')
+                    //console.log('playing fallHoldLoop')
                     scene.prevPlayerAnimation = 'fallNotch';
                     scene.currentPlayerAnimation = 'fallHoldLoop'; 
                     emitAnimationEvent(scene, 'fallHoldLoop', scene.currentPlayerDirection==='left');

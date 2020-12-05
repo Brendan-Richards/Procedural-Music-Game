@@ -1,6 +1,7 @@
 import { Body } from 'matter';
 import Phaser, { Scene } from 'phaser';
 import MountainScene from './MountainScene';
+import { setCollisionMask } from './Collisions';
 
 type velocity = {
     x: number,
@@ -520,7 +521,7 @@ const makeMagic = (scene: MountainScene) => {
 
     const xPosition = scene.player.x+(factor * (scene.magicType==='red' ? 20 : 13));
     const magic = scene.matter.add.sprite(xPosition, yPosition, 'magicAtlas', frameName);
-    magic.name = 'playerMagic';
+    //magic.name = 'playerMagic';
     magic.setScale(scene.playerScaleFactor, scene.playerScaleFactor);
 
     let flipX = false;
@@ -545,7 +546,10 @@ const makeMagic = (scene: MountainScene) => {
     
     // magic.setCollisionCategory(scene.playerMask);
     // magic.setCollidesWith(scene.opponentMask);
-    magic.setCollisionGroup(scene.playerGroup);
+    magic.body.label = 'playerMagic';
+    magic.body.collisionFilter.category = scene.collisionCategories.playerMagic;
+    setCollisionMask(scene, magic, ['player', 'playerBox', 'playerArrow', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);
+    // magic.setCollisionGroup(scene.playerGroup);
     magic.setIgnoreGravity(true);
     magic.setFixedRotation();
     scene.matter.setVelocity(magic, factor * scene.magicSpeed, 0);
@@ -1380,11 +1384,6 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
 
     scene.player.setBounce(0);
     scene.player.setFixedRotation(); 
-    scene.player.setCollisionGroup(scene.playerGroup);
-    // scene.player.setCollisionCategory(scene.playerMask);
-    // scene.player.setCollidesWith(scene.opponentMask);
-    //scene.player.setCollisionGroup(-1);
-
 
     if(scene.playerAttackBox){
         scene.matter.world.remove(scene.playerAttackBox);
@@ -1405,12 +1404,17 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
             case 'idleSwing2': {xOffset = 12; yOffset = -7; break;}
         }
         scene.playerAttackBox = scene.matter.add.circle(scene.player.x + (factor * xOffset), scene.player.y + yOffset, radius, {
-            label: 'playerAttackBody',
-            ignoreGravity: true,
-            collisionFilter: {
-                group: scene.playerGroup
-            }
+            label: 'playerBox',
+            ignoreGravity: true
         });
+
+        //console.log('playerAttackBox:', scene.playerAttackBox)
+        const gameObj = scene.add.circle(scene.player.x + (factor * xOffset), scene.player.y + yOffset, radius, undefined, 0);
+        gameObj.body = scene.playerAttackBox;
+        scene.playerAttackBox.collisionFilter.category = scene.collisionCategories.playerBox;
+        //console.log('dummy game obj:', gameObj);
+        setCollisionMask(scene, gameObj, ['terrain', 'player', 'playerBox', 'playerArrow', 'playerMagic', 'opponentMagic', 'playerExplosion', 'opponentExplosion']);
+        //console.log('dummy game obj after setting collision:', gameObj);
         //scene.playerAttackBox.collisionFilter.group = -1;
     }
 

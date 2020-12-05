@@ -1,5 +1,6 @@
 import Phaser, { Sound } from 'phaser';
 import MountainScene from './MountainScene';
+import { setCollisionMask } from './Collisions';
 import * as mm from '@magenta/music/es6';
 
 interface sound {
@@ -466,6 +467,10 @@ const makePlayerArrow = (scene: MountainScene) => {
     const arrow = scene.matter.add.sprite(arrowX, arrowY, 'arrow', undefined);
     arrow.setScale(scene.arrowScale);
 
+    arrow.body.label = 'playerArrow';
+    arrow.body.collisionFilter.category = scene.collisionCategories.playerArrow;
+    setCollisionMask(scene, arrow, ['player', 'playerBox', 'playerArrow', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);
+
     scene.playerArrows.push(arrow);
 
     if(scene.playerArrows.length > scene.maxArrows){
@@ -476,10 +481,8 @@ const makePlayerArrow = (scene: MountainScene) => {
     if(flipX){
         arrow.setFlipX(true);
     }
-    arrow.setCollisionGroup(scene.playerGroup);
-    arrow.setCollisionCategory(scene.playerProjectilesCategory);
-    arrow.body.collisionFilter.mask = 0x0100
-    console.log('arrow:', arrow);
+
+    //console.log('arrow:', arrow);
     // arrow.setCollisionCategory(scene.playerMask);
     // arrow.setCollidesWith(scene.opponentMask);
     arrow.setIgnoreGravity(true);
