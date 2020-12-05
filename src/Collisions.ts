@@ -277,11 +277,42 @@ const opponentMagicTerrainCollision = (scene: MountainScene, opponentMagic, terr
 }
 
 const playerBoxOpponentArrowCollision = (scene: MountainScene, playerBox, opponentArrow) => {
+    const arrowIndex = scene.opponentArrows.findIndex(val => {
+        return val===opponentArrow;
+    });
 
+    if(arrowIndex !== -1){
+        scene.opponentArrows.splice(arrowIndex, 1);
+        // scene.playerArrows[arrowIndex].setAngularVelocity(Math.random() * 4 - 2);
+        opponentArrow.setAngularVelocity(Math.random() * 4 - 2);
+        const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
+        opponentArrow.setVelocity(factor * 2, -2);
+
+        setTimeout(() => {
+            opponentArrow.destroy();
+        }, 3000)
+    }
 }
 
-const playerArrowOpponentBoxCollision = (scene: MountainScene, playerArrow, opponentBox) => {
 
+const playerArrowOpponentBoxCollision = (scene: MountainScene, playerArrow, opponentBox) => {
+    const arrowIndex = scene.playerArrows.findIndex(val => {
+        return val===opponentBox;
+    });
+
+    console.log('opponent attack box hit with arrow at player arrow list index', arrowIndex);
+
+    if(arrowIndex !== -1){
+        scene.playerArrows.splice(arrowIndex, 1);
+        // scene.playerArrows[arrowIndex].setAngularVelocity(Math.random() * 4 - 2);
+        opponentBox.setAngularVelocity(Math.random() * 4 - 2);
+        const factor = scene.currentOpponentDirection==='left' ? -1 : 1;
+        opponentBox.setVelocity(factor * 2, -2);
+
+        setTimeout(() => {
+            opponentBox.destroy();
+        }, 3000)
+    }
 }
 
 const worldBoundaryPlayerMagicCollision = (scene: MountainScene, worldBoundary, playerMagic) => {
@@ -290,6 +321,27 @@ const worldBoundaryPlayerMagicCollision = (scene: MountainScene, worldBoundary, 
 
 const worldBoundaryOpponentMagicCollision = (scene: MountainScene, worldBoundary, opponentMagic) => {
 
+}
+
+const playerBoxOpponentBoxCollision = (scene: MountainScene, playerBox, opponentBox) => {
+    scene.audio.swordSwordImpact.sound.play(scene.audio.swordSwordImpact.config);
+    scene.socket.emit('playerSound', {name: 'swordSwordImpact', x: scene.player.x, y: scene.player.y});
+    scene.bothAttacking = true;
+    console.log('setting both players attacking to true');
+    scene.player.once('animationstart', () => {
+        console.log('setting both players attacking to false');
+        scene.bothAttacking = false;
+        if(scene.playerAttackBox){
+            scene.matter.world.remove(scene.playerAttackBox);
+            scene.playerAttackBox = null;
+        }
+        if(scene.opponentAttackBox){
+            scene.matter.world.remove(scene.opponentAttackBox);
+            scene.opponentAttackBox = null;
+        }
+        scene.socket.emit('removeAttackBoxes');
+    });
+    recoilPlayers(scene, true, true);
 }
 
 const handleCollisions = (scene: MountainScene): void => {
@@ -389,140 +441,12 @@ const handleCollisions = (scene: MountainScene): void => {
                 worldBoundaryOpponentMagicCollision(scene, worldBoundary, opponentMagic);
             }
 
-
-
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            if(['opponentMagic', 'playerMagic'].includes(bodyA.gameObject.name) || ['opponentMagic', 'playerMagic'].includes(bodyB.gameObject.name)){
-                console.log('collision involving magic');
-                
-                if(['opponentMagic', 'playerMagic'].includes(bodyA.gameObject.name) && ['opponentMagic', 'playerMagic'].includes(bodyB.gameObject.name)){
-                    console.log('player magic collided with opponent magic');
-
-                }
-                else{ // only one of the bodies is magic
-                    const magic = ['opponentMagic', 'playerMagic'].includes(bodyA.gameObject.name) ? bodyA.gameObject : bodyB.gameObject;
-                    const other = ['opponentMagic', 'playerMagic'].includes(bodyA.gameObject.name) ? bodyB.gameObject : bodyA.gameObject;
-
-                    if(other===scene.player || other===scene.opponent){
-
-                    }
-                    else if(!other || other.name==='terrain'){
-                        
-                    }
-                }
-                
+            else if(labelA==='playerBox' && labelB==='opponentBox' || labelB==='playerBox' && labelA==='opponentBox'){
+                const playerBox = labelA==='playerBox' ? bodyA : bodyB;
+                const opponentBox = labelA==='playerBox' ? bodyB : labelA;
+                playerBoxOpponentBoxCollision(scene, playerBox, opponentBox);
             }
-            else if(bodyA.gameObject===scene.player || bodyB.gameObject===scene.player){// if one of the objects is the player
-                let other = (bodyA.gameObject===scene.player ? bodyB.gameObject : bodyA.gameObject);
-                console.log('other object that isnt the player', other);
-                if(other!==null){
-                    if(other===scene.opponent){ // player collided with opponent
-                        console.log('collided with opponent');
-                    }
-                    else if(other.name==='terrain'){
 
-                    }
-                    // else if(other===scene.opponentAttackBox){
-
-                    // }
-                    // else if(){
-
-                        
-                        // // scene.playerHealthBar.decrease(10);
-                        // // scene.opponentHealthBar.decrease(10);
-                    // }
-                    else if(other.texture.key==='arrow'){ // player collided with enemy arrow
-
-                    }
-                    //console.log(other);
-                    
- 
-                }
-                else if(bodyA===scene.opponentAttackBox || bodyB===scene.opponentAttackBox){
-
-                }
-            }
-            else if(bodyA.gameObject===scene.opponent || bodyB.gameObject===scene.opponent){// if one of the objects is the opponent
-                const other = (bodyA.gameObject===scene.opponent ? bodyB.gameObject : bodyA.gameObject);
-
-                if(other !== null){
-                    if(other.texture && other.texture.key==='arrow'){ // opponent collided with player arrow
-
-                    }
-                }
-                if(bodyA===scene.playerAttackBox || bodyB===scene.playerAttackBox){//other object is players attack box
-                    
-                }
-
-            }
-            else if(bodyA===scene.opponentAttackBox || bodyB===scene.opponentAttackBox){// one of the objects is the opponents attack box
-                console.log('one of the objects was the opponents attack box');
-                let other = (bodyA===scene.opponentAttackBox ? bodyB.gameObject : bodyA.gameObject);
-                if(other && other.texture && other.texture.key==='arrow'){
-                    const arrowIndex = scene.playerArrows.findIndex(val => {
-                        return val===other;
-                    });
-
-                    console.log('opponent attack box hit with arrow at player arrow list index', arrowIndex);
-
-                    if(arrowIndex !== -1){
-                        scene.playerArrows.splice(arrowIndex, 1);
-                        // scene.playerArrows[arrowIndex].setAngularVelocity(Math.random() * 4 - 2);
-                        other.setAngularVelocity(Math.random() * 4 - 2);
-                        const factor = scene.currentOpponentDirection==='left' ? -1 : 1;
-                        other.setVelocity(factor * 2, -2);
-
-                        setTimeout(() => {
-                            other.destroy();
-                        }, 3000)
-                    }
-                       
-                }
-                else if(bodyA===scene.playerAttackBox || bodyB===scene.playerAttackBox){//other object is players attack box
-                    //other = (bodyA===scene.playerAttackBox ? bodyB.gameObject : bodyA.gameObject);
-                    scene.audio.swordSwordImpact.sound.play(scene.audio.swordSwordImpact.config);
-                    scene.socket.emit('playerSound', {name: 'swordSwordImpact', x: scene.player.x, y: scene.player.y});
-                    scene.bothAttacking = true;
-                    console.log('setting both players attacking to true');
-                    scene.player.once('animationstart', () => {
-                        console.log('setting both players attacking to false');
-                        scene.bothAttacking = false;
-                        if(scene.playerAttackBox){
-                            scene.matter.world.remove(scene.playerAttackBox);
-                            scene.playerAttackBox = null;
-                        }
-                        if(scene.opponentAttackBox){
-                            scene.matter.world.remove(scene.opponentAttackBox);
-                            scene.opponentAttackBox = null;
-                        }
-                        scene.socket.emit('removeAttackBoxes');
-                    });
-                    recoilPlayers(scene, true, true);
-                }
-            }
-            else if(bodyA===scene.playerAttackBox || bodyB===scene.playerAttackBox){// one of the objects is the players attack box
-                console.log('one of the objects was the players attack box');
-                const other = (bodyA===scene.playerAttackBox ? bodyB.gameObject : bodyA.gameObject);
-                if(other && other.texture && other.texture.key==='arrow'){
-                    const arrowIndex = scene.opponentArrows.findIndex(val => {
-                        return val===other;
-                    });
-
-                    if(arrowIndex !== -1){
-                        scene.opponentArrows.splice(arrowIndex, 1);
-                        // scene.playerArrows[arrowIndex].setAngularVelocity(Math.random() * 4 - 2);
-                        other.setAngularVelocity(Math.random() * 4 - 2);
-                        const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
-                        other.setVelocity(factor * 2, -2);
-
-                        setTimeout(() => {
-                            other.destroy();
-                        }, 3000)
-                    }
-                    
-                    
-                }
-            }
         });
     });
 
