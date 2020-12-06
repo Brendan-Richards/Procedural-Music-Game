@@ -159,7 +159,7 @@ const createAnimations = (scene: MountainScene, suffix = '', atlasName = 'charac
     const swingFrameRate = 17;
     const magicFrameRate = 10;
     const bloodFrameRate = 30;
-    const explosionFrameRate = 20;
+    const explosionFrameRate = 15;
 
 
     // sword equipped animations

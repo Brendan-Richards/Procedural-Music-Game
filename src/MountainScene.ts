@@ -259,8 +259,8 @@ export default class MountainScene extends Phaser.Scene
         this.prevEquippedWeapon = '';
         // this.weaponsFound = ['none', 'sword', 'bow', 'glove'];
         this.weaponsFound = ['sword', 'bow', 'glove'];
-        this.arrowSpeed = 12;
-        this.magicSpeed = 10;
+        this.arrowSpeed = 11;
+        this.magicSpeed = 7;
         this.mana = 100;
         this.madeMagic = false;
         this.magicType = 'red';
@@ -377,6 +377,7 @@ export default class MountainScene extends Phaser.Scene
         this.load.audio('arrowBodyImpact', 'assets/audio/arrowBodyImpact.mp3');
         this.load.audio('swordSwordImpact', 'assets/audio/swordSwordImpact1.mp3');
         this.load.audio('swordBodyImpact', 'assets/audio/swordBodyImpact.mp3');
+        this.load.audio('explosion', 'assets/audio/explosion.mp3');
 
         //UI
         this.load.image("staminaOutline", "assets/images/UI/staminaOutline.png");
@@ -657,11 +658,16 @@ export default class MountainScene extends Phaser.Scene
         });
 
         this.socket.on('createArrow', (arrowData) => {
-            //console.log('client recieved createArrow event');
+            console.log('client recieved createArrow event');
            
             const arrow = this.matter.add.sprite(arrowData.x, arrowData.y, 'arrow', undefined);
             arrow.setScale(this.arrowScale);
-            
+            console.log('opponent arrow object right after creation:', arrow); 
+       
+            arrow.body.label = 'opponentArrow';
+            arrow.body.collisionFilter.category = this.collisionCategories.opponentArrow;
+            setCollisionMask(this, arrow, ['opponent', 'playerBox', 'playerArrow', 'opponentArrow', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);    
+          
             this.opponentArrows.push(arrow);
 
             if(this.opponentArrows.length > this.maxArrows){
@@ -673,10 +679,9 @@ export default class MountainScene extends Phaser.Scene
                 arrow.setFlipX(true);
             }
 
-            arrow.body.label = 'opponentArrow';
-            arrow.body.collisionFilter.category = this.collisionCategories.opponentArrow;
-            setCollisionMask(this, arrow, ['opponent', 'playerBox', 'playerArrow', 'opponentArrow', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);    
-        
+          
+            console.log('opponent arrow object right after setting collision:', arrow); 
+            console.log(this.opponentArrows);
             // arrow.setCollisionGroup(this.opponentGroup);
             // arrow.setCollisionCategory(this.opponentProjectilesCategory);
             // arrow.body.collisionFilter.mask = 0x1000;
@@ -691,7 +696,15 @@ export default class MountainScene extends Phaser.Scene
             //console.log('client recieved createMagic event');
 
             //make magic
-            const magic = this.matter.add.sprite(magicData.x, magicData.y, 'magicAtlas', magicData.frameName);
+            const verts = [{x: 50, y: 0}, {x: 70, y: 0}, {x: 70, y: 10}, {x: 50, y: 10}];
+            const magic = this.matter.add.sprite(magicData.x, magicData.y, 'magicAtlas', magicData.frameName, {
+                vertices: verts,
+                render: {
+                    sprite: {
+                        xOffset: (magicData.flipX ? -1 : 1) * 0.35
+                    }
+                }
+            });
             magic.setScale(this.playerScaleFactor, this.playerScaleFactor);
             magic.name = 'opponentMagic';
 
@@ -725,19 +738,19 @@ export default class MountainScene extends Phaser.Scene
         });
 
         this.socket.on('opponentSound', soundData => {
-            console.log('recieved sound start event');
-            console.log(soundData);
+            //console.log('recieved sound start event');
+            //console.log(soundData);
             const distance = {x: Math.abs(this.player.x - soundData.x), y: Math.abs(this.player.y - soundData.y)};
-            console.log('distance of sound to player:', distance);
+            //console.log('distance of sound to player:', distance);
             this.opponentAudio[soundData.name].sound.play(this.opponentAudio[soundData.name].config);
-            console.log('sound object is:', this.opponentAudio[soundData.name]);
+            //console.log('sound object is:', this.opponentAudio[soundData.name]);
             const newVolume = this.soundAttenuation(this.opponentAudio[soundData.name].config.volume, distance);
-            console.log('new volume:', newVolume);
+            //console.log('new volume:', newVolume);
             this.opponentAudio[soundData.name].sound.volume = newVolume;
         });
 
         this.socket.on('opponentSoundStop', soundData => {
-            console.log('recieved sound stop event');
+            //console.log('recieved sound stop event');
             soundData.forEach(element => {
                 if(this.opponentAudio[element].sound.isPlaying){
                     this.opponentAudio[element].sound.stop();

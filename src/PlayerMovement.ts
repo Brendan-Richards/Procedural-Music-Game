@@ -510,7 +510,7 @@ const makeMagic = (scene: MountainScene) => {
     
     const frameName = scene.magicType==='red' ? 'redMagic_00.png' : 'blueMagic_00.png';
 
-    let yPosition = scene.player.y-6;
+    let yPosition = scene.player.y-4;
 
     if(['fallCastRed', 'fallCastBlue'].includes(scene.currentPlayerAnimation)){
         yPosition += 3;
@@ -520,7 +520,15 @@ const makeMagic = (scene: MountainScene) => {
     }
 
     const xPosition = scene.player.x+(factor * (scene.magicType==='red' ? 20 : 13));
-    const magic = scene.matter.add.sprite(xPosition, yPosition, 'magicAtlas', frameName);
+    const verts = [{x: 50, y: 0}, {x: 70, y: 0}, {x: 70, y: 10}, {x: 50, y: 10}];
+    const magic = scene.matter.add.sprite(xPosition, yPosition, 'magicAtlas', frameName, {
+        vertices: verts,
+        render: {
+            sprite: {
+                xOffset: factor * 0.35
+            }
+        }
+    });
     //magic.name = 'playerMagic';
     magic.setScale(scene.playerScaleFactor, scene.playerScaleFactor);
 

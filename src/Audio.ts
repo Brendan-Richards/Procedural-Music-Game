@@ -40,6 +40,7 @@ class Audio {
     arrowBodyImpact: sound;
     swordSwordImpact: sound;
     swordBodyImpact: sound;
+    explosionSound: sound;
     possibleNotes: Array<number>;
     scene: MountainScene;
 
@@ -51,6 +52,13 @@ class Audio {
     constructor(scene: MountainScene){
         this.scene = scene;
 
+        this.explosionSound = {
+			sound: scene.sound.add('explosion'),
+			config: {
+                loop: false,
+                volume: 0.1
+            }
+		}
         this.runSound = {
 			sound: scene.sound.add('steps'),
 			config: {
@@ -230,7 +238,7 @@ class Audio {
 			sound: scene.sound.add('swordBodyImpact'),
 			config: {
                 loop: false,
-                volume: 0.1
+                volume: 0.05
             }
 		}
     }
@@ -466,6 +474,7 @@ const makePlayerArrow = (scene: MountainScene) => {
 
     const arrow = scene.matter.add.sprite(arrowX, arrowY, 'arrow', undefined);
     arrow.setScale(scene.arrowScale);
+    //console.log('player arrow object right after creation:', arrow); 
 
     arrow.body.label = 'playerArrow';
     arrow.body.collisionFilter.category = scene.collisionCategories.playerArrow;
@@ -482,6 +491,7 @@ const makePlayerArrow = (scene: MountainScene) => {
         arrow.setFlipX(true);
     }
 
+    console.log(scene.playerArrows);
     //console.log('arrow:', arrow);
     // arrow.setCollisionCategory(scene.playerMask);
     // arrow.setCollidesWith(scene.opponentMask);

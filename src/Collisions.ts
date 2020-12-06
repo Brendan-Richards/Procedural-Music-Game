@@ -190,33 +190,41 @@ const playerOpponentBoxCollision = (scene: MountainScene, player, opponentBox) =
     }
 };
 
-const playerOpponentArrowCollision = (scene: MountainScene, player, opponnentArrow) => {
+const playerOpponentArrowCollision = (scene: MountainScene, player, opponentArrow) => {
 //if(!scene.swordAttacks.includes(scene.currentPlayerAnimation)){
-    const damageAmount = 20;
+    const damageAmount = scene.arrowDamageAmount;
     scene.playerHealthBar.decrease(damageAmount);
     scene.socket.emit('playerDamaged', damageAmount);
     scene.audio.arrowBodyImpact.sound.play(scene.audio.arrowBodyImpact.config);
     scene.socket.emit('playerSound', {name: 'arrowBodyImpact', x: scene.player.x, y: scene.player.y});
     //}
+    //console.log('length of scene.opponent arrows', scene.opponentArrows.length);
+    console.log('about to search through opponent arrows array, opponentArrows:', scene.opponentArrows);
     const arrowIndex = scene.opponentArrows.findIndex(val => {
-        return val===opponnentArrow;
+        //console.log('val:', val, 'opponentArrow:', opponentArrow);
+        return val.body===opponentArrow;
     });
 
     //console.log('hit with arrow at opponent arrow list index', arrowIndex);
-    scene.opponentArrows.splice(arrowIndex, 1);
-
+    //scene.opponentArrows.splice(arrowIndex, 1);
+    if(arrowIndex !== -1){
+        scene.opponentArrows[arrowIndex].destroy();
+        scene.opponentArrows.splice(arrowIndex, 1);
+    }
     //console.log('still have reference to arrow', opponnentArrow);
-    opponnentArrow.destroy();
+    //opponentArrow.destroy();
     // other.setCollisionGroup(-3);
     // scene.matter.add.constraint(scene.player, other, 20, 1);
     //scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100); 
 };
 
-const playerOpponentMagicCollision = (scene: MountainScene, player, opponnentMagic) => {
-    opponnentMagic.destroy();
-
-    scene.socket.emit('explosion', {x: scene.player.x, y: scene.player.y, opponent: true});
-    const ex = makeExplosion(scene, scene.player.x, scene.player.y, true);
+const playerOpponentMagicCollision = (scene: MountainScene, player, opponentMagic) => {
+    
+    console.log('opponent magic:', opponentMagic);
+    opponentMagic.gameObject.destroy();
+    //scene.matter.world.remove(opponentMagic);
+    //scene.socket.emit('explosion', {x: scene.player.x, y: scene.player.y, opponent: true});
+    const ex = makeExplosion(scene, scene.player.x, scene.player.y, true, false);
     
     //ex.setCollisionGroup(scene.playerGroup);
     scene.matter.setVelocity(ex, scene.player.body.velocity.x, scene.player.body.velocity.y);
@@ -225,20 +233,25 @@ const playerOpponentMagicCollision = (scene: MountainScene, player, opponnentMag
     scene.playerHealthBar.decrease(scene.magicDamageAmount);
 }
 
-const playerOpponentExplosionCollision = (scene: MountainScene, player, opponnentExplosion) => {
-
-}
-
 const opponentPlayerArrowCollision = (scene: MountainScene, opponent, playerArrow) => {
+
+
     const arrowIndex = scene.playerArrows.findIndex(val => {
-        return val===playerArrow;
+        //console.log('val.body:', val.body, 'player arrow body:', playerArrow);
+        //console.log('val.body===playerArrow', val.body===playerArrow);
+        return val.body===playerArrow;
     });
 
-    console.log('opponent hit with arrow at player arrow list index', arrowIndex);
+    //console.log('opponent hit with arrow at player arrow list index', arrowIndex);
+
+    //console.log('scene.playerArrows.length:', scene.playerArrows.length);
 
     if(arrowIndex !== -1){
-        playerArrow.destroy();
+        scene.playerArrows[arrowIndex].destroy();
+        scene.playerArrows.splice(arrowIndex, 1);
     }
+
+    //console.log('scene.playerArrows.length:', scene.playerArrows.length);
 
     const blood = scene.add.sprite(scene.opponent.x, scene.opponent.y, 'bloodAtlas', '1_0.png');
     blood.play('blood');
@@ -261,6 +274,15 @@ const opponentPlayerBoxCollision = (scene: MountainScene, opponent, playerBox) =
 }
 
 const opponentPlayerMagicCollision = (scene: MountainScene, opponent, playerMagic) => {
+    //console.log('opponent magic:', opponentMagic);
+    playerMagic.gameObject.destroy();
+    //scene.matter.world.remove(opponentMagic);
+    //scene.socket.emit('explosion', {x: scene.player.x, y: scene.player.y, opponent: false});
+    const ex = makeExplosion(scene, scene.opponent.x, scene.opponent.y, false, false);
+    
+    //ex.setCollisionGroup(scene.playerGroup);
+    scene.matter.setVelocity(ex, scene.opponent.body.velocity.x, scene.opponent.body.velocity.y);
+    //ex.setIgnoreGravity(true);
 
 }
 
@@ -268,28 +290,45 @@ const opponentPlayerExplosionCollision = (scene: MountainScene, opponent, player
     
 }
 
-const playerMagicTerrainCollision = (scene: MountainScene, playerMagic, terrain) => {
-    //makeExplosion(scene, collisionPoint.x, collisionPoint.y, magic.name==='opponentMagic');
+const playerOpponentExplosionCollision = (scene: MountainScene, player, opponnentExplosion) => {
+
 }
 
-const opponentMagicTerrainCollision = (scene: MountainScene, opponentMagic, terrain) => {
+const worldBoundaryPlayerMagicCollision = (scene: MountainScene, worldBoundary, playerMagic, collisionPoint) => {
+    playerMagic.gameObject.destroy();
+    makeExplosion(scene, collisionPoint.x, collisionPoint.y, false);
+}
+
+const worldBoundaryOpponentMagicCollision = (scene: MountainScene, worldBoundary, opponentMagic, collisionPoint) => {
+    opponentMagic.gameObject.destroy();
+    makeExplosion(scene, collisionPoint.x, collisionPoint.y, true);
+}
+
+const playerMagicTerrainCollision = (scene: MountainScene, playerMagic, terrain, collisionPoint) => {
+    playerMagic.gameObject.destroy();
+    makeExplosion(scene, collisionPoint.x, collisionPoint.y, false);
+}
+
+const opponentMagicTerrainCollision = (scene: MountainScene, opponentMagic, terrain, collisionPoint) => {
+    opponentMagic.gameObject.destroy();
+    makeExplosion(scene, collisionPoint.x, collisionPoint.y, true);
     //makeExplosion(scene, collisionPoint.x, collisionPoint.y, magic.name==='opponentMagic');
 }
 
 const playerBoxOpponentArrowCollision = (scene: MountainScene, playerBox, opponentArrow) => {
     const arrowIndex = scene.opponentArrows.findIndex(val => {
-        return val===opponentArrow;
+        return val.body===opponentArrow;
     });
 
     if(arrowIndex !== -1){
         scene.opponentArrows.splice(arrowIndex, 1);
         // scene.playerArrows[arrowIndex].setAngularVelocity(Math.random() * 4 - 2);
-        opponentArrow.setAngularVelocity(Math.random() * 4 - 2);
+        opponentArrow.gameObject.setAngularVelocity(Math.random() * 4 - 2);
         const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
-        opponentArrow.setVelocity(factor * 2, -2);
+        opponentArrow.gameObject.setVelocity(factor * 2, -2);
 
         setTimeout(() => {
-            opponentArrow.destroy();
+            opponentArrow.gameObject.destroy();
         }, 3000)
     }
 }
@@ -297,30 +336,23 @@ const playerBoxOpponentArrowCollision = (scene: MountainScene, playerBox, oppone
 
 const playerArrowOpponentBoxCollision = (scene: MountainScene, playerArrow, opponentBox) => {
     const arrowIndex = scene.playerArrows.findIndex(val => {
-        return val===opponentBox;
+        //console.log('val.body:', val.body, 'playerArrow:', playerArrow);
+        return val.body===playerArrow;
     });
 
-    console.log('opponent attack box hit with arrow at player arrow list index', arrowIndex);
+   // console.log('opponent attack box hit with arrow at player arrow list index', arrowIndex);
 
     if(arrowIndex !== -1){
         scene.playerArrows.splice(arrowIndex, 1);
         // scene.playerArrows[arrowIndex].setAngularVelocity(Math.random() * 4 - 2);
-        opponentBox.setAngularVelocity(Math.random() * 4 - 2);
+        playerArrow.gameObject.setAngularVelocity(Math.random() * 4 - 2);
         const factor = scene.currentOpponentDirection==='left' ? -1 : 1;
-        opponentBox.setVelocity(factor * 2, -2);
+        playerArrow.gameObject.setVelocity(factor * 2, -2);
 
         setTimeout(() => {
-            opponentBox.destroy();
+            playerArrow.gameObject.destroy();
         }, 3000)
     }
-}
-
-const worldBoundaryPlayerMagicCollision = (scene: MountainScene, worldBoundary, playerMagic) => {
-
-}
-
-const worldBoundaryOpponentMagicCollision = (scene: MountainScene, worldBoundary, opponentMagic) => {
-
 }
 
 const playerBoxOpponentBoxCollision = (scene: MountainScene, playerBox, opponentBox) => {
@@ -344,6 +376,23 @@ const playerBoxOpponentBoxCollision = (scene: MountainScene, playerBox, opponent
     recoilPlayers(scene, true, true);
 }
 
+const opponentArrowTerrainCollision = (scene: MountainScene, opponentArrow, terrain) => {
+    opponentArrow.parent.collisionFilter.category = null;
+}
+
+const opponentArrowWorldBoundaryCollision = (scene: MountainScene, opponentArrow, worldBoundary) => {
+    opponentArrow.parent.collisionFilter.category = null;
+}
+
+const playerArrowTerrainCollision = (scene: MountainScene, playerArrow, terrain) => {
+    playerArrow.parent.collisionFilter.category = null;
+}
+
+const playerArrowWorldBoundaryCollision = (scene: MountainScene, playerArrow, worldBoundary) => {
+    playerArrow.parent.collisionFilter.category = null;
+}
+
+
 const handleCollisions = (scene: MountainScene): void => {
     //collision between player, ground, and wall
     scene.matter.world.on("collisionstart", (event, body1, body2) => {
@@ -363,89 +412,112 @@ const handleCollisions = (scene: MountainScene): void => {
 
             if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain'){
                 const player = labelA==='player' ? bodyA : bodyB;
-                const terrain = labelA==='player' ? bodyB : labelA;
+                const terrain = labelA==='player' ? bodyB : bodyA;
                 playerTerrainCollision(scene, player, terrain, collisionNormal);
             }
             else if(labelA==='player' && labelB==='opponentBox' || labelB==='player' && labelA==='opponentBox'){
                 const player = labelA==='player' ? bodyA : bodyB;
-                const opponnentBox = labelA==='player' ? bodyB : labelA;
+                const opponnentBox = labelA==='player' ? bodyB : bodyA;
                 playerOpponentBoxCollision(scene, player, opponnentBox);
             }
             else if(labelA==='player' && labelB==='opponentArrow' || labelB==='player' && labelA==='opponentArrow'){
                 const player = labelA==='player' ? bodyA : bodyB;
-                const opponnentArrow = labelA==='player' ? bodyB : labelA;
+                const opponnentArrow = labelA==='player' ? bodyB : bodyA;
                 playerOpponentArrowCollision(scene, player, opponnentArrow);
             }
             else if(labelA==='player' && labelB==='opponentMagic' || labelB==='player' && labelA==='opponentMagic'){
                 const player = labelA==='player' ? bodyA : bodyB;
-                const opponnentMagic = labelA==='player' ? bodyB : labelA;
+                const opponnentMagic = labelA==='player' ? bodyB : bodyA;
                 playerOpponentMagicCollision(scene, player, opponnentMagic);
             }
             else if(labelA==='player' && labelB==='opponentExplosion' || labelB==='player' && labelA==='opponentExplosion'){
                 const player = labelA==='player' ? bodyA : bodyB;
-                const opponnentExplosion = labelA==='player' ? bodyB : labelA;
+                const opponnentExplosion = labelA==='player' ? bodyB : bodyA;
                 playerOpponentExplosionCollision(scene, player, opponnentExplosion);
             }
 
             else if(labelA==='opponent' && labelB==='playerArrow' || labelB==='opponent' && labelA==='playerArrow'){
                 const opponent = labelA==='opponent' ? bodyA : bodyB;
-                const playerArrow = labelA==='opponent' ? bodyB : labelA;
+                const playerArrow = labelA==='opponent' ? bodyB : bodyA;
                 opponentPlayerArrowCollision(scene, opponent, playerArrow);
             }
             else if(labelA==='opponent' && labelB==='playerBox' || labelB==='opponent' && labelA==='playerBox'){
                 const opponent = labelA==='opponent' ? bodyA : bodyB;
-                const playerBox = labelA==='opponent' ? bodyB : labelA;
+                const playerBox = labelA==='opponent' ? bodyB : bodyA;
                 opponentPlayerBoxCollision(scene, opponent, playerBox);
             }
             else if(labelA==='opponent' && labelB==='playerMagic' || labelB==='opponent' && labelA==='playerMagic'){
                 const opponent = labelA==='opponent' ? bodyA : bodyB;
-                const playerMagic = labelA==='opponent' ? bodyB : labelA;
+                const playerMagic = labelA==='opponent' ? bodyB : bodyA;
                 opponentPlayerMagicCollision(scene, opponent, playerMagic);
             }
             else if(labelA==='opponent' && labelB==='playerExplosion' || labelB==='opponent' && labelA==='playerExplosion'){
                 const opponent = labelA==='opponent' ? bodyA : bodyB;
-                const playerExplosion = labelA==='opponent' ? bodyB : labelA;
+                const playerExplosion = labelA==='opponent' ? bodyB : bodyA;
                 opponentPlayerExplosionCollision(scene, opponent, playerExplosion);
             }
 
             else if(labelA==='playerMagic' && labelB==='terrain' || labelB==='playerMagic' && labelA==='terrain'){
                 const playerMagic = labelA==='playerMagic' ? bodyA : bodyB;
-                const terrain = labelA==='playerMagic' ? bodyB : labelA;
-                playerMagicTerrainCollision(scene, playerMagic, terrain);
+                const terrain = labelA==='playerMagic' ? bodyB : bodyA;
+                playerMagicTerrainCollision(scene, playerMagic, terrain, collisionPoint);
             }
             else if(labelA==='opponentMagic' && labelB==='terrain' || labelB==='opponentMagic' && labelA==='terrain'){
                 const opponentMagic = labelA==='opponentMagic' ? bodyA : bodyB;
-                const terrain = labelA==='opponentMagic' ? bodyB : labelA;
-                opponentMagicTerrainCollision(scene, opponentMagic, terrain);
+                const terrain = labelA==='opponentMagic' ? bodyB : bodyA;
+                opponentMagicTerrainCollision(scene, opponentMagic, terrain, collisionPoint);
             }
 
             else if(labelA==='playerBox' && labelB==='opponentArrow' || labelB==='playerBox' && labelA==='opponentArrow'){
                 const playerBox = labelA==='playerBox' ? bodyA : bodyB;
-                const opponentArrow = labelA==='playerBox' ? bodyB : labelA;
+                const opponentArrow = labelA==='playerBox' ? bodyB : bodyA;
                 playerBoxOpponentArrowCollision(scene, playerBox, opponentArrow);
             }
             else if(labelA==='playerArrow' && labelB==='opponentBox' || labelB==='playerArrow' && labelA==='opponentBox'){
                 const playerArrow = labelA==='playerArrow' ? bodyA : bodyB;
-                const opponentBox = labelA==='playerArrow' ? bodyB : labelA;
+                const opponentBox = labelA==='playerArrow' ? bodyB : bodyA;
                 playerArrowOpponentBoxCollision(scene, playerArrow, opponentBox);
             }
 
             else if(labelA==='worldBoundary' && labelB==='playerMagic' || labelB==='worldBoundary' && labelA==='playerMagic'){
                 const worldBoundary = labelA==='worldBoundary' ? bodyA : bodyB;
-                const playerMagic = labelA==='worldBoundary' ? bodyB : labelA;
-                worldBoundaryPlayerMagicCollision(scene, worldBoundary, playerMagic);
+                const playerMagic = labelA==='worldBoundary' ? bodyB : bodyA;
+                worldBoundaryPlayerMagicCollision(scene, worldBoundary, playerMagic, collisionPoint);
             }
             else if(labelA==='worldBoundary' && labelB==='opponentMagic' || labelB==='worldBoundary' && labelA==='opponentMagic'){
                 const worldBoundary = labelA==='worldBoundary' ? bodyA : bodyB;
-                const opponentMagic = labelA==='worldBoundary' ? bodyB : labelA;
-                worldBoundaryOpponentMagicCollision(scene, worldBoundary, opponentMagic);
+                const opponentMagic = labelA==='worldBoundary' ? bodyB : bodyA;
+                worldBoundaryOpponentMagicCollision(scene, worldBoundary, opponentMagic, collisionPoint);
             }
 
             else if(labelA==='playerBox' && labelB==='opponentBox' || labelB==='playerBox' && labelA==='opponentBox'){
                 const playerBox = labelA==='playerBox' ? bodyA : bodyB;
-                const opponentBox = labelA==='playerBox' ? bodyB : labelA;
+                const opponentBox = labelA==='playerBox' ? bodyB : bodyA;
                 playerBoxOpponentBoxCollision(scene, playerBox, opponentBox);
             }
+
+            else if(labelA==='opponentArrow' && labelB==='terrain' || labelB==='opponentArrow' && labelA==='terrain'){
+                const opponentArrow = labelA==='opponentArrow' ? bodyA : bodyB;
+                const terrain = labelA==='opponentArrow' ? bodyB : bodyA;
+                opponentArrowTerrainCollision(scene, opponentArrow, terrain);
+            }
+            else if(labelA==='opponentArrow' && labelB==='worldBoundary' || labelB==='opponentArrow' && labelA==='worldBoundary'){
+                const opponentArrow = labelA==='opponentArrow' ? bodyA : bodyB;
+                const worldBoundary = labelA==='opponentArrow' ? bodyB : bodyA;
+                opponentArrowWorldBoundaryCollision(scene, opponentArrow, worldBoundary);
+            }
+
+            else if(labelA==='playerArrow' && labelB==='terrain' || labelB==='playerArrow' && labelA==='terrain'){
+                const playerArrow = labelA==='playerArrow' ? bodyA : bodyB;
+                const terrain = labelA==='playerArrow' ? bodyB : bodyA;
+                playerArrowTerrainCollision(scene, playerArrow, terrain);
+            }
+            else if(labelA==='playerArrow' && labelB==='worldBoundary' || labelB==='playerArrow' && labelA==='worldBoundary'){
+                const playerArrow = labelA==='playerArrow' ? bodyA : bodyB;
+                const worldBoundary = labelA==='playerArrow' ? bodyB : bodyA;
+                playerArrowWorldBoundaryCollision(scene, playerArrow, worldBoundary);
+            }
+
 
         });
     });
@@ -568,9 +640,9 @@ const recoilPlayers = (scene: MountainScene, player, opponent) => {
     }
 };
 
-const makeExplosion = (scene: MountainScene, x: number, y: number, opponent: boolean) => {
+const makeExplosion = (scene: MountainScene, x: number, y: number, opponent: boolean, collideOpposite = true) => {
     const ex = scene.matter.add.sprite(x, y, opponent ? 'orangeExplosionAtlas': 'blueExplosionAtlas', 'Explosion_1.png');
-    const circle = scene.matter.add.circle(x, y, 80);
+    const circle = scene.matter.add.circle(x, y, 140);
     ex.body.label = opponent ? 'opponentExplosion' : 'playerExplosion';
     ex.setExistingBody(circle);
     ex.setScale(0.25, 0.25);
@@ -579,11 +651,19 @@ const makeExplosion = (scene: MountainScene, x: number, y: number, opponent: boo
 
     if(opponent){
         ex.body.collisionFilter.category = scene.collisionCategories.opponentExplosion;
-        setCollisionMask(scene, ex, ['terrain', 'opponent', 'playerBox', 'playerArrow', 'opponentArrow', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);    
+        const exclusions = ['terrain', 'opponent', 'playerBox', 'playerArrow', 'opponentArrow', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion'];
+        if(!collideOpposite){
+            exclusions.push('player');
+        }
+        setCollisionMask(scene, ex, exclusions);    
     }
     else{
         ex.body.collisionFilter.category = scene.collisionCategories.playerExplosion;
-        setCollisionMask(scene, ex, ['terrain', 'player', 'playerBox', 'playerArrow', 'opponentArrow', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);    
+        const exclusions = ['terrain', 'player', 'playerBox', 'playerArrow', 'opponentArrow', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion'];
+        if(!collideOpposite){
+            exclusions.push('opponent');
+        }
+        setCollisionMask(scene, ex, exclusions);    
     }
 
     //ex.setCollisionGroup(opponent ? scene.opponentGroup : scene.playerGroup);
@@ -592,17 +672,24 @@ const makeExplosion = (scene: MountainScene, x: number, y: number, opponent: boo
         console.log('destroying explosion');
         ex.destroy();
     });
+
+    scene.audio.explosionSound.sound.play(scene.audio.explosionSound.config);
+
     return ex;
 }
 
 const setCollisionMask = (scene: MountainScene, gameObj: Phaser.GameObjects.GameObject, exceptions: Array<string>) => {
     let total = 0;
+    
     for(const category in scene.collisionCategories){
         if(!exceptions.includes(category)){
             total = total | scene.collisionCategories[category];
         }
     }
     //console.log('total after loop:', total);
+    //console.log('setting collision mask for game object:', gameObj);
+    //console.log('gameObj.body', gameObj.body);
+    //console.log('gameObj body collisionFilter', gameObj.body.collisionFilter);
     gameObj.body.collisionFilter.mask = total;
 }
 

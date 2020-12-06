@@ -45,8 +45,8 @@ io.on('connection', (socket) => {
 
       //remove for deployment
       /////////////////////////////
-      players['dfsdf'] = {};
-      playerQueue.push('dfsdf');
+      // players['dfsdf'] = {};
+      // playerQueue.push('dfsdf');
       ///////////////////////////////
 
       while(playerQueue.length > 1){
