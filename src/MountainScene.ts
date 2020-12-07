@@ -55,8 +55,8 @@ export default class MountainScene extends Phaser.Scene
     playerWallJumping: boolean;
     staminaActive: boolean;
     swordCollided: boolean;
-    losingStamina: boolean;
-    gainingStamina: boolean;
+    //losingStamina: boolean;
+    //gainingStamina: boolean;
     resetWallSlide: boolean;
     playerIceWallSliding: boolean;
     flatSlideStartTime: number;
@@ -73,16 +73,16 @@ export default class MountainScene extends Phaser.Scene
     equippedWeapon: string;
     weaponsFound: Array<string>;
     lastAttackTime: number;
-    staminaOutline: Phaser.GameObjects.Image;
-    staminaFill: Phaser.GameObjects.Image;
+    //staminaOutline: Phaser.GameObjects.Image;
+    //staminaFill: Phaser.GameObjects.Image;
     playerJumpHeight: number;
-    staminaLossRate: number;
-    staminaRegenRate: number;
+    //staminaLossRate: number;
+    //staminaRegenRate: number;
     prevSwordSwing: string;
     playerLedgeClimb: boolean;
     playerAttacking: boolean;
     attackDown: boolean;
-    stamina: number;
+    //stamina: number;
     playerSwordOut: boolean;
     inContactWithWall: boolean;
     downAttack: boolean;
@@ -107,7 +107,6 @@ export default class MountainScene extends Phaser.Scene
     audio: Audio;
     opponentAudio: Audio;
     bowRelease: boolean;
-    bg2: Phaser.GameObjects.Image;
     bowAttacks: Array<string>;
     prevMeeleeAttack: string;
     prevEquippedWeapon: string;
@@ -236,12 +235,12 @@ export default class MountainScene extends Phaser.Scene
         this.playerMaxSpeed = 7;
         this.playerIceJumpHeight = -1.5*this.playerSpeed;
         this.ledgePosition = {};
-        this.stamina = 100;
+        //this.stamina = 100;
         //units of pixels per second of climbing
-        this.staminaLossRate = -0.1;
-        this.staminaRegenRate = 1.5;
-        this.staminaOutline = null;
-        this.staminaFill = null;
+        //this.staminaLossRate = -0.1;
+        //this.staminaRegenRate = 1.5;
+        //this.staminaOutline = null;
+        //this.staminaFill = null;
         this.playerLastOnWallTime = -1;
         this.lastAttackTime = -1;
         this.attackStaminaPenalty = 10;
@@ -279,8 +278,8 @@ export default class MountainScene extends Phaser.Scene
         this.playerIceWallSliding = false;
         this.playerLedgeClimb = false;
         this.resetWallSlide = false;
-        this.losingStamina = false;
-        this.gainingStamina = false;
+        //this.losingStamina = false;
+        //this.gainingStamina = false;
         this.staminaActive = false;
         this.playerAttacking = false;
         this.inContactWithWall = false;
@@ -863,14 +862,14 @@ export default class MountainScene extends Phaser.Scene
 
     update(){
         //if(this.loaded){
-            if(this.playerLedgeGrab){
-                this.losingStamina = true;
-            } 
+            // if(this.playerLedgeGrab){
+            //     this.losingStamina = true;
+            // } 
      
-            if(this.losingStamina || this.gainingStamina){
-                this.updateStaminaPosition();
-                this.removeStamina();
-            }
+            // if(this.losingStamina || this.gainingStamina){
+            //     this.updateStaminaPosition();
+            //     this.removeStamina();
+            // }
             this.setSoundVolumes();
             handlePlayerMovement(this);
     
@@ -903,57 +902,57 @@ export default class MountainScene extends Phaser.Scene
         // }
     }
 
-    drawStamina = () => {
-        //console.log('drawing stamina bar');
-        this.staminaActive = true;
-        const offset = 100;
-        this.staminaOutline = this.add.image(this.player.x + offset, this.player.y, 'staminaOutline');
-        this.staminaOutline.setDepth(10).setScale(1/3);
-        this.staminaFill = this.add.image(this.staminaOutline.getBottomLeft().x + 1, this.staminaOutline.getBottomLeft().y - 1, 'staminaFill').setOrigin(0,1);
-        this.staminaFill.setDepth(10).setScale(1/3, this.stamina/3);
-        //console.log('stamina outline display height:', this.staminaOutline.displayHeight);
-        //console.log('stamina fill display height:', this.staminaFill.displayHeight);
-    }
+    // drawStamina = () => {
+    //     //console.log('drawing stamina bar');
+    //     this.staminaActive = true;
+    //     const offset = 100;
+    //     this.staminaOutline = this.add.image(this.player.x + offset, this.player.y, 'staminaOutline');
+    //     this.staminaOutline.setDepth(10).setScale(1/3);
+    //     this.staminaFill = this.add.image(this.staminaOutline.getBottomLeft().x + 1, this.staminaOutline.getBottomLeft().y - 1, 'staminaFill').setOrigin(0,1);
+    //     this.staminaFill.setDepth(10).setScale(1/3, this.stamina/3);
+    //     //console.log('stamina outline display height:', this.staminaOutline.displayHeight);
+    //     //console.log('stamina fill display height:', this.staminaFill.displayHeight);
+    // }
 
-    updateStaminaPosition = () => {
-        const offset = 100;
-        if(this.losingStamina){
-            if(this.stamina <= 0){
-                this.stamina = 0;
-                this.resetWallSlide = true;
-            }
-            else{
-                this.stamina += this.staminaLossRate;
-            }       
-        }
-        else{
-            if(this.stamina >= 100){
-                this.stamina = 100;
-            }
-            else{
-                this.stamina += this.staminaRegenRate;
-            }
+    // updateStaminaPosition = () => {
+    //     const offset = 100;
+    //     if(this.losingStamina){
+    //         if(this.stamina <= 0){
+    //             this.stamina = 0;
+    //             this.resetWallSlide = true;
+    //         }
+    //         else{
+    //             this.stamina += this.staminaLossRate;
+    //         }       
+    //     }
+    //     else{
+    //         if(this.stamina >= 100){
+    //             this.stamina = 100;
+    //         }
+    //         else{
+    //             this.stamina += this.staminaRegenRate;
+    //         }
             
-        }
+    //     }
         
-        this.staminaOutline.setPosition(this.player.x + offset, this.player.y);
-        this.staminaFill.setScale(1/3, this.stamina/3);
-        this.staminaFill.setPosition(this.staminaOutline.getBottomLeft().x + 1, this.staminaOutline.getBottomLeft().y - 1).setOrigin(0,1);
-    }
+    //     this.staminaOutline.setPosition(this.player.x + offset, this.player.y);
+    //     this.staminaFill.setScale(1/3, this.stamina/3);
+    //     this.staminaFill.setPosition(this.staminaOutline.getBottomLeft().x + 1, this.staminaOutline.getBottomLeft().y - 1).setOrigin(0,1);
+    // }
 
-    removeStamina = () => {
-        //console.log('checking if we should remove stamina bar');
-        if(this.stamina===100){
-            if(this.staminaOutline){
-                this.staminaOutline.destroy();
-            }
-            if(this.staminaFill){
-                this.staminaFill.destroy();
-            }            
-            this.gainingStamina = false;
-            this.losingStamina = false;
-            this.staminaActive = false;
-        }
-    }
+    // removeStamina = () => {
+    //     //console.log('checking if we should remove stamina bar');
+    //     if(this.stamina===100){
+    //         if(this.staminaOutline){
+    //             this.staminaOutline.destroy();
+    //         }
+    //         if(this.staminaFill){
+    //             this.staminaFill.destroy();
+    //         }            
+    //         this.gainingStamina = false;
+    //         this.losingStamina = false;
+    //         this.staminaActive = false;
+    //     }
+    // }
 }
 

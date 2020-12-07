@@ -38,10 +38,10 @@ const playerTerrainCollision = (scene: MountainScene, player, terrain, collision
                 scene.playerCanJump = false;
             }
             else{
-                if(scene.losingStamina){
-                    scene.losingStamina = false;
-                    scene.gainingStamina = true;
-                }
+                // if(scene.losingStamina){
+                //     scene.losingStamina = false;
+                //     scene.gainingStamina = true;
+                // }
 
                 const currentTime = scene.time.now;
                 if(!scene.playerCanJump && currentTime - scene.lastLandingTime > 100){// if player is colliding with ground from mid air
@@ -107,24 +107,12 @@ const playerTerrainCollision = (scene: MountainScene, player, terrain, collision
 
             }
             else{
-                if(!scene.losingStamina && scene.currentPlayerAnimation!=='run'){ //&& scene.playerLastOnGroundTime < scene.time.now - 100){
-                    if(!scene.gainingStamina){
-                        scene.drawStamina();
-                    }
-                    scene.losingStamina = true;
-                    scene.gainingStamina = false;
-                }
-
-                
+  
                 //console.log('collided with wall');
-                scene.playerFriction = scene.stamina > 0 ? 0 : 0;
+                scene.playerFriction = 0;
                 
-                if(scene.playerIceWallSliding || scene.stamina <= 0){
-                    scene.resetWallSlide = true;
-                }
-                else{
-                    scene.resetWallSlide = false;
-                }
+                scene.resetWallSlide = false;
+               
                 scene.playerIceWallSliding = false;
                 
                 scene.playerWallSliding = true;
