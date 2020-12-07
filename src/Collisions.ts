@@ -153,7 +153,7 @@ const playerOpponentBoxCollision = (scene: MountainScene, player, opponentBox) =
 
         if(!noDamage){
             //player should take damage
-            const damageAmount = 10;
+            const damageAmount = scene.swordDamageAmount;
             
             scene.audio.swordBodyImpact.sound.play(scene.audio.swordBodyImpact.config);
             scene.socket.emit('playerSound', {name: 'swordBodyImpact', x: scene.player.x, y: scene.player.y});

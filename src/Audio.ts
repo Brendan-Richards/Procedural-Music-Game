@@ -491,7 +491,7 @@ const makePlayerArrow = (scene: MountainScene) => {
         arrow.setFlipX(true);
     }
 
-    console.log(scene.playerArrows);
+    //console.log(scene.playerArrows);
     //console.log('arrow:', arrow);
     // arrow.setCollisionCategory(scene.playerMask);
     // arrow.setCollidesWith(scene.opponentMask);

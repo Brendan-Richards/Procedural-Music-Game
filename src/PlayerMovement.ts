@@ -673,12 +673,12 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
     }
     else{
         if(prevVelocity.y >= 0){ // player moving down
-            console.log('checking if we can still do a wall jump');
+            //console.log('checking if we can still do a wall jump');
             const buffer = 20; // how far we can be from the wall and still do a wall jump
             const withinWallJumpRange = scene.player.x > scene.stopWallSlidingPosition.x - buffer && scene.player.x < scene.stopWallSlidingPosition.x + buffer;
-            console.log('withinWallJumpRange:', withinWallJumpRange);
+            //console.log('withinWallJumpRange:', withinWallJumpRange);
             const validJump = scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime;
-            console.log('validJump:', validJump);
+            //console.log('validJump:', validJump);
             //const canWallSlideAgain = scene.player.x===scene.stopWallSlidingPosition.x;
 
             if(withinWallJumpRange && validJump && scene.stopWallSlidingDirection===scene.currentPlayerDirection){
@@ -872,7 +872,7 @@ const airPlayerAttacking = (scene: MountainScene, prevVelocity: velocity) => {
             if(scene.currentPlayerAnimation !== 'airSwing3Start' && scene.currentPlayerAnimation !== 'airSwing3Loop' && scene.currentPlayerAnimation !== 'airSwing3End'){
                 //console.log('setting animation to downward airAttack');
                 setNewCharacterAnimation(scene, 'airSwing3Start', scene.currentPlayerDirection==='left', false);
-                //scene.stamina -= scene.attackStaminaPenalty;
+                
             }
         }
         else if(scene.playerWallSliding){
@@ -1175,97 +1175,6 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
         friction: scene.playerFriction
     });
 
-
-
-    // let bodyData = null;
-    // switch(animationName){
-    //     case 'idle': {bodyData = scene.characterShapes.adventurer_idle_00; break;}
-    //     case 'run': {bodyData = scene.characterShapes.adventurer_run_00; break;}
-    //     case 'jump': {bodyData = scene.characterShapes.adventurer_jump_00; break;}
-    //     case 'wallSlide': {bodyData = scene.characterShapes.adventurer_wallSlide_00; break;}
-    //     case 'ledgeGrab': {bodyData = scene.characterShapes.adventurer_ledgeGrab_00; break;}
-    //     case 'fall': {bodyData = scene.characterShapes.adventurer_fall_00; break;}
-    //     case 'punch1': {bodyData = scene.characterShapes.adventurer_punch1_00; break;}
-    //     case 'punch2': {bodyData = scene.characterShapes.adventurer_punch2_00; break;}
-    //     case 'punch3': {bodyData = scene.characterShapes.adventurer_punch3_00; break;}
-    //     case 'runPunch': {bodyData = scene.characterShapes.adventurer_runPunch_00; break;}
-    //     case 'groundKick': {bodyData = scene.characterShapes.adventurer_groundKick_00; break;}
-    //     case 'airKick': {bodyData = scene.characterShapes.adventurer_airKick_00; break;}
-    //     case 'idleSword': {bodyData = scene.characterShapes.adventurer_idleSword_00; break;}
-    //     case 'runSword': {bodyData = scene.characterShapes.adventurer_runSword_00; break;}
-    //     case 'jumpSword': {bodyData = scene.characterShapes.adventurer_jumpSword_00; break;}
-    //     case 'wallSlideSword': {bodyData = scene.characterShapes.adventurer_wallSlideSword_00; break;}
-    //     case 'ledgeGrabSword': {bodyData = scene.characterShapes.adventurer_ledgeGrabSword_00; break;}
-    //     case 'fallSword': {bodyData = scene.characterShapes.adventurer_fallSword_00; break;}
-    //     case 'idleSwordDrawn': {bodyData = scene.characterShapes.adventurer_idleSwordDrawn_00; break;}
-    //     case 'runSwordDrawn': {bodyData = scene.characterShapes.adventurer_runSwordDrawn_00; break;}
-    //     case 'jumpSwordDrawn': {bodyData = scene.characterShapes.adventurer_jumpSwordDrawn_00; break;}
-    //     case 'wallSlideSwordDrawn': {bodyData = scene.characterShapes.adventurer_wallSlideSwordDrawn_00; break;}
-    //     case 'ledgeGrabSwordDrawn': {bodyData = scene.characterShapes.adventurer_ledgeGrabSwordDrawn_00; break;}
-    //     case 'fallSwordDrawn': {bodyData = scene.characterShapes.adventurer_fallSwordDrawn_00; break;}
-    //     case 'idleSwordDraw': {bodyData = scene.characterShapes.adventurer_idleSwordDraw_00; break;}
-    //     case 'runSwordDraw': {bodyData = scene.characterShapes.adventurer_runSwordDraw_00; break;}
-    //     case 'jumpSwordDraw': {bodyData = scene.characterShapes.adventurer_jumpSwordDraw_00; break;}
-    //     case 'fallSwordDraw': {bodyData = scene.characterShapes.adventurer_fallSwordDraw_00; break;}
-    //     case 'wallSwordDraw': {bodyData = scene.characterShapes.adventurer_wallSwordDraw_00; break;}
-    //     case 'ledgeSwordDraw': {bodyData = scene.characterShapes.adventurer_ledgeSwordDraw_00; break;}
-    //     case 'idleSwordSheath': {bodyData = scene.characterShapes.adventurer_idleSwordSheath_00; break;}
-    //     case 'runSwordSheath': {bodyData = scene.characterShapes.adventurer_runSwordSheath_00; break;}
-    //     case 'jumpSwordSheath': {bodyData = scene.characterShapes.adventurer_jumpSwordSheath_00; break;}
-    //     case 'fallSwordSheath': {bodyData = scene.characterShapes.adventurer_fallSwordSheath_00; break;}
-    //     case 'wallSwordSheath': {bodyData = scene.characterShapes.adventurer_wallSwordSheath_00; break;}
-    //     case 'ledgeSwordSheath': {bodyData = scene.characterShapes.adventurer_ledgeSwordSheath_00; break;}
-    //     case 'idleSwing1': {bodyData = scene.characterShapes.adventurer_idleSwing1_00; break;}
-    //     case 'idleSwing2': {bodyData = scene.characterShapes.adventurer_idleSwing2_00; break;}
-    //     case 'runSwing': {bodyData = scene.characterShapes.adventurer_runSwing_00; break;}
-    //     case 'airSwing1': {bodyData = scene.characterShapes.adventurer_airSwing1_00; break;}
-    //     case 'airSwing2': {bodyData = scene.characterShapes.adventurer_airSwing2_00; break;}
-    //     case 'airSwing3Start': {bodyData = scene.characterShapes.adventurer_airSwing3Start_00; break;}
-    //     case 'airSwing3Loop': {bodyData = scene.characterShapes.adventurer_airSwing3Loop_00; break;}
-    //     case 'airSwing3End': {bodyData = scene.characterShapes.adventurer_airSwing3End_00; break;}
-    //     case 'wallSwing': {bodyData = scene.characterShapes.adventurer_wallSwing_00; break;}
-    //     case 'idleBowDrawn': {bodyData = scene.characterShapes.adventurer_idleBowDrawn_00; break;}
-    //     case 'runBowDrawn': {bodyData = scene.characterShapes.adventurer_runBowDrawn_00; break;}
-    //     case 'jumpBowDrawn': {bodyData = scene.characterShapes.adventurer_jumpBowDrawn_00; break;}
-    //     case 'wallSlideBowDrawn': {bodyData = scene.characterShapes.adventurer_wallSlideBowDrawn_00; break;}
-    //     case 'ledgeGrabBowDrawn': {bodyData = scene.characterShapes.adventurer_ledgeGrabBowDrawn_00; break;}
-    //     case 'fallBowDrawn': {bodyData = scene.characterShapes.adventurer_fallBowDrawn_00; break;}
-    //     case 'idleNotch': {bodyData = scene.characterShapes.adventurer_idleNotch_00; break;}
-    //     case 'runNotch': {bodyData = scene.characterShapes.adventurer_runNotch_00; break;}
-    //     case 'jumpNotch': {bodyData = scene.characterShapes.adventurer_jumpNotch_00; break;}
-    //     case 'fallNotch': {bodyData = scene.characterShapes.adventurer_fallNotch_00; break;}
-    //     case 'idleHoldLoop': {bodyData = scene.characterShapes.adventurer_idleHoldLoop_00; break;}
-    //     case 'runHoldLoop': {bodyData = scene.characterShapes.adventurer_runHoldLoop_00; break;}
-    //     case 'jumpHoldLoop': {bodyData = scene.characterShapes.adventurer_jumpHoldLoop_00; break;}
-    //     case 'fallHoldLoop': {bodyData = scene.characterShapes.adventurer_fallHoldLoop_00; break;}
-    //     case 'idleRelease': {bodyData = scene.characterShapes.adventurer_idleRelease_00; break;}
-    //     case 'runRelease': {bodyData = scene.characterShapes.adventurer_runRelease_00; break;}
-    //     case 'jumpRelease': {bodyData = scene.characterShapes.adventurer_jumpRelease_00; break;}
-    //     case 'fallRelease': {bodyData = scene.characterShapes.adventurer_fallRelease_00; break;}
-    //     case 'idleGlove': {bodyData = scene.characterShapes.adventurer_idleGlove_00; break;}
-    //     case 'runGlove': {bodyData = scene.characterShapes.adventurer_runGlove_00; break;}
-    //     case 'jumpGlove': {bodyData = scene.characterShapes.adventurer_jumpGlove_00; break;}
-    //     case 'fallGlove': {bodyData = scene.characterShapes.adventurer_fallGlove_00; break;}
-    //     case 'ledgeGrabGlove': {bodyData = scene.characterShapes.adventurer_ledgeGrabGlove_00; break;}
-    //     case 'wallSlideGlove': {bodyData = scene.characterShapes.adventurer_wallSlideGlove_00; break;}
-    //     case 'idleCastBlue':
-    //     case 'idleCastRed': {bodyData = scene.characterShapes.adventurer_idleCast_00; break;}
-    //     case 'runCastRed':
-    //     case 'runCastBlue': {bodyData = scene.characterShapes.adventurer_runCast_00; break;}
-    //     case 'jumpCastRed':
-    //     case 'jumpCastBlue': {bodyData = scene.characterShapes.adventurer_jumpCast_00; break;}
-    //     case 'fallCastRed':
-    //     case 'fallCastBlue': {bodyData = scene.characterShapes.adventurer_fallCast_00; break;}
-    //     case 'wallSlideCastRed':
-    //     case 'wallSlideCastBlue': {bodyData = scene.characterShapes.adventurer_wallSlideCast_00; break;}
-    //     default: break;
-    // }
-
-    //scene.playerBody = scene.matter.add.fromPhysicsEditor(scene.player.x, scene.player.y, bodyData, undefined, false);
-    //scene.playerBody.friction = scene.playerFriction;
-
-    //scene.player.setExistingBody(scene.playerBody);
-
     scene.player.setScale((flipX ? -1 : 1)*scene.playerScaleFactor, 
                           (flipY ? -1 : 1)*scene.playerScaleFactor);
 
@@ -1290,12 +1199,14 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
         scene.playerAttackBox = null;
         //console.log('just removed player attack box, leftin variable:', scene.playerAttackBox);
     }
-    if(scene.swordAttacks.includes(scene.currentPlayerAnimation) || scene.currentPlayerAnimation==='bowKick'){
+    if(scene.swordAttacks.includes(scene.currentPlayerAnimation) || ['bowKick', 'airSwing3Start'].includes(scene.currentPlayerAnimation) ){
         let xOffset = 0;
         let yOffset = 0;
         let radius = 10
         const factor = flipX ? -1 : 1;
         switch(scene.currentPlayerAnimation){
+            case 'airSwing3Start': {xOffset = 0; yOffset = 16; radius = 9; break;}
+            case 'wallSwing': {xOffset = -10; yOffset = 0; radius = 13; break;}
             case 'bowKick': {xOffset = 8; yOffset = 1; radius = 9; break;}
             case 'airSwing1': {xOffset = 12; yOffset = -6; radius = 9; break;}
             case 'airSwing2': {xOffset = 12; yOffset = -7; radius = 12; break;}
@@ -1305,7 +1216,9 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
         }
         scene.playerAttackBox = scene.matter.add.circle(scene.player.x + (factor * xOffset), scene.player.y + yOffset, radius, {
             label: 'playerBox',
-            ignoreGravity: true
+            ignoreGravity: true,
+            frictionAir: 0,
+            friction: 0
         });
 
         //console.log('playerAttackBox:', scene.playerAttackBox)
@@ -1314,6 +1227,11 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
         scene.playerAttackBox.collisionFilter.category = scene.collisionCategories.playerBox;
         //console.log('dummy game obj:', gameObj);
         setCollisionMask(scene, gameObj, ['terrain', 'player', 'playerBox', 'playerArrow', 'playerMagic', 'opponentMagic', 'playerExplosion', 'opponentExplosion']);
+        
+        if(scene.currentPlayerAnimation==='airSwing3Start'){
+            scene.matter.setVelocity(scene.playerAttackBox as Phaser.Types.Physics.Matter.MatterBody, 0, scene.playerMaxSpeed);
+        }
+
         //console.log('dummy game obj after setting collision:', gameObj);
         //scene.playerAttackBox.collisionFilter.group = -1;
     }

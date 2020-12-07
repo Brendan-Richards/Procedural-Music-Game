@@ -193,11 +193,11 @@ export default class MountainScene extends Phaser.Scene
         // this.playerProjectilesCategory = 2;
         // this.opponentProjectilesCategory = 4;
 
-        this.magicDamageAmount = 50;
+        this.magicDamageAmount = 40;
         this.arrowDamageAmount = 20;
-        this.swordDamageAmount = 35;
+        this.swordDamageAmount = 60;
         this.opponent = null;
-        this.swordRecoil = 20;
+        this.swordRecoil = 30;
         this.recoilDuration = 50;
         this.bothAttacking = false;
         this.maxArrows = 10;
@@ -657,15 +657,15 @@ export default class MountainScene extends Phaser.Scene
         });
 
         this.socket.on('createArrow', (arrowData) => {
-            console.log('client recieved createArrow event');
+            //console.log('client recieved createArrow event');
            
             const arrow = this.matter.add.sprite(arrowData.x, arrowData.y, 'arrow', undefined);
             arrow.setScale(this.arrowScale);
-            console.log('opponent arrow object right after creation:', arrow); 
+            //console.log('opponent arrow object right after creation:', arrow); 
        
             arrow.body.label = 'opponentArrow';
             arrow.body.collisionFilter.category = this.collisionCategories.opponentArrow;
-            setCollisionMask(this, arrow, ['opponent', 'playerBox', 'playerArrow', 'opponentArrow', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);    
+            setCollisionMask(this, arrow, ['opponent', 'playerArrow', 'opponentArrow', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);    
           
             this.opponentArrows.push(arrow);
 
@@ -679,8 +679,8 @@ export default class MountainScene extends Phaser.Scene
             }
 
           
-            console.log('opponent arrow object right after setting collision:', arrow); 
-            console.log(this.opponentArrows);
+           // console.log('opponent arrow object right after setting collision:', arrow); 
+            //console.log(this.opponentArrows);
             // arrow.setCollisionGroup(this.opponentGroup);
             // arrow.setCollisionCategory(this.opponentProjectilesCategory);
             // arrow.body.collisionFilter.mask = 0x1000;
@@ -796,7 +796,7 @@ export default class MountainScene extends Phaser.Scene
 
         this.socket.on('opponentAnimationUpdate', (opponentData) => {
             if(this.opponent){
-                //console.log('setting opponent animation to:', opponentData.currentAnimation + 'Opponent');
+                console.log('setting opponent animation to:', opponentData.currentAnimation);
                 this.opponent.setScale(1);
             
                 this.opponent.setScale((opponentData.flipX ? -1 : 1)*this.playerScaleFactor, this.playerScaleFactor);
@@ -813,12 +813,16 @@ export default class MountainScene extends Phaser.Scene
                     this.matter.world.remove(this.opponentAttackBox);
                     this.opponentAttackBox = null;
                 }
-                if(this.swordAttacks.includes(opponentData.currentAnimation) || opponentData.currentAnimation==='bowKick'){
+                if(this.swordAttacks.includes(opponentData.currentAnimation) || ['bowKick', 'airSwing3Loop'].includes(opponentData.currentAnimation)){
+                    console.log('entered if statement to create new opponent box');
+                    
                     let xOffset = 0;
                     let yOffset = 0;
                     let radius = 10
                     const factor = opponentData.flipX ? -1 : 1;
                     switch(opponentData.currentAnimation){
+                        case 'airSwing3Loop': {xOffset = 0; yOffset = 16; radius = 9; break;}
+                        case 'wallSwing': {xOffset = -10; yOffset = 0; radius = 13; break;}
                         case 'bowKick': {xOffset = 8; yOffset = 1; radius = 9; break;}
                         case 'airSwing1': {xOffset = 12; yOffset = -6; radius = 9; break;}
                         case 'airSwing2': {xOffset = 12; yOffset = -7; radius = 12; break;}
@@ -841,6 +845,11 @@ export default class MountainScene extends Phaser.Scene
                     //console.log('dummy opponent game obj:', gameObj);
                     setCollisionMask(this, gameObj, ['terrain', 'opponent', 'opponentBox', 'opponentArrow', 'playerMagic', 'opponentMagic', 'playerExplosion', 'opponentExplosion']);
                     //console.log('dummy game obj after setting collision:', gameObj);
+
+                    if(opponentData.currentAnimation==='airSwing3Loop'){
+                        console.log('entered if statement to set opponent box velocity');
+                        this.matter.setVelocity(this.opponentAttackBox as Phaser.Types.Physics.Matter.MatterBody, 0, this.playerMaxSpeed);
+                    }
                 }
 
 
