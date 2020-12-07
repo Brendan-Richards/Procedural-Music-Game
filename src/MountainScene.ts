@@ -862,14 +862,8 @@ export default class MountainScene extends Phaser.Scene
 
     update(){
         //if(this.loaded){
-            // if(this.playerLedgeGrab){
-            //     this.losingStamina = true;
-            // } 
-     
-            // if(this.losingStamina || this.gainingStamina){
-            //     this.updateStaminaPosition();
-            //     this.removeStamina();
-            // }
+            //console.log(this.controlConfig.jumpControl.timeDown);
+
             this.setSoundVolumes();
             handlePlayerMovement(this);
     

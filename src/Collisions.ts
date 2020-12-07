@@ -16,8 +16,8 @@ const playerTerrainCollision = (scene: MountainScene, player, terrain, collision
         const both = scene.inContactWithWall && scene.inContactWithGround;
 
         if(!both){
-            console.log('collided with top of terrain');
-            console.log('wall top collision time:', scene.time.now);
+            //console.log('collided with top of terrain');
+            //console.log('wall top collision time:', scene.time.now);
             scene.lastGroundCollision = scene.time.now;
             //scene.inContactWithWall = false;
             scene.inContactWithGround = true;
@@ -72,8 +72,8 @@ const playerTerrainCollision = (scene: MountainScene, player, terrain, collision
     }
     //else if(Math.abs(Math.round(collisionNormal.x))===1 && Math.abs(Math.round(collisionNormal.y))===0){
     else{
-        console.log('collided with side of terrain');
-        console.log('wall side collision time:', scene.time.now);
+        //console.log('collided with side of terrain');
+        //console.log('wall side collision time:', scene.time.now);
         scene.inContactWithWall = true;
         scene.lastWallCollision = scene.time.now;
         const both = scene.inContactWithWall && scene.inContactWithGround;

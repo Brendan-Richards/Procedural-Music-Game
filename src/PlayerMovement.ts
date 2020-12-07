@@ -243,7 +243,7 @@ const groundCharacter = (scene: MountainScene, prevVelocity: velocity) => {
         groundPlayerAttacking(scene);
     }
     else if (scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime){
-        console.log('ground jump time:', scene.time.now);
+        //console.log('ground jump time:', scene.time.now);
         groundPlayerJump(scene);
     }  
     else if(scene.playerRampSliding){
@@ -673,10 +673,13 @@ const airborneCharacter = (scene: MountainScene, prevVelocity: velocity) => {
     }
     else{
         if(prevVelocity.y >= 0){ // player moving down
+            console.log('checking if we can still do a wall jump');
             const buffer = 20; // how far we can be from the wall and still do a wall jump
             const withinWallJumpRange = scene.player.x > scene.stopWallSlidingPosition.x - buffer && scene.player.x < scene.stopWallSlidingPosition.x + buffer;
+            console.log('withinWallJumpRange:', withinWallJumpRange);
             const validJump = scene.controlConfig.jumpControl.isDown && scene.controlConfig.jumpControl.timeDown > scene.prevJumpTime;
-            const canWallSlideAgain = scene.player.x===scene.stopWallSlidingPosition.x;
+            console.log('validJump:', validJump);
+            //const canWallSlideAgain = scene.player.x===scene.stopWallSlidingPosition.x;
 
             if(withinWallJumpRange && validJump && scene.stopWallSlidingDirection===scene.currentPlayerDirection){
                 let animationName = '';
@@ -790,7 +793,7 @@ const playerWallSliding = (scene: MountainScene) => {
         else{
             scene.player.setFriction(0.3);
         }
-        if((scene.currentPlayerAnimation!=='wallSlide' && scene.currentPlayerAnimation!=='wallSlideSwordDrawn' && scene.currentPlayerAnimation!=='wallSlideBowDrawn' && scene.currentPlayerAnimation!=='wallSlideGlove') || scene.resetWallSlide){
+        if((scene.currentPlayerAnimation!=='wallSlideSwordDrawn' && scene.currentPlayerAnimation!=='wallSlideBowDrawn' && scene.currentPlayerAnimation!=='wallSlideGlove') || scene.resetWallSlide){
             let animation = '';
             switch(scene.equippedWeapon){
                 case 'glove': {animation = 'wallSlideGlove'; break;}
@@ -822,7 +825,7 @@ const playerWallSliding = (scene: MountainScene) => {
             const jumpX = factor*scene.playerSpeed;
             const jumpY = scene.playerIceWallSliding ? scene.playerIceJumpHeight : scene.playerWallJumpHeight;
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, jumpX, jumpY);  
-            console.log('player velocity:', jumpX, jumpY);
+            //console.log('player velocity:', jumpX, jumpY);
             
             scene.playerCanJump = false;        
             scene.playerWallSliding = false;
@@ -838,12 +841,14 @@ const playerWallSliding = (scene: MountainScene) => {
         else{//check if we should stop wall sliding
             if(scene.controlConfig.rightControl.isDown  && scene.controlConfig.leftControl.isUp && scene.currentPlayerDirection!=='right' ||
                 scene.controlConfig.leftControl.isDown  && scene.controlConfig.rightControl.isUp && scene.currentPlayerDirection!=='left'){
-                   //console.log('stopping wall slide');
+                   console.log('stopping wall slide');
                    scene.playerFriction = 0;
                    //flip the players direction cause they were facing the opposite way when on the wall
-                   scene.stopWallSlidingDirection = scene.currentPlayerDirection;
+                   
                    scene.currentPlayerDirection = scene.currentPlayerDirection==='left' ? 'right' : 'left';
-                   console.log('checking if player can start wall sliding again at position:');
+                   scene.stopWallSlidingDirection = scene.currentPlayerDirection;
+                   
+                   //console.log('checking if player can start wall sliding again at position:');
                    scene.stopWallSlidingPosition = {x: scene.player.x, y: scene.player.y}; 
                    //const animationName = scene.swordDrawn ? 'fallSword' : 'fall';
                    let animation = '';
