@@ -56,7 +56,7 @@ class Audio {
 			sound: scene.sound.add('explosion'),
 			config: {
                 loop: false,
-                volume: 0.1
+                volume: 0.2
             }
 		}
         this.runSound = {

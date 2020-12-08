@@ -209,16 +209,19 @@ const playerOpponentArrowCollision = (scene: MountainScene, player, opponentArro
 const playerOpponentMagicCollision = (scene: MountainScene, player, opponentMagic) => {
     
     console.log('opponent magic:', opponentMagic);
-    opponentMagic.gameObject.destroy();
-    //scene.matter.world.remove(opponentMagic);
-    //scene.socket.emit('explosion', {x: scene.player.x, y: scene.player.y, opponent: true});
-    const ex = makeExplosion(scene, scene.player.x, scene.player.y, true, false);
+    if(opponentMagic.gameObject){
+        opponentMagic.gameObject.destroy();
+        //scene.matter.world.remove(opponentMagic);
+        //scene.socket.emit('explosion', {x: scene.player.x, y: scene.player.y, opponent: true});
+        const ex = makeExplosion(scene, scene.player.x, scene.player.y, true, false);
+        
+        //ex.setCollisionGroup(scene.playerGroup);
+        scene.matter.setVelocity(ex, scene.player.body.velocity.x, scene.player.body.velocity.y);
     
-    //ex.setCollisionGroup(scene.playerGroup);
-    scene.matter.setVelocity(ex, scene.player.body.velocity.x, scene.player.body.velocity.y);
+        scene.socket.emit('playerDamaged', scene.magicDamageAmount);
+        scene.playerHealthBar.decrease(scene.magicDamageAmount);
+    }
 
-    scene.socket.emit('playerDamaged', scene.magicDamageAmount);
-    scene.playerHealthBar.decrease(scene.magicDamageAmount);
 }
 
 const opponentPlayerArrowCollision = (scene: MountainScene, opponent, playerArrow) => {
@@ -263,23 +266,28 @@ const opponentPlayerBoxCollision = (scene: MountainScene, opponent, playerBox) =
 
 const opponentPlayerMagicCollision = (scene: MountainScene, opponent, playerMagic) => {
     //console.log('opponent magic:', opponentMagic);
-    playerMagic.gameObject.destroy();
-    //scene.matter.world.remove(opponentMagic);
-    //scene.socket.emit('explosion', {x: scene.player.x, y: scene.player.y, opponent: false});
-    const ex = makeExplosion(scene, scene.opponent.x, scene.opponent.y, false, false);
-    
-    //ex.setCollisionGroup(scene.playerGroup);
-    scene.matter.setVelocity(ex, scene.opponent.body.velocity.x, scene.opponent.body.velocity.y);
-    //ex.setIgnoreGravity(true);
-
+    if(playerMagic.gameObject){
+        playerMagic.gameObject.destroy();
+        //scene.matter.world.remove(opponentMagic);
+        //scene.socket.emit('explosion', {x: scene.player.x, y: scene.player.y, opponent: false});
+        const ex = makeExplosion(scene, scene.opponent.x, scene.opponent.y, false, false);
+        
+        //ex.setCollisionGroup(scene.playerGroup);
+        scene.matter.setVelocity(ex, scene.opponent.body.velocity.x, scene.opponent.body.velocity.y);
+        //ex.setIgnoreGravity(true);
+    }
 }
 
 const opponentPlayerExplosionCollision = (scene: MountainScene, opponent, playerExplosion) => {
-    
+    // scene.socket.emit('playerDamaged', scene.magicDamageAmount);
+    // scene.playerHealthBar.decrease(scene.magicDamageAmount);
+    setCollisionMask(scene, playerExplosion.gameObject, ['terrain', 'player', 'playerBox', 'playerArrow', 'opponentArrow', 'opponent', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);
 }
 
-const playerOpponentExplosionCollision = (scene: MountainScene, player, opponnentExplosion) => {
-
+const playerOpponentExplosionCollision = (scene: MountainScene, player, opponentExplosion) => {
+    scene.socket.emit('playerDamaged', scene.magicDamageAmount);
+    scene.playerHealthBar.decrease(scene.magicDamageAmount);
+    setCollisionMask(scene, opponentExplosion.gameObject, ['terrain', 'player', 'playerBox', 'playerArrow', 'opponentArrow', 'opponent', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);
 }
 
 const worldBoundaryPlayerMagicCollision = (scene: MountainScene, worldBoundary, playerMagic, collisionPoint) => {
@@ -397,6 +405,7 @@ const handleCollisions = (scene: MountainScene): void => {
             const labelB = pair.collision.parentB.label;
 
             console.log('collision between', labelA, 'and', labelB);
+            //console.log(pair);
 
             if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain'){
                 const player = labelA==='player' ? bodyA : bodyB;
@@ -631,8 +640,8 @@ const recoilPlayers = (scene: MountainScene, player, opponent) => {
 const makeExplosion = (scene: MountainScene, x: number, y: number, opponent: boolean, collideOpposite = true) => {
     const ex = scene.matter.add.sprite(x, y, opponent ? 'orangeExplosionAtlas': 'blueExplosionAtlas', 'Explosion_1.png');
     const circle = scene.matter.add.circle(x, y, 140);
-    ex.body.label = opponent ? 'opponentExplosion' : 'playerExplosion';
     ex.setExistingBody(circle);
+    ex.body.label = opponent ? 'opponentExplosion' : 'playerExplosion';
     ex.setScale(0.25, 0.25);
     ex.setFixedRotation()
     ex.setIgnoreGravity(true);

@@ -1,10 +1,12 @@
+import MountainScene from './MountainScene';
+
 export default class HealthBar {
 
     bar: Phaser.GameObjects.Graphics;
     x: number;
     y: number;
     value: number;
-    
+    scene: MountainScene;
     healthColor: number;
     barWidth: number;
     barHeight: number;
@@ -17,6 +19,7 @@ export default class HealthBar {
 
     constructor (scene, character, healthColor){
 
+        this.scene = scene;
         this.character = character;
         this.bar = new Phaser.GameObjects.Graphics(scene);
         this.barWidth = 32;

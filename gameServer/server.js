@@ -30,6 +30,9 @@ io.on('connection', (socket) => {
       data.opponent = !data.opponent;
       io.to(players[socket.id].opponent).emit('explosion', data);
     });
+    socket.on('playerLost', () => {
+      io.to(players[socket.id].opponent).emit('opponentLost');
+    });
     socket.on('playerSound', soundData => {
       io.to(players[socket.id].opponent).emit('opponentSound', soundData);
     });
@@ -45,8 +48,8 @@ io.on('connection', (socket) => {
 
       //remove for deployment
       /////////////////////////////
-      // players['dfsdf'] = {};
-      // playerQueue.push('dfsdf');
+      players['dfsdf'] = {};
+      playerQueue.push('dfsdf');
       ///////////////////////////////
 
       while(playerQueue.length > 1){

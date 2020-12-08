@@ -645,6 +645,36 @@ const createAnimations = (scene: MountainScene, suffix = '', atlasName = 'charac
             }),
             frameRate: frameRate
     });
+    scene.anims.create({
+        key: 'dieSword'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_dieSword_', 
+            suffix: '.png',
+            end: 7, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    scene.anims.create({
+        key: 'dieBow'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_dieBow_', 
+            suffix: '.png',
+            end: 7, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
+    scene.anims.create({
+        key: 'dieGlove'+ suffix,
+        frames: scene.anims.generateFrameNames(atlasName, {
+            prefix: 'adventurer_dieGlove_', 
+            suffix: '.png',
+            end: 7, 
+            zeroPad: 2 
+            }),
+            frameRate: frameRate
+    });
 
 
     //////////////////////////////////////////////////////////////////////////////////////////

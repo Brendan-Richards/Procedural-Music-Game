@@ -1,7 +1,9 @@
 import Phaser, { Scene } from 'phaser';
 import {animationLogic, createAnimations} from './CharacterAnimations';
 import ContentGenerator from './ContentGenerator';
-import {handleCollisions, makeExplosion, setCollisionMask} from './Collisions';
+import {handleCollisions, setCollisionMask} from './Collisions';
+import { manageSocket } from './ManageSocket';
+import { managePlayerInput } from './ManagePlayerInput';
 import handlePlayerMovement from './PlayerMovement';
 import HealthBar from './HealthBar';
 import Audio from './Audio';
@@ -160,6 +162,7 @@ export default class MountainScene extends Phaser.Scene
     magicDamageAmount: number;
     arrowDamageAmount: number;
     swordDamageAmount: number;
+    matchEnded: boolean;
 
     playerProjectilesCategory: number
     opponentProjectilesCategory: number;
@@ -192,7 +195,7 @@ export default class MountainScene extends Phaser.Scene
         // this.opponentMask = 0x0010;
         // this.playerProjectilesCategory = 2;
         // this.opponentProjectilesCategory = 4;
-
+        this.matchEnded = false;
         this.magicDamageAmount = 40;
         this.arrowDamageAmount = 20;
         this.swordDamageAmount = 60;
@@ -421,7 +424,7 @@ export default class MountainScene extends Phaser.Scene
         this.audio.windSound.sound.volume = 0.05;
         this.opponentAudio = new Audio(this);
 
-        this.manageSocket();
+        manageSocket(this);
            
         //console.log('created character at:', this.playerBody.position);
 
@@ -429,7 +432,7 @@ export default class MountainScene extends Phaser.Scene
         this.cameras.main.setBackgroundColor('rgba(255, 255, 255, 1)');
         //this.cameras.main.setTint(30);
         
-        this.manageInput();
+        managePlayerInput(this);
 
         // console.log('checking log of sword swing sound:');
         // console.log(this.audio['swordSwingSound']);
@@ -467,7 +470,7 @@ export default class MountainScene extends Phaser.Scene
         handleCollisions(this);
 
         this.player.body.collisionFilter.category = this.collisionCategories.player;
-        setCollisionMask(this, this.player, ['player', 'playerBox', 'playerArrow', 'playerMagic', 'playerExplosion']);
+        setCollisionMask(this, this.player, ['player','opponent', 'playerBox', 'playerArrow', 'playerMagic', 'playerExplosion']);
 
         console.log('player:', this.player);
     }
@@ -483,7 +486,7 @@ export default class MountainScene extends Phaser.Scene
         this.opponent.setScale(this.playerScaleFactor);
         this.opponentHealthBar = new HealthBar(this, this.opponent, 0xa24700);
         this.opponent.body.collisionFilter.category = this.collisionCategories.opponent;
-        setCollisionMask(this, this.opponent, ['opponent', 'opponentBox', 'opponentArrow', 'opponentMagic', 'opponentExplosion']);
+        setCollisionMask(this, this.opponent, ['opponent', 'player', 'opponentBox', 'opponentArrow', 'opponentMagic', 'opponentExplosion']);
         console.log('opponent:', this.opponent);
         createAnimations(this, 'Opponent', 'opponentAtlas');
     }
@@ -506,372 +509,16 @@ export default class MountainScene extends Phaser.Scene
         this.terrain.body.label = 'terrain';
     }
 
-    manageInput = () => {
-        //input setup
-        /////////////////////////////////////////////////////////////////////////////////
-        this.cursors = this.input.keyboard.createCursorKeys();
+    update(){
 
-        this.controlConfig = {
-            leftControl: {
-                isDown: false,
-                isUp: true
-            },
-            rightControl: {
-                isDown: false,
-                isUp: true
-            },
-            downControl: {
-                isDown: false,
-                isUp: true
-            },
-            jumpControl: this.cursors.space as Phaser.Input.Keyboard.Key,
-            groundSlide: {
-                isDown: this.CTRLDown,
-                isUp: !this.CTRLDown
-            },
-            attack: {
-                isDown: this.attackDown,
-                isUp: !this.attackDown
+        if(this.playerHealthBar.value===0){
+            //player died, end match
+            if(!this.matchEnded){
+                this.endMatch();
             }
         }
-
-        this.input.mouse.disableContextMenu();
-        //this.input.setDefaultCursor('none');
-
-        this.input.on('pointerdown', (pointer) => {
-            const canAttack = !this.swordAttacks.includes(this.currentPlayerAnimation) && !this.bowAttacks.includes(this.currentPlayerAnimation) && !this.playerAttacking && !this.meeleeAttacks.includes(this.currentPlayerAnimation) && !this.playerLedgeGrab; //&& !this.swordDraws.includes(this.currentPlayerAnimation) && !this.swordSheaths.includes(this.currentPlayerAnimation)
-           
-            if(this.equippedWeapon==='sword' && canAttack){
-                if(pointer.leftButtonDown()){
-                    this.playerAttacking = true;
-
-                    if(!this.playerCanJump && this.controlConfig.downControl.isDown){
-                        this.downAttack = true;
-                    }
-                    else{
-                        this.downAttack = false;
-                    }
-                }
-                else if(pointer.rightButtonDown()){
-                    this.playerAttacking = true;
-                    this.heavyAttack = true;
-                }
-            }
-            else if(this.equippedWeapon==='bow' && canAttack && !this.playerWallSliding){
-                if(pointer.leftButtonDown()){ 
-                    this.playerAttacking = true; 
-                    this.bowRelease = false;
-                }
-                else if(pointer.rightButtonDown() && this.playerCanJump){
-                    this.playerAttacking = true;
-                    this.bowKick = true;
-                }                
-            }
-            if(this.equippedWeapon==='glove' && !this.playerAttacking && !this.audio.castSound.sound.isPlaying){
-                const leftButton = 0;
-                const rightButton = 2;
-                //console.log(pointer)
-                if(pointer.button===leftButton){                   
-                    this.magicType = 'blue';
-                    this.playerAttacking = true;
-                }
-                // else if(pointer.button===rightButton){ 
-                //     this.magicType = 'blue';
-                //     this.playerAttacking = true;
-                // }  
-                //console.log('current magic type:', this.magicType);                      
-            }
-        }, this);
-
-        this.input.on('pointerup', (pointer) => {
-            const leftButton = 0;
-            const rightButton = 2;
-            if(this.equippedWeapon==='bow' && pointer.button===leftButton){
-                this.bowRelease = true;               
-            }
-        }, this);
-
-        this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
-            //console.log(pointer);
-            if(this.time.now - this.lastWeaponChangeTime > this.minTimeBetweenWeaponChanges &&
-                    !this.swordAttacks.includes(this.currentPlayerAnimation) &&
-                    !this.bowAttacks.includes(this.currentPlayerAnimation) &&
-                    !this.meeleeAttacks.includes(this.currentPlayerAnimation) &&
-                    !this.magicAttacks.includes(this.currentPlayerAnimation) &&
-                    this.currentPlayerAnimation!=='airSwing3Start' &&
-                    this.currentPlayerAnimation!=='airSwing3Loop' &&
-                    this.currentPlayerAnimation!=='airSwing3End'){
-                this.prevEquippedWeapon = this.equippedWeapon;
-                const currWeaponIdx = this.weaponsFound.findIndex((element) => {
-                    return element===this.equippedWeapon;
-                });
-                if(pointer.deltaY > 0){
-                    //console.log('scrolled mouse wheel down');
-                    this.equippedWeapon = this.weaponsFound[(currWeaponIdx + 1) % this.weaponsFound.length];
-                }
-                else{
-                    //console.log('scrolled mouse wheel up');
-                    this.equippedWeapon = this.weaponsFound[(currWeaponIdx - 1) + (currWeaponIdx===0 ? this.weaponsFound.length : 0)];
-                }
-                //console.log('previous weapon:', this.prevEquippedWeapon);
-                //console.log('current Weapon:', this.equippedWeapon);
-                //console.log('current player animation:', this.currentPlayerAnimation);
-                this.changedWeapon = true;
-
-                this.lastWeaponChangeTime = this.time.now;
-            }
-        }, this);
-
-        this.input.keyboard.on('keyup-' + 'A', (event) => {
-            this.controlConfig.leftControl.isDown = false;
-            this.controlConfig.leftControl.isUp = true;
-        });
-        this.input.keyboard.on('keydown-' + 'A', (event) => {
-            this.controlConfig.leftControl.isDown = true;
-            this.controlConfig.leftControl.isUp = false;
-        });
-        this.input.keyboard.on('keyup-' + 'D', (event) => {
-            this.controlConfig.rightControl.isDown = false;
-            this.controlConfig.rightControl.isUp = true;
-        });
-        this.input.keyboard.on('keydown-' + 'D', (event) => {
-            this.controlConfig.rightControl.isDown = true;
-            this.controlConfig.rightControl.isUp = false;
-        });
-        this.input.keyboard.on('keyup-' + 'S', (event) => {
-            this.controlConfig.downControl.isDown = false;
-            this.controlConfig.downControl.isUp = true;
-        });
-        this.input.keyboard.on('keydown-' + 'S', (event) => {
-            this.controlConfig.downControl.isDown = true;
-            this.controlConfig.downControl.isUp = false;
-        });
-    }
-
-    manageSocket = () => {
-
-        this.socket.on('opponentMovementUpdate', (opponentData) => {
-            //console.log('client recieved opponentMovement Update');
-            this.opponent.setPosition(opponentData.x, opponentData.y);
-            this.opponent.setVelocity(opponentData.vx, opponentData.vy);
-        });
-
-        this.socket.on('createArrow', (arrowData) => {
-            //console.log('client recieved createArrow event');
-           
-            const arrow = this.matter.add.sprite(arrowData.x, arrowData.y, 'arrow', undefined);
-            arrow.setScale(this.arrowScale);
-            //console.log('opponent arrow object right after creation:', arrow); 
-       
-            arrow.body.label = 'opponentArrow';
-            arrow.body.collisionFilter.category = this.collisionCategories.opponentArrow;
-            setCollisionMask(this, arrow, ['opponent', 'playerArrow', 'opponentArrow', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);    
-          
-            this.opponentArrows.push(arrow);
-
-            if(this.opponentArrows.length > this.maxArrows){
-                const oldest = this.opponentArrows.shift();
-                oldest.destroy();
-            }
-            
-            if(arrowData.flipX){
-                arrow.setFlipX(true);
-            }
-
-          
-           // console.log('opponent arrow object right after setting collision:', arrow); 
-            //console.log(this.opponentArrows);
-            // arrow.setCollisionGroup(this.opponentGroup);
-            // arrow.setCollisionCategory(this.opponentProjectilesCategory);
-            // arrow.body.collisionFilter.mask = 0x1000;
-            // arrow.setCollisionCategory(this.opponentMask);
-            // arrow.setCollidesWith(this.playerMask);
-            arrow.setIgnoreGravity(true);
-            arrow.setFixedRotation();
-            this.matter.setVelocity(arrow, arrowData.factor * this.arrowSpeed, 0);            
-        });
-
-        this.socket.on('createMagic', (magicData) => {
-            //console.log('client recieved createMagic event');
-
-            //make magic
-            const verts = [{x: 50, y: 0}, {x: 70, y: 0}, {x: 70, y: 10}, {x: 50, y: 10}];
-            const magic = this.matter.add.sprite(magicData.x, magicData.y, 'magicAtlas', magicData.frameName, {
-                vertices: verts,
-                render: {
-                    sprite: {
-                        xOffset: (magicData.flipX ? -1 : 1) * 0.35
-                    }
-                }
-            });
-            magic.setScale(this.playerScaleFactor, this.playerScaleFactor);
-            magic.name = 'opponentMagic';
-
-            if(magicData.flipX){
-                magic.setFlipX(true); 
-            }
-            
-            magic.play('redMagic', true);
-            // if(magicData.magicType==='red'){
-                
-            // }
-            // else{
-            //     magic.play('blueMagic', true);
-            // }
-
-            magic.body.label = 'opponentMagic';
-            magic.body.collisionFilter.category = this.collisionCategories.opponentMagic;
-            setCollisionMask(this, magic, ['opponent', 'playerBox', 'playerArrow', 'opponentArrow', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);    
-        
-            // magic.setCollisionGroup(this.opponentGroup);
-            // magic.setCollisionCategory(this.opponentMask);
-            // magic.setCollidesWith(this.playerMask);
-            magic.setIgnoreGravity(true);
-            magic.setFixedRotation();
-            this.matter.setVelocity(magic, magicData.factor * this.magicSpeed, 0);
-        
-        });
-
-        this.socket.on('opponentDamaged', damageAmount => {
-            this.opponentHealthBar.decrease(damageAmount);
-        });
-
-        this.socket.on('opponentSound', soundData => {
-            //console.log('recieved sound start event');
-            //console.log(soundData);
-            const distance = {x: Math.abs(this.player.x - soundData.x), y: Math.abs(this.player.y - soundData.y)};
-            //console.log('distance of sound to player:', distance);
-            this.opponentAudio[soundData.name].sound.play(this.opponentAudio[soundData.name].config);
-            //console.log('sound object is:', this.opponentAudio[soundData.name]);
-            const newVolume = this.soundAttenuation(this.opponentAudio[soundData.name].config.volume, distance);
-            //console.log('new volume:', newVolume);
-            this.opponentAudio[soundData.name].sound.volume = newVolume;
-        });
-
-        this.socket.on('opponentSoundStop', soundData => {
-            //console.log('recieved sound stop event');
-            soundData.forEach(element => {
-                if(this.opponentAudio[element].sound.isPlaying){
-                    this.opponentAudio[element].sound.stop();
-                }
-            });
-        });
-
-        this.socket.on('opponentRecoil', () => {
-            const oFactor = this.currentOpponentDirection==='left' ? 1 : -1;
-            this.tweens.add({
-                targets: this.opponent,
-                duration: this.recoilDuration,
-                x: this.opponent.body.position.x+(oFactor * this.swordRecoil)
-            });
-        });
-
-        this.socket.on('bloodAnimation', data => {
-            const blood = this.add.sprite(data.x, data.y, 'bloodAtlas', '1_0.png');
-            blood.play('blood');
-            blood.once('animationcomplete', animation => {
-                console.log('finished blood animation');
-                blood.destroy();
-            });
-        });
-
-        this.socket.on('explosion', data => {
-            makeExplosion(this, data.x, data.y, data.opponent);
-        });
-
-        this.socket.on('removeAttackBoxes', () => {
-            console.log('removing attack boxes');
-            this.bothAttacking = false;
-            if(this.playerAttackBox){
-                this.matter.world.remove(this.playerAttackBox);
-                this.playerAttackBox = null;
-            }
-            if(this.opponentAttackBox){
-                this.matter.world.remove(this.opponentAttackBox);
-                this.opponentAttackBox = null;
-            }
-            
-            
-        });
-
-        this.socket.on('opponentAnimationUpdate', (opponentData) => {
-            if(this.opponent){
-                console.log('setting opponent animation to:', opponentData.currentAnimation);
-                this.opponent.setScale(1);
-            
-                this.opponent.setScale((opponentData.flipX ? -1 : 1)*this.playerScaleFactor, this.playerScaleFactor);
-            
-                this.opponent.play(opponentData.currentAnimation + 'Opponent', false, 0);  
-    
-                this.opponent.setBounce(0);
-                this.opponent.setFixedRotation(); 
-
-                this.currentOpponentDirection = opponentData.flipX ? 'left' : 'right';
-                this.currentOpponentAnimation = opponentData.currentAnimation + 'Opponent';
-
-                if(this.opponentAttackBox){
-                    this.matter.world.remove(this.opponentAttackBox);
-                    this.opponentAttackBox = null;
-                }
-                if(this.swordAttacks.includes(opponentData.currentAnimation) || ['bowKick', 'airSwing3Loop'].includes(opponentData.currentAnimation)){
-                    console.log('entered if statement to create new opponent box');
-                    
-                    let xOffset = 0;
-                    let yOffset = 0;
-                    let radius = 10
-                    const factor = opponentData.flipX ? -1 : 1;
-                    switch(opponentData.currentAnimation){
-                        case 'airSwing3Loop': {xOffset = 0; yOffset = 16; radius = 9; break;}
-                        case 'wallSwing': {xOffset = -10; yOffset = 0; radius = 13; break;}
-                        case 'bowKick': {xOffset = 8; yOffset = 1; radius = 9; break;}
-                        case 'airSwing1': {xOffset = 12; yOffset = -6; radius = 9; break;}
-                        case 'airSwing2': {xOffset = 12; yOffset = -7; radius = 12; break;}
-                        case 'runSwing': {xOffset = 14; yOffset = 0; radius = 9; break;}
-                        case 'idleSwing1': {xOffset = 10; yOffset = -2; break;}
-                        case 'idleSwing2': {xOffset = 12; yOffset = -7; break;}
-                    }
-
-                    this.opponentAttackBox = this.matter.add.circle(this.opponent.x + (factor * xOffset), this.opponent.y + yOffset, radius, {
-                        label: 'opponentBox',
-                        ignoreGravity: true,
-                        collisionFilter: {
-                            group: this.opponentGroup
-                        }
-                    });
-
-                    const gameObj = this.add.circle(this.opponent.x + (factor * xOffset), this.opponent.y + yOffset, radius, undefined, 0);
-                    gameObj.body = this.opponentAttackBox;
-                    this.opponentAttackBox.collisionFilter.category = this.collisionCategories.opponentBox;
-                    //console.log('dummy opponent game obj:', gameObj);
-                    setCollisionMask(this, gameObj, ['terrain', 'opponent', 'opponentBox', 'opponentArrow', 'playerMagic', 'opponentMagic', 'playerExplosion', 'opponentExplosion']);
-                    //console.log('dummy game obj after setting collision:', gameObj);
-
-                    if(opponentData.currentAnimation==='airSwing3Loop'){
-                        console.log('entered if statement to set opponent box velocity');
-                        this.matter.setVelocity(this.opponentAttackBox as Phaser.Types.Physics.Matter.MatterBody, 0, this.playerMaxSpeed);
-                    }
-                }
-
-
-            }
-        });
-
-        console.log('setting ping..');
-        this.socket.on('ping', () => {
-            this.latency = this.time.now - this.pingSendTime;
-            console.log('latency is:', this.latency, 'ms'); 
-        });
-        
-    }
-
-    soundAttenuation = (v0: number, distance: {x: number, y: number}): number => {
-        const norm = Math.sqrt(Math.pow(distance.x, 2) + Math.pow(distance.y, 2));
-        return v0 * Math.exp(-1 * 2.5 * norm/this.maxGameWidth);
-    }
-
-    update(){
-        //if(this.loaded){
-            //console.log(this.controlConfig.jumpControl.timeDown);
+        else{
+            this.playerHealthBar.decrease(0.5);
 
             this.setSoundVolumes();
             handlePlayerMovement(this);
@@ -882,12 +529,9 @@ export default class MountainScene extends Phaser.Scene
                 vx: this.player.body.velocity.x, 
                 vy: this.player.body.velocity.y
             });
-
-            this.playerHealthBar.setPosition();
-            this.opponentHealthBar.setPosition();
-
-            //console.log(this.player.body.velocity);
-       // }
+        }
+        this.playerHealthBar.setPosition();
+        this.opponentHealthBar.setPosition();
     }
 
     setSoundVolumes = () => {
@@ -900,62 +544,21 @@ export default class MountainScene extends Phaser.Scene
                 this.audio.windFlap.sound.play(this.audio.windFlap.config);
             }
         }
-        // else{
-        //     this.audio.windFlap.stop();
-        // }
     }
 
-    // drawStamina = () => {
-    //     //console.log('drawing stamina bar');
-    //     this.staminaActive = true;
-    //     const offset = 100;
-    //     this.staminaOutline = this.add.image(this.player.x + offset, this.player.y, 'staminaOutline');
-    //     this.staminaOutline.setDepth(10).setScale(1/3);
-    //     this.staminaFill = this.add.image(this.staminaOutline.getBottomLeft().x + 1, this.staminaOutline.getBottomLeft().y - 1, 'staminaFill').setOrigin(0,1);
-    //     this.staminaFill.setDepth(10).setScale(1/3, this.stamina/3);
-    //     //console.log('stamina outline display height:', this.staminaOutline.displayHeight);
-    //     //console.log('stamina fill display height:', this.staminaFill.displayHeight);
-    // }
 
-    // updateStaminaPosition = () => {
-    //     const offset = 100;
-    //     if(this.losingStamina){
-    //         if(this.stamina <= 0){
-    //             this.stamina = 0;
-    //             this.resetWallSlide = true;
-    //         }
-    //         else{
-    //             this.stamina += this.staminaLossRate;
-    //         }       
-    //     }
-    //     else{
-    //         if(this.stamina >= 100){
-    //             this.stamina = 100;
-    //         }
-    //         else{
-    //             this.stamina += this.staminaRegenRate;
-    //         }
-            
-    //     }
-        
-    //     this.staminaOutline.setPosition(this.player.x + offset, this.player.y);
-    //     this.staminaFill.setScale(1/3, this.stamina/3);
-    //     this.staminaFill.setPosition(this.staminaOutline.getBottomLeft().x + 1, this.staminaOutline.getBottomLeft().y - 1).setOrigin(0,1);
-    // }
+    endMatch = () => {
+        setCollisionMask(this, this.player, ['player','opponent', 'playerBox', 'opponentBox', 'playerArrow', 'opponentArrow', 'playerMagic', 'opponentMagic', 'playerExplosion', 'opponentExplosion']);
+        let animation = 'dieSword';
+        switch(this.equippedWeapon){
+            case 'sword': {break;}
+            case 'bow': {animation = 'dieBow'; break;}
+            case 'glove': {animation = 'dieGlove'; break;}
+        }
+        this.player.play(animation, true);
+        this.socket.emit('playerLost');
 
-    // removeStamina = () => {
-    //     //console.log('checking if we should remove stamina bar');
-    //     if(this.stamina===100){
-    //         if(this.staminaOutline){
-    //             this.staminaOutline.destroy();
-    //         }
-    //         if(this.staminaFill){
-    //             this.staminaFill.destroy();
-    //         }            
-    //         this.gainingStamina = false;
-    //         this.losingStamina = false;
-    //         this.staminaActive = false;
-    //     }
-    // }
+        this.matchEnded = true;
+    }
 }
 
