@@ -9,6 +9,7 @@ import { loadAssets } from './LoadAssets';
 import handlePlayerMovement from './PlayerMovement';
 import HealthBar from './HealthBar';
 import Audio from './Audio';
+import MatchFindingScene from './MatchFindingScene';
 //import { startRNN, pauseRNN, resumeRNN } from './performanceRNN';
 //import magentaTest from './MagentaTest';
 
@@ -175,7 +176,7 @@ export default class MountainScene extends Phaser.Scene
 
 	constructor()
 	{
-        super('mountainScene');
+        super('MountainScene');
 
         //collision
         this.collisionCategories = {
@@ -317,6 +318,11 @@ export default class MountainScene extends Phaser.Scene
 
     init(data){
         console.log('in the init function');
+        console.log('tilemap cache keys before loading:', this.cache.tilemap.getKeys());
+        this.cache.tilemap.remove('map');
+        //this.scene.restart(data);
+        const map = this.make.tilemap({ key: "map" });
+        
         this.load.tilemapTiledJSON('map', data.tileMap);
         this.collisionPoints = data.tileMap.collisionPoints;
         this.load.image("blackPixelTiles", "assets/images/tilesets/blackPixelTiles.png");   
@@ -333,7 +339,8 @@ export default class MountainScene extends Phaser.Scene
 
     create()
     {
-        console.log('in the create function')
+        console.log('in the create functiono mountain scene')
+
         this.matter.set60Hz();
         this.matter.world.engine.positionIterations=30;
         this.matter.world.engine.velocityIterations=30;
@@ -456,14 +463,14 @@ export default class MountainScene extends Phaser.Scene
 
     update(){
 
-        if(this.playerHealthBar.value===0){
+        if(this.playerHealthBar.value===0 || this.matchEnded){
             //player died, end match
             if(!this.matchEnded){
                 endMatch(this);
             }
         }
         else{
-            this.playerHealthBar.decrease(0.5);
+            //this.playerHealthBar.decrease(0.9);
 
             this.setSoundVolumes();
             handlePlayerMovement(this);
@@ -490,8 +497,6 @@ export default class MountainScene extends Phaser.Scene
             }
         }
     }
-
-
 
 }
 

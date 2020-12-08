@@ -39,7 +39,7 @@ const createTileMap = () => {
     placeTerrain.setBottomRow(mapData, height, width);
     // //createSkyMountains(scene, groundLayer, map, tileset);
 
-    //saveTileMap(mapData);
+    saveTileMap(mapData);
 
     return [map, collisionPoints];
 }

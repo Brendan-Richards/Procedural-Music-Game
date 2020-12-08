@@ -1,5 +1,6 @@
 import MountainScene from './MountainScene';
 import {makeExplosion, setCollisionMask} from './Collisions';
+import { displayEndScreen } from './EndMatch';
 
 const manageSocket = (scene: MountainScene) => {
 
@@ -145,6 +146,17 @@ const manageSocket = (scene: MountainScene) => {
         }
         
         
+    });
+
+    scene.socket.on('opponentLost', data => {
+        console.log('data recieved from opponentLost event:', data);
+
+        scene.matchEnded = true;
+
+        scene.opponent.play(data.deathAnimation + 'Opponent', true);
+        scene.opponent.once('animationcomplete', () => {
+            displayEndScreen(scene, true);
+        });
     });
 
     scene.socket.on('opponentAnimationUpdate', (opponentData) => {

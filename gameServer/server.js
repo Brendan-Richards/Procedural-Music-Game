@@ -48,8 +48,8 @@ io.on('connection', (socket) => {
 
       //remove for deployment
       /////////////////////////////
-      players['dfsdf'] = {};
-      playerQueue.push('dfsdf');
+      // players['dfsdf'] = {};
+      // playerQueue.push('dfsdf');
       ///////////////////////////////
 
       while(playerQueue.length > 1){
@@ -78,6 +78,9 @@ io.on('connection', (socket) => {
         //socket.broadcast.emit('opponentAnimationUpdate', players[socket.id]);
         //console.log('players:', players);
     });
+    socket.on('disconnect', () => {
+      console.log('player with id:', socket.id, 'disconnected');
+    });
     socket.on('playerDamaged', damageAmount => {
       io.to(players[socket.id].opponent).emit('opponentDamaged', damageAmount);
     });
@@ -88,6 +91,10 @@ io.on('connection', (socket) => {
     socket.on('createMagic', (magicData) => {
       io.to(players[socket.id].opponent).emit('createMagic', magicData);
       //socket.broadcast.emit('createMagic', magicData);
+    });
+    socket.on('playerLost', data => {
+      console.log('recieved player lost event wioht data:', data);
+      io.to(players[socket.id].opponent).emit('opponentLost', data);
     });
     socket.on('playerMovementUpdate', (moveData) => {
         players[socket.id].x = moveData.x;
@@ -181,7 +188,3 @@ server.listen(80, function () {
   console.log(`Listening on ${server.address().port}`);
 });
 
-
-
-
-//emit: disconnect, playerMovementUpdate

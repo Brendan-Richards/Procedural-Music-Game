@@ -13,7 +13,7 @@ export default class MatchFindingScene extends Phaser.Scene{
     lastTextUpdateTime: number;
 
 	constructor(){
-        super('matchFindingScene');    
+        super('MatchFindingScene');    
     }
     
     preload(){
@@ -21,6 +21,8 @@ export default class MatchFindingScene extends Phaser.Scene{
     }
 
     create(){
+        console.log('in create function of match finding scene');
+
         this.foundMatch = false;
 
         this.socket = io();
@@ -92,7 +94,11 @@ export default class MatchFindingScene extends Phaser.Scene{
 
         this.socket.on('matchFound', (data) => {
             data.socket = this.socket;
-            this.scene.start('mountainScene', data);
+            this.cameras.resetAll();
+            this.events.destroy();
+            // this.scene.remove('MatchFindingScene');
+            // this.scene.add('MatchFindingScene', MatchFindingScene, false);
+            this.scene.start('MountainScene', data);
         })
 
     }
@@ -100,6 +106,7 @@ export default class MatchFindingScene extends Phaser.Scene{
 
     update(){
         if(this.loadText && this.time.now  - this.lastTextUpdateTime > 400){
+            console.log('setting the dots');
             let dots = '';
             switch(this.loadText.text.length){
                 case 15: {dots = '...'; break;}
