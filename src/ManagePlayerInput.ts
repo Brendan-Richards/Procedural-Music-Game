@@ -3,6 +3,29 @@ import MountainScene from './MountainScene';
 const managePlayerInput = (scene: MountainScene) => {
     //input setup
     /////////////////////////////////////////////////////////////////////////////////
+    // scene.input.on('gameout', () => {
+    //     console.log('game out event')
+    //     scene.pointerOnCanvas = false;
+    // }, scene);
+    // scene.input.on('gameover', () => {
+    //     console.log('game over event')
+    //     scene.pointerOnCanvas = true;
+    // }, scene);
+
+    window.onfocus = () => { 
+        console.log('allow sound true');
+        scene.audio.floorAmbience.sound.play(scene.audio.floorAmbience.config);
+        scene.audio.windSound.sound.play(scene.audio.windSound.config);
+        scene.allowSound = true; 
+    }; 
+      
+      window.onblur = () => { 
+        console.log('allow sound false');
+        scene.audio.floorAmbience.sound.stop();
+        scene.audio.windSound.sound.stop();
+        scene.allowSound = false; 
+    }; 
+    
     scene.cursors = scene.input.keyboard.createCursorKeys();
 
     scene.controlConfig = {

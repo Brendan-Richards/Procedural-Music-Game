@@ -103,7 +103,14 @@ const displayEndScreen = (scene: MountainScene, won: boolean) => {
     });
 
 
-
+    const keys = Object.keys(scene.audio);
+    console.log('audio keys:', keys);
+    keys.forEach(key => {
+        if(!['scene', 'ambience', 'randomChoice', 'startAnimationAudio', 'musicReady', 'musicRNN', 'player', 'possibleNotes'].includes(key)){
+            console.log(key);
+            scene.audio[key].sound.stop();
+        }
+    });
 
 }
 

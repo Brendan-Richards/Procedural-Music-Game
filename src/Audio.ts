@@ -1,4 +1,4 @@
-import Phaser, { Sound } from 'phaser';
+import Phaser from 'phaser';
 import MountainScene from './MountainScene';
 import { setCollisionMask } from './Collisions';
 import * as mm from '@magenta/music/es6';

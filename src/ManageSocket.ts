@@ -91,15 +91,17 @@ const manageSocket = (scene: MountainScene) => {
     });
 
     scene.socket.on('opponentSound', soundData => {
-        //console.log('recieved sound start event');
-        //console.log(soundData);
-        const distance = {x: Math.abs(scene.player.x - soundData.x), y: Math.abs(scene.player.y - soundData.y)};
-        //console.log('distance of sound to player:', distance);
-        scene.opponentAudio[soundData.name].sound.play(scene.opponentAudio[soundData.name].config);
-        //console.log('sound object is:', scene.opponentAudio[soundData.name]);
-        const newVolume = soundAttenuation(scene, scene.opponentAudio[soundData.name].config.volume, distance);
-        //console.log('new volume:', newVolume);
-        scene.opponentAudio[soundData.name].sound.volume = newVolume;
+        if(scene.allowSound){
+            //console.log('recieved sound start event');
+            //console.log(soundData);
+            const distance = {x: Math.abs(scene.player.x - soundData.x), y: Math.abs(scene.player.y - soundData.y)};
+            //console.log('distance of sound to player:', distance);
+            scene.opponentAudio[soundData.name].sound.play(scene.opponentAudio[soundData.name].config);
+            //console.log('sound object is:', scene.opponentAudio[soundData.name]);
+            const newVolume = soundAttenuation(scene, scene.opponentAudio[soundData.name].config.volume, distance);
+            //console.log('new volume:', newVolume);
+            scene.opponentAudio[soundData.name].sound.volume = newVolume;
+        }
     });
 
     scene.socket.on('opponentSoundStop', soundData => {

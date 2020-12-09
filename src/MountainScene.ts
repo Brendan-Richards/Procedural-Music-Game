@@ -166,6 +166,7 @@ export default class MountainScene extends Phaser.Scene
     arrowDamageAmount: number;
     swordDamageAmount: number;
     matchEnded: boolean;
+    allowSound: boolean;
 
     playerProjectilesCategory: number
     opponentProjectilesCategory: number;
@@ -192,12 +193,8 @@ export default class MountainScene extends Phaser.Scene
             playerExplosion: Math.pow(2, 9),
             opponentExplosion: Math.pow(2, 10)
         }
-        // this.playerGroup = -1;
-        // this.opponentGroup = -2;
-        // this.playerMask = 0x0001;
-        // this.opponentMask = 0x0010;
-        // this.playerProjectilesCategory = 2;
-        // this.opponentProjectilesCategory = 4;
+
+        this.allowSound = true;
         this.matchEnded = false;
         this.magicDamageAmount = 40;
         this.arrowDamageAmount = 20;
@@ -318,9 +315,8 @@ export default class MountainScene extends Phaser.Scene
 
     init(data){
         console.log('in the init function');
-        console.log('tilemap cache keys before loading:', this.cache.tilemap.getKeys());
+        //console.log('tilemap cache keys before loading:', this.cache.tilemap.getKeys());
         this.cache.tilemap.remove('map');
-        //this.scene.restart(data);
         const map = this.make.tilemap({ key: "map" });
         
         this.load.tilemapTiledJSON('map', data.tileMap);
@@ -463,6 +459,9 @@ export default class MountainScene extends Phaser.Scene
 
     update(){
 
+        if(this.opponent && this.opponent.angle !== 0){
+            this.opponent.angle = 0;
+        }
         if(this.playerHealthBar.value===0 || this.matchEnded){
             //player died, end match
             if(!this.matchEnded){
