@@ -4,6 +4,7 @@ const server = require('http').Server(app);
 //var io = require('socket.io')(3000);
 const io = require('socket.io')(server);
 const foreground = require('./foreground/CreateForeground');
+const fs = require('fs');
 
 const players = {};
 const playerQueue = [];
@@ -18,6 +19,22 @@ io.on('connection', (socket) => {
     console.log('a user connected, adding to player list...');
     players[socket.id] = {status: 'startScreen'};
     console.log('players:', players);
+    console.log(socket.handshake.address);
+
+    //save users ip address
+    let rawdata = fs.readFileSync('connectionLog.json');
+    let connectionData = JSON.parse(rawdata);
+    connectionData.total += 1;
+    if(connectionData[socket.handshake.address]){
+      connectionData[socket.handshake.address] += 1;
+    }
+    else{
+      connectionData[socket.handshake.address] = 1;
+    }
+
+    let data = JSON.stringify(connectionData);
+    fs.writeFileSync('connectionLog.json', data);
+
 
     socket.on('removeAttackBoxes', () => {
       io.to(players[socket.id].opponent).emit('removeAttackBoxes');        
