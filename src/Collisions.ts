@@ -291,24 +291,31 @@ const playerOpponentExplosionCollision = (scene: MountainScene, player, opponent
 }
 
 const worldBoundaryPlayerMagicCollision = (scene: MountainScene, worldBoundary, playerMagic, collisionPoint) => {
-    playerMagic.gameObject.destroy();
-    makeExplosion(scene, collisionPoint.x, collisionPoint.y, false);
+    if(playerMagic.gameObject){
+        playerMagic.gameObject.destroy();
+        makeExplosion(scene, collisionPoint.x, collisionPoint.y, false);
+    }
 }
 
 const worldBoundaryOpponentMagicCollision = (scene: MountainScene, worldBoundary, opponentMagic, collisionPoint) => {
-    opponentMagic.gameObject.destroy();
-    makeExplosion(scene, collisionPoint.x, collisionPoint.y, true);
+    if(opponentMagic.gameObject){
+        opponentMagic.gameObject.destroy();
+        makeExplosion(scene, collisionPoint.x, collisionPoint.y, true);
+    }
 }
 
 const playerMagicTerrainCollision = (scene: MountainScene, playerMagic, terrain, collisionPoint) => {
-    playerMagic.gameObject.destroy();
-    makeExplosion(scene, collisionPoint.x, collisionPoint.y, false);
+    if(playerMagic.gameObject){
+        playerMagic.gameObject.destroy();
+        makeExplosion(scene, collisionPoint.x, collisionPoint.y, false);
+    }
 }
 
 const opponentMagicTerrainCollision = (scene: MountainScene, opponentMagic, terrain, collisionPoint) => {
-    opponentMagic.gameObject.destroy();
-    makeExplosion(scene, collisionPoint.x, collisionPoint.y, true);
-    //makeExplosion(scene, collisionPoint.x, collisionPoint.y, magic.name==='opponentMagic');
+    if(opponentMagic.gameObject){
+        opponentMagic.gameObject.destroy();
+        makeExplosion(scene, collisionPoint.x, collisionPoint.y, true);
+    }
 }
 
 const playerBoxOpponentArrowCollision = (scene: MountainScene, playerBox, opponentArrow) => {
@@ -404,7 +411,7 @@ const handleCollisions = (scene: MountainScene): void => {
             const labelA = pair.collision.parentA.label;
             const labelB = pair.collision.parentB.label;
 
-            console.log('collision between', labelA, 'and', labelB);
+            //console.log('collision between', labelA, 'and', labelB);
             //console.log(pair);
 
             if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain'){
@@ -643,7 +650,7 @@ const makeExplosion = (scene: MountainScene, x: number, y: number, opponent: boo
     ex.setExistingBody(circle);
     ex.body.label = opponent ? 'opponentExplosion' : 'playerExplosion';
     ex.setScale(0.25, 0.25);
-    ex.setFixedRotation()
+    ex.setFixedRotation();
     ex.setIgnoreGravity(true);
 
     if(opponent){
@@ -666,7 +673,7 @@ const makeExplosion = (scene: MountainScene, x: number, y: number, opponent: boo
     //ex.setCollisionGroup(opponent ? scene.opponentGroup : scene.playerGroup);
     ex.play(opponent ? 'orangeExplosion': 'blueExplosion');
     ex.once('animationcomplete', () => {
-        console.log('destroying explosion');
+        //console.log('destroying explosion');
         ex.destroy();
     });
 
@@ -691,3 +698,5 @@ const setCollisionMask = (scene: MountainScene, gameObj: Phaser.GameObjects.Game
 }
 
 export {handleCollisions, makeExplosion, setCollisionMask};
+
+

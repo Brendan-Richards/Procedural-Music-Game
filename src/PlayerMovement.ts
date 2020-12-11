@@ -336,24 +336,6 @@ const groundPlayerAttacking = (scene: MountainScene) => {
 
         }
     }
-    else if(scene.equippedWeapon==='none'){
-        if(scene.playerKick && scene.currentPlayerAnimation!=='groundKick'){
-            setNewCharacterAnimation(scene, 'groundKick', scene.currentPlayerDirection==='left', false);
-        }
-        else if(!scene.meeleeAttacks.includes(scene.currentPlayerAnimation) && scene.time.now - scene.lastAttackTime > 500){
-            let attack = '';
-            switch(scene.prevMeeleeAttack){
-                case 'punch1': {attack = 'punch2'; scene.prevMeeleeAttack = 'punch2'; break;}
-                case 'punch2': {attack = 'punch3'; scene.prevMeeleeAttack = 'punch3'; break;}
-                case 'punch3': {attack = 'runPunch'; scene.prevMeeleeAttack = 'runPunch'; break;}
-                //case 'runPunch': {attack = 'groundKick'; scene.prevMeeleeAttack = 'groundKick'; break;}
-                default: {attack = 'punch1'; scene.prevMeeleeAttack = 'punch1'; break;}
-            }
-            setNewCharacterAnimation(scene, attack, scene.currentPlayerDirection==='left', false);
-
-           // scene.stamina -= scene.attackStaminaPenalty;
-        }            
-    }
     else if(scene.equippedWeapon==='bow'){
         if(scene.bowKick){
             setNewCharacterAnimation(scene, 'bowKick', scene.currentPlayerDirection==='left', false);
@@ -438,12 +420,7 @@ const groundPlayerAttacking = (scene: MountainScene) => {
         }
     }
     else if(scene.equippedWeapon==='glove'){
-        if(scene.mana <= 0){
-            scene.playerAttacking = false;
-            scene.stopCasting = false;
-            //scene.regenMana = true;
-        }
-        else if(!scene.magicAttacks.includes(scene.currentPlayerAnimation)){
+        if(!scene.magicAttacks.includes(scene.currentPlayerAnimation)){
             let animation = '';
             switch(scene.currentPlayerAnimation){
                 case 'runGlove': { animation = scene.magicType==='red' ? 'runCastRed' : 'runCastBlue'; break; }
@@ -516,7 +493,7 @@ const makeMagic = (scene: MountainScene) => {
         yPosition += 3;
     }
     if(['wallSlideCastRed', 'wallSlideCastBlue'].includes(scene.currentPlayerAnimation)){
-        yPosition += 10;
+        yPosition += 6;
     }
 
     const xPosition = scene.player.x+(factor * (scene.magicType==='red' ? 20 : 13));
@@ -560,6 +537,7 @@ const makeMagic = (scene: MountainScene) => {
     // magic.setCollisionGroup(scene.playerGroup);
     magic.setIgnoreGravity(true);
     magic.setFixedRotation();
+    magic.setFrictionAir(0);
     scene.matter.setVelocity(magic, factor * scene.magicSpeed, 0);
 
     scene.socket.emit('createMagic', {
@@ -900,11 +878,6 @@ const airPlayerAttacking = (scene: MountainScene, prevVelocity: velocity) => {
             //scene.stamina -= scene.attackStaminaPenalty;
         }
     }
-    else if(scene.equippedWeapon==='none'){
-        if(scene.currentPlayerAnimation!=='airKick' && scene.time.now - scene.lastAttackTime > 500){
-            setNewCharacterAnimation(scene, 'airKick', scene.currentPlayerDirection==='left', false);
-        }            
-    }
     else if(scene.equippedWeapon==='bow'){
         if(scene.currentPlayerAnimation==='jumpHoldLoop' || scene.currentPlayerAnimation==='fallHoldLoop'){
             if(scene.bowRelease){
@@ -953,12 +926,7 @@ const airPlayerAttacking = (scene: MountainScene, prevVelocity: velocity) => {
         }
     }
     else if(scene.equippedWeapon==='glove'){
-        if(scene.mana <= 0){
-            scene.playerAttacking = false;
-            scene.stopCasting = false;
-            //scene.regenMana = true;
-        }
-        else if(!scene.magicAttacks.includes(scene.currentPlayerAnimation)){
+        if(!scene.magicAttacks.includes(scene.currentPlayerAnimation)){
             let animation = '';
             switch(scene.currentPlayerAnimation){
                 case 'wallSlideGlove': {animation = scene.magicType==='red' ? 'wallSlideCastRed': 'wallSlideCastBlue'; break;}
@@ -1164,7 +1132,7 @@ const setAirVelocity = (scene: MountainScene, prevVelocity: velocity) => {
 const setNewCharacterAnimation = (scene: MountainScene, animationName: string, flipX: boolean, flipY: boolean, startFrameIndex = 0, interrupt = true) => {
     scene.player.setScale(1);
 
-    //console.log('animation name:', animationName);
+    console.log('animation name:', animationName);
     if(animationName===scene.currentPlayerAnimation){
         //console.trace();
     }
@@ -1205,14 +1173,22 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
         let radius = 10
         const factor = flipX ? -1 : 1;
         switch(scene.currentPlayerAnimation){
-            case 'airSwing3Start': {xOffset = 0; yOffset = 16; radius = 9; break;}
+            case 'airSwing3Start': {xOffset = 0; yOffset = 0; radius = 14; break;}
             case 'wallSwing': {xOffset = -10; yOffset = 0; radius = 13; break;}
             case 'bowKick': {xOffset = 8; yOffset = 1; radius = 9; break;}
-            case 'airSwing1': {xOffset = 12; yOffset = -6; radius = 9; break;}
-            case 'airSwing2': {xOffset = 12; yOffset = -7; radius = 12; break;}
-            case 'runSwing': {xOffset = 14; yOffset = 0; radius = 9; break;}
-            case 'idleSwing1': {xOffset = 10; yOffset = -2; break;}
-            case 'idleSwing2': {xOffset = 12; yOffset = -7; break;}
+            case 'airSwing1': {xOffset = 4; yOffset = -5; radius = 15; break;}
+            case 'airSwing2': {xOffset = 7; yOffset = -3; radius = 15; break;}
+            case 'runSwing': {xOffset = 6; yOffset = 0; radius = 14; break;}
+            case 'idleSwing1': {xOffset = 6; yOffset = -1; radius = 13; break;}
+            case 'idleSwing2': {xOffset = 7; yOffset = -6; radius = 14; break;}
+            // case 'airSwing3Start': {xOffset = 0; yOffset = 16; radius = 9; break;}
+            // case 'wallSwing': {xOffset = -10; yOffset = 0; radius = 13; break;}
+            // case 'bowKick': {xOffset = 8; yOffset = 1; radius = 9; break;}
+            // case 'airSwing1': {xOffset = 12; yOffset = -6; radius = 9; break;}
+            // case 'airSwing2': {xOffset = 12; yOffset = -7; radius = 12; break;}
+            // case 'runSwing': {xOffset = 14; yOffset = 0; radius = 9; break;}
+            // case 'idleSwing1': {xOffset = 10; yOffset = -2; break;}
+            // case 'idleSwing2': {xOffset = 12; yOffset = -7; break;}
         }
         scene.playerAttackBox = scene.matter.add.circle(scene.player.x + (factor * xOffset), scene.player.y + yOffset, radius, {
             label: 'playerBox',
@@ -1225,11 +1201,12 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
         const gameObj = scene.add.circle(scene.player.x + (factor * xOffset), scene.player.y + yOffset, radius, undefined, 0);
         gameObj.body = scene.playerAttackBox;
         scene.playerAttackBox.collisionFilter.category = scene.collisionCategories.playerBox;
+        console.log('player attack box:', scene.playerAttackBox);
         //console.log('dummy game obj:', gameObj);
         setCollisionMask(scene, gameObj, ['terrain', 'player', 'playerBox', 'playerArrow', 'playerMagic', 'opponentMagic', 'playerExplosion', 'opponentExplosion']);
         
         if(scene.currentPlayerAnimation==='airSwing3Start'){
-            scene.matter.setVelocity(scene.playerAttackBox as Phaser.Types.Physics.Matter.MatterBody, 0, scene.playerMaxSpeed);
+            scene.matter.setVelocity(scene.playerAttackBox as Phaser.Types.Physics.Matter.MatterBody, 0, scene.playerMaxSpeed + 0.3);
         }
 
         //console.log('dummy game obj after setting collision:', gameObj);

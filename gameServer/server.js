@@ -7,8 +7,6 @@ const foreground = require('./foreground/CreateForeground');
 
 const players = {};
 const playerQueue = [];
-let numRooms = 0;
-const rooms = {};
 
 app.use(express.static(__dirname + '/public'));
  
@@ -19,6 +17,7 @@ app.get('/', function (req, res) {
 io.on('connection', (socket) => {
     console.log('a user connected, adding to player list...');
     players[socket.id] = {status: 'startScreen'};
+    console.log('players:', players);
 
     socket.on('removeAttackBoxes', () => {
       io.to(players[socket.id].opponent).emit('removeAttackBoxes');        
@@ -45,7 +44,7 @@ io.on('connection', (socket) => {
     socket.on('findMatch', () => {
       console.log('adding', socket.id, 'to the player queue');
       playerQueue.push(socket.id);
-
+      players[socket.id].status = 'inQueue';
       //remove for deployment
       /////////////////////////////
       // players['dfsdf'] = {};
@@ -61,11 +60,32 @@ io.on('connection', (socket) => {
       //console.log('players:', players);
     });
 
-    // socket.on('disconnect', function () {
-    //     console.log('user disconnected');
-    //     delete players[socket.id];
-    //     io.emit('dconnect', socket.id);
-    // });
+    socket.on('disconnect', function () {
+        //if player was not in queue or match
+        console.log('player disconnnected');
+
+        if(players[socket.id].status==='startScreen'){
+          delete players[socket.id];
+        }
+        //if player was in queue
+        else if(players[socket.id].status==='inQueue'){
+          const index = playerQueue.indexOf(socket.id);
+          if (index > -1) {
+            playerQueue.splice(index, 1);
+          }
+          else{
+            console.log('error, tried to delete player from queue but they weren\'t in queue');
+          }
+          delete players[socket.id];
+        }
+        // if player was in a match
+        else if(players[socket.id].status==='inMatch'){
+          io.to(players[socket.id].opponent).emit('opponentDisconnect');
+          delete players[socket.id];
+        }
+
+        console.log('players:', players);
+    });
     socket.on('ping', () => {
       io.to(socket.id).emit('ping');
     });
@@ -93,8 +113,10 @@ io.on('connection', (socket) => {
       //socket.broadcast.emit('createMagic', magicData);
     });
     socket.on('playerLost', data => {
-      console.log('recieved player lost event wioht data:', data);
+      //console.log('recieved player lost event with data:', data);
       io.to(players[socket.id].opponent).emit('opponentLost', data);
+      players[players[socket.id].opponent].status = 'startScreen';
+      players[socket.id].status = 'startScreen';
     });
     socket.on('playerMovementUpdate', (moveData) => {
         players[socket.id].x = moveData.x;

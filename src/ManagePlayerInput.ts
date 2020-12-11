@@ -13,14 +13,14 @@ const managePlayerInput = (scene: MountainScene) => {
     // }, scene);
 
     window.onfocus = () => { 
-        console.log('allow sound true');
+        //console.log('allow sound true');
         scene.audio.floorAmbience.sound.play(scene.audio.floorAmbience.config);
         scene.audio.windSound.sound.play(scene.audio.windSound.config);
         scene.allowSound = true; 
     }; 
       
       window.onblur = () => { 
-        console.log('allow sound false');
+        //console.log('allow sound false');
         scene.audio.floorAmbience.sound.stop();
         scene.audio.windSound.sound.stop();
         scene.allowSound = false; 

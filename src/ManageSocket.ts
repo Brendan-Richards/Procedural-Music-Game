@@ -42,6 +42,7 @@ const manageSocket = (scene: MountainScene) => {
         // arrow.setCollidesWith(scene.playerMask);
         arrow.setIgnoreGravity(true);
         arrow.setFixedRotation();
+        arrow.setFrictionAir(0);
         scene.matter.setVelocity(arrow, arrowData.factor * scene.arrowSpeed, 0);            
     });
 
@@ -82,6 +83,7 @@ const manageSocket = (scene: MountainScene) => {
         // magic.setCollidesWith(scene.playerMask);
         magic.setIgnoreGravity(true);
         magic.setFixedRotation();
+        magic.setFrictionAir(0);
         scene.matter.setVelocity(magic, magicData.factor * scene.magicSpeed, 0);
     
     });
@@ -161,6 +163,11 @@ const manageSocket = (scene: MountainScene) => {
         });
     });
 
+    scene.socket.on('opponentDisconnect', () => {
+        console.log('opponent disconnected');
+        displayEndScreen(scene, false, true);
+    });
+
     scene.socket.on('opponentAnimationUpdate', (opponentData) => {
         if(scene.opponent){
             console.log('setting opponent animation to:', opponentData.currentAnimation);
@@ -188,19 +195,29 @@ const manageSocket = (scene: MountainScene) => {
                 let radius = 10
                 const factor = opponentData.flipX ? -1 : 1;
                 switch(opponentData.currentAnimation){
-                    case 'airSwing3Loop': {xOffset = 0; yOffset = 16; radius = 9; break;}
+                    case 'airSwing3Loop': {xOffset = 0; yOffset = 0; radius = 14; break;}
                     case 'wallSwing': {xOffset = -10; yOffset = 0; radius = 13; break;}
                     case 'bowKick': {xOffset = 8; yOffset = 1; radius = 9; break;}
-                    case 'airSwing1': {xOffset = 12; yOffset = -6; radius = 9; break;}
-                    case 'airSwing2': {xOffset = 12; yOffset = -7; radius = 12; break;}
-                    case 'runSwing': {xOffset = 14; yOffset = 0; radius = 9; break;}
-                    case 'idleSwing1': {xOffset = 10; yOffset = -2; break;}
-                    case 'idleSwing2': {xOffset = 12; yOffset = -7; break;}
+                    case 'airSwing1': {xOffset = 4; yOffset = -5; radius = 15; break;}
+                    case 'airSwing2': {xOffset = 7; yOffset = -3; radius = 15; break;}
+                    case 'runSwing': {xOffset = 6; yOffset = 0; radius = 14; break;}
+                    case 'idleSwing1': {xOffset = 6; yOffset = -1; radius = 13; break;}
+                    case 'idleSwing2': {xOffset = 7; yOffset = -6; radius = 14; break;}
+                    // case 'airSwing3Loop': {xOffset = 0; yOffset = 16; radius = 9; break;}
+                    // case 'wallSwing': {xOffset = -10; yOffset = 0; radius = 13; break;}
+                    // case 'bowKick': {xOffset = 8; yOffset = 1; radius = 9; break;}
+                    // case 'airSwing1': {xOffset = 12; yOffset = -6; radius = 9; break;}
+                    // case 'airSwing2': {xOffset = 12; yOffset = -7; radius = 12; break;}
+                    // case 'runSwing': {xOffset = 14; yOffset = 0; radius = 9; break;}
+                    // case 'idleSwing1': {xOffset = 10; yOffset = -2; break;}
+                    // case 'idleSwing2': {xOffset = 12; yOffset = -7; break;}
                 }
 
                 scene.opponentAttackBox = scene.matter.add.circle(scene.opponent.x + (factor * xOffset), scene.opponent.y + yOffset, radius, {
                     label: 'opponentBox',
                     ignoreGravity: true,
+                    frictionAir: 0,
+                    friction: 0,
                     collisionFilter: {
                         group: scene.opponentGroup
                     }
@@ -215,7 +232,7 @@ const manageSocket = (scene: MountainScene) => {
 
                 if(opponentData.currentAnimation==='airSwing3Loop'){
                     console.log('entered if statement to set opponent box velocity');
-                    scene.matter.setVelocity(scene.opponentAttackBox as Phaser.Types.Physics.Matter.MatterBody, 0, scene.playerMaxSpeed);
+                    scene.matter.setVelocity(scene.opponentAttackBox as Phaser.Types.Physics.Matter.MatterBody, 0, scene.playerMaxSpeed + 0.3);
                 }
             }
 

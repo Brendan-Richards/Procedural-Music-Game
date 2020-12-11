@@ -497,6 +497,7 @@ const makePlayerArrow = (scene: MountainScene) => {
     // arrow.setCollidesWith(scene.opponentMask);
     arrow.setIgnoreGravity(true);
     arrow.setFixedRotation();
+    arrow.setFrictionAir(0);
     scene.matter.setVelocity(arrow, factor * scene.arrowSpeed, 0);
 }
 

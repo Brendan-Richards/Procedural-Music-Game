@@ -23,12 +23,32 @@ const endMatch = (scene: MountainScene) => {
     scene.matchEnded = true;
 }
 
-const displayEndScreen = (scene: MountainScene, won: boolean) => {
+const displayEndScreen = (scene: MountainScene, won: boolean, draw = false) => {
     //console.log('setting screen tint');
     let text;
     let rect;
 
-    if(won){
+    if(draw){
+        // scene.socket.close();
+        scene.matchEnded = true; 
+
+        rect = scene.add.rectangle(0, 0, scene.maxGameWidth, scene.maxGameHeight, 0xaaaaaa, 0.9).setOrigin(0,0).setDepth(99);
+        text = scene.add.text(scene.cameras.main.worldView.centerX, scene.cameras.main.worldView.centerY, 'Opponent Disconnected\n          Match Draw', { 
+            fontFamily: 'Arial',
+            fontSize: '30px',
+            padding: {
+                left: 5,
+                right: 5,
+                top: 0,
+                bottom: 5,
+            },
+            // color: 'rgb(255, 0, 0)'
+            color: 'rgb(255, 255, 255)'
+        }); 
+        text.setDepth(100).setOrigin(0.5, 0.5);  
+
+    }
+    else if(won){
         rect = scene.add.rectangle(0, 0, scene.maxGameWidth, scene.maxGameHeight, 0xffffff, 0.7).setOrigin(0,0).setDepth(99);
         text = scene.add.text(scene.cameras.main.worldView.centerX, scene.cameras.main.worldView.centerY, 'You Won!', { 
             fontFamily: 'Arial',
@@ -104,10 +124,10 @@ const displayEndScreen = (scene: MountainScene, won: boolean) => {
 
 
     const keys = Object.keys(scene.audio);
-    console.log('audio keys:', keys);
+    //console.log('audio keys:', keys);
     keys.forEach(key => {
         if(!['scene', 'ambience', 'randomChoice', 'startAnimationAudio', 'musicReady', 'musicRNN', 'player', 'possibleNotes'].includes(key)){
-            console.log(key);
+            //console.log(key);
             scene.audio[key].sound.stop();
         }
     });
