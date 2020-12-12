@@ -88,8 +88,37 @@ const manageSocket = (scene: MountainScene) => {
     
     });
 
-    scene.socket.on('opponentDamaged', damageAmount => {
-        scene.opponentHealthBar.decrease(damageAmount);
+    scene.socket.on('opponentDamaged', data => {
+
+        let suffix = '';
+
+        switch(scene.opponentHealth){
+            case 100: {suffix = '100'; break;}
+            case 75: {suffix = '075'; break;}
+            case 50: {suffix = '050'; break;}
+            case 25: {suffix = '025'; break;}
+            case 0: {suffix = '000'; break;}
+        }
+
+        console.log('playing opponent blood animation:', data.name + suffix);
+        const blood = scene.add.sprite(data.x, data.y, data.name + suffix);
+        blood.play( data.name + suffix);
+        blood.once('animationcomplete', animation => {
+            console.log('finished blood animation');
+            blood.destroy();
+        });
+
+        scene.opponentHealth -= data.damageAmount;
+        scene.opponentHealthBar.decrease(data.damageAmount);
+
+        const currentFrameIndex = scene.opponent.anims.currentFrame.index - 1;
+
+        let num = scene.opponentHealth.toString();
+        while(num.length < 3){
+            num = '0' + num;
+        }
+    
+        scene.opponent.play(scene.currentOpponentAnimation + num, true, currentFrameIndex);
     });
 
     scene.socket.on('opponentSound', soundData => {
@@ -125,12 +154,24 @@ const manageSocket = (scene: MountainScene) => {
     });
 
     scene.socket.on('bloodAnimation', data => {
-        const blood = scene.add.sprite(data.x, data.y, 'bloodAtlas', '1_0.png');
-        blood.play('blood');
-        blood.once('animationcomplete', animation => {
-            console.log('finished blood animation');
-            blood.destroy();
-        });
+
+        // let suffix = '';
+
+        // switch(data.name==='blood' ? scene.playerHealth : scene.opponentHealth){
+        //     case 100: {suffix = '100'; break;}
+        //     case 75: {suffix = '075'; break;}
+        //     case 50: {suffix = '050'; break;}
+        //     case 25: {suffix = '025'; break;}
+        //     case 0: {suffix = '000'; break;}
+        // }
+
+        // console.log('playing blood animation:', data.name + suffix);
+        // const blood = scene.add.sprite(data.x, data.y, data.name + suffix);
+        // blood.play( data.name + suffix);
+        // blood.once('animationcomplete', animation => {
+        //     console.log('finished blood animation');
+        //     blood.destroy();
+        // });
     });
 
     scene.socket.on('explosion', data => {
@@ -157,7 +198,7 @@ const manageSocket = (scene: MountainScene) => {
 
         scene.matchEnded = true;
 
-        scene.opponent.play(data.deathAnimation + 'Opponent', true);
+        scene.opponent.play(data.deathAnimation + 'Opponent000', true);
         scene.opponent.once('animationcomplete', () => {
             displayEndScreen(scene, true);
         });
@@ -170,12 +211,24 @@ const manageSocket = (scene: MountainScene) => {
 
     scene.socket.on('opponentAnimationUpdate', (opponentData) => {
         if(scene.opponent){
-            console.log('setting opponent animation to:', opponentData.currentAnimation);
+            
             scene.opponent.setScale(1);
         
             scene.opponent.setScale((opponentData.flipX ? -1 : 1)*scene.playerScaleFactor, scene.playerScaleFactor);
         
-            scene.opponent.play(opponentData.currentAnimation + 'Opponent', false, 0);  
+            let suffix = '';
+
+            switch(scene.opponentHealth){
+                case 100: {suffix = '100'; break;}
+                case 75: {suffix = '075'; break;}
+                case 50: {suffix = '050'; break;}
+                case 25: {suffix = '025'; break;}
+                case 0: {suffix = '000'; break;}
+            }
+
+            console.log('setting opponent animation to:', opponentData.currentAnimation + 'Opponent' + suffix);
+
+            scene.opponent.play(opponentData.currentAnimation + 'Opponent' + suffix, false, 0);  
 
             scene.opponent.setBounce(0);
             scene.opponent.setFixedRotation(); 

@@ -254,8 +254,12 @@ class Audio {
     }
 
     startAnimationAudio = (scene: MountainScene) => {
-        this.scene.player.on('animationstart', (animation, frame) => {
+        this.scene.player.on('animationstart', (anim, frame) => {
             
+            const animation = {
+                key: anim.key.slice(0, anim.key.length-3) 
+            }
+
             if(animation.key==='idleSwing1' || animation.key==='idleSwing2' || animation.key==='runSwing'){
                 this.runSound.sound.stop(); 
                 this.windFlap.sound.stop();

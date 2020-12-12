@@ -168,6 +168,8 @@ export default class MountainScene extends Phaser.Scene
     swordDamageAmount: number;
     matchEnded: boolean;
     allowSound: boolean;
+    playerHealth: number;
+    opponentHealth: number;
 
     playerProjectilesCategory: number
     opponentProjectilesCategory: number;
@@ -194,6 +196,8 @@ export default class MountainScene extends Phaser.Scene
             playerExplosion: Math.pow(2, 9),
             opponentExplosion: Math.pow(2, 10)
         };
+        this.playerHealth = 100;
+        this.opponentHealth = 100;
         this.lastWallCollisionDirection = null;
         this.allowSound = true;
         this.matchEnded = false;
@@ -224,9 +228,7 @@ export default class MountainScene extends Phaser.Scene
         this.maxGameWidth = 1280;
         // this.maxGameHeight = 6400;
         // this.maxGameWidth = 6400;
-        this.chestScaleFactor = 0.6;
         this.treeScaleFactor = 0.4;
-        this.numChests = 5;
         this.loaded = false;
 
         //set up player
@@ -394,6 +396,7 @@ export default class MountainScene extends Phaser.Scene
 
         //magentaTest();
 
+        console.log('animation list:', this.anims.toJSON());
     }
 
     createPlayer = () => {
@@ -413,7 +416,11 @@ export default class MountainScene extends Phaser.Scene
         this.player.setScale(this.playerScaleFactor);
         this.playerHealthBar = new HealthBar(this, this.player, 0x2635be);
         animationLogic(this);
-        createAnimations(this);
+        createAnimations(this, '000', 'playerOpponent0');
+        createAnimations(this, '100', 'player100');
+        createAnimations(this, '075', 'player75');
+        createAnimations(this, '050', 'player50');
+        createAnimations(this, '025', 'player25');
         handleCollisions(this);
 
         this.player.body.collisionFilter.category = this.collisionCategories.player;
@@ -435,7 +442,11 @@ export default class MountainScene extends Phaser.Scene
         this.opponent.body.collisionFilter.category = this.collisionCategories.opponent;
         setCollisionMask(this, this.opponent, ['opponent', 'player', 'opponentBox', 'opponentArrow', 'opponentMagic', 'opponentExplosion']);
         console.log('opponent:', this.opponent);
-        createAnimations(this, 'Opponent', 'opponentAtlas');
+        createAnimations(this, 'Opponent000', 'playerOpponent0');
+        createAnimations(this, 'Opponent100', 'opponent100');
+        createAnimations(this, 'Opponent075', 'opponent75');
+        createAnimations(this, 'Opponent050', 'opponent50');
+        createAnimations(this, 'Opponent025', 'opponent25');
     }
 
     createTerrainBody = () => {
@@ -457,7 +468,6 @@ export default class MountainScene extends Phaser.Scene
     }
 
     update(){
-
         if(this.opponent && this.opponent.angle !== 0){
             this.opponent.angle = 0;
         }

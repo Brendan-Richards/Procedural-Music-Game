@@ -1143,11 +1143,6 @@ const setAirVelocity = (scene: MountainScene, prevVelocity: velocity) => {
 const setNewCharacterAnimation = (scene: MountainScene, animationName: string, flipX: boolean, flipY: boolean, startFrameIndex = 0, interrupt = true) => {
     scene.player.setScale(1);
 
-    console.log('animation name:', animationName);
-    if(animationName===scene.currentPlayerAnimation){
-        //console.trace();
-    }
-
     scene.socket.emit('playerNewAnimation', {
         animation: animationName, 
         flipX: flipX, 
@@ -1163,7 +1158,19 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
     //     scene.matter.body.setPosition(scene.playerBody, vec);
     // }
 
-    scene.player.play(animationName, interrupt, startFrameIndex);
+    let suffix = '';
+
+    switch(scene.playerHealth){
+        case 100: {suffix = '100'; break;}
+        case 75: {suffix = '075'; break;}
+        case 50: {suffix = '050'; break;}
+        case 25: {suffix = '025'; break;}
+        case 0: {suffix = '000'; break;}
+    }
+
+    console.log('animation name:', animationName + suffix);
+
+    scene.player.play(animationName + suffix, interrupt, startFrameIndex);
     scene.prevPlayerAnimation = scene.currentPlayerAnimation;
     scene.currentPlayerAnimation = animationName;
 

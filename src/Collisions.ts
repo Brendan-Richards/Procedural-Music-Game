@@ -29,7 +29,18 @@ const playerTerrainCollision = (scene: MountainScene, player, terrain, collision
             // }
 
             if(scene.currentPlayerAnimation==='airSwing3Loop'){
-                scene.player.play('airSwing3End', true);
+
+                let suffix = '';
+
+                switch(scene.playerHealth){
+                    case 100: {suffix = '100'; break;}
+                    case 75: {suffix = '075'; break;}
+                    case 50: {suffix = '050'; break;}
+                    case 25: {suffix = '025'; break;}
+                    case 0: {suffix = '000'; break;}
+                }
+
+                scene.player.play('airSwing3End' + suffix, true);
                 scene.prevPlayerAnimation = 'airSwing3Loop';
                 scene.currentPlayerAnimation = 'airSwing3End';
                 emitAnimationEvent(scene, 'airSwing3End', scene.currentPlayerDirection==='left');
@@ -84,6 +95,7 @@ const playerTerrainCollision = (scene: MountainScene, player, terrain, collision
 
         if(!scene.playerCanJump && scene.player.body.velocity.y < 0 || both && !scene.playerCanJump){
             //const timeSinceJump = scene.time.now - scene.playerLastOnGroundTime;
+            //console.log('setting player velocity Y to -10');
             scene.player.setVelocity(0, -10);
         }
         // if(validContactTime){
@@ -149,22 +161,50 @@ const playerOpponentBoxCollision = (scene: MountainScene, player, opponentBox) =
             scene.audio.swordBodyImpact.sound.play(scene.audio.swordBodyImpact.config);
             scene.socket.emit('playerSound', {name: 'swordBodyImpact', x: scene.player.x, y: scene.player.y});
                 
-            scene.socket.emit('playerDamaged', damageAmount);
-            scene.playerHealthBar.decrease(damageAmount);
+            scene.socket.emit('playerDamaged', {
+                damageAmount: damageAmount, 
+                x: scene.player.x, 
+                y: scene.player.y,
+                name: 'bloodOpponent'
+            });
 
             scene.lastSwordDamageTime = scene.time.now;
 
-            const blood = scene.add.sprite(scene.player.x, scene.player.y, 'bloodAtlas', '1_0.png');
-            blood.play('blood');
+            let suffix = '';
+
+            switch(scene.playerHealth){
+                case 100: {suffix = '100'; break;}
+                case 75: {suffix = '075'; break;}
+                case 50: {suffix = '050'; break;}
+                case 25: {suffix = '025'; break;}
+                case 0: {suffix = '000'; break;}
+            }
+
+            const blood = scene.add.sprite(scene.player.x, scene.player.y, 'blood' + suffix);
+
+            blood.play('blood' + suffix);
             blood.once('animationcomplete', animation => {
                 console.log('finished blood animation');
                 blood.destroy();
             });
+
+            scene.playerHealth -= damageAmount;
+            scene.playerHealthBar.decrease(damageAmount);
+
+            const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
+
+            let num = scene.playerHealth.toString();
+            while(num.length < 3){
+                num = '0' + num;
+            }
+        
+            scene.player.play(scene.currentPlayerAnimation + num, true, currentFrameIndex);
             
-            scene.socket.emit('bloodAnimation', {
-                x: scene.player.x,
-                y: scene.player.y
-            });
+            // scene.socket.emit('bloodAnimation', {
+            //     x: scene.player.x,
+            //     y: scene.player.y,
+            //     name: 'bloodOpponent'
+            // });
         }
     }
 };
@@ -172,8 +212,32 @@ const playerOpponentBoxCollision = (scene: MountainScene, player, opponentBox) =
 const playerOpponentArrowCollision = (scene: MountainScene, player, opponentArrow) => {
 //if(!scene.swordAttacks.includes(scene.currentPlayerAnimation)){
     const damageAmount = scene.arrowDamageAmount;
-    scene.playerHealthBar.decrease(damageAmount);
-    scene.socket.emit('playerDamaged', damageAmount);
+
+    scene.socket.emit('playerDamaged', {
+        damageAmount: damageAmount, 
+        x: scene.player.x, 
+        y: scene.player.y,
+        name: 'bloodOpponent'
+    });
+
+    let suffix = '';
+
+    switch(scene.playerHealth){
+        case 100: {suffix = '100'; break;}
+        case 75: {suffix = '075'; break;}
+        case 50: {suffix = '050'; break;}
+        case 25: {suffix = '025'; break;}
+        case 0: {suffix = '000'; break;}
+    }
+
+    const blood = scene.add.sprite(scene.player.x, scene.player.y, 'blood' + suffix);
+
+    blood.play('blood' + suffix);
+    blood.once('animationcomplete', animation => {
+        console.log('finished blood animation');
+        blood.destroy();
+    });   
+
     scene.audio.arrowBodyImpact.sound.play(scene.audio.arrowBodyImpact.config);
     scene.socket.emit('playerSound', {name: 'arrowBodyImpact', x: scene.player.x, y: scene.player.y});
     //}
@@ -190,6 +254,18 @@ const playerOpponentArrowCollision = (scene: MountainScene, player, opponentArro
         scene.opponentArrows[arrowIndex].destroy();
         scene.opponentArrows.splice(arrowIndex, 1);
     }
+
+    scene.playerHealth -= damageAmount;
+    scene.playerHealthBar.decrease(damageAmount);
+
+    const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
+
+    let num = scene.playerHealth.toString();
+    while(num.length < 3){
+        num = '0' + num;
+    }
+
+    scene.player.play(scene.currentPlayerAnimation + num, true, currentFrameIndex);
     //console.log('still have reference to arrow', opponnentArrow);
     //opponentArrow.destroy();
     // other.setCollisionGroup(-3);
@@ -211,6 +287,7 @@ const playerOpponentMagicCollision = (scene: MountainScene, player, opponentMagi
     
         //scene.socket.emit('makeExplosion', {});
         scene.socket.emit('playerDamaged', scene.magicDamageAmount);
+        scene.playerHealth -= scene.magicDamageAmount;
         scene.playerHealthBar.decrease(scene.magicDamageAmount);
     }
 
@@ -236,16 +313,27 @@ const opponentPlayerArrowCollision = (scene: MountainScene, opponent, playerArro
 
     //console.log('scene.playerArrows.length:', scene.playerArrows.length);
 
-    const blood = scene.add.sprite(scene.opponent.x, scene.opponent.y, 'bloodAtlas', '1_0.png');
-    blood.play('blood');
-    scene.socket.emit('bloodAnimation', {
-        x: scene.opponent.x,
-        y: scene.opponent.y
-    });
-    blood.once('animationcomplete', animation => {
-        console.log('finished blood animation');
-        blood.destroy();
-    });
+    // let suffix = '';
+
+    // switch(scene.opponentHealth){
+    //     case 100: {suffix = '100'; break;}
+    //     case 75: {suffix = '075'; break;}
+    //     case 50: {suffix = '050'; break;}
+    //     case 25: {suffix = '025'; break;}
+    //     case 0: {suffix = '000'; break;}
+    // }
+
+    // const blood = scene.add.sprite(scene.opponent.x, scene.opponent.y, 'bloodOpponent' + suffix);
+    // blood.play('bloodOpponent' + suffix);
+    // scene.socket.emit('bloodAnimation', {
+    //     x: scene.opponent.x,
+    //     y: scene.opponent.y,
+    //     name: 'blood'
+    // });
+    // blood.once('animationcomplete', animation => {
+    //     console.log('finished blood animation');
+    //     blood.destroy();
+    // });
 
     // other.setCollisionGroup(-3);
     // scene.matter.add.constraint(scene.player, other, 20, 1);
@@ -278,6 +366,7 @@ const opponentPlayerExplosionCollision = (scene: MountainScene, opponent, player
 
 const playerOpponentExplosionCollision = (scene: MountainScene, player, opponentExplosion) => {
     scene.socket.emit('playerDamaged', scene.magicDamageAmount);
+    scene.playerHealth -= scene.magicDamageAmount;
     scene.playerHealthBar.decrease(scene.magicDamageAmount);
     setCollisionMask(scene, opponentExplosion.gameObject, ['terrain', 'player', 'playerBox', 'playerArrow', 'opponentArrow', 'opponent', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);
 }
@@ -411,7 +500,8 @@ const handleCollisions = (scene: MountainScene): void => {
             console.log('collision between', labelA, 'and', labelB);
             //console.log(pair);
 
-            if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain'){
+            if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain' ||
+                labelA==='player' && labelB==='worldBoundary' || labelB==='player' && labelA==='worldBoundary'){
                 const player = labelA==='player' ? bodyA : bodyB;
                 const terrain = labelA==='player' ? bodyB : bodyA;
                 playerTerrainCollision(scene, player, terrain, collisionNormal, collisionPoint);
@@ -541,7 +631,8 @@ const handleCollisions = (scene: MountainScene): void => {
             //console.log('collision active between', labelA, 'and', labelB);
             //console.log(pair);
 
-            if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain'){
+            if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain' || 
+                labelA==='player' && labelB==='worldBoundary' || labelB==='player' && labelA==='worldBoundary'){
                 // const player = labelA==='player' ? bodyA : bodyB;
                 // const terrain = labelA==='player' ? bodyB : bodyA;
 
@@ -576,7 +667,8 @@ const handleCollisions = (scene: MountainScene): void => {
             //console.log('collision active between', labelA, 'and', labelB);
             //console.log(pair);
 
-            if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain'){
+            if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain' || 
+                labelA==='player' && labelB==='worldBoundary' || labelB==='player' && labelA==='worldBoundary'){
                 // const player = labelA==='player' ? bodyA : bodyB;
                 // const terrain = labelA==='player' ? bodyB : bodyA;
 
@@ -592,6 +684,7 @@ const handleCollisions = (scene: MountainScene): void => {
 
                 if(!scene.inContactWithGround && !scene.inContactWithWall){
                     scene.playerWallSliding = false;
+                    //scene.playerFriction = 0;
                 }
 
             }

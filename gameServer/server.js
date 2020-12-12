@@ -118,8 +118,8 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
       console.log('player with id:', socket.id, 'disconnected');
     });
-    socket.on('playerDamaged', damageAmount => {
-      io.to(players[socket.id].opponent).emit('opponentDamaged', damageAmount);
+    socket.on('playerDamaged', data => {
+      io.to(players[socket.id].opponent).emit('opponentDamaged', data);
     });
     socket.on('createArrow', (arrowData) => {
       io.to(players[socket.id].opponent).emit('createArrow', arrowData);

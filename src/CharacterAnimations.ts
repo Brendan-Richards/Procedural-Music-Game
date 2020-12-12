@@ -4,7 +4,22 @@ import MountainScene from './MountainScene';
 const animationLogic = (scene: MountainScene) => {
     
     /////////////////////////////////////////////////////////////////////////////////////////////
-    scene.player.on('animationcomplete', (animation, frame) => {
+    scene.player.on('animationcomplete', (anim, frame) => {
+
+        let suffix = '';
+
+        switch(scene.playerHealth){
+            case 100: {suffix = '100'; break;}
+            case 75: {suffix = '075'; break;}
+            case 50: {suffix = '050'; break;}
+            case 25: {suffix = '025'; break;}
+            case 0: {suffix = '000'; break;}
+        }
+
+        const animation = {
+            key: anim.key.slice(0, anim.key.length-3) 
+        }
+
         //console.log('in animation complete callback');
         if(animation.key==='bowKick'){
             scene.playerAttacking = false;
@@ -28,7 +43,7 @@ const animationLogic = (scene: MountainScene) => {
                 case 'idleCastBlue': {
                     if(scene.stopCasting){
                         //console.log('idleCast ended')
-                        scene.player.play('idleGlove', true);
+                        scene.player.play('idleGlove' + suffix, true);
                         scene.prevPlayerAnimation = 'idleCast';
                         scene.currentPlayerAnimation = 'idleGlove'; 
                         scene.playerAttacking = false;
@@ -42,7 +57,7 @@ const animationLogic = (scene: MountainScene) => {
                 case 'runCastBlue': {
                     if(scene.stopCasting){
                         //console.log('runCast ended')
-                        scene.player.play('runGlove', true);
+                        scene.player.play('runGlove' + suffix, true);
                         scene.prevPlayerAnimation = 'runCast';
                         scene.currentPlayerAnimation = 'runGlove'; 
                         scene.playerAttacking = false;
@@ -55,7 +70,7 @@ const animationLogic = (scene: MountainScene) => {
                 case 'jumpCastBlue': {
                     if(scene.stopCasting){
                         //console.log('jumpCast ended')
-                        scene.player.play('jumpGlove', true);
+                        scene.player.play('jumpGlove' + suffix, true);
                         scene.prevPlayerAnimation = 'jumpCast';
                         scene.currentPlayerAnimation = 'jumpGlove'; 
                         scene.playerAttacking = false;
@@ -69,7 +84,7 @@ const animationLogic = (scene: MountainScene) => {
                 case 'fallCastBlue': {
                     if(scene.stopCasting){
                         //console.log('fallCast ended')
-                        scene.player.play('fallGlove', true);
+                        scene.player.play('fallGlove' + suffix, true);
                         scene.prevPlayerAnimation = 'fallCast';
                         scene.currentPlayerAnimation = 'fallGlove'; 
                         scene.playerAttacking = false;
@@ -82,7 +97,7 @@ const animationLogic = (scene: MountainScene) => {
                 case 'wallSlideCastBlue': {
                     if(scene.stopCasting){
                         //console.log('wallSlideCast ended')
-                        scene.player.play('wallSlideGlove', true);
+                        scene.player.play('wallSlideGlove' + suffix, true);
                         scene.prevPlayerAnimation = 'wallSlideCast';
                         scene.currentPlayerAnimation = 'wallSlideGlove'; 
                         scene.playerAttacking = false;
@@ -98,14 +113,14 @@ const animationLogic = (scene: MountainScene) => {
             switch(animation.key){
                 //ground bow attacks
                 case 'idleNotch': {
-                    scene.player.play('idleHoldLoop', true);
+                    scene.player.play('idleHoldLoop' + suffix, true);
                     scene.prevPlayerAnimation = 'idleNotch';
                     scene.currentPlayerAnimation = 'idleHoldLoop'; 
                     emitAnimationEvent(scene, 'idleHoldLoop', scene.currentPlayerDirection==='left');
                     break;
                 }
                 case 'runNotch': {
-                    scene.player.play('runHoldLoop', true);
+                    scene.player.play('runHoldLoop' + suffix, true);
                     scene.prevPlayerAnimation = 'runNotch';
                     scene.currentPlayerAnimation = 'runHoldLoop';
                     emitAnimationEvent(scene, 'runHoldLoop', scene.currentPlayerDirection==='left'); 
@@ -114,14 +129,14 @@ const animationLogic = (scene: MountainScene) => {
 
                 //air bow attacks
                 case 'jumpNotch': {
-                    scene.player.play('jumpHoldLoop', true);
+                    scene.player.play('jumpHoldLoop' + suffix, true);
                     scene.prevPlayerAnimation = 'jumpNotch';
                     scene.currentPlayerAnimation = 'jumpHoldLoop'; 
                     emitAnimationEvent(scene, 'jumpHoldLoop', scene.currentPlayerDirection==='left');
                     break;
                 }
                 case 'fallNotch': {
-                    scene.player.play('fallHoldLoop', true);
+                    scene.player.play('fallHoldLoop' + suffix, true);
                     //console.log('playing fallHoldLoop')
                     scene.prevPlayerAnimation = 'fallNotch';
                     scene.currentPlayerAnimation = 'fallHoldLoop'; 
@@ -131,7 +146,7 @@ const animationLogic = (scene: MountainScene) => {
             }
         }
         else if(animation.key==='airSwing3Start'){
-            scene.player.play('airSwing3Loop', true);
+            scene.player.play('airSwing3Loop' + suffix, true);
             scene.prevPlayerAnimation = 'airSwing3Start';
             scene.currentPlayerAnimation = 'airSwing3Loop';
             emitAnimationEvent(scene, 'airSwing3Loop', scene.currentPlayerDirection==='left');
@@ -702,17 +717,21 @@ const createAnimations = (scene: MountainScene, suffix = '', atlasName = 'charac
             repeat: -1
     });
 
-    //blood effects
-    scene.anims.create({
-        key: 'blood',
-        frames: scene.anims.generateFrameNames('bloodAtlas', {
-            prefix: '1_', 
-            suffix: '.png',
-            end: 15, 
-            zeroPad: 1 
-            }),
-            frameRate: bloodFrameRate
-    }); 
+
+    if(suffix!=='000'){
+        //blood effects
+        scene.anims.create({
+            key: 'blood' + suffix,
+            frames: scene.anims.generateFrameNames('blood' + suffix, {
+                prefix: '1_', 
+                suffix: '.png',
+                end: 15, 
+                zeroPad: 1 
+                }),
+                frameRate: bloodFrameRate
+        }); 
+    }
+
     //explosion effects
     scene.anims.create({
         key: 'blueExplosion',

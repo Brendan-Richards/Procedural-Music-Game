@@ -12,7 +12,7 @@ const endMatch = (scene: MountainScene) => {
         case 'bow': {animation = 'dieBow'; break;}
         case 'glove': {animation = 'dieGlove'; break;}
     }
-    scene.player.play(animation, true);
+    scene.player.play(animation + '000', true);
     scene.player.once('animationcomplete', () => {
         displayEndScreen(scene, false);
     });
