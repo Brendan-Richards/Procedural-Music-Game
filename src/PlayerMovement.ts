@@ -580,13 +580,13 @@ const setGroundVelocity = (scene: MountainScene, prevVelocity: velocity) => {
         case 'idleSwordDrawn':
         case 'idleBowDrawn':
         case 'idleNotch':
+        case 'idleHoldLoop':
         case 'idleGlove':
         case 'idle': {
             scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, prevVelocity.y);
             break;
         }
         case 'runHoldLoop':
-        case 'runNotch':
         case 'runNotch':
         case 'runCastRed':
         case 'runCastBlue':
