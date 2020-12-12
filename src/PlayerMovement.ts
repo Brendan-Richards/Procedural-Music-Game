@@ -928,6 +928,9 @@ const airPlayerAttacking = (scene: MountainScene, prevVelocity: velocity) => {
             }
             setNewCharacterAnimation(scene, animation, scene.currentPlayerDirection==='left', false);
         }
+        else if(scene.currentPlayerAnimation==='runHoldLoop'){
+            setNewCharacterAnimation(scene, 'fallHoldLoop', scene.currentPlayerDirection==='left', false);
+        }
     }
     else if(scene.equippedWeapon==='glove'){
         if(!scene.magicAttacks.includes(scene.currentPlayerAnimation)){
