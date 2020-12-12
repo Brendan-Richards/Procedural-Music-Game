@@ -198,8 +198,8 @@ export default class MountainScene extends Phaser.Scene
         this.allowSound = true;
         this.matchEnded = false;
         this.magicDamageAmount = 40;
-        this.arrowDamageAmount = 20;
-        this.swordDamageAmount = 60;
+        this.arrowDamageAmount = 25;
+        this.swordDamageAmount = 50;
         this.opponent = null;
         this.swordRecoil = 30;
         this.recoilDuration = 50;
@@ -262,7 +262,7 @@ export default class MountainScene extends Phaser.Scene
         this.prevEquippedWeapon = '';
         // this.weaponsFound = ['none', 'sword', 'bow', 'glove'];
         this.weaponsFound = ['sword', 'bow'];
-        this.arrowSpeed = 11;
+        this.arrowSpeed = 9;
         this.magicSpeed = 7;
         this.mana = 100;
         this.madeMagic = false;

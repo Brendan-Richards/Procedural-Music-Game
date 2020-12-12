@@ -461,8 +461,8 @@ const makePlayerArrow = (scene: MountainScene) => {
     scene.playerAttacking = false;
 
     const factor = scene.currentPlayerDirection==='left' ? -1 : 1;
-    const arrowX = scene.player.x+(factor * 30);
-    const arrowY = scene.player.y-6;
+    const arrowX = scene.player.x+(factor * 5);
+    const arrowY = scene.player.y-2;
     const flipX = scene.currentPlayerDirection==='left';
 
     scene.socket.emit('createArrow', {
@@ -498,6 +498,7 @@ const makePlayerArrow = (scene: MountainScene) => {
     arrow.setIgnoreGravity(true);
     arrow.setFixedRotation();
     arrow.setFrictionAir(0);
+    arrow.setBounce(0);
     scene.matter.setVelocity(arrow, factor * scene.arrowSpeed, 0);
 }
 

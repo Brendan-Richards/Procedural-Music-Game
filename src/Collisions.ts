@@ -372,18 +372,23 @@ const playerBoxOpponentBoxCollision = (scene: MountainScene, playerBox, opponent
 }
 
 const opponentArrowTerrainCollision = (scene: MountainScene, opponentArrow, terrain) => {
+    opponentArrow.parent.isStatic = true;
     opponentArrow.parent.collisionFilter.category = null;
 }
 
 const opponentArrowWorldBoundaryCollision = (scene: MountainScene, opponentArrow, worldBoundary) => {
+    opponentArrow.parent.isStatic = true;
     opponentArrow.parent.collisionFilter.category = null;
 }
 
 const playerArrowTerrainCollision = (scene: MountainScene, playerArrow, terrain) => {
+    //scene.matter.setVelocity(playerArrow.parent as Phaser.Types.Physics.Matter.MatterBody, 0, 0);
+    playerArrow.parent.isStatic = true;
     playerArrow.parent.collisionFilter.category = null;
 }
 
 const playerArrowWorldBoundaryCollision = (scene: MountainScene, playerArrow, worldBoundary) => {
+    playerArrow.parent.isStatic = true;
     playerArrow.parent.collisionFilter.category = null;
 }
 
