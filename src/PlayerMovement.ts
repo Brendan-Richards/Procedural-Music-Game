@@ -1127,6 +1127,10 @@ const setAirVelocity = (scene: MountainScene, prevVelocity: velocity) => {
                     const factor = scene.currentPlayerDirection==='left' ? 1 : -1;
                     //scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, factor*scene.playerSpeed, -2.5*scene.playerSpeed); 
                 }
+                else if(scene.controlConfig.leftControl.isUp && scene.controlConfig.rightControl.isUp){
+                    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, prevVelocity.y);
+                    break;
+                }
             }
         }
         default: break;
