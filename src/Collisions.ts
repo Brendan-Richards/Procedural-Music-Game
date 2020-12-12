@@ -189,7 +189,7 @@ const playerOpponentBoxCollision = (scene: MountainScene, player, opponentBox) =
             });
 
             scene.playerHealth -= damageAmount;
-            scene.playerHealthBar.decrease(damageAmount);
+            //scene.playerHealthBar.decrease(damageAmount);
 
             const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
 
@@ -256,7 +256,7 @@ const playerOpponentArrowCollision = (scene: MountainScene, player, opponentArro
     }
 
     scene.playerHealth -= damageAmount;
-    scene.playerHealthBar.decrease(damageAmount);
+    //scene.playerHealthBar.decrease(damageAmount);
 
     const currentFrameIndex = scene.player.anims.currentFrame.index - 1;
 
@@ -288,7 +288,7 @@ const playerOpponentMagicCollision = (scene: MountainScene, player, opponentMagi
         //scene.socket.emit('makeExplosion', {});
         scene.socket.emit('playerDamaged', scene.magicDamageAmount);
         scene.playerHealth -= scene.magicDamageAmount;
-        scene.playerHealthBar.decrease(scene.magicDamageAmount);
+        //scene.playerHealthBar.decrease(scene.magicDamageAmount);
     }
 
 }
@@ -367,7 +367,7 @@ const opponentPlayerExplosionCollision = (scene: MountainScene, opponent, player
 const playerOpponentExplosionCollision = (scene: MountainScene, player, opponentExplosion) => {
     scene.socket.emit('playerDamaged', scene.magicDamageAmount);
     scene.playerHealth -= scene.magicDamageAmount;
-    scene.playerHealthBar.decrease(scene.magicDamageAmount);
+    //scene.playerHealthBar.decrease(scene.magicDamageAmount);
     setCollisionMask(scene, opponentExplosion.gameObject, ['terrain', 'player', 'playerBox', 'playerArrow', 'opponentArrow', 'opponent', 'opponentBox', 'playerMagic', 'playerExplosion', 'opponentMagic', 'opponentExplosion']);
 }
 

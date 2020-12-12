@@ -414,7 +414,7 @@ export default class MountainScene extends Phaser.Scene
         this.player.setExistingBody(this.playerBody);
         console.log('player right aftyer setting body:', this.player);
         this.player.setScale(this.playerScaleFactor);
-        this.playerHealthBar = new HealthBar(this, this.player, 0x2635be);
+        //this.playerHealthBar = new HealthBar(this, this.player, 0x2635be);
         animationLogic(this);
         createAnimations(this, '000', 'playerOpponent0');
         createAnimations(this, '100', 'player100');
@@ -438,7 +438,7 @@ export default class MountainScene extends Phaser.Scene
         }, false);     
         this.opponent.setExistingBody(opponentBody);
         this.opponent.setScale(this.playerScaleFactor);
-        this.opponentHealthBar = new HealthBar(this, this.opponent, 0xa24700);
+        //this.opponentHealthBar = new HealthBar(this, this.opponent, 0xa24700);
         this.opponent.body.collisionFilter.category = this.collisionCategories.opponent;
         setCollisionMask(this, this.opponent, ['opponent', 'player', 'opponentBox', 'opponentArrow', 'opponentMagic', 'opponentExplosion']);
         console.log('opponent:', this.opponent);
@@ -471,7 +471,7 @@ export default class MountainScene extends Phaser.Scene
         if(this.opponent && this.opponent.angle !== 0){
             this.opponent.angle = 0;
         }
-        if(this.playerHealthBar.value===0 || this.matchEnded){
+        if(this.playerHealth <= 0 || this.matchEnded){
             //player died, end match
             if(!this.matchEnded){
                 endMatch(this);
@@ -490,8 +490,8 @@ export default class MountainScene extends Phaser.Scene
                 vy: this.player.body.velocity.y
             });
         }
-        this.playerHealthBar.setPosition();
-        this.opponentHealthBar.setPosition();
+        // this.playerHealthBar.setPosition();
+        // this.opponentHealthBar.setPosition();
     }
 
     setSoundVolumes = () => {

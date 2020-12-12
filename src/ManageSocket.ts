@@ -109,7 +109,7 @@ const manageSocket = (scene: MountainScene) => {
         });
 
         scene.opponentHealth -= data.damageAmount;
-        scene.opponentHealthBar.decrease(data.damageAmount);
+        //scene.opponentHealthBar.decrease(data.damageAmount);
 
         const currentFrameIndex = scene.opponent.anims.currentFrame.index - 1;
 
