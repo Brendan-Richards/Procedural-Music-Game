@@ -28,6 +28,9 @@ const displayEndScreen = (scene: MountainScene, won: boolean, draw = false) => {
     let text;
     let rect;
 
+    scene.matter.setVelocity(scene.player.body as Phaser.Types.Physics.Matter.MatterBody, 0, scene.player.body.velocity.y);
+    scene.matter.setVelocity(scene.opponent.body as Phaser.Types.Physics.Matter.MatterBody, 0, scene.opponent.body.velocity.y);
+
     if(draw){
         // scene.socket.close();
         scene.matchEnded = true; 
@@ -129,6 +132,7 @@ const displayEndScreen = (scene: MountainScene, won: boolean, draw = false) => {
         if(!['scene', 'ambience', 'randomChoice', 'startAnimationAudio', 'musicReady', 'musicRNN', 'player', 'possibleNotes'].includes(key)){
             //console.log(key);
             scene.audio[key].sound.stop();
+            scene.opponentAudio[key].sound.stop();
         }
     });
 

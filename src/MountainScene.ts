@@ -39,6 +39,7 @@ interface position {
 
 export default class MountainScene extends Phaser.Scene
 {
+    lastWallCollisionDirection: string | null;
     maxGameHeight: number;
     maxGameWidth: number;
     characterShapes: VertexInformation;
@@ -193,7 +194,7 @@ export default class MountainScene extends Phaser.Scene
             playerExplosion: Math.pow(2, 9),
             opponentExplosion: Math.pow(2, 10)
         }
-
+        this.lastWallCollisionDirection = null;
         this.allowSound = true;
         this.matchEnded = false;
         this.magicDamageAmount = 40;
@@ -260,7 +261,7 @@ export default class MountainScene extends Phaser.Scene
         this.equippedWeapon = 'sword';
         this.prevEquippedWeapon = '';
         // this.weaponsFound = ['none', 'sword', 'bow', 'glove'];
-        this.weaponsFound = ['sword', 'bow', 'glove'];
+        this.weaponsFound = ['sword', 'bow'];
         this.arrowSpeed = 11;
         this.magicSpeed = 7;
         this.mana = 100;

@@ -9,7 +9,7 @@ const emitAnimationEvent = (scene: MountainScene, animationName: string, flipX: 
     });
 }
 
-const playerTerrainCollision = (scene: MountainScene, player, terrain, collisionNormal) => {
+const playerTerrainCollision = (scene: MountainScene, player, terrain, collisionNormal, collisionPoint) => {
     //console.log(collisionNormal);
 
     if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
@@ -76,6 +76,9 @@ const playerTerrainCollision = (scene: MountainScene, player, terrain, collision
         //console.log('wall side collision time:', scene.time.now);
         scene.inContactWithWall = true;
         scene.lastWallCollision = scene.time.now;
+
+        scene.lastWallCollisionDirection = collisionPoint.x > scene.player.x ? 'right' : 'left';
+
         const both = scene.inContactWithWall && scene.inContactWithGround;
         const validContactTime = scene.lastWallCollision === scene.lastGroundCollision;
 
@@ -129,20 +132,7 @@ const playerOpponentBoxCollision = (scene: MountainScene, player, opponentBox) =
     console.log('player collided with opponent attack box');
     //other =  bodyA===scene.opponentAttackBox ? bodyA : bodyB;
     recoilPlayers(scene, false, true);
-    // scene.socket.emit('swordRecoil');
-    // if(scene.swordAttacks.includes(scene.currentPlayerAnimation) && scene.swordAttacks.includes(scene.currentOpponentAnimation)){
-    //     //both player and opponent are sword attacking
-        
-    //     const option1 = scene.currentPlayerDirection==='right' && collisionPoint.x > scene.player.x && scene.currentOpponentDirection==='left' && collisionPoint.x < scene.opponent.x;
-    //     const option2 = scene.currentPlayerDirection==='left' && collisionPoint.x < scene.player.x && scene.currentOpponentDirection==='right' && collisionPoint.x > scene.opponent.x;
-    //     //if they are facing eachother
-    //     if(option1 || option2){
-    //         if(!scene.audio.swordSwordImpact.isPlaying){
-    //             scene.audio.swordSwordImpact.play(scene.audio.swordSwordImpactConfig);
-    //         }  
-    //     }
-    // }
-    //else if(scene.swordAttacks.includes(scene.currentOpponentAnimation) && scene.time.now - scene.lastSwordDamageTime > 500){
+
     if(!scene.bothAttacking && scene.time.now - scene.lastSwordDamageTime > 500){
 
         const facingEachother = scene.currentPlayerDirection==='left' && scene.currentOpponentDirection==='right' ||
@@ -218,6 +208,7 @@ const playerOpponentMagicCollision = (scene: MountainScene, player, opponentMagi
         //ex.setCollisionGroup(scene.playerGroup);
         scene.matter.setVelocity(ex, scene.player.body.velocity.x, scene.player.body.velocity.y);
     
+        //scene.socket.emit('makeExplosion', {});
         scene.socket.emit('playerDamaged', scene.magicDamageAmount);
         scene.playerHealthBar.decrease(scene.magicDamageAmount);
     }
@@ -411,13 +402,13 @@ const handleCollisions = (scene: MountainScene): void => {
             const labelA = pair.collision.parentA.label;
             const labelB = pair.collision.parentB.label;
 
-            //console.log('collision between', labelA, 'and', labelB);
+            console.log('collision between', labelA, 'and', labelB);
             //console.log(pair);
 
             if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain'){
                 const player = labelA==='player' ? bodyA : bodyB;
                 const terrain = labelA==='player' ? bodyB : bodyA;
-                playerTerrainCollision(scene, player, terrain, collisionNormal);
+                playerTerrainCollision(scene, player, terrain, collisionNormal, collisionPoint);
             }
             else if(labelA==='player' && labelB==='opponentBox' || labelB==='player' && labelA==='opponentBox'){
                 const player = labelA==='player' ? bodyA : bodyB;
@@ -530,96 +521,75 @@ const handleCollisions = (scene: MountainScene): void => {
 
     scene.matter.world.on("collisionactive", event => {
         event.pairs.forEach(pair => {
-            const collisionNormal = pair.collision.normal;
-            const { bodyA, bodyB } = pair;
+
             //console.log(pair);
-            if(bodyA.gameObject===scene.player || bodyB.gameObject===scene.player){
-                const other = bodyA.gameObject===scene.player ? bodyB.gameObject : bodyA.gameObject;
-                if(other!==null){
-                    if(!other.tile){ //we didn't collide with a tile
-                        if(other===scene.opponent){
-                            console.log('opponent collision active');
-                        }
-                        else if(other.name==='terrain'){
-                            if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
-                                scene.playerLastOnGroundTime = scene.time.now;
-                                scene.inContactWithGround = true;
-                                scene.playerWallSliding = false;
-                            }
-                            else{
-                                scene.inContactWithWall = true;
-                                scene.playerWallSliding = true;
-                            }
-                        }
-                    }
-                    else if(other.tile.properties.collisionLabel==='ground' ||
-                       other.tile.properties.collisionLabel==='leftSlideable' ||
-                       other.tile.properties.collisionLabel==='rightSlideable'){
-                        scene.playerLastOnGroundTime = scene.time.now;
-                    }
-                    else if(other.tile.properties.collisionLabel==='topWall'){
-                        if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
-                            scene.playerLastOnGroundTime = scene.time.now;
-                        }
-                    }
-                    else if(other.tile.properties.collisionLabel==='wall' ||
-                            other.tile.properties.collisionLabel==='iceWall'){
-                        scene.playerLastOnWallTime = scene.time.now;
-                        scene.inContactWithWall = true;
-                    }
+            const collisionNormal = pair.collision.normal;
+            const collisionPoint = pair.collision.supports[0].contact.vertex;
+            //console.log('collision happened');
+            const { bodyA, bodyB } = pair;
+            //console.log('pair:', pair);
+
+            const labelA = pair.collision.parentA.label;
+            const labelB = pair.collision.parentB.label;
+
+            //console.log('collision active between', labelA, 'and', labelB);
+            //console.log(pair);
+
+            if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain'){
+                // const player = labelA==='player' ? bodyA : bodyB;
+                // const terrain = labelA==='player' ? bodyB : bodyA;
+
+                if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
+                    scene.playerLastOnGroundTime = scene.time.now;
+                    scene.inContactWithGround = true;
+                    scene.playerWallSliding = false;
                 }
+                else{
+                    scene.inContactWithWall = true;
+                    scene.playerWallSliding = true;
+                }
+
+
             }
         });
     });
 
     scene.matter.world.on("collisionend", event => {
         event.pairs.forEach(pair => {
-            const { bodyA, bodyB } = pair;
-            const collisionNormal = pair.collision.normal;
-            //console.log(pair);
-            if(bodyA.gameObject===scene.player || bodyB.gameObject===scene.player){
-                const other = bodyA.gameObject===scene.player ? bodyB.gameObject : bodyA.gameObject;
-                if(other!==null){
-                    if(!other.tile){ //we didn't collide with a tile because other.tile is undefined
-                        if(other===scene.opponent){
-                            //console.log('opponent collision ended');
-                        }
-                        else if(other.name==='terrain'){
-                            if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
-                                //console.log('wall top collision ended', scene.time.now);
-                                scene.playerLastOnGroundTime = scene.time.now;
-                                scene.inContactWithGround = false;
-                            }
-                            else{
-                                //console.log('wall side collision ended', scene.time.now);
-                                scene.inContactWithWall = false;
-                            }
 
-                            if(!scene.inContactWithGround && !scene.inContactWithWall){
-                                scene.playerWallSliding = false;
-                            }
-                            // if(scene.inContactWithWall){
-                                
-                            //     scene.playerWallSliding = false;
-                            // }
-                            
-                        }
-                    }
-                    else if(other.tile.properties.collisionLabel==='ground'){
-                        scene.playerLastOnGroundTime = scene.time.now;
-                    }
-                    else if(other.tile.properties.collisionLabel==='leftSlideable'){
-                        scene.playerLastOnGroundTime = scene.time.now;
-                    }
-                    else if(other.tile.properties.collisionLabel==='rightSlideable'){
-                        scene.playerLastOnGroundTime = scene.time.now;
-                    }
-                    else if(other.tile.properties.collisionLabel==='wall' ||
-                            other.tile.properties.collisionLabel==='iceWall'){
-                        scene.playerLastOnWallTime = scene.time.now;
-                    }
+            //console.log(pair);
+            const collisionNormal = pair.collision.normal;
+            const collisionPoint = pair.collision.supports[0].contact.vertex;
+            //console.log('collision happened');
+            const { bodyA, bodyB } = pair;
+            //console.log('pair:', pair);
+
+            const labelA = pair.collision.parentA.label;
+            const labelB = pair.collision.parentB.label;
+
+            //console.log('collision active between', labelA, 'and', labelB);
+            //console.log(pair);
+
+            if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain'){
+                // const player = labelA==='player' ? bodyA : bodyB;
+                // const terrain = labelA==='player' ? bodyB : bodyA;
+
+                if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
+                    //console.log('wall top collision ended', scene.time.now);
+                    scene.playerLastOnGroundTime = scene.time.now;
+                    scene.inContactWithGround = false;
                 }
+                else{
+                    //console.log('wall side collision ended', scene.time.now);
+                    scene.inContactWithWall = false;
+                }
+
+                if(!scene.inContactWithGround && !scene.inContactWithWall){
+                    scene.playerWallSliding = false;
+                }
+
             }
+
         });
     });
 }

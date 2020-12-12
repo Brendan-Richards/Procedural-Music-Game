@@ -779,7 +779,7 @@ const playerWallSliding = (scene: MountainScene) => {
                 case 'none': {animation = 'wallSlide'; break;}
                 case 'sword': {animation = 'wallSlideSwordDrawn'; break;}
             }
-            setNewCharacterAnimation(scene, animation, scene.currentPlayerDirection==='left', false);
+            setNewCharacterAnimation(scene, animation, scene.lastWallCollisionDirection==='left', false);
         }
 
         //jump off the wall
