@@ -119,6 +119,7 @@ const playerTerrainCollision = (scene: MountainScene, player, terrain, collision
                 scene.playerIceWallSliding = false;
                 
                 scene.playerWallSliding = true;
+                scene.playerAttacking = false;
                 scene.playerWallJumping = false;
                 //scene.playerCanJump = true;
                 scene.playerRampSliding = false;

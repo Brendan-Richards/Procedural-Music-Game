@@ -771,7 +771,11 @@ const playerWallSliding = (scene: MountainScene) => {
         else{
             scene.player.setFriction(0.3);
         }
+
+        //console.log('checking if we should change player animation to wall slide')
         if((scene.currentPlayerAnimation!=='wallSlideSwordDrawn' && scene.currentPlayerAnimation!=='wallSlideBowDrawn' && scene.currentPlayerAnimation!=='wallSlideGlove') || scene.resetWallSlide){
+            //console.log('changing to wall slide animation');
+            
             let animation = '';
             switch(scene.equippedWeapon){
                 case 'glove': {animation = 'wallSlideGlove'; break;}

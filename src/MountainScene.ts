@@ -193,7 +193,7 @@ export default class MountainScene extends Phaser.Scene
             opponentMagic: Math.pow(2, 8),
             playerExplosion: Math.pow(2, 9),
             opponentExplosion: Math.pow(2, 10)
-        }
+        };
         this.lastWallCollisionDirection = null;
         this.allowSound = true;
         this.matchEnded = false;
@@ -282,8 +282,6 @@ export default class MountainScene extends Phaser.Scene
         this.playerIceWallSliding = false;
         this.playerLedgeClimb = false;
         this.resetWallSlide = false;
-        //this.losingStamina = false;
-        //this.gainingStamina = false;
         this.staminaActive = false;
         this.playerAttacking = false;
         this.inContactWithWall = false;
