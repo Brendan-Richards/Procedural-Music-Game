@@ -1,4 +1,5 @@
 import MountainScene from './MountainScene';
+import noScroll from './NoScroll.js';
 
 const managePlayerInput = (scene: MountainScene) => {
     //input setup
@@ -17,6 +18,18 @@ const managePlayerInput = (scene: MountainScene) => {
         scene.allowSound = false; 
     }; 
     
+    scene.input.on('gameover', () => {
+        //console.log('gameover event');
+        document.body.addEventListener('scroll', noScroll);
+    });
+
+    scene.input.on('gameout', () => {
+        //console.log('gameout event');
+        document.body.removeEventListener('scroll', noScroll);
+    });
+    
+    scene.input.emit('gameover');
+
     scene.cursors = scene.input.keyboard.createCursorKeys();
 
     scene.controlConfig = {

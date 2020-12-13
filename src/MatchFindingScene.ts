@@ -1,5 +1,6 @@
 // import Phaser from 'phaser';
 import { io } from 'socket.io-client';
+import noScroll from './NoScroll.js';
 
 export default class MatchFindingScene extends Phaser.Scene{
 
@@ -22,6 +23,13 @@ export default class MatchFindingScene extends Phaser.Scene{
     create(){
         //console.log('in create function of match finding scene');
 
+        //if the game canvas doesn't have a wrapping div, then we must need to build the info sections
+        if(this.game.canvas.parentNode.isSameNode(document.body)){
+            placeInformation(this);
+        }
+
+        document.body.removeEventListener('scroll', noScroll);
+
         this.input.mouse.disableContextMenu();
 
         this.foundMatch = false;
@@ -32,7 +40,7 @@ export default class MatchFindingScene extends Phaser.Scene{
         const height = this.cameras.main.height;
         const width = this.cameras.main.width;
 
-        this.findMatchButton = this.add.rectangle(width/2, height - 33, 200, 50, 0xcccccc);
+        this.findMatchButton = this.add.rectangle(width/2, height - 113, 200, 50, 0xcccccc);
         this.findMatchButton.setStrokeStyle(2, 0x000000);
         this.findMatchButton.setInteractive();
         this.findMatchButton.on('pointerover', () => {
@@ -44,9 +52,9 @@ export default class MatchFindingScene extends Phaser.Scene{
        this.findMatchButton.on('pointerdown', () => { 
             this.findMatchButton.destroy(); 
             this.findMatchText.destroy(); 
-            this.loadText = this.add.text(width/2 - 100, height-10, 'Finding Match...', { 
+            this.loadText = this.add.text(width/2 - 90, height-90, 'Finding Match...', { 
                 fontFamily: 'Arial',
-                fontSize: '30px',
+                fontSize: '26px',
                 padding: {
                     left: 5,
                     right: 5,
@@ -59,9 +67,9 @@ export default class MatchFindingScene extends Phaser.Scene{
             this.socket.emit('findMatch');
         }, this);
 
-        this.findMatchText = this.add.text(width/2, height-30, 'Find Match', { 
+        this.findMatchText = this.add.text(width/2, height-110, 'Find Match', { 
             fontFamily: 'Arial',
-            fontSize: '30px',
+            fontSize: '26px',
             padding: {
                 left: 5,
                 right: 5,
@@ -120,4 +128,110 @@ export default class MatchFindingScene extends Phaser.Scene{
     }
 
 }
+
+function openPage(pageName,elmnt,color) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].style.backgroundColor = "";
+    }
+    document.getElementById(pageName).style.display = "block";
+    elmnt.style.backgroundColor = color;
+}
+
+const placeInformation = (scene: MatchFindingScene) => {
+    //let canvas = document.getElementsByTagName("p");
+
+    //wrap canvas in a div
+    let canvas = scene.game.canvas;
+    let wrapper = document.createElement('div');
+    wrapper.id = 'canvasWrapper';
+    document.body.insertBefore(wrapper, canvas);
+    wrapper.appendChild(canvas);
+
+    //put info div after canvas
+    let infoDiv = document.getElementById("info");
+    document.body.insertBefore(wrapper, infoDiv);
+    //document.body.setAttribute('style', 'overflow-y: scroll;');
+    // document.style.overflow = 'scroll';
+    
+    //set properties of info div
+    infoDiv.setAttribute('style', 'height: 500px;');
+
+    const {aboutDiv, controlsDiv, attributionDiv} = getDivs();
+    const {aboutButton, controlsButton, attributionButton} = getButtons(aboutDiv, controlsDiv, attributionDiv);
+
+    const linkDiv = document.createElement('div');
+    linkDiv.id = 'linkDiv';
+    linkDiv.appendChild(aboutButton);
+    linkDiv.appendChild(controlsButton);
+    linkDiv.appendChild(attributionButton);
+    infoDiv.appendChild(linkDiv);
+
+    const contentDiv = document.createElement('div');
+    contentDiv.id = 'contentDiv';
+    contentDiv.appendChild(aboutDiv);
+    contentDiv.appendChild(controlsDiv);
+    contentDiv.appendChild(attributionDiv);
+    infoDiv.appendChild(contentDiv);
+    // infoDiv.appendChild(aboutButton);
+    // infoDiv.appendChild(controlsButton);
+    // infoDiv.appendChild(attributionButton);
+    // infoDiv.appendChild(aboutDiv);
+    // infoDiv.appendChild(controlsDiv);
+    // infoDiv.appendChild(attributionDiv);
+
+    document.getElementById("defaultOpen").click();
+}
+
+const getButtons = (aboutDiv, controlsDiv, attributionDiv) => {
+    const aboutButton = document.createElement('button');
+    aboutButton.className = 'tablink';
+    aboutButton.textContent = 'About';
+    aboutButton.id = 'defaultOpen';
+    aboutButton.addEventListener('click', () => {
+        openPage('about', aboutButton, '#F1F1F1');
+    });
+
+    const controlsButton = document.createElement('button');
+    controlsButton.className = 'tablink';
+    controlsButton.textContent = 'Controls';
+    controlsButton.addEventListener('click', () => {
+        openPage('controls', controlsButton, '#DADADA');
+    });
+
+    const attributionButton = document.createElement('button');
+    attributionButton.className = 'tablink';
+    attributionButton.textContent = 'Attribution';
+    attributionButton.addEventListener('click', () => {
+        openPage('attribution', attributionButton, '#BDBDBD');
+    });
+
+    return {aboutButton: aboutButton, controlsButton: controlsButton, attributionButton: attributionButton};
+}
+
+const getDivs = () => {
+    const aboutDiv = document.createElement('div');
+    aboutDiv.className = 'tabcontent';
+    aboutDiv.innerHTML = '<h3>about content</h3>';
+    aboutDiv.id = 'about';
+  
+    const controlsDiv = document.createElement('div');
+    controlsDiv.className = 'tabcontent';
+    controlsDiv.innerHTML = '<h3>controls content</h3>';
+    controlsDiv.id = 'controls';
+
+    const attributionDiv = document.createElement('div');
+    attributionDiv.className = 'tabcontent';
+    attributionDiv.innerHTML = '<h3>attribution content</h3>';
+    attributionDiv.id = 'attribution';
+
+    return {aboutDiv: aboutDiv, controlsDiv: controlsDiv, attributionDiv: attributionDiv};
+}
+
+
 

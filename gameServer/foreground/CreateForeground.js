@@ -39,10 +39,13 @@ const createTileMap = () => {
     placeTerrain.setBottomRow(mapData, height, width);
     // //createSkyMountains(scene, groundLayer, map, tileset);
 
-    //saveTileMap(mapData);
+    placeTerrain.fixLeftSide(mapData, 12, height, width);
+
+    saveTileMap(mapData);
 
     return [map, collisionPoints];
 }
+
 
 const saveTileMap = mapData => {
     const file = fs.createWriteStream('tileMapArray.txt');

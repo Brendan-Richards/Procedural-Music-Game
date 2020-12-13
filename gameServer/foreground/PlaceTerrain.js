@@ -35,6 +35,18 @@ const idx = (x, y, width) => {
     return width * y + x;
 }
 
+const fixLeftSide = (mapData, rightX, height, width) => {
+    console.log('fixing left side of map');
+
+    for(let x = rightX; x >= 0; x--){
+        for(let y = 0; y < height-1; y++){
+            if(mapData[idx(x, y, width)] !== 0){
+                mapData[idx(x, y, width)] = 0;
+            }
+        }
+    }
+};
+
 const setBottomRow = (mapData, mapHeight, mapWidth) => {
     let x=0;
 
@@ -147,3 +159,4 @@ exports.buildWall = buildWall;
 exports.buildFlat = buildFlat;
 exports.terrainFill = terrainFill;
 exports.setBottomRow = setBottomRow;
+exports.fixLeftSide = fixLeftSide;
