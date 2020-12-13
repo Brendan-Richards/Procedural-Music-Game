@@ -163,7 +163,7 @@ const placeInformation = (scene: MatchFindingScene) => {
     infoDiv.setAttribute('style', 'height: 500px;');
 
     const {aboutDiv, controlsDiv, attributionDiv} = getDivs();
-    const {aboutButton, controlsButton, attributionButton} = getButtons(aboutDiv, controlsDiv, attributionDiv);
+    const {aboutButton, controlsButton, attributionButton} = getButtons();
 
     const linkDiv = document.createElement('div');
     linkDiv.id = 'linkDiv';
@@ -178,17 +178,11 @@ const placeInformation = (scene: MatchFindingScene) => {
     contentDiv.appendChild(controlsDiv);
     contentDiv.appendChild(attributionDiv);
     infoDiv.appendChild(contentDiv);
-    // infoDiv.appendChild(aboutButton);
-    // infoDiv.appendChild(controlsButton);
-    // infoDiv.appendChild(attributionButton);
-    // infoDiv.appendChild(aboutDiv);
-    // infoDiv.appendChild(controlsDiv);
-    // infoDiv.appendChild(attributionDiv);
 
     document.getElementById("defaultOpen").click();
 }
 
-const getButtons = (aboutDiv, controlsDiv, attributionDiv) => {
+const getButtons = () => {
     const aboutButton = document.createElement('button');
     aboutButton.className = 'tablink';
     aboutButton.textContent = 'About';
@@ -201,14 +195,14 @@ const getButtons = (aboutDiv, controlsDiv, attributionDiv) => {
     controlsButton.className = 'tablink';
     controlsButton.textContent = 'Controls';
     controlsButton.addEventListener('click', () => {
-        openPage('controls', controlsButton, '#DADADA');
+        openPage('controls', controlsButton, '#F1F1F1');
     });
 
     const attributionButton = document.createElement('button');
     attributionButton.className = 'tablink';
-    attributionButton.textContent = 'Attribution';
+    attributionButton.textContent = 'Credits';
     attributionButton.addEventListener('click', () => {
-        openPage('attribution', attributionButton, '#BDBDBD');
+        openPage('attribution', attributionButton, '#F1F1F1');
     });
 
     return {aboutButton: aboutButton, controlsButton: controlsButton, attributionButton: attributionButton};
