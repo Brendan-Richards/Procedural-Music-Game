@@ -1,4 +1,4 @@
-//import Phaser from 'phaser';
+import Phaser from 'phaser';
 import MountainScene from './MountainScene';
 import MatchFindingScene from './MatchFindingScene';
 

@@ -142,7 +142,7 @@ const playerTerrainCollision = (scene: MountainScene, player, terrain, collision
 };
 
 const playerOpponentBoxCollision = (scene: MountainScene, player, opponentBox) => {
-    console.log('player collided with opponent attack box');
+    //console.log('player collided with opponent attack box');
     //other =  bodyA===scene.opponentAttackBox ? bodyA : bodyB;
     recoilPlayers(scene, false, true);
 
@@ -184,7 +184,7 @@ const playerOpponentBoxCollision = (scene: MountainScene, player, opponentBox) =
 
             blood.play('blood' + suffix);
             blood.once('animationcomplete', animation => {
-                console.log('finished blood animation');
+                //console.log('finished blood animation');
                 blood.destroy();
             });
 
@@ -234,7 +234,7 @@ const playerOpponentArrowCollision = (scene: MountainScene, player, opponentArro
 
     blood.play('blood' + suffix);
     blood.once('animationcomplete', animation => {
-        console.log('finished blood animation');
+        //console.log('finished blood animation');
         blood.destroy();
     });   
 
@@ -242,7 +242,7 @@ const playerOpponentArrowCollision = (scene: MountainScene, player, opponentArro
     scene.socket.emit('playerSound', {name: 'arrowBodyImpact', x: scene.player.x, y: scene.player.y});
     //}
     //console.log('length of scene.opponent arrows', scene.opponentArrows.length);
-    console.log('about to search through opponent arrows array, opponentArrows:', scene.opponentArrows);
+    //console.log('about to search through opponent arrows array, opponentArrows:', scene.opponentArrows);
     const arrowIndex = scene.opponentArrows.findIndex(val => {
         //console.log('val:', val, 'opponentArrow:', opponentArrow);
         return val.body===opponentArrow;
@@ -275,7 +275,7 @@ const playerOpponentArrowCollision = (scene: MountainScene, player, opponentArro
 
 const playerOpponentMagicCollision = (scene: MountainScene, player, opponentMagic) => {
     
-    console.log('opponent magic:', opponentMagic);
+    //console.log('opponent magic:', opponentMagic);
     if(opponentMagic.gameObject){
         opponentMagic.gameObject.destroy();
         //scene.matter.world.remove(opponentMagic);
@@ -443,9 +443,9 @@ const playerBoxOpponentBoxCollision = (scene: MountainScene, playerBox, opponent
     scene.audio.swordSwordImpact.sound.play(scene.audio.swordSwordImpact.config);
     scene.socket.emit('playerSound', {name: 'swordSwordImpact', x: scene.player.x, y: scene.player.y});
     scene.bothAttacking = true;
-    console.log('setting both players attacking to true');
+    //console.log('setting both players attacking to true');
     scene.player.once('animationstart', () => {
-        console.log('setting both players attacking to false');
+        //console.log('setting both players attacking to false');
         scene.bothAttacking = false;
         if(scene.playerAttackBox){
             scene.matter.world.remove(scene.playerAttackBox);
@@ -497,7 +497,7 @@ const handleCollisions = (scene: MountainScene): void => {
             const labelA = pair.collision.parentA.label;
             const labelB = pair.collision.parentB.label;
 
-            console.log('collision between', labelA, 'and', labelB);
+            //console.log('collision between', labelA, 'and', labelB);
             //console.log(pair);
 
             if(labelA==='player' && labelB==='terrain' || labelB==='player' && labelA==='terrain' ||

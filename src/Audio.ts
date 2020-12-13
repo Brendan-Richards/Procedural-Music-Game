@@ -1,7 +1,5 @@
-import Phaser from 'phaser';
 import MountainScene from './MountainScene';
 import { setCollisionMask } from './Collisions';
-import * as mm from '@magenta/music/es6';
 
 interface sound {
     sound: Phaser.Sound.BaseSound,
@@ -43,11 +41,6 @@ class Audio {
     explosionSound: sound;
     possibleNotes: Array<number>;
     scene: MountainScene;
-
-    //music
-    musicReady: boolean;
-    musicRNN: mm.MusicRNN;
-    player: mm.SoundFontPlayer;
 
     constructor(scene: MountainScene){
         this.scene = scene;
@@ -358,7 +351,7 @@ class Audio {
                 this.swordSwingSound.sound.play(this.swordSwingSound.config);
                 scene.socket.emit('playerSoundStop', ['runSound', 'windFlap', 'swordSwingSound']);
                 scene.socket.emit('playerSound', {name: 'swordSwingSound', x: scene.player.x, y: scene.player.y});
-                console.log('setting stop wall slide position');
+                //console.log('setting stop wall slide position');
                 scene.swordCollided = false;
                 //scene.player.setPosition(scene.player.x + (nudge *10), scene.player.y); 
                  
@@ -446,18 +439,7 @@ class Audio {
             }      
         });
 
-        //music
-        this.musicReady = false;
-        this.player = new mm.SoundFontPlayer('https://storage.googleapis.com/magentadata/js/soundfonts/salamander');
-        this.musicRNN = new mm.MusicRNN('https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/melody_rnn');
-        // this.musicRNN.initialize().then(() => {
-        //     this.player.loadAllSamples().then(() => { this.musicReady = true; console.log('music is ready'); });
-        // });
-        // this.minNote = 20;
-        // this.maxNote = 100;
-        //notes for Emajor
-        this.possibleNotes = [28, 40, 52, 64, 76, 88, 30, 42, 54, 66, 78, 90, 32, 44, 56, 68, 80, 92, 33, 45, 57, 69, 81, 92, 35, 47, 59, 71, 83, 95, 25, 37, 49, 61, 73, 85, 27, 39, 51, 63, 75, 87];
-    }
+  }
 
 }
 

@@ -100,11 +100,11 @@ const manageSocket = (scene: MountainScene) => {
             case 0: {suffix = '000'; break;}
         }
 
-        console.log('playing opponent blood animation:', data.name + suffix);
+        //console.log('playing opponent blood animation:', data.name + suffix);
         const blood = scene.add.sprite(data.x, data.y, data.name + suffix);
         blood.play( data.name + suffix);
         blood.once('animationcomplete', animation => {
-            console.log('finished blood animation');
+            //console.log('finished blood animation');
             blood.destroy();
         });
 
@@ -179,7 +179,7 @@ const manageSocket = (scene: MountainScene) => {
     });
 
     scene.socket.on('removeAttackBoxes', () => {
-        console.log('removing attack boxes');
+        //console.log('removing attack boxes');
         scene.bothAttacking = false;
         if(scene.playerAttackBox){
             scene.matter.world.remove(scene.playerAttackBox);
@@ -194,18 +194,21 @@ const manageSocket = (scene: MountainScene) => {
     });
 
     scene.socket.on('opponentLost', data => {
-        console.log('data recieved from opponentLost event:', data);
+        //console.log('data recieved from opponentLost event:', data);
 
-        scene.matchEnded = true;
+        if(data && data.deathAnimation){
+            scene.matchEnded = true;
 
-        scene.opponent.play(data.deathAnimation + 'Opponent000', true);
-        scene.opponent.once('animationcomplete', () => {
-            displayEndScreen(scene, true);
-        });
+            scene.opponent.play(data.deathAnimation + 'Opponent000', true);
+            scene.opponent.once('animationcomplete', () => {
+                displayEndScreen(scene, true);
+            });
+        }
+
     });
 
     scene.socket.on('opponentDisconnect', () => {
-        console.log('opponent disconnected');
+        //console.log('opponent disconnected');
         displayEndScreen(scene, false, true);
     });
 
@@ -226,7 +229,7 @@ const manageSocket = (scene: MountainScene) => {
                 case 0: {suffix = '000'; break;}
             }
 
-            console.log('setting opponent animation to:', opponentData.currentAnimation + 'Opponent' + suffix);
+            //console.log('setting opponent animation to:', opponentData.currentAnimation + 'Opponent' + suffix);
 
             scene.opponent.play(opponentData.currentAnimation + 'Opponent' + suffix, false, 0);  
 
@@ -241,7 +244,7 @@ const manageSocket = (scene: MountainScene) => {
                 scene.opponentAttackBox = null;
             }
             if(scene.swordAttacks.includes(opponentData.currentAnimation) || ['bowKick', 'airSwing3Loop'].includes(opponentData.currentAnimation)){
-                console.log('entered if statement to create new opponent box');
+                //console.log('entered if statement to create new opponent box');
                 
                 let xOffset = 0;
                 let yOffset = 0;
@@ -284,7 +287,7 @@ const manageSocket = (scene: MountainScene) => {
                 //console.log('dummy game obj after setting collision:', gameObj);
 
                 if(opponentData.currentAnimation==='airSwing3Loop'){
-                    console.log('entered if statement to set opponent box velocity');
+                    //console.log('entered if statement to set opponent box velocity');
                     scene.matter.setVelocity(scene.opponentAttackBox as Phaser.Types.Physics.Matter.MatterBody, 0, scene.playerMaxSpeed + 0.3);
                 }
             }
@@ -293,7 +296,7 @@ const manageSocket = (scene: MountainScene) => {
         }
     });
 
-    console.log('setting ping..');
+    //console.log('setting ping..');
     scene.socket.on('ping', () => {
         scene.latency = scene.time.now - scene.pingSendTime;
         console.log('latency is:', scene.latency, 'ms'); 

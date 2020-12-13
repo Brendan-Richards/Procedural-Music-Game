@@ -1,4 +1,4 @@
-import Phaser, { Scene } from 'phaser';
+//import Phaser, { Scene } from 'phaser';
 import {animationLogic, createAnimations} from './CharacterAnimations';
 import ContentGenerator from './ContentGenerator';
 import {handleCollisions, setCollisionMask} from './Collisions';
@@ -9,7 +9,7 @@ import { loadAssets } from './LoadAssets';
 import handlePlayerMovement from './PlayerMovement';
 import HealthBar from './HealthBar';
 import Audio from './Audio';
-import MatchFindingScene from './MatchFindingScene';
+//import MatchFindingScene from './MatchFindingScene';
 //import { startRNN, pauseRNN, resumeRNN } from './performanceRNN';
 //import magentaTest from './MagentaTest';
 
@@ -315,16 +315,17 @@ export default class MountainScene extends Phaser.Scene
     }
 
     init(data){
-        console.log('in the init function');
+        //console.log('in the init function');
         //console.log('tilemap cache keys before loading:', this.cache.tilemap.getKeys());
+
         this.cache.tilemap.remove('map');
-        const map = this.make.tilemap({ key: "map" });
+        this.make.tilemap({ key: "map" });
         
         this.load.tilemapTiledJSON('map', data.tileMap);
         this.collisionPoints = data.tileMap.collisionPoints;
         this.load.image("blackPixelTiles", "assets/images/tilesets/blackPixelTiles.png");   
         this.load.start();
-        console.log('in init function, got tile data:', data.tileMap);
+        //console.log('in init function, got tile data:', data.tileMap);
         this.socket = data.socket;
         this.initialPlayerPosition = data.playerPosition;
         this.initialOpponentPosition = data.opponentPosition;
@@ -336,13 +337,13 @@ export default class MountainScene extends Phaser.Scene
 
     create()
     {
-        console.log('in the create functiono mountain scene')
+        //console.log('in the create functiono mountain scene')
 
         this.matter.set60Hz();
         this.matter.world.engine.positionIterations=30;
         this.matter.world.engine.velocityIterations=30;
-        console.log('velocity iterations:', this.matter.world.engine.velocityIterations);
-        console.log('position iterations:', this.matter.world.engine.positionIterations);
+        //console.log('velocity iterations:', this.matter.world.engine.velocityIterations);
+        //console.log('position iterations:', this.matter.world.engine.positionIterations);
 
         //set camera and world bounds 
         this.matter.world.setBounds(0, 0, this.maxGameWidth, this.maxGameHeight, 200, true, true, true, true);
@@ -396,13 +397,13 @@ export default class MountainScene extends Phaser.Scene
 
         //magentaTest();
 
-        console.log('animation list:', this.anims.toJSON());
+        //console.log('animation list:', this.anims.toJSON());
     }
 
     createPlayer = () => {
         //make player character
         this.characterShapes = this.cache.json.get('characterShapes');  
-        this.player = this.matter.add.sprite(100, 100, 'characterAtlas', 'adventurer_idleSwordDrawn_00.png');  
+        this.player = this.matter.add.sprite(100, 100, 'characterAtlas');  
         this.playerBody = this.matter.add.fromPhysicsEditor(this.initialPlayerPosition.x, this.initialPlayerPosition.y, this.characterShapes.adventurer_idleSwordDrawn_00, {
             render: { sprite: { xOffset: 0, yOffset: 0.1 } },
             label: 'player',
@@ -412,7 +413,7 @@ export default class MountainScene extends Phaser.Scene
         }, false);    
         this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
         this.player.setExistingBody(this.playerBody);
-        console.log('player right aftyer setting body:', this.player);
+        //console.log('player right aftyer setting body:', this.player);
         this.player.setScale(this.playerScaleFactor);
         //this.playerHealthBar = new HealthBar(this, this.player, 0x2635be);
         animationLogic(this);
@@ -426,12 +427,12 @@ export default class MountainScene extends Phaser.Scene
         this.player.body.collisionFilter.category = this.collisionCategories.player;
         setCollisionMask(this, this.player, ['player','opponent', 'playerBox', 'playerArrow', 'playerMagic', 'playerExplosion']);
 
-        console.log('player:', this.player);
+        //console.log('player:', this.player);
     }
 
     createOpponent = () => {
         //make opponent
-        this.opponent = this.matter.add.sprite(0, 0, 'opponentAtlas', 'adventurer_idleSwordDrawn_00.png');
+        this.opponent = this.matter.add.sprite(0, 0, 'opponentAtlas');
         const opponentBody = this.matter.add.fromPhysicsEditor(this.initialOpponentPosition.x, this.initialOpponentPosition.y, this.characterShapes.adventurer_idleSwordDrawn_00, {
             render: { sprite: { xOffset: 0, yOffset: 0.1 } },
             label: 'opponent'
@@ -441,7 +442,7 @@ export default class MountainScene extends Phaser.Scene
         //this.opponentHealthBar = new HealthBar(this, this.opponent, 0xa24700);
         this.opponent.body.collisionFilter.category = this.collisionCategories.opponent;
         setCollisionMask(this, this.opponent, ['opponent', 'player', 'opponentBox', 'opponentArrow', 'opponentMagic', 'opponentExplosion']);
-        console.log('opponent:', this.opponent);
+        //console.log('opponent:', this.opponent);
         createAnimations(this, 'Opponent000', 'playerOpponent0');
         createAnimations(this, 'Opponent100', 'opponent100');
         createAnimations(this, 'Opponent075', 'opponent75');
@@ -462,7 +463,7 @@ export default class MountainScene extends Phaser.Scene
         });
         poly.setPosition(this.maxGameWidth * this.terrain.body.centerOfMass.x, this.maxGameHeight - (poly.displayHeight * (1 - this.terrain.body.centerOfMass.y)));
         this.terrain.body.isStatic = true;
-        console.log('terrain body:', this.terrain);
+        //console.log('terrain body:', this.terrain);
         this.terrain.body.collisionFilter.category = this.collisionCategories.terrain;
         this.terrain.body.label = 'terrain';
     }

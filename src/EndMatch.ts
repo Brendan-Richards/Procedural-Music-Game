@@ -83,8 +83,8 @@ const displayEndScreen = (scene: MountainScene, won: boolean, draw = false) => {
         }); 
         text.setDepth(100).setOrigin(0.5, 0.5);        
     }
-    console.log(text);
-    console.log('rect:', rect);
+    //console.log(text);
+    //console.log('rect:', rect);
 
     scene.time.addEvent({
         delay: 2000,

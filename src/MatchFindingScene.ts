@@ -1,6 +1,5 @@
-import Phaser from 'phaser';
+// import Phaser from 'phaser';
 import { io } from 'socket.io-client';
-import ContentGenerator from './ContentGenerator';
 
 export default class MatchFindingScene extends Phaser.Scene{
 
@@ -21,7 +20,9 @@ export default class MatchFindingScene extends Phaser.Scene{
     }
 
     create(){
-        console.log('in create function of match finding scene');
+        //console.log('in create function of match finding scene');
+
+        this.input.mouse.disableContextMenu();
 
         this.foundMatch = false;
 
@@ -56,7 +57,7 @@ export default class MatchFindingScene extends Phaser.Scene{
             }).setOrigin(0, 1);  
 
             this.socket.emit('findMatch');
-        });
+        }, this);
 
         this.findMatchText = this.add.text(width/2, height-30, 'Find Match', { 
             fontFamily: 'Arial',
@@ -106,7 +107,7 @@ export default class MatchFindingScene extends Phaser.Scene{
 
     update(){
         if(this.loadText && this.time.now  - this.lastTextUpdateTime > 400){
-            console.log('setting the dots');
+            //console.log('setting the dots');
             let dots = '';
             switch(this.loadText.text.length){
                 case 15: {dots = '...'; break;}

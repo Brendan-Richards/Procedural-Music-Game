@@ -1,5 +1,4 @@
-import { Body } from 'matter';
-import Phaser, { Scene } from 'phaser';
+//import Phaser, { Scene } from 'phaser';
 import MountainScene from './MountainScene';
 import { setCollisionMask } from './Collisions';
 
@@ -1168,7 +1167,7 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
         case 0: {suffix = '000'; break;}
     }
 
-    console.log('animation name:', animationName + suffix);
+    //console.log('animation name:', animationName + suffix);
 
     scene.player.play(animationName + suffix, interrupt, startFrameIndex);
     scene.prevPlayerAnimation = scene.currentPlayerAnimation;
@@ -1219,7 +1218,7 @@ const setNewCharacterAnimation = (scene: MountainScene, animationName: string, f
         const gameObj = scene.add.circle(scene.player.x + (factor * xOffset), scene.player.y + yOffset, radius, undefined, 0);
         gameObj.body = scene.playerAttackBox;
         scene.playerAttackBox.collisionFilter.category = scene.collisionCategories.playerBox;
-        console.log('player attack box:', scene.playerAttackBox);
+        //console.log('player attack box:', scene.playerAttackBox);
         //console.log('dummy game obj:', gameObj);
         setCollisionMask(scene, gameObj, ['terrain', 'player', 'playerBox', 'playerArrow', 'playerMagic', 'opponentMagic', 'playerExplosion', 'opponentExplosion']);
         

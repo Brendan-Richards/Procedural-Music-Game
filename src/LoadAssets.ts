@@ -1,7 +1,7 @@
 import MountainScene from './MountainScene';
 
 const loadAssets = (scene: MountainScene) => {
-    console.log('in the preload function');
+    //console.log('in the preload function');
     //background layer
    scene.load.image('grayBackground', './assets/images/background/grayBackground.png');
 
