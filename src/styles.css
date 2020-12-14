@@ -68,6 +68,7 @@ p { color: black; font-family: 'Raleway',sans-serif; font-size: 18px; font-weigh
   display: none;
   padding-top: 30px;
   padding-left: 20px;
+  padding-bottom: 50px;
   /* height: 100%; */
   /* overflow: visible; */
   text-align: center;

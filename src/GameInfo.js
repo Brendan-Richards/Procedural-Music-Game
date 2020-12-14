@@ -117,30 +117,32 @@ const controlsContent = () => {
 }
 
 const attributionContent = () => {
-    const paragraph = document.createElement('p');
+    const container = document.createElement('div');
 
-    const text = `Background image modified from:
-    https://edermunizz.itch.io/pixel-art-snowy-forest
+    const p1 = document.createElement('p');
+
+    const text = `<p>Created by: Brendan Richards</p>
+    <p>Suggestions from: Rachel Gelfand, Austin Harris</p>
+
+    <p>Background image modified from: <a target="_blank" href="https://edermunizz.itch.io/pixel-art-snowy-forest">https://edermunizz.itch.io/pixel-art-snowy-forest</a></p>
     
-    Level Terrain modified from:
-    https://opengameart.org/content/minimalist-pixel-tileset
+    <p>Level Terrain modified from: <a target="_blank" href="https://opengameart.org/content/minimalist-pixel-tileset">https://opengameart.org/content/minimalist-pixel-tileset</a></p>
     
-    character assets modified from:
-    https://rvros.itch.io/animated-pixel-hero
+    <p>character assets modified from: <a target="_blank" href="https://rvros.itch.io/animated-pixel-hero">https://rvros.itch.io/animated-pixel-hero</a></p>
     
-    Sound effects obtained from:
-    https://www.zapsplat.com
-    https://freesound.org/people/berglindsi/sounds/402977
-    https://freesound.org/people/Dymewiz/sounds/114388
-    https://freesound.org/people/EverHeat/sounds/205563
-    https://freesound.org/people/DaleT92/sounds/207806
-    https://freesound.org/people/cmusounddesign/sounds/119878
-    https://freesound.org/people/Aris621/sounds/435238
+    <p>Sound effects obtained from:</p>
+    <p><a target="_blank" href="https://www.zapsplat.com">https://www.zapsplat.com</a></p>
+    <p><a target="_blank" href="https://freesound.org/people/berglindsi/sounds/402977">https://freesound.org/people/berglindsi/sounds/402977</a></p>
+    <p><a target="_blank" href="https://freesound.org/people/Dymewiz/sounds/114388">https://freesound.org/people/Dymewiz/sounds/114388</a></p>
+    <p><a target="_blank" href="https://freesound.org/people/EverHeat/sounds/205563">https://freesound.org/people/EverHeat/sounds/205563</a></p>
+    <p><a target="_blank" href="https://freesound.org/people/DaleT92/sounds/207806">https://freesound.org/people/DaleT92/sounds/207806</a></p>
+    <p><a target="_blank" href="https://freesound.org/people/cmusounddesign/sounds/119878">https://freesound.org/people/cmusounddesign/sounds/119878</a></p>
+    <p><a target="_blank" href="https://freesound.org/people/Aris621/sounds/435238">https://freesound.org/people/Aris621/sounds/435238</a></p>
     `;
 
-    paragraph.innerText = text;
+    p1.innerHTML = text;
 
-    return paragraph;
+    return p1;
 }
 
 const getButtons = () => {

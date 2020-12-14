@@ -205,8 +205,8 @@ export default class MountainScene extends Phaser.Scene
         this.arrowDamageAmount = 25;
         this.swordDamageAmount = 50;
         this.opponent = null;
-        this.swordRecoil = 30;
-        this.recoilDuration = 50;
+        this.swordRecoil = 20;
+        this.recoilDuration = 40;
         this.bothAttacking = false;
         this.maxArrows = 10;
         this.playerArrows = [];
