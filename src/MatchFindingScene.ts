@@ -1,6 +1,7 @@
 // import Phaser from 'phaser';
 import { io } from 'socket.io-client';
 import noScroll from './NoScroll.js';
+import placeInformation from './GameInfo.js';
 
 export default class MatchFindingScene extends Phaser.Scene{
 
@@ -129,103 +130,6 @@ export default class MatchFindingScene extends Phaser.Scene{
 
 }
 
-function openPage(pageName,elmnt,color) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].style.backgroundColor = "";
-    }
-    document.getElementById(pageName).style.display = "block";
-    elmnt.style.backgroundColor = color;
-}
-
-const placeInformation = (scene: MatchFindingScene) => {
-    //let canvas = document.getElementsByTagName("p");
-
-    //wrap canvas in a div
-    let canvas = scene.game.canvas;
-    let wrapper = document.createElement('div');
-    wrapper.id = 'canvasWrapper';
-    document.body.insertBefore(wrapper, canvas);
-    wrapper.appendChild(canvas);
-
-    //put info div after canvas
-    let infoDiv = document.getElementById("info");
-    document.body.insertBefore(wrapper, infoDiv);
-    //document.body.setAttribute('style', 'overflow-y: scroll;');
-    // document.style.overflow = 'scroll';
-    
-    //set properties of info div
-    infoDiv.setAttribute('style', 'height: 500px;');
-
-    const {aboutDiv, controlsDiv, attributionDiv} = getDivs();
-    const {aboutButton, controlsButton, attributionButton} = getButtons();
-
-    const linkDiv = document.createElement('div');
-    linkDiv.id = 'linkDiv';
-    linkDiv.appendChild(aboutButton);
-    linkDiv.appendChild(controlsButton);
-    linkDiv.appendChild(attributionButton);
-    infoDiv.appendChild(linkDiv);
-
-    const contentDiv = document.createElement('div');
-    contentDiv.id = 'contentDiv';
-    contentDiv.appendChild(aboutDiv);
-    contentDiv.appendChild(controlsDiv);
-    contentDiv.appendChild(attributionDiv);
-    infoDiv.appendChild(contentDiv);
-
-    document.getElementById("defaultOpen").click();
-}
-
-const getButtons = () => {
-    const aboutButton = document.createElement('button');
-    aboutButton.className = 'tablink';
-    aboutButton.textContent = 'About';
-    aboutButton.id = 'defaultOpen';
-    aboutButton.addEventListener('click', () => {
-        openPage('about', aboutButton, '#F1F1F1');
-    });
-
-    const controlsButton = document.createElement('button');
-    controlsButton.className = 'tablink';
-    controlsButton.textContent = 'Controls';
-    controlsButton.addEventListener('click', () => {
-        openPage('controls', controlsButton, '#F1F1F1');
-    });
-
-    const attributionButton = document.createElement('button');
-    attributionButton.className = 'tablink';
-    attributionButton.textContent = 'Credits';
-    attributionButton.addEventListener('click', () => {
-        openPage('attribution', attributionButton, '#F1F1F1');
-    });
-
-    return {aboutButton: aboutButton, controlsButton: controlsButton, attributionButton: attributionButton};
-}
-
-const getDivs = () => {
-    const aboutDiv = document.createElement('div');
-    aboutDiv.className = 'tabcontent';
-    aboutDiv.innerHTML = '<h3>about content</h3>';
-    aboutDiv.id = 'about';
-  
-    const controlsDiv = document.createElement('div');
-    controlsDiv.className = 'tabcontent';
-    controlsDiv.innerHTML = '<h3>controls content</h3>';
-    controlsDiv.id = 'controls';
-
-    const attributionDiv = document.createElement('div');
-    attributionDiv.className = 'tabcontent';
-    attributionDiv.innerHTML = '<h3>attribution content</h3>';
-    attributionDiv.id = 'attribution';
-
-    return {aboutDiv: aboutDiv, controlsDiv: controlsDiv, attributionDiv: attributionDiv};
-}
 
 
 

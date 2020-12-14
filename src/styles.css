@@ -2,7 +2,7 @@
 
 .info{
     display: block;
-    height: 1000px;
+    height: 100%;
     background-color: red;
 }
 
@@ -12,7 +12,7 @@
 
 /* Set height of body and the document to 100% */
 body, html {
-  /* height: 100%; */
+  height: 100%;
   margin: 0;
   padding: 0;
   overflow-y: auto;
@@ -46,12 +46,31 @@ body, html {
   background-color: #999999;
 }
 
+.control{
+  color: black;
+  font-family: 'Raleway',sans-serif; 
+  font-size: 18px; 
+  font-weight: 500; 
+  line-height: 32px; 
+  margin: 0 0 24px;
+  text-align: center;
+}
+
+#donate{
+  text-align: center;
+}
+
+p { color: black; font-family: 'Raleway',sans-serif; font-size: 18px; font-weight: 500; line-height: 32px; margin: 0 0 24px; }
+
 /* Style the tab content (and add height:100% for full page content) */
 .tabcontent {
   color: black;
   display: none;
-  padding: 100px 20px;
-  height: 100%;
+  padding-top: 30px;
+  padding-left: 20px;
+  /* height: 100%; */
+  /* overflow: visible; */
+  text-align: center;
 }
 
 #about {background-color:F1F1F1;}
