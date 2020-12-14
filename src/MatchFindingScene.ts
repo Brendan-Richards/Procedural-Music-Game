@@ -9,6 +9,7 @@ export default class MatchFindingScene extends Phaser.Scene{
     titleText: Phaser.GameObjects.Text;
     findMatchText: Phaser.GameObjects.Text;
     findMatchButton: Phaser.GameObjects.Rectangle;
+    backRect: Phaser.GameObjects.Rectangle;
     socket: io.Socket;
     foundMatch: boolean;
     lastTextUpdateTime: number;
@@ -23,6 +24,8 @@ export default class MatchFindingScene extends Phaser.Scene{
 
     create(){
         //console.log('in create function of match finding scene');
+
+        treeLayer(this);
 
         //if the game canvas doesn't have a wrapping div, then we must need to build the info sections
         if(this.game.canvas.parentNode.isSameNode(document.body)){
@@ -41,7 +44,9 @@ export default class MatchFindingScene extends Phaser.Scene{
         const height = this.cameras.main.height;
         const width = this.cameras.main.width;
 
-        this.findMatchButton = this.add.rectangle(width/2, height - 113, 200, 50, 0xcccccc);
+        // this.backRect = this.add.rectangle(width/2, height/2, 200, 200, 0xcccccc).setDepth(100);
+
+        this.findMatchButton = this.add.rectangle(width/2, height - 113, 200, 50, 0xcccccc).setDepth(100);
         this.findMatchButton.setStrokeStyle(2, 0x000000);
         this.findMatchButton.setInteractive();
         this.findMatchButton.on('pointerover', () => {
@@ -63,7 +68,7 @@ export default class MatchFindingScene extends Phaser.Scene{
                     bottom: 5,
                 },
                 color: '#000',
-            }).setOrigin(0, 1);  
+            }).setOrigin(0, 1).setDepth(100);  
 
             this.socket.emit('findMatch');
         }, this);
@@ -78,7 +83,7 @@ export default class MatchFindingScene extends Phaser.Scene{
                 bottom: 5,
             },
             color: '#000',
-        }).setOrigin(0.5, 0.5); 
+        }).setOrigin(0.5, 0.5).setDepth(100); 
 
         this.lastTextUpdateTime = this.time.now;
         
@@ -94,13 +99,13 @@ export default class MatchFindingScene extends Phaser.Scene{
             shadow: {
                 offsetX: 6,
                 offsetY: 6,
-                color: '#333',
+                color: '#555',
                 blur: 6,
                 stroke: true,
                 fill: true
             },
             color: '#000',
-        }).setOrigin(0.5, 0.5);
+        }).setOrigin(0.5, 0.5).setDepth(100);
 
         this.socket.on('matchFound', (data) => {
             data.socket = this.socket;
@@ -109,13 +114,15 @@ export default class MatchFindingScene extends Phaser.Scene{
             // this.scene.remove('MatchFindingScene');
             // this.scene.add('MatchFindingScene', MatchFindingScene, false);
             this.scene.start('MountainScene', data);
-        })
+        });
 
+        
     }
 
 
     update(){
         if(this.loadText && this.time.now  - this.lastTextUpdateTime > 400){
+
             //console.log('setting the dots');
             let dots = '';
             switch(this.loadText.text.length){
@@ -128,6 +135,81 @@ export default class MatchFindingScene extends Phaser.Scene{
         }
     }
 
+}
+
+const treeLayer = (scene: MatchFindingScene) => {
+
+    const graphics = scene.add.graphics({x: 0, y: 0, add: false});
+    const x = Math.random() * scene.cameras.main.displayWidth;
+    const y = scene.cameras.main.displayHeight;
+    const branchColor = Phaser.Display.Color.GetColor(100, 100, 100);
+    const leafColor = Phaser.Display.Color.GetColor(190, 190, 190);
+
+    drawTree(graphics, scene.cameras.main.displayWidth * 0, y, 0, 100, 10, branchColor, leafColor, 'right', true);
+    drawTree(graphics, scene.cameras.main.displayWidth * 0.25, y, 0, 100, 10, branchColor, leafColor, 'right', true);
+    //drawTree(graphics, scene.cameras.main.displayWidth * 0.5, y, 0, 100, 10, branchColor, leafColor, 'right', true);
+    drawTree(graphics, scene.cameras.main.displayWidth * 0.75, y, 0, 100, 10, branchColor, leafColor, 'right', true);
+    drawTree(graphics, scene.cameras.main.displayWidth, y, 0, 100, 10, branchColor, leafColor, 'right', true);
+
+    graphics.generateTexture('trees', scene.cameras.main.displayWidth, scene.cameras.main.displayHeight);
+    graphics.clear();
+    scene.add.sprite(0, 0, 'trees').setOrigin(0,0);
+}
+
+const drawTree = (graphics: Phaser.GameObjects.Graphics,
+    startX, 
+    startY, 
+    prevAngle, 
+    len, 
+    branchWidth, 
+    color1, 
+    color2, 
+    direction,
+    root = false) => {
+
+    const maxRotation = 40; // angle in degrees
+    const minBranchWidth = 5;
+    const leafWidth = 8;
+    const leafHeight = 12;
+
+    graphics.beginPath();
+    graphics.save();
+    graphics.lineStyle(branchWidth, color1);
+    graphics.fillStyle(color2);
+
+    let rotationAmount = 0; //angle in degrees
+    if(!root){
+        rotationAmount = Math.random() * maxRotation;
+    }
+
+    let angle = (prevAngle + rotationAmount);
+    if(direction==='left'){
+        angle = (prevAngle - rotationAmount);
+    }
+    graphics.moveTo(startX, startY);
+
+    const dx = len * Math.sin(angle * Math.PI/180);
+    const dy = len * Math.cos(angle * Math.PI/180);
+
+    graphics.lineTo(startX + dx, startY - dy);
+    graphics.stroke();
+
+    if (len < minBranchWidth) {
+        graphics.beginPath();
+        graphics.fillEllipse(startX + dx, startY - dy, leafWidth, leafHeight);
+        graphics.restore();
+        return;
+    }
+
+
+    const leftLength = (Math.random() * 0.5 + 0.5) * len;
+    const leftWidth = (Math.random() * 0.5 + 0.5) * branchWidth;
+    const rightLength = (Math.random() * 0.5 + 0.5) * len;
+    const rightWidth = (Math.random() * 0.5 + 0.5) * branchWidth;
+
+    drawTree(graphics, startX + dx, startY - dy, angle, leftLength, leftWidth, color1, color2, 'left');
+    drawTree(graphics, startX + dx, startY - dy, angle, rightLength, rightWidth, color1, color2, 'right');
+    graphics.restore();
 }
 
 
