@@ -1,0 +1,11 @@
+orange100: ff5d00
+orange75: ff8641
+orange50: ffae80
+orange25: ffd8c1
+orange0: fefefe
+
+blue100: 000fff
+blue75: 414dff
+blue50: 8088ff
+blue25: bec2ff
+blue0: ffffff

@@ -17,18 +17,7 @@ const createTileMap = () => {
     const mapData = map.layers[0].data;
     const width = map.layers[0].width;
     const height = map.layers[0].height;
-    // console.log('width:', width);
-    // console.log('height:', height);
 
-    // console.log('length of mapData before:', mapData.length);
-
-    // for(let y=height-10, x=0; x<width; x++){
-    //     const id = idx(x, y, width);
-    //     //console.log('setting id:', id, 'to 41');
-    //     mapData[id] = 41;
-    // }
-
-    // console.log('length of mapData after:', mapData.length);
     const collisionPoints = [{x: 0, y: 16 * height}, {x: 0, y: 16 * (height-1)}];
     createMountains(15, height, width, mapData, collisionPoints);
     if(collisionPoints[collisionPoints.length-1].x < width * 16){
@@ -37,7 +26,6 @@ const createTileMap = () => {
     collisionPoints.push({x: width * 16, y: height * 16});
 
     placeTerrain.setBottomRow(mapData, height, width);
-    // //createSkyMountains(scene, groundLayer, map, tileset);
 
     placeTerrain.fixLeftSide(mapData, 12, height, width);
 

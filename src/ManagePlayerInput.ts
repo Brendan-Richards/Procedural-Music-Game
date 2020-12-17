@@ -1,5 +1,5 @@
 import MountainScene from './MountainScene';
-import noScroll from './NoScroll.js';
+//import noScroll from './NoScroll.js';
 
 const managePlayerInput = (scene: MountainScene) => {
     //input setup
@@ -18,17 +18,17 @@ const managePlayerInput = (scene: MountainScene) => {
         scene.allowSound = false; 
     }; 
     
-    scene.input.on('gameover', () => {
-        //console.log('gameover event');
-        document.body.addEventListener('scroll', noScroll);
-    });
+    // scene.input.on('gameover', () => {
+    //     //console.log('gameover event');
+    //     document.body.addEventListener('scroll', noScroll);
+    // });
 
-    scene.input.on('gameout', () => {
-        //console.log('gameout event');
-        document.body.removeEventListener('scroll', noScroll);
-    });
+    // scene.input.on('gameout', () => {
+    //     //console.log('gameout event');
+    //     document.body.removeEventListener('scroll', noScroll);
+    // });
     
-    scene.input.emit('gameover');
+    // scene.input.emit('gameover');
 
     scene.cursors = scene.input.keyboard.createCursorKeys();
 
@@ -112,7 +112,7 @@ const managePlayerInput = (scene: MountainScene) => {
         }
     }, scene);
 
-    scene.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+    scene.input.keyboard.on('keydown-' + 'E', (event) => {
         //console.log(pointer);
         if(scene.time.now - scene.lastWeaponChangeTime > scene.minTimeBetweenWeaponChanges &&
                 !scene.swordAttacks.includes(scene.currentPlayerAnimation) &&
@@ -126,14 +126,14 @@ const managePlayerInput = (scene: MountainScene) => {
             const currWeaponIdx = scene.weaponsFound.findIndex((element) => {
                 return element===scene.equippedWeapon;
             });
-            if(pointer.deltaY > 0){
+            //if(pointer.deltaY > 0){
                 //console.log('scrolled mouse wheel down');
-                scene.equippedWeapon = scene.weaponsFound[(currWeaponIdx + 1) % scene.weaponsFound.length];
-            }
-            else{
-                //console.log('scrolled mouse wheel up');
-                scene.equippedWeapon = scene.weaponsFound[(currWeaponIdx - 1) + (currWeaponIdx===0 ? scene.weaponsFound.length : 0)];
-            }
+            scene.equippedWeapon = scene.weaponsFound[(currWeaponIdx + 1) % scene.weaponsFound.length];
+            //}
+            // else{
+            //     //console.log('scrolled mouse wheel up');
+            //     scene.equippedWeapon = scene.weaponsFound[(currWeaponIdx - 1) + (currWeaponIdx===0 ? scene.weaponsFound.length : 0)];
+            // }
             //console.log('previous weapon:', scene.prevEquippedWeapon);
             //console.log('current Weapon:', scene.equippedWeapon);
             //console.log('current player animation:', scene.currentPlayerAnimation);

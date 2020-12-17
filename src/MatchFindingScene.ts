@@ -1,6 +1,6 @@
 // import Phaser from 'phaser';
 import { io } from 'socket.io-client';
-import noScroll from './NoScroll.js';
+//import noScroll from './NoScroll.js';
 import placeInformation from './GameInfo.js';
 
 export default class MatchFindingScene extends Phaser.Scene{
@@ -28,11 +28,11 @@ export default class MatchFindingScene extends Phaser.Scene{
         treeLayer(this);
 
         //if the game canvas doesn't have a wrapping div, then we must need to build the info sections
-        if(this.game.canvas.parentNode.isSameNode(document.body)){
+        if(false && this.game.canvas.parentNode.isSameNode(document.body)){
             placeInformation(this);
         }
 
-        document.body.removeEventListener('scroll', noScroll);
+        //document.body.removeEventListener('scroll', noScroll);
 
         this.input.mouse.disableContextMenu();
 
@@ -116,7 +116,6 @@ export default class MatchFindingScene extends Phaser.Scene{
             this.scene.start('MountainScene', data);
         });
 
-        
     }
 
 

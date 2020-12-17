@@ -69,7 +69,7 @@ const placeInformation = (scene) => {
 
 const aboutContent = () => {
     const paragraph = document.createElement('p');
-    paragraph.innerHTML = `Shade is a fast paced, 1 on 1, multiplayer dueling game. It was created by Brendan Richards using the Phaser javascript game engine. It features randomized, procedural level generation, meaning the level you face your opponents in will never be the same twice. Please report any bugs/issues to quend00@gmail.com. The game is available to play for free but if you enjoy it please consider donating to its creator by clicking on the following button. Enjoy!`;
+    paragraph.innerHTML = `Shade is a fast paced, 1 on 1, multiplayer dueling game. It was created by Brendan Richards using the Phaser javascript game engine. It features randomized, procedural level generation, meaning the level you face your opponents in will never be the same twice. Please report any bugs/issues to quend00@gmail.com. The game is available to play for free but if you enjoy it please consider donating to its creator by clicking on the following button. If you don't enjoy the game feel free to berate me in the comments. Enjoy!`;
     return paragraph;
 }
 
@@ -88,7 +88,7 @@ const controlsContent = () => {
     jump.innerText = `Jump: Spacebar`;
     const changeWeapon = document.createElement('div');
     changeWeapon.className = 'control';
-    changeWeapon.innerText = `Change Weapon: Mouse Wheel (up or down)`;
+    changeWeapon.innerText = `Change Weapon: E`;
 
     const attack1 = document.createElement('div');
     attack1.className = 'control';

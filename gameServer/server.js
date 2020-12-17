@@ -1,18 +1,67 @@
+const fs = require('fs');
+
 const express = require('express');
 const app = express();
-const server = require('http').Server(app);
+const http = require('http');
+const https = require('https');
+
+const useHttps = false;
+
+const doHttps = () => {
+
+  app.enable('trust proxy');
+
+  // Add a handler to inspect the req.secure flag (see 
+  // http://expressjs.com/api#req.secure). This allows us 
+  // to know whether the request was via http or https.
+  app.use (function (req, res, next) {
+          if (req.secure) {
+                  // request was via https, so do no special handling
+                  next();
+          } else {
+                  // request was via http, so redirect to https
+                  res.redirect('https://' + req.headers.host + req.url);
+          }
+  });
+
+  httpsServer.listen(443, function () {
+    console.log(`Listening on ${httpsServer.address().port}`);
+  });
+}
+
+
+let httpsServer = null;
+if(useHttps){
+  const options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/shadethegame.com/privkey.pem', 'utf8'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/shadethegame.com/fullchain.pem', 'utf8')
+  };
+  httpsServer = https.createServer(options, app);
+
+  if(useHttps){
+    doHttps();
+  }
+}
+
 //var io = require('socket.io')(3000);
-const io = require('socket.io')(server);
+const httpServer = http.createServer(app);
+
+const io = require('socket.io')(useHttps ? httpsServer : httpServer);
 const foreground = require('./foreground/CreateForeground');
-const fs = require('fs');
 
 const players = {};
 const playerQueue = [];
 
-app.use(express.static(__dirname + '/public'));
- 
+//app.use(express.static(__dirname + '/public'));
+
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
+  app.use(express.static(__dirname + '/public'));
+  res.sendFile(__dirname + '/public/index.html');
+});
+app.get('/noinfo', function (req, res) {
+  app.use(express.static(__dirname + '/public/noinfo'));
+  console.log('__dirname:', __dirname);
+  res.sendFile(__dirname + '/public/noinfo/index.html');
 });
 
 io.on('connection', (socket) => {
@@ -222,8 +271,12 @@ const getInitialPlayerPositions = (tileMap) => {
 const idx = (x, y, width) => {
   return width * y + x;
 }
- 
-server.listen(80, function () {
-  console.log(`Listening on ${server.address().port}`);
+
+httpServer.listen(80, () => {
+  console.log('HTTP Server running on port 80');
 });
+
+
+
+
 
