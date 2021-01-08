@@ -89,6 +89,14 @@ io.on('connection', (socket) => {
 
     socket.on('botMatch', () => {
       botMatch(socket.id);
+      
+      //remove player from queue since they started a bot match
+      if(playerQueue.includes(socket.id)){
+        const index = playerQueue.indexOf(socket.id);
+        if (index > -1) {
+          playerQueue.splice(index, 1);
+        }
+      }
     });
     socket.on('botPositionUpdate', (data) => {
       BotController.updateBot(players[socket.id].bot, io, data.px, data.py, data.bx, data.by, data.bvx, data.bvy);
@@ -96,6 +104,9 @@ io.on('connection', (socket) => {
     socket.on('botGroundCollision', () => {
       players[socket.id].bot.playerCanJump = true;
       players[socket.id].bot.playerLastOnGroundTime = Date.now();
+    });
+    socket.on('botWallCollision', () => {
+
     });
     socket.on('removeAttackBoxes', () => {
       io.to(players[socket.id].opponent).emit('removeAttackBoxes');        
@@ -194,6 +205,9 @@ io.on('connection', (socket) => {
       //console.log('recieved player lost event with data:', data);
       io.to(players[socket.id].opponent).emit('opponentLost', data);
       players[players[socket.id].opponent].status = 'startScreen';
+      players[socket.id].status = 'startScreen';
+    });
+    socket.on('playerLostBot', () => {
       players[socket.id].status = 'startScreen';
     });
     socket.on('playerMovementUpdate', (moveData) => {

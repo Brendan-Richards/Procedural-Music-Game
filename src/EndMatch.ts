@@ -17,7 +17,34 @@ const endMatch = (scene: MountainScene) => {
         displayEndScreen(scene, false);
     });
 
-    scene.socket.emit('playerLost', {deathAnimation: animation});
+    if(scene.botMatch){
+        scene.socket.emit('playerLostBot');
+    }
+    else{
+        scene.socket.emit('playerLost', {deathAnimation: animation});
+    }
+    scene.socket.close();
+    
+    scene.matchEnded = true;
+}
+
+const endBotMatch = (scene: MountainScene) => {
+    //scene.scene.start('matchFindingScene');
+
+    setCollisionMask(scene, scene.player, ['player','opponent', 'playerBox', 'opponentBox', 'playerArrow', 'opponentArrow', 'playerMagic', 'opponentMagic', 'playerExplosion', 'opponentExplosion']);
+    let animation = 'dieSword';
+    switch(scene.equippedWeapon){
+        case 'sword': {break;}
+        case 'bow': {animation = 'dieBow'; break;}
+        case 'glove': {animation = 'dieGlove'; break;}
+    }
+    scene.opponent.play(animation + 'Opponent000', true);
+    scene.opponent.once('animationcomplete', () => {
+        displayEndScreen(scene, true);
+    });
+
+    scene.socket.emit('playerLostBot');
+
     scene.socket.close();
     
     scene.matchEnded = true;
@@ -138,4 +165,4 @@ const displayEndScreen = (scene: MountainScene, won: boolean, draw = false) => {
 
 }
 
-export { endMatch, displayEndScreen };
+export { endMatch, endBotMatch, displayEndScreen };

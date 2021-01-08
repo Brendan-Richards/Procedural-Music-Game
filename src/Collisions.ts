@@ -307,27 +307,138 @@ const playerOpponentMagicCollision = (scene: MountainScene, player, opponentMagi
 
 const opponentPlayerArrowCollision = (scene: MountainScene, opponent, playerArrow) => {
 
+    if(scene.botMatch){
+        ///////////////////////////////////
+        const damageAmount = scene.arrowDamageAmount;
 
-    const arrowIndex = scene.playerArrows.findIndex(val => {
-        //console.log('val.body:', val.body, 'player arrow body:', playerArrow);
-        //console.log('val.body===playerArrow', val.body===playerArrow);
-        return val.body===playerArrow;
-    });
+        let suffix = '';
 
-    //console.log('opponent hit with arrow at player arrow list index', arrowIndex);
+        switch(scene.opponentHealth){
+            case 100: {suffix = '100'; break;}
+            case 75: {suffix = '075'; break;}
+            case 50: {suffix = '050'; break;}
+            case 25: {suffix = '025'; break;}
+            case 0: {suffix = '000'; break;}
+        }
 
-    //console.log('scene.playerArrows.length:', scene.playerArrows.length);
+        const blood = scene.add.sprite(scene.opponent.x, scene.opponent.y, 'bloodOpponent' + suffix);
 
-    if(arrowIndex !== -1){
-        scene.playerArrows[arrowIndex].destroy();
-        scene.playerArrows.splice(arrowIndex, 1);
+        blood.play('bloodOpponent' + suffix);
+        blood.once('animationcomplete', animation => {
+            //console.log('finished blood animation');
+            blood.destroy();
+        });   
+
+        scene.audio.arrowBodyImpact.sound.play(scene.audio.arrowBodyImpact.config);
+
+        const arrowIndex = scene.playerArrows.findIndex(val => {
+            return val.body===playerArrow;
+        });
+
+        if(arrowIndex !== -1){
+            scene.playerArrows[arrowIndex].destroy();
+            scene.playerArrows.splice(arrowIndex, 1);
+        }
+
+        scene.opponentHealth -= damageAmount;
+        //scene.playerHealthBar.decrease(damageAmount);
+
+        const currentFrameIndex = scene.opponent.anims.currentFrame.index - 1;
+
+        let num = scene.opponentHealth.toString();
+        while(num.length < 3){
+            num = '0' + num;
+        }
+
+        scene.opponent.play(scene.currentOpponentAnimation + num, true, currentFrameIndex);
+
+    }
+    else{
+        const arrowIndex = scene.playerArrows.findIndex(val => {
+            return val.body===playerArrow;
+        });
+    
+        if(arrowIndex !== -1){
+            scene.playerArrows[arrowIndex].destroy();
+            scene.playerArrows.splice(arrowIndex, 1);
+        }
     }
 
 }
 
 const opponentPlayerBoxCollision = (scene: MountainScene, opponent, playerBox) => {
     recoilPlayers(scene, true, false);
+
+    if(scene.botMatch){
+        botSwordDamage(scene, opponent, playerBox);
+    }
 }
+
+ const botSwordDamage = (scene: MountainScene, opponent, playerBox) => {
+
+    if(!scene.bothAttacking && scene.time.now - scene.lastSwordDamageTime > 500){
+
+        const facingEachother = scene.currentPlayerDirection==='left' && scene.currentOpponentDirection==='right' ||
+                                scene.currentPlayerDirection==='right' && scene.currentOpponentDirection==='left';
+        const bothHitboxes = scene.playerAttackBox && scene.opponentAttackBox;
+        const closeEnough = scene.player.x + 30 > scene.opponent.x && scene.player.x - 30 < scene.opponent.x;
+        const noDamage = facingEachother && bothHitboxes && closeEnough;
+
+        if(!noDamage){
+            //player should take damage
+            const damageAmount = scene.swordDamageAmount;
+            
+            scene.audio.swordBodyImpact.sound.play(scene.audio.swordBodyImpact.config);
+            scene.socket.emit('playerSound', {name: 'swordBodyImpact', x: scene.player.x, y: scene.player.y});
+                
+            // scene.socket.emit('playerDamaged', {
+            //     damageAmount: damageAmount, 
+            //     x: scene.player.x, 
+            //     y: scene.player.y,
+            //     name: 'bloodOpponent'
+            // });
+
+            scene.lastSwordDamageTime = scene.time.now;
+
+            let suffix = '';
+
+            switch(scene.opponentHealth){
+                case 100: {suffix = '100'; break;}
+                case 75: {suffix = '075'; break;}
+                case 50: {suffix = '050'; break;}
+                case 25: {suffix = '025'; break;}
+                case 0: {suffix = '000'; break;}
+            }
+
+            const blood = scene.add.sprite(scene.opponent.x, scene.opponent.y, 'bloodOpponent' + suffix);
+
+            blood.play('bloodOpponent' + suffix);
+            blood.once('animationcomplete', animation => {
+                //console.log('finished blood animation');
+                blood.destroy();
+            });
+
+            scene.opponentHealth -= damageAmount;
+            //scene.playerHealthBar.decrease(damageAmount);
+
+            const currentFrameIndex = scene.opponent.anims.currentFrame.index - 1;
+
+            let num = scene.opponentHealth.toString();
+            while(num.length < 3){
+                num = '0' + num;
+            }
+        
+            scene.opponent.play(scene.currentOpponentAnimation + num, true, currentFrameIndex);
+            
+            // scene.socket.emit('bloodAnimation', {
+            //     x: scene.player.x,
+            //     y: scene.player.y,
+            //     name: 'bloodOpponent'
+            // });
+        }    
+    }
+ }
+
 
 const opponentPlayerMagicCollision = (scene: MountainScene, opponent, playerMagic) => {
     //console.log('opponent magic:', opponentMagic);

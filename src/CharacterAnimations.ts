@@ -4,6 +4,7 @@ import MountainScene from './MountainScene';
 const animationLogic = (scene: MountainScene) => {
     
     /////////////////////////////////////////////////////////////////////////////////////////////
+
     scene.player.on('animationcomplete', (anim, frame) => {
 
         let suffix = '';

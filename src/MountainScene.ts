@@ -4,7 +4,7 @@ import ContentGenerator from './ContentGenerator';
 import {handleCollisions, setCollisionMask} from './Collisions';
 import { manageSocket } from './ManageSocket';
 import { managePlayerInput } from './ManagePlayerInput';
-import { endMatch } from './EndMatch';
+import { endBotMatch, endMatch } from './EndMatch';
 import { loadAssets } from './LoadAssets';
 import handlePlayerMovement from './PlayerMovement';
 import HealthBar from './HealthBar';
@@ -474,10 +474,15 @@ export default class MountainScene extends Phaser.Scene
         if(this.opponent && this.opponent.angle !== 0){
             this.opponent.angle = 0;
         }
-        if(this.playerHealth <= 0 || this.matchEnded){
-            //player died, end match
+        if(this.playerHealth <= 0 || (this.botMatch && this.opponentHealth <= 0) || this.matchEnded){
+            //player or bot died, end match
             if(!this.matchEnded){
-                endMatch(this);
+                if(this.botMatch && this.opponentHealth <= 0){
+                    endBotMatch(this);
+                }
+                else{
+                    endMatch(this);
+                }
             }
         }
         else{

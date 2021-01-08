@@ -1,13 +1,5 @@
 const Bot = {
 
-
-    sendAnimationUpdate(player){
-
-    },
-    sendMovementUpdate(player){
-
-    },
-
     io: null,
     playerId: -1,
     x: 0,
