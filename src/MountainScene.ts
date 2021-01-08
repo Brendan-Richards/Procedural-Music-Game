@@ -170,6 +170,7 @@ export default class MountainScene extends Phaser.Scene
     allowSound: boolean;
     playerHealth: number;
     opponentHealth: number;
+    botMatch: boolean;
 
     playerProjectilesCategory: number
     opponentProjectilesCategory: number;
@@ -329,6 +330,7 @@ export default class MountainScene extends Phaser.Scene
         this.socket = data.socket;
         this.initialPlayerPosition = data.playerPosition;
         this.initialOpponentPosition = data.opponentPosition;
+        this.botMatch = data.bot;
     }
     
     preload(){
@@ -488,8 +490,20 @@ export default class MountainScene extends Phaser.Scene
                 x: this.player.x, 
                 y: this.player.y, 
                 vx: this.player.body.velocity.x, 
-                vy: this.player.body.velocity.y
+                vy: this.player.body.velocity.y,
             });
+            if(this.botMatch){
+                this.socket.emit('botPositionUpdate', {
+                    px: this.player.x, 
+                    py: this.player.y,                     
+                    bx: this.opponent?.x, 
+                    by: this.opponent?.y,
+                    bvx: this.opponent?.body.velocity.x,
+                    bvy: this.opponent?.body.velocity.y
+                    // vx: this.player.body.velocity.x, 
+                    // vy: this.player.body.velocity.y,
+                });                
+            }
         }
         // this.playerHealthBar.setPosition();
         // this.opponentHealthBar.setPosition();

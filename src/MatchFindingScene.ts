@@ -8,6 +8,8 @@ export default class MatchFindingScene extends Phaser.Scene{
     loadText: Phaser.GameObjects.Text;
     titleText: Phaser.GameObjects.Text;
     findMatchText: Phaser.GameObjects.Text;
+    playWithBotText: Phaser.GameObjects.Text;
+    playWithBotButton: Phaser.GameObjects.Rectangle;
     findMatchButton: Phaser.GameObjects.Rectangle;
     backRect: Phaser.GameObjects.Rectangle;
     socket: io.Socket;
@@ -68,7 +70,9 @@ export default class MatchFindingScene extends Phaser.Scene{
                     bottom: 5,
                 },
                 color: '#000',
-            }).setOrigin(0, 1).setDepth(100);  
+            }).setOrigin(0, 1).setDepth(100); 
+            
+            makePlayWithBotButton(this, width, height);
 
             this.socket.emit('findMatch');
         }, this);
@@ -135,6 +139,38 @@ export default class MatchFindingScene extends Phaser.Scene{
     }
 
 }
+
+const makePlayWithBotButton = (scene: MatchFindingScene, width: number, height: number) => {
+    const buttonHeight = 50;
+    const buttonWidth = 200;
+    const sideOffset = 25;
+
+    scene.playWithBotButton = scene.add.rectangle(width - buttonWidth/2 - sideOffset, height - buttonHeight/2 - sideOffset, buttonWidth, buttonHeight, 0xcccccc).setDepth(100);
+    scene.playWithBotButton.setStrokeStyle(2, 0x000000);
+    scene.playWithBotButton.setInteractive();
+
+    scene.playWithBotText = scene.add.text(width - buttonWidth/2 - sideOffset, height - buttonHeight/2 - sideOffset, 'Play With Bot', { 
+        fontFamily: 'Arial',
+        fontSize: '26px',
+        padding: {
+            left: 5,
+            right: 5,
+            top: 0,
+            bottom: 5,
+        },
+        color: '#000',
+    }).setOrigin(0.5, 0.5).setDepth(100);    
+
+    scene.playWithBotButton.on('pointerover', () => {
+        scene.playWithBotButton.setFillStyle(0x999999);   
+    });
+    scene.playWithBotButton.on('pointerout', () => {
+       scene.playWithBotButton.setFillStyle(0xcccccc);    
+   });
+   scene.playWithBotButton.on('pointerdown', () => { 
+        scene.socket.emit('botMatch');
+    }, scene);
+};
 
 const treeLayer = (scene: MatchFindingScene) => {
 

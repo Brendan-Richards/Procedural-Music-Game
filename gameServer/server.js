@@ -48,9 +48,12 @@ const httpServer = http.createServer(app);
 
 const io = require('socket.io')(useHttps ? httpsServer : httpServer);
 const foreground = require('./foreground/CreateForeground');
+const BotController = require('./bot/BotController');
+const Bot = require('./bot/Bot').Bot;
 
 const players = {};
 const playerQueue = [];
+
 
 //app.use(express.static(__dirname + '/public'));
 
@@ -84,7 +87,16 @@ io.on('connection', (socket) => {
     let data = JSON.stringify(connectionData);
     fs.writeFileSync('connectionLog.json', data);
 
-
+    socket.on('botMatch', () => {
+      botMatch(socket.id);
+    });
+    socket.on('botPositionUpdate', (data) => {
+      BotController.updateBot(players[socket.id].bot, io, data.px, data.py, data.bx, data.by, data.bvx, data.bvy);
+    });
+    socket.on('botGroundCollision', () => {
+      players[socket.id].bot.playerCanJump = true;
+      players[socket.id].bot.playerLastOnGroundTime = Date.now();
+    });
     socket.on('removeAttackBoxes', () => {
       io.to(players[socket.id].opponent).emit('removeAttackBoxes');        
     });
@@ -202,6 +214,26 @@ io.on('connection', (socket) => {
     });
 });
 
+const botMatch = (player) => {
+  console.log('starting bot match');
+  const [tileMap, collisionPoints] = foreground.createTileMap();
+
+  tileMap.collisionPoints = collisionPoints;
+  players[player]['status'] = 'inMatch';
+  players[player].opponent= 'bot';
+
+  const positions = getInitialPlayerPositions(tileMap);
+  io.to(player).emit('matchFound', {tileMap: tileMap, playerPosition: positions.player1Position, opponentPosition: positions.player2Position, bot: true});
+  console.log('sent tilemap');
+
+  //give player their own bot object
+  players[player]['bot'] = JSON.parse(JSON.stringify(Bot)); 
+  //players[player]['bot']['io'] = io;
+  players[player]['bot']['playerId'] = player;
+
+  //startBot(player, io);
+};
+
 const startMatch = (player1, player2) => {
     console.log('starting match');
     const [tileMap, collisionPoints] = foreground.createTileMap();
@@ -223,8 +255,8 @@ const startMatch = (player1, player2) => {
     //console.log('player 2 position:', positions.player2Position);
 
     //send the players the tilemap
-    io.to(player1).emit('matchFound', {tileMap: tileMap, playerPosition: positions.player1Position, opponentPosition: positions.player2Position});
-    io.to(player2).emit('matchFound', {tileMap: tileMap, playerPosition: positions.player2Position, opponentPosition: positions.player1Position});
+    io.to(player1).emit('matchFound', {tileMap: tileMap, playerPosition: positions.player1Position, opponentPosition: positions.player2Position, bot: false});
+    io.to(player2).emit('matchFound', {tileMap: tileMap, playerPosition: positions.player2Position, opponentPosition: positions.player1Position, bot: false});
     console.log('sent tilemap');
 }
 

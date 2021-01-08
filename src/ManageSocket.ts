@@ -10,6 +10,10 @@ const manageSocket = (scene: MountainScene) => {
         scene.opponent.setVelocity(opponentData.vx, opponentData.vy);
     });
 
+    scene.socket.on('botMovementUpdate', (botData) => {
+        scene.opponent.setVelocity(botData.vx, botData.vy);
+    });
+
     scene.socket.on('createArrow', (arrowData) => {
         //console.log('client recieved createArrow event');
        

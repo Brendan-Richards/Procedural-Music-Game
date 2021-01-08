@@ -9,6 +9,18 @@ const emitAnimationEvent = (scene: MountainScene, animationName: string, flipX: 
     });
 }
 
+const opponentTerrainCollision = (scene: MountainScene, opponent, terrain, collisionNormal, collisionPoint) => {
+    if(scene.botMatch){
+        if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
+            //console.log('collided with top of terrain');
+            scene.socket.emit('botGroundCollision');
+        }
+        else{//console.log('collided with side of terrain');
+            scene.socket.emit('botWallCollision', {});    
+        }
+    }
+};
+
 const playerTerrainCollision = (scene: MountainScene, player, terrain, collisionNormal, collisionPoint) => {
     //console.log(collisionNormal);
 
@@ -311,33 +323,6 @@ const opponentPlayerArrowCollision = (scene: MountainScene, opponent, playerArro
         scene.playerArrows.splice(arrowIndex, 1);
     }
 
-    //console.log('scene.playerArrows.length:', scene.playerArrows.length);
-
-    // let suffix = '';
-
-    // switch(scene.opponentHealth){
-    //     case 100: {suffix = '100'; break;}
-    //     case 75: {suffix = '075'; break;}
-    //     case 50: {suffix = '050'; break;}
-    //     case 25: {suffix = '025'; break;}
-    //     case 0: {suffix = '000'; break;}
-    // }
-
-    // const blood = scene.add.sprite(scene.opponent.x, scene.opponent.y, 'bloodOpponent' + suffix);
-    // blood.play('bloodOpponent' + suffix);
-    // scene.socket.emit('bloodAnimation', {
-    //     x: scene.opponent.x,
-    //     y: scene.opponent.y,
-    //     name: 'blood'
-    // });
-    // blood.once('animationcomplete', animation => {
-    //     console.log('finished blood animation');
-    //     blood.destroy();
-    // });
-
-    // other.setCollisionGroup(-3);
-    // scene.matter.add.constraint(scene.player, other, 20, 1);
-    //scene.add.circle(collisionPoint.x, collisionPoint.y, 2, 0xff0000).setDepth(100); 
 }
 
 const opponentPlayerBoxCollision = (scene: MountainScene, opponent, playerBox) => {
@@ -505,6 +490,12 @@ const handleCollisions = (scene: MountainScene): void => {
                 const player = labelA==='player' ? bodyA : bodyB;
                 const terrain = labelA==='player' ? bodyB : bodyA;
                 playerTerrainCollision(scene, player, terrain, collisionNormal, collisionPoint);
+            }
+            else if(labelA==='opponent' && labelB==='terrain' || labelB==='opponent' && labelA==='terrain' ||
+            labelA==='opponent' && labelB==='worldBoundary' || labelB==='opponent' && labelA==='worldBoundary'){
+                const opponent = labelA==='opponent' ? bodyA : bodyB;
+                const terrain = labelA==='opponent' ? bodyB : bodyA;
+                opponentTerrainCollision(scene, opponent, terrain, collisionNormal, collisionPoint);
             }
             else if(labelA==='player' && labelB==='opponentBox' || labelB==='player' && labelA==='opponentBox'){
                 const player = labelA==='player' ? bodyA : bodyB;
