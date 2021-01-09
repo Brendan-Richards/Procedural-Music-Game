@@ -102,11 +102,22 @@ io.on('connection', (socket) => {
       BotController.updateBot(players[socket.id].bot, io, data.px, data.py, data.bx, data.by, data.bvx, data.bvy);
     });
     socket.on('botGroundCollision', () => {
-      players[socket.id].bot.playerCanJump = true;
+      BotController.botGroundCollision(players[socket.id].bot);
       players[socket.id].bot.playerLastOnGroundTime = Date.now();
+      players[socket.id].bot.inContactWithGround = true;
+      //players[socket.id].bot.playerCanJump = true;
+      //players[socket.id].bot.climbing = false;
     });
-    socket.on('botWallCollision', () => {
-
+    socket.on('botWallCollision', (data) => {
+      BotController.botWallCollision(players[socket.id].bot, data);
+      //BotController.updateBot(players[socket.id].bot, io, data.px, data.py, data.bx, data.by, data.bvx, data.bvy, true);
+    });
+    socket.on('botLeftGround', () => {
+      players[socket.id].bot.playerLastOnGroundTime = Date.now();
+      players[socket.id].bot.inContactWithGround = false;
+    });
+    socket.on('botLeftWall', () => {
+      players[socket.id].bot.inContactWithWall = false;
     });
     socket.on('removeAttackBoxes', () => {
       io.to(players[socket.id].opponent).emit('removeAttackBoxes');        

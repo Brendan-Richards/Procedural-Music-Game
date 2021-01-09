@@ -6,14 +6,15 @@ const movementUpdate = (scene, io) => {
 
     if(scene.playerCanJump){
         //console.log(scene.timer.getTime());
-        // const timeDiff = Date.now() - scene.playerLastOnGroundTime;
+        const timeDiff = Date.now() - scene.playerLastOnGroundTime;
         // //console.log('time since last on ground', timeDiff);
         // if(timeDiff > 100){
-        //      scene.playerCanJump = false;
+        // if(!scene.inContactWithGround){
+        //     scene.playerCanJump = false;
         // }
         // else{
             groundCharacter(scene, prevVelocity, io);
-        //}
+       // }
     }
     else{
         airborneCharacter(scene, prevVelocity, io);
