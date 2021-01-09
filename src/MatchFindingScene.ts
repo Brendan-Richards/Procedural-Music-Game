@@ -72,7 +72,7 @@ export default class MatchFindingScene extends Phaser.Scene{
                 color: '#000',
             }).setOrigin(0, 1).setDepth(100); 
             
-            makePlayWithBotButton(this, width, height);
+            //makePlayWithBotButton(this, width, height);
 
             this.socket.emit('findMatch');
         }, this);

@@ -157,6 +157,19 @@ io.on('connection', (socket) => {
         startMatch(player1, player2);
       }
 
+      const waitTime = Math.random() * 2000 + 1000;
+      setTimeout(() => {
+        //remove player from queue since they started a bot match
+        if(playerQueue.includes(socket.id)){
+          const index = playerQueue.indexOf(socket.id);
+          if (index > -1) {
+            playerQueue.splice(index, 1);
+          }
+        }
+
+        botMatch(socket.id);
+      }, waitTime);
+
       //console.log('players:', players);
     });
 
