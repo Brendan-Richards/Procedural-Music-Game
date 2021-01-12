@@ -1,5 +1,6 @@
 //import Phaser from 'phaser';
 import MountainScene from './MountainScene';
+import { botWallCollision, botGroundCollision } from './bot/BotController';
 
 const emitAnimationEvent = (scene: MountainScene, animationName: string, flipX: boolean) => {
     scene.socket.emit('playerNewAnimation', {
@@ -13,12 +14,20 @@ const opponentTerrainCollision = (scene: MountainScene, opponent, terrain, colli
     if(scene.botMatch){
         if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
             //console.log('collided with top of terrain');
-            scene.socket.emit('botGroundCollision');
+            //scene.socket.emit('botGroundCollision');
+            botGroundCollision(scene.bot);
+            scene.bot.playerLastOnGroundTime = Date.now();
+            scene.bot.inContactWithGround = true;
         }
         else{//console.log('collided with side of terrain');
-            scene.socket.emit('botWallCollision', {
-                lastWallCollisionDirection: collisionPoint.x > scene.opponent.x ? 'right' : 'left'
-            });    
+            const direction = collisionPoint.x > scene.opponent.x ? 'right' : 'left'
+            // console.log('bot wall colllision');
+            // console.log('collisionPoint:', collisionPoint);
+            // console.log('opponent.x:', scene.opponent.x);
+            // console.log('direction:', direction);
+            botWallCollision(scene.bot, {
+                lastWallCollisionDirection: direction
+            });
         }
     }
 };
@@ -753,23 +762,26 @@ const handleCollisions = (scene: MountainScene): void => {
 
             }
 
-            // else if((labelA==='opponent' && labelB==='terrain' || labelB==='opponent' && labelA==='terrain' || 
-            // labelA==='opponent' && labelB==='worldBoundary' || labelB==='opponent' && labelA==='worldBoundary')
-            // && scene.botMatch){
+            else if((labelA==='opponent' && labelB==='terrain' || labelB==='opponent' && labelA==='terrain' || 
+                    labelA==='opponent' && labelB==='worldBoundary' || labelB==='opponent' && labelA==='worldBoundary')
+                    && scene.botMatch){
+                // const player = labelA==='player' ? bodyA : bodyB;
+                // const terrain = labelA==='player' ? bodyB : bodyA;
 
-            //     if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
-            //         //console.log('wall top collision active', scene.time.now);
-            //         scene.socket.emit('botGroundCollision');
-            //     }
-            //     else{
-            //         //console.log('wall side collision active', scene.time.now);
-            //         scene.socket.emit('botWallCollision', {
-            //             lastWallCollisionDirection: collisionPoint.x > scene.opponent.x ? 'right' : 'left'
-            //         });
+                if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
+                    scene.bot.playerLastOnGroundTime = scene.time.now;
+                    scene.bot.inContactWithGround = true;
+                    scene.bot.playerWallSliding = false;
+                }
+                else{
+                    scene.bot.inContactWithWall = true;
+                    scene.bot.playerWallSliding = true;
+                }
+        
+            }
 
-            //     }
+        
 
-            // }
         });
     });
 
@@ -816,20 +828,23 @@ const handleCollisions = (scene: MountainScene): void => {
 
                 if(Math.abs(Math.round(collisionNormal.x))===0 && Math.abs(Math.round(collisionNormal.y))===1){
                     //console.log('wall top collision ended', scene.time.now);
-                    scene.socket.emit('botLeftGround');
+                    //scene.socket.emit('botLeftGround');
+                    scene.bot.playerLastOnGroundTime = Date.now();
+                    scene.bot.inContactWithGround = false;
                     //scene.playerLastOnGroundTime = scene.time.now;
                     //scene.inContactWithGround = false;
                 }
                 else{
                     //console.log('wall side collision ended', scene.time.now);
-                    scene.socket.emit('botLeftWall');
+                    //scene.socket.emit('botLeftWall');
+                    scene.bot.inContactWithWall = false;
                     //scene.inContactWithWall = false;
                 }
 
-                // if(!scene.inContactWithGround && !scene.inContactWithWall){
-                //     scene.playerWallSliding = false;
-                //     //scene.playerFriction = 0;
-                // }
+                if(!scene.inContactWithGround && !scene.inContactWithWall){
+                    scene.bot.playerWallSliding = false;
+                    //scene.playerFriction = 0;
+                }
             }
 
         });

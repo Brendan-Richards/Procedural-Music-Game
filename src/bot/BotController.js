@@ -1,7 +1,9 @@
 const movementUpdate = require('./BotMovement').movementUpdate;
 
 
-const updateBot = (bot, io, px, py, bx, by, bvx, bvy) => {
+const handleBotMovement = (scene, bot, px, py, bx, by, bvx, bvy) => {
+
+    //console.log(scene.bot);
 
     const attackDistance = 20;
     const minTimeBetweenAttacks = 250;
@@ -11,7 +13,6 @@ const updateBot = (bot, io, px, py, bx, by, bvx, bvy) => {
     bot.y = by;
     bot.vx = bvx;
     bot.vy = bvy;
-
 
     const distance = Math.sqrt(Math.pow(Math.abs(bx - px), 2) + Math.pow(Math.abs(by - py), 2));
     const offset = Math.random() * 10;
@@ -36,35 +37,40 @@ const updateBot = (bot, io, px, py, bx, by, bvx, bvy) => {
         }
     }
     else if(!bot.attackPause && distance - offset < attackDistance && Date.now() - bot.lastAttackTime > minTimeBetweenAttacks){
-        
-        if(Math.random() < prob){
-            bot.attackPause = true;
-            bot.attackPauseTime = Date.now();
-        }
-        else{
-            bot.controlConfig.attack.isDown = true;
-            bot.controlConfig.attack.isUp = false;
-            bot.playerAttacking = true;
-            setTimeout(() => {
-                bot.playerAttacking = false;
-                bot.controlConfig.attack.isDown = false;
-                bot.controlConfig.attack.isUp = true;
-            }, minTimeBetweenAttacks);
+        if(Math.random() < prob){   
+            if(Math.random() < prob){
+                bot.attackPause = true;
+                bot.attackPauseTime = Date.now();
+            }
+            else{
+                bot.controlConfig.attack.isDown = true;
+                bot.controlConfig.attack.isUp = false;
+                bot.playerAttacking = true;
+                setTimeout(() => {
+                    bot.playerAttacking = false;
+                    bot.controlConfig.attack.isDown = false;
+                    bot.controlConfig.attack.isUp = true;
+                }, minTimeBetweenAttacks);
+            }
         }
 
     }
     else if(bx > px){
-        bot.attackPause ? right(bot) : left(bot);
+        if(Math.random() < .1){
+            bot.attackPause ? right(bot) : left(bot);
+        }
     }
     else{
-        bot.attackPause ? left(bot) : right(bot);   
+        if(Math.random() < .1){
+            bot.attackPause ? left(bot) : right(bot);
+        }   
     }
     
     if(bot.attackPause && Date.now() - bot.attackPauseTime > bot.minAttackPause){
         bot.attackPause = false;
     }
 
-    if(Date.now() - bot.positionSaveTime > 1000){
+    if(Date.now() - bot.positionSaveTime > 200){
 
         if(bot.x===bot.positionSave.x && bot.y===bot.positionSave.y){
             bot.controlConfig.jumpControl.timeDown = Date.now();
@@ -88,13 +94,10 @@ const updateBot = (bot, io, px, py, bx, by, bvx, bvy) => {
 
     const prevVelocity = {vx: bot.vx, vy: bot.vy};
 
-    movementUpdate(bot, io);
+    movementUpdate(bot, scene);
 
     if(prevVelocity.vx !== bot.vx || prevVelocity.vy !== bot.vy){
-        io.to(bot.playerId).emit('botMovementUpdate', {
-            vx: bot.vx,
-            vy: bot.vy < 0 ? bot.vy : null
-        });
+        scene.matter.setVelocity(scene.opponent.body, bot.vx, bot.vy);
     }
 
     bot.lastUpdateTime = Date.now();
@@ -130,9 +133,9 @@ const botWallCollision = (bot, data) => {
         bot.vy = -10;
     }
 
-    if(!bot.playerLedgeGrab && !bot.playerLedgeClimb){
-        bot.inContactWithWall = true;
-        bot.wallCollisionDirection = bot.currentPlayerDirection==='left' ? 'left' : 'right';
+   // if(!bot.playerLedgeGrab && !bot.playerLedgeClimb){
+        //bot.inContactWithWall = true;
+        //bot.wallCollisionDirection = bot.currentPlayerDirection==='left' ? 'left' : 'right';
 
         if(bot.currentPlayerAnimation==='idleSwing1' || bot.currentPlayerAnimation==='idleSwing2' || bot.currentPlayerAnimation==='runSwing' ||
         bot.currentPlayerAnimation==='airSwing1' || bot.currentPlayerAnimation==='airSwing2'){
@@ -164,7 +167,7 @@ const botWallCollision = (bot, data) => {
             bot.playerRampSliding = false;
             bot.playerFlatSliding = false;
         }
-    }
+   // }
 
     ///////////////////////////////////////////////
 
@@ -230,7 +233,4 @@ const botGroundCollision = (bot) => {
 
 }
 
-
-exports.updateBot = updateBot;
-exports.botWallCollision = botWallCollision;
-exports.botGroundCollision = botGroundCollision;
+export {handleBotMovement, botWallCollision, botGroundCollision};

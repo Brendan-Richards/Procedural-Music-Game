@@ -1,6 +1,7 @@
 import MountainScene from './MountainScene';
 import {makeExplosion, setCollisionMask} from './Collisions';
 import { displayEndScreen } from './EndMatch';
+import setBotVelocity from './BotVelocity';
 
 const manageSocket = (scene: MountainScene) => {
 
@@ -11,7 +12,8 @@ const manageSocket = (scene: MountainScene) => {
     });
 
     scene.socket.on('botMovementUpdate', (botData) => {
-        scene.opponent.setVelocity(botData.vx, botData.vy);
+        const vy = botData.vy==null ? scene.opponent?.body.velocity.y : botData.vy;
+        scene.opponent.setVelocity(botData.vx, vy);
     });
 
     scene.socket.on('createArrow', (arrowData) => {
@@ -297,6 +299,9 @@ const manageSocket = (scene: MountainScene) => {
             }
 
 
+            // if(scene.botMatch){
+            //     setBotVelocity(scene, opponentData.velocityType, opponentData.prevOpponentAnimation);
+            // }
         }
     });
 

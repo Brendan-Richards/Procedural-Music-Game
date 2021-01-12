@@ -78,7 +78,9 @@ const groundCharacter = (scene, prevVelocity, io) => {
             setNewCharacterAnimation(io, scene, animation, scene.currentPlayerDirection==='left', false);
         }
     }
+    scene.velocityType = 'ground';
     setGroundVelocity(scene, prevVelocity);
+    
 }
 
 
@@ -405,7 +407,9 @@ const airborneCharacter = (scene, prevVelocity, io) => {
             }    
         }
     }
+    scene.velocityType = 'air';
     setAirVelocity(scene, prevVelocity);
+    
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -690,7 +694,9 @@ const setNewCharacterAnimation = (io, scene, animationName, flipX, flipY, startF
         io.to(scene.playerId).emit('opponentAnimationUpdate', {
             currentAnimation: animationName,
             flipX: flipX,
-            playerFriction: scene.playerFriction
+            playerFriction: scene.playerFriction,
+            velocityType: scene.velocityType,
+            prevOpponentAnimation: scene.currentPlayerAnimation
         });
 
         scene.prevPlayerAnimation = scene.currentPlayerAnimation;

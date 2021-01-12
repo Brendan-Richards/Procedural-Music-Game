@@ -6,7 +6,7 @@ const Bot = {
     positionSave: {x: 0, y: 0},
     attackPause: false,
     attackPauseTime: 0,
-    minAttackPause: 1000, 
+    minAttackPause: 250, 
     playerId: -1,
     x: 0,
     y: 0,
@@ -142,4 +142,4 @@ const Bot = {
 
 };
 
-exports.Bot = Bot;
+export { Bot };

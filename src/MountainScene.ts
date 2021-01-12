@@ -9,6 +9,8 @@ import { loadAssets } from './LoadAssets';
 import handlePlayerMovement from './PlayerMovement';
 import HealthBar from './HealthBar';
 import Audio from './Audio';
+import { handleBotMovement } from './bot/BotController';
+import { Bot } from './bot/Bot';
 //import MatchFindingScene from './MatchFindingScene';
 //import { startRNN, pauseRNN, resumeRNN } from './performanceRNN';
 //import magentaTest from './MagentaTest';
@@ -39,6 +41,8 @@ interface position {
 
 export default class MountainScene extends Phaser.Scene
 {
+    bot: object;
+    count: number;
     lastWallCollisionDirection: string | null;
     maxGameHeight: number;
     maxGameWidth: number;
@@ -197,6 +201,7 @@ export default class MountainScene extends Phaser.Scene
             playerExplosion: Math.pow(2, 9),
             opponentExplosion: Math.pow(2, 10)
         };
+        this.count = 0;
         this.playerHealth = 100;
         this.opponentHealth = 100;
         this.lastWallCollisionDirection = null;
@@ -331,6 +336,9 @@ export default class MountainScene extends Phaser.Scene
         this.initialPlayerPosition = data.playerPosition;
         this.initialOpponentPosition = data.opponentPosition;
         this.botMatch = data.bot;
+        if(this.botMatch){
+            this.bot = Bot;
+        }
     }
     
     preload(){
@@ -497,19 +505,29 @@ export default class MountainScene extends Phaser.Scene
                 vx: this.player.body.velocity.x, 
                 vy: this.player.body.velocity.y,
             });
+
             if(this.botMatch){
-                this.socket.emit('botPositionUpdate', {
-                    px: this.player.x, 
-                    py: this.player.y,                     
-                    bx: this.opponent?.x, 
-                    by: this.opponent?.y,
-                    bvx: this.opponent?.body.velocity.x,
-                    bvy: this.opponent?.body.velocity.y
-                    // vx: this.player.body.velocity.x, 
-                    // vy: this.player.body.velocity.y,
-                });                
+                handleBotMovement(
+                    this,
+                    this.bot, 
+                    this.player.x, 
+                    this.player.y, 
+                    this.opponent?.x, 
+                    this.opponent?.y, 
+                    this.opponent?.body.velocity.x, 
+                    this.opponent?.body.velocity.y
+                );
+                // this.socket.emit('botPositionUpdate', {
+                //     px: this.player.x, 
+                //     py: this.player.y,                     
+                //     bx: this.opponent?.x, 
+                //     by: this.opponent?.y,
+                //     bvx: this.opponent?.body.velocity.x,
+                //     bvy: this.opponent?.body.velocity.y
+                // });                
             }
         }
+
         // this.playerHealthBar.setPosition();
         // this.opponentHealthBar.setPosition();
     }
